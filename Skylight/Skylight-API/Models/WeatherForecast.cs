@@ -1,6 +1,6 @@
 using System;
 
-namespace Skylight
+namespace Skylight.Models
 {
     public class WeatherForecast
     {
