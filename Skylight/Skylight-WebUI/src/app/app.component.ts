@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { WeatherType } from '../models/WeatherType'
 
 @Component({
   selector: 'app-root',
@@ -7,20 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public forecasts?: WeatherForecast[];
+  public weatherTypes?: WeatherType[];
 
   constructor(http: HttpClient) {
-    http.get<WeatherForecast[]>('/weatherforecast').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+    http.get<WeatherType[]>('https://localhost:7147/api/weathertypes').subscribe(result => { this.weatherTypes = result; }, error => console.error(error));
   }
 
-  title = 'Skylight-WebUI';
-}
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  title = 'Skylight';
 }
