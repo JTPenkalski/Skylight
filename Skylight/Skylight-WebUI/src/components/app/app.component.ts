@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { WeatherType } from '../models/WeatherType'
+import { WeatherType } from '../../models/WeatherType'
 
 @Component({
   selector: 'app-root',
