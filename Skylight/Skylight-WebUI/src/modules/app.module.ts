@@ -6,13 +6,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from '../components/app/app.component';
+import { FormLocationComponent } from '../components/forms/location/form-location.component';
 
 @NgModule({
   bootstrap: [AppComponent],
   declarations: [
-    AppComponent
+    AppComponent,
+    FormLocationComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -21,7 +24,8 @@ import { AppComponent } from '../components/app/app.component';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ReactiveFormsModule
   ],
   providers: []
 })

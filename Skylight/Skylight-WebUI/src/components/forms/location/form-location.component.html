@@ -1,0 +1,12 @@
+<form [formGroup]="location" (ngSubmit)="onSubmit()">
+  <label for="city">City: </label>
+  <input id="city" type="text" formControlName="city">
+
+  <label for="zipCode">Zip Code: </label>
+  <input id="zipCode" type="text" formControlName="zipCode">
+
+  <label for="country">Country: </label>
+  <input id="country" type="text" formControlName="country">
+
+  <button type="submit" [disabled]="!location.valid">Submit</button>
+</form>
