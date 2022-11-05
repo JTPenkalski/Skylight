@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import {  } from '@angular/material';
 
 @Component({
   selector: 'form-location',
@@ -13,7 +14,7 @@ export class FormLocationComponent {
     country: ['', Validators.required]
   });
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: NonNullableFormBuilder) { }
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
