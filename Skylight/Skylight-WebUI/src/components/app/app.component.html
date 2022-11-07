@@ -1,14 +1,5 @@
 <div id="page">
-  <mat-toolbar id="toolbar" class="mat-elevation-z4">
-    <img id="logo" src="../../assets/logo256_64.png" alt="logo" />
-    <a mat-button matTooltip="View your dashboard" class="toolbar-button">Dashboard</a>
-    <a mat-button matTooltip="View all recorded weather experiences" class="toolbar-button">Experiences</a>
-    <a mat-button matTooltip="Search records for weather events, trackers, and more" class="toolbar-button">Search</a>
-    <span class="horizontal-spacer"></span>
-    <button mat-icon-button matTooltip="Login" aria-hidden="false" aria-label="Login Button">
-      <mat-icon fontIcon="account_circle"></mat-icon>
-    </button>
-  </mat-toolbar>
+  <skylight-navigation-bar id="toolbar"></skylight-navigation-bar>
 
   <div id="content">
     <form-location></form-location>

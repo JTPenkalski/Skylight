@@ -40,16 +40,3 @@ $theme-app: mat.define-dark-theme((color: (primary: $_theme-app-palette-primary,
 
   @return $color;
 }
-
-/// Gets a font family from the current theme.
-/// @returns {String} - The font family from the current theme.
-@function typography()
-{
-  // Get the typography config from the theme.
-  $typography-config: mat.get-typography-config($theme-app);
-
-  // Get the font from the typography config.
-  $font-family: mat.font-family($typography-config);
-
-  @return $font-family;
-}
