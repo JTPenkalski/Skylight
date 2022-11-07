@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Skylight.Models
 {
@@ -7,20 +8,30 @@ namespace Skylight.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime Date { get; set; }
-        public Location Location { get; set; } = null!;
-        public StormTracker Reporter { get; set; } = null!;
-        public WeatherEventObservationMethod ObservationMethod { get; set; } = null!;
-        public WeatherEvent Event { get; set; } = null!;
-        public WeatherAlert Alert { get; set; } = null!;
-        public WeatherEventSeverity Severity { get; set; } = null!;
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public ICollection<WeatherExperienceParticipant> Participants { get; set; } = new List<WeatherExperienceParticipant>();
+        public ICollection<WeatherEvent> Events { get; set; } = new List<WeatherEvent>();
+        public int DamageCost { get; set; }
+        public int Fatalities { get; set; }
 
-        public WeatherExperience(int id, string name, string description, DateTime date)
+        public WeatherExperience(
+            int id,
+            string name,
+            string description,
+            DateTime startTime,
+            DateTime endTime,
+            int damageCost,
+            int fatalities
+        )
         {
             Id = id;
             Name = name;
             Description = description;
-            Date = date;
+            StartTime = startTime;
+            EndTime = endTime;
+            DamageCost = damageCost;
+            Fatalities = fatalities;
         }
     }
 }
