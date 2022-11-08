@@ -56,6 +56,8 @@ namespace Skylight
                     WeatherExperienceContext context = scope.ServiceProvider.GetRequiredService<WeatherExperienceContext>();
                     context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
+
+                    WeatherExperienceContextInitializer.Initialize(context);
                 }
             }
 

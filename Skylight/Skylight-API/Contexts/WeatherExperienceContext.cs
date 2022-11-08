@@ -5,6 +5,9 @@ using Skylight.Models;
 
 namespace Skylight.Contexts
 {
+    /// <summary>
+    /// Represents the database containing all information for Weather Experiences.
+    /// </summary>
     public class WeatherExperienceContext : DbContext
     {
         public DbSet<WeatherExperience> WeatherExperiences => Set<WeatherExperience>();
@@ -13,7 +16,6 @@ namespace Skylight.Contexts
         public DbSet<WeatherEventStatistics> WeatherEventStatistics => Set<WeatherEventStatistics>();
         public DbSet<WeatherType> WeatherTypes => Set<WeatherType>();
         public DbSet<WeatherAlert> WeatherAlerts => Set<WeatherAlert>();
-        public DbSet<WeatherAlertType> WeatherAlertTypes => Set<WeatherAlertType>();
         public DbSet<WeatherAlertModifier> WeatherAlertModifiers => Set<WeatherAlertModifier>();
         public DbSet<StormTracker> StormTrackers => Set<StormTracker>();
         public DbSet<Location> Locations => Set<Location>();
@@ -35,6 +37,34 @@ namespace Skylight.Contexts
         {
             // Weather Experience Participant Config
             modelBuilder.Entity<WeatherExperienceParticipant>().HasKey(p => new { p.WeatherExperienceId, p.StormTrackerId });
+
+            // Risk Category Outlook Probability Config
+            modelBuilder.Entity<RiskCategory>().OwnsMany(
+                r => r.TornadoRisk, p =>
+                {
+                    p.WithOwner().HasForeignKey("RiskCategoryId");
+                    p.Property<int>("Id");
+                    p.HasKey("Id");
+                }
+            );
+
+            modelBuilder.Entity<RiskCategory>().OwnsMany(
+                r => r.WindRisk, p =>
+                {
+                    p.WithOwner().HasForeignKey("RiskCategoryId");
+                    p.Property<int>("Id");
+                    p.HasKey("Id");
+                }
+            );
+
+            modelBuilder.Entity<RiskCategory>().OwnsMany(
+                r => r.HailRisk, p =>
+                {
+                    p.WithOwner().HasForeignKey("RiskCategoryId");
+                    p.Property<int>("Id");
+                    p.HasKey("Id");
+                }
+            );
         }
     }
 }
