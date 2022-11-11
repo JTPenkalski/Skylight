@@ -15,21 +15,18 @@ namespace Skylight.Contexts
         public static void Initialize(WeatherExperienceContext weatherExperienceContext)
         {
             // Weather Types
-            int weatherTypeId = 0;
-            WeatherType[] weatherTypes = new[]
+
+            WeatherType[] weatherTypes = new WeatherType[]
             {
-                new WeatherType(
-                    weatherTypeId++,
+                new(
                     "Thunderstorm",
                     "A storm characterized by the presence of lightning and its acoustic effect known as thunder. Thunderstorms occur in a type of cloud known as a cumulonimbus. They are usually accompanied by strong winds and often produce heavy rain and sometimes snow, sleet, or hail, but some thunderstorms produce little precipitation or no precipitation at all."
                 ),
-                new WeatherType(
-                    weatherTypeId++,
+                new(
                     "Tornado",
                     "A violently rotating column of air that is in contact with both the surface of the Earth and a cumulonimbus cloud or, in rare cases, the base of a cumulus cloud with rotating debris and dust beneath it."
                 ),
-                new WeatherType(
-                    weatherTypeId++,
+                new(
                     "Hurriance",
                     "A rapidly rotating storm system characterized by a low-pressure center, a closed low-level atmospheric circulation, strong winds, and a spiral arrangement of thunderstorms that produce heavy rain and squalls. Depending on its location and strength, a tropical cyclone is referred to by different names, including hurricane, typhoon, tropical storm, cyclonic storm, tropical depression, or simply cyclone."
                 )
@@ -40,68 +37,133 @@ namespace Skylight.Contexts
 
             // Risk Categories
 
-            int riskCategoryId = 0;
-            RiskCategory[] riskCategories = new[]
+            RiskCategory[] riskCategories = new RiskCategory[]
             {
-                new RiskCategory(
-                    riskCategoryId++,
+                new(
                     "TSTM",
                     "General Thunderstorm",
                     "Althrough severe weather is not expected, all thunderstorms can produce deadly lighting, gusty winds, and small hail.",
                     "No severe thunderstorms expected.",
-                    RiskCategoryOutlookProbability.Unused,
-                    RiskCategoryOutlookProbability.Unused,
-                    RiskCategoryOutlookProbability.Unused
+                    new(
+                        new(RiskCategoryOutlookProbability.Unused, RiskCategoryOutlookProbability.Unused, RiskCategoryOutlookProbability.Unused),
+                        new(RiskCategoryOutlookProbability.Unused, RiskCategoryOutlookProbability.Unused, RiskCategoryOutlookProbability.Unused),
+                        new(RiskCategoryOutlookProbability.Unused, RiskCategoryOutlookProbability.Unused, RiskCategoryOutlookProbability.Unused)
+                    )
                 ),
-                new RiskCategory(
-                    riskCategoryId++,
+                new(
                     "MRGL",
                     "Marginal",
                     "Some storms could be capable of damaging winds and severe hail. Localized tornado threat could develop.",
                     "Isolated severe storms possible.",
-                    RiskCategoryOutlookProbability.Build((0.02f, false)),
-                    RiskCategoryOutlookProbability.Build((0.05f, false)),
-                    RiskCategoryOutlookProbability.Build((0.05f, false))
+                    new(
+                        new(
+                            RiskCategoryOutlookProbability.Build((2, false)),
+                            RiskCategoryOutlookProbability.Build((5, false)),
+                            RiskCategoryOutlookProbability.Build((5, false))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((2, false)),
+                            RiskCategoryOutlookProbability.Build((5, false)),
+                            RiskCategoryOutlookProbability.Build((5, false))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((5, false)),
+                            RiskCategoryOutlookProbability.Build((5, false)),
+                            RiskCategoryOutlookProbability.Build((5, false))
+                        )
+                    )
                 ),
-                new RiskCategory(
-                    riskCategoryId++,
+                new(
                     "SLGT",
                     "Slight",
                     "Increased confidence that some storms will contain damaging winds, severe hail, and/or tornado potential.",
                     "Isolated to scattered severe storms expected.",
-                    RiskCategoryOutlookProbability.Build((0.05f, false)),
-                    RiskCategoryOutlookProbability.Build((0.15f, false), (0.15f, true)),
-                    RiskCategoryOutlookProbability.Build((0.15f, false), (0.15f, true))
+                    new(
+                        new(
+                            RiskCategoryOutlookProbability.Build((5, false)),
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true)),
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((15, false)),
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true)),
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true)),
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true)),
+                            RiskCategoryOutlookProbability.Build((15, false), (15, true))
+                        )
+                    )
                 ),
-                new RiskCategory(
-                    riskCategoryId++,
+                new(
                     "ENH",
                     "Enhanced",
                     "High confidence that several storms will contain damaging winds, severe hail, and/or tornadoes.",
                     "Scattered to numerous severe storms expected.",
-                    RiskCategoryOutlookProbability.Build((0.10f, false), (0.10f, true), (0.15f, false)),
-                    RiskCategoryOutlookProbability.Build((0.30f, false), (0.30f, true), (0.45f, false)),
-                    RiskCategoryOutlookProbability.Build((0.30f, false), (0.30f, true), (0.45f, false))
+                    new(
+                        new(
+                            RiskCategoryOutlookProbability.Build((10, false), (10, true), (15, false)),
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false)),
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((10, false), (10, true), (15, false)),
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false)),
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false)),
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false)),
+                            RiskCategoryOutlookProbability.Build((30, false), (30, true), (45, false))
+                        )
+                    )
                 ),
-                new RiskCategory(
-                    riskCategoryId++,
+                new(
                     "MDT",
                     "Moderate",
                     "High confidence that many storms will contain damaging winds, severe hail, and/or tornadoes.",
                     "Scattered to numerous severe storms expected.",
-                    RiskCategoryOutlookProbability.Build((0.15f, true), (0.30f, false)),
-                    RiskCategoryOutlookProbability.Build((0.45f, true), (0.60f, false)),
-                    RiskCategoryOutlookProbability.Build((0.45f, true), (0.60f, false), (0.60f, true))
+                    new(
+                        new(
+                            RiskCategoryOutlookProbability.Build((15, true), (30, false)),
+                            RiskCategoryOutlookProbability.Build((45, true), (60, false)),
+                            RiskCategoryOutlookProbability.Build((45, true), (60, false), (60, true))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((15, true), (30, false)),
+                            RiskCategoryOutlookProbability.Build((45, true), (60, false)),
+                            RiskCategoryOutlookProbability.Build((45, true), (60, false), (60, true))
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((45, true)),
+                            RiskCategoryOutlookProbability.Build((45, true)),
+                            RiskCategoryOutlookProbability.Build((45, true))
+                        )
+                    )
                 ),
-                new RiskCategory(
-                    riskCategoryId++,
+                new(
                     "HIGH",
                     "High",
                     "High confidence that an outbreak of storms will contain tornadoes, damaging winds, and/or severe hail.",
                     "Numerous severe storms expected.",
-                    RiskCategoryOutlookProbability.Build((0.30f, true), (0.45f, false), (0.45f, true), (0.60f, false), (0.60f, true)),
-                    RiskCategoryOutlookProbability.Build((0.60f, true)),
-                    RiskCategoryOutlookProbability.Unused
+                    new(
+                        new(
+                            RiskCategoryOutlookProbability.Build((30, true), (45, false), (45, true), (60, false), (60, true)),
+                            RiskCategoryOutlookProbability.Build((60, true)),
+                            RiskCategoryOutlookProbability.Unused
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Build((30, true), (45, false), (45, true), (60, false), (60, true)),
+                            RiskCategoryOutlookProbability.Build((60, true)),
+                            RiskCategoryOutlookProbability.Unused
+                        ),
+                        new(
+                            RiskCategoryOutlookProbability.Unused,
+                            RiskCategoryOutlookProbability.Unused,
+                            RiskCategoryOutlookProbability.Unused
+                        )
+                    )
                 )
             };
 
@@ -110,32 +172,33 @@ namespace Skylight.Contexts
 
             // Weather Alerts
 
-            int weatherAlertId = 0;
-            WeatherAlert[] weatherAlerts = new[]
+            WeatherAlert[] weatherAlerts = new WeatherAlert[]
             {
-                new WeatherAlert(
-                    weatherAlertId++,
+                new(
+                    "Special Weather Statement",
+                    "Issued for hazards that have not yet reached warning or advisory status or that do not have a specific code of their own",
+                    1,
+                    false
+                ),
+                new(
                     "Advisory",
                     "Severe weather conditions are growing in favorability. As the conditions improve, watches and warnings may be issued.",
                     1,
                     false
                 ),
-                new WeatherAlert(
-                    weatherAlertId++,
+                new(
                     "Watch",
                     "Severe weather is possible during the next few hours. Meteorological conditions are favorable for the development of severe weather.",
                     2,
                     false
                 ),
-                new WeatherAlert(
-                    weatherAlertId++,
+                new(
                     "Warning",
                     "Severe weather has been indicated by weather radar or reported by a witness. Residents in affected areas should take immediate safety precautions.",
                     3,
                     false
                 ),
-                new WeatherAlert(
-                    weatherAlertId++,
+                new(
                     "Alert",
                     "WeatherBug notification indicating the prescence of lightning strikes within 10 miles. Cover should be sought out immediately.",
                     1,
@@ -148,18 +211,15 @@ namespace Skylight.Contexts
 
             // Weather Alert Modifiers
 
-            int weatherAlertModifierId = 0;
-            WeatherAlertModifier[] weatherAlertModifiers = new[]
+            WeatherAlertModifier[] weatherAlertModifiers = new WeatherAlertModifier[]
             {
-                new WeatherAlertModifier(
-                    weatherAlertModifierId++,
+                new(
                     "Radar Indicated",
                     "A potential tornado was spotted on the radar, indicated by rotation, debris, or otherwise.",
                     0,
                     WeatherAlertModifierOperation.Add
                 ),
-                new WeatherAlertModifier(
-                    weatherAlertModifierId++,
+                new(
                     "Observed",
                     "A live tornado was witnessed by the public, storm chasers, emergency management or law enforcement.",
                     2,
@@ -172,16 +232,13 @@ namespace Skylight.Contexts
 
             // Weather Event Observation Methods
 
-            int weatherEventObservationMethodId = 0;
-            WeatherEventObservationMethod[] weatherEventObservationMethods = new[]
+            WeatherEventObservationMethod[] weatherEventObservationMethods = new WeatherEventObservationMethod[]
             {
-                new WeatherEventObservationMethod(
-                    weatherEventObservationMethodId++,
+                new(
                     "Chased",
                     "You were present at the Experience. You physically followed and intercepted the weather events as they occurred."
                 ),
-                new WeatherEventObservationMethod(
-                    weatherEventObservationMethodId++,
+                new(
                     "Tracked",
                     "You were not present at the Experience. However, you actively participated in news as it was released and viewed live coverage of the events as they occurred."
                 )
