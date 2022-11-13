@@ -2,7 +2,7 @@
 {
     public class WeatherEventStatistics
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string? EFRating { get; set; }
         public int? PathDistance { get; set; }
         public int? FunnelWidth { get; set; }

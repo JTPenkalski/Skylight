@@ -5,7 +5,7 @@ namespace Skylight.Models
 {
     public class WeatherExperience
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartTime { get; set; }
@@ -16,7 +16,6 @@ namespace Skylight.Models
         public int Fatalities { get; set; }
 
         public WeatherExperience(
-            int id,
             string name,
             string description,
             DateTime startTime,
@@ -25,7 +24,6 @@ namespace Skylight.Models
             int fatalities
         )
         {
-            Id = id;
             Name = name;
             Description = description;
             StartTime = startTime;

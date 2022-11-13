@@ -22,7 +22,7 @@ namespace Skylight.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WeatherType>>> GetWeatherTypes()
+        public async Task<ActionResult<IEnumerable<Weather>>> GetWeatherTypes()
         {
             if (context.WeatherTypes == null)
             {
@@ -33,7 +33,7 @@ namespace Skylight.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<WeatherType>> GetWeatherType(int id)
+        public async Task<ActionResult<Weather>> GetWeatherType(int id)
         {
             if (context.WeatherTypes == null)
             {
@@ -51,7 +51,7 @@ namespace Skylight.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateWeatherType(int id, WeatherType weatherType)
+        public async Task<IActionResult> UpdateWeatherType(int id, Weather weatherType)
         {
             if (id != weatherType.Id)
             {
@@ -73,7 +73,7 @@ namespace Skylight.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WeatherType>> CreateWeatherType(WeatherType weatherType)
+        public async Task<ActionResult<Weather>> CreateWeatherType(Weather weatherType)
         {
             if (context.WeatherTypes == null)
             {

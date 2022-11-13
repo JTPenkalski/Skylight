@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Skylight.Attributes.Database;
 using Skylight.Models;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Skylight.Contexts
 {
@@ -12,14 +16,15 @@ namespace Skylight.Contexts
     {
         public DbSet<WeatherExperience> WeatherExperiences => Set<WeatherExperience>();
         public DbSet<WeatherExperienceParticipant> WeatherExperienceParticipants => Set<WeatherExperienceParticipant>();
+        public DbSet<StormTracker> StormTrackers => Set<StormTracker>();
+        public DbSet<WeatherEventObservationMethod> WeatherEventObservationMethods => Set<WeatherEventObservationMethod>();
         public DbSet<WeatherEvent> WeatherEvents => Set<WeatherEvent>();
-        public DbSet<WeatherEventStatistics> WeatherEventStatistics => Set<WeatherEventStatistics>();
-        public DbSet<WeatherType> WeatherTypes => Set<WeatherType>();
+        public DbSet<WeatherEventAlert> WeatherEventAlerts => Set<WeatherEventAlert>();
         public DbSet<WeatherAlert> WeatherAlerts => Set<WeatherAlert>();
         public DbSet<WeatherAlertModifier> WeatherAlertModifiers => Set<WeatherAlertModifier>();
-        public DbSet<StormTracker> StormTrackers => Set<StormTracker>();
+        public DbSet<Weather> WeatherTypes => Set<Weather>();
         public DbSet<Location> Locations => Set<Location>();
-        public DbSet<WeatherEventObservationMethod> WeatherEventObservationMethods => Set<WeatherEventObservationMethod>();
+        public DbSet<WeatherEventStatistics> WeatherEventStatistics => Set<WeatherEventStatistics>();
         public DbSet<RiskCategory> RiskCategories => Set<RiskCategory>();
 
         private readonly IConfiguration config;
@@ -33,38 +38,65 @@ namespace Skylight.Contexts
             this.config = config;
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            // Enum Value Converters
+            configurationBuilder.Properties<OutlookProbabilityWeatherType>().HaveConversion<string>();
+            configurationBuilder.Properties<WeatherAlertModifierOperation>().HaveConversion<string>();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Weather Experience Participant Config
-            modelBuilder.Entity<WeatherExperienceParticipant>().HasKey(p => new { p.WeatherExperienceId, p.StormTrackerId });
+            CreateCompositePrimaryKeys(modelBuilder);
+        }
 
-            // Risk Category Outlook Probability Config
-            modelBuilder.Entity<RiskCategory>().OwnsMany(
-                r => r.TornadoRisk, p =>
-                {
-                    p.WithOwner().HasForeignKey("RiskCategoryId");
-                    p.Property<int>("Id");
-                    p.HasKey("Id");
-                }
-            );
+        protected virtual void CreateCompositePrimaryKeys(ModelBuilder modelBuilder)
+        {
+            // Determine the types of all the models used in this DbContext
+            var modelTypes = GetType().GetProperties(
+                    BindingFlags.Public |
+                    BindingFlags.Instance |
+                    BindingFlags.GetProperty
+                )
+                .Where(p => p.PropertyType.IsGenericType && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+                .Select(p => p.PropertyType.GetGenericArguments()[0]);
 
-            modelBuilder.Entity<RiskCategory>().OwnsMany(
-                r => r.WindRisk, p =>
-                {
-                    p.WithOwner().HasForeignKey("RiskCategoryId");
-                    p.Property<int>("Id");
-                    p.HasKey("Id");
-                }
-            );
+            // Retrieve all properties that are marked with a CompositeKeyAttribute from the models used in this DbContext
+            var compositeKeys = modelTypes
+                .SelectMany(t => t.GetProperties(
+                    BindingFlags.Public |
+                    BindingFlags.NonPublic |
+                    BindingFlags.Instance |
+                    BindingFlags.GetProperty |
+                    BindingFlags.SetProperty
+                ))
+                .Where(p => p.GetCustomAttribute<CompositeKeyAttribute>() is not null)
+                .GroupBy(p => p.DeclaringType!, p => p.Name);
 
-            modelBuilder.Entity<RiskCategory>().OwnsMany(
-                r => r.HailRisk, p =>
+            // Configure the primary key value of any entities with composite keys
+            foreach (IGrouping<Type, string> compositeKey in compositeKeys)
+            {
+                // Track the names of the properties that contribute to this entity's primary key
+                int compositeKeyNamesAdded = 0;
+                string[] compositeKeyNames = new string[compositeKeys.Count()];
+
+                foreach (string propertyName in compositeKey)
                 {
-                    p.WithOwner().HasForeignKey("RiskCategoryId");
-                    p.Property<int>("Id");
-                    p.HasKey("Id");
+                    // Get the names of all properties for this type
+                    // Otherwise, generate a new property to hold the ID value and act as the key
+                    compositeKeyNames[compositeKeyNamesAdded++] = (propertyName[^2..].ToUpper() == "ID")
+                        ? propertyName
+                        : $"{propertyName}Id";
                 }
-            );
+
+                // Manually set this entity's composite primary key
+                modelBuilder.Entity(compositeKey.Key).HasKey(compositeKeyNames);
+            }
         }
     }
 }

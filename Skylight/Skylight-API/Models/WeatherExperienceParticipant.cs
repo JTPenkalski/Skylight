@@ -1,15 +1,11 @@
-﻿namespace Skylight.Models
+﻿using Skylight.Attributes.Database;
+
+namespace Skylight.Models
 {
     public class WeatherExperienceParticipant
     {
-        public int WeatherExperienceId { get; set; }
-        public int StormTrackerId { get; set; }
+        [CompositeKey] public WeatherExperience Experience { get; set; } = null!;
+        [CompositeKey] public StormTracker Tracker { get; set; } = null!;
         public WeatherEventObservationMethod ObservationMethod { get; set; } = null!;
-
-        public WeatherExperienceParticipant(int weatherExperienceId, int stormTrackerId)
-        {
-            WeatherExperienceId = weatherExperienceId;
-            StormTrackerId = stormTrackerId;
-        }
     }
 }

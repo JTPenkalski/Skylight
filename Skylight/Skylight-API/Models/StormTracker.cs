@@ -4,23 +4,22 @@ namespace Skylight.Models
 {
     public class StormTracker
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string FirstName { get; set; }
         public string? MiddleName { get; set; }
         public string LastName { get; set; }
         public string? Biography { get; set; }
         public DateTime StartDate { get; set; }
-        public Uri? Picture { get; set; }
+        public string? PicturePath { get; set; }
 
-        public StormTracker(int id, string firstName, string? middleName, string lastName, string? biography, DateTime startDate, Uri? picture)
+        public StormTracker(string firstName, string? middleName, string lastName, string? biography, DateTime startDate, string? picturePath)
         {
-            Id = id;
             FirstName = firstName;
             MiddleName = middleName;
             LastName = lastName;
             Biography = biography;
             StartDate = startDate;
-            Picture = picture;
+            PicturePath = picturePath;
         }
     }
 }
