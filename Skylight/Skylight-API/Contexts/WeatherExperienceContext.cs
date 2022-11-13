@@ -85,10 +85,11 @@ namespace Skylight.Contexts
                 int compositeKeyNamesAdded = 0;
                 string[] compositeKeyNames = new string[compositeKeys.Count()];
 
+                // Get the names of all properties for this type
                 foreach (string propertyName in compositeKey)
                 {
-                    // Get the names of all properties for this type
-                    // Otherwise, generate a new property to hold the ID value and act as the key
+                    // If the property name is already an explicit ID, use the property name as is
+                    // Otherwise, use the name of the shadow property that holds the ID value
                     compositeKeyNames[compositeKeyNamesAdded++] = (propertyName[^2..].ToUpper() == "ID")
                         ? propertyName
                         : $"{propertyName}Id";
