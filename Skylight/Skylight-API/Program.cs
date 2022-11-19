@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Skylight.Contexts;
-using System;
 
 namespace Skylight
 {
@@ -71,15 +70,19 @@ namespace Skylight
         /// <param name="builder">The builder used to generate the host.</param>
         private static void AddDbContextProviders(WebApplicationBuilder builder)
         {
-            string connectionString = builder.Configuration.GetConnectionString("Default");
+            string? connectionString = builder.Configuration.GetConnectionString("SQL_Server");
 
-            if (builder.Environment.IsDevelopment())
+            if (connectionString is not null)
             {
-                builder.Services.AddDbContext<WeatherExperienceContext>(options => options.UseMySQL(connectionString));
-            }
-            else
-            {
-                builder.Services.AddDbContext<WeatherExperienceContext>(options => options.UseSqlServer(connectionString));
+                if (builder.Environment.IsDevelopment())
+                {
+                    // Migrated to SQL Server for local development since the MySQL connector appeared to throw errors after the .NET 7 upgrade.
+                    builder.Services.AddDbContext<WeatherExperienceContext>(options => options.UseSqlServer(connectionString));
+                }
+                else
+                {
+                    builder.Services.AddDbContext<WeatherExperienceContext>(options => options.UseSqlServer(connectionString));
+                }
             }
         }
     }

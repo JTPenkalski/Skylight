@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Skylight.Attributes.Database;
 using Skylight.Models;
@@ -40,7 +39,7 @@ namespace Skylight.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.EnableSensitiveDataLogging();
+            //optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
