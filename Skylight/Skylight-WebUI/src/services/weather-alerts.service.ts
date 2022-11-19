@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SkylightServicesModule } from '../modules/skylight-services.module';
 
 import { environment } from '../environments/environment'
 import { WeatherAlert } from '../models/WeatherAlert';
 
 @Injectable({
-  providedIn: SkylightServicesModule
+  providedIn: 'any'
 })
 export class WeatherAlertsService {
 
@@ -19,7 +18,7 @@ export class WeatherAlertsService {
     this.url = environment.apiUrl + "WeatherAlerts/";
   }
 
-  getWeatherAlerts(): Observable<WeatherAlert[]> {
+  public getWeatherAlerts(): Observable<WeatherAlert[]> {
     return this.http.get<WeatherAlert[]>(this.url);
   }
 }
