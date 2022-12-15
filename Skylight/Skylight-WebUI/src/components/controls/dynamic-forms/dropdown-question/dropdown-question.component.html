@@ -1,8 +1,8 @@
 <div [formGroup]="formGroup">
   <mat-form-field appearance="fill">
     <mat-label [attr.for]="question.key">{{question.label}}</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let option of question.options" [value]="option.key">
+    <mat-select> <!--May need id and formControlName attrs here?-->
+      <mat-option *ngFor="let option of question.options.options" [value]="option.key">
         {{option.value}}
       </mat-option>
     </mat-select>

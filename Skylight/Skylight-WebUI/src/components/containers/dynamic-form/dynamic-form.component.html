@@ -1,6 +1,6 @@
 <div>
   <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-    <ng-template #questions></ng-template>
+    <dynamic-form-section *ngFor="let section of form.sections" [formGroupName]="section.key"></dynamic-form-section>
 
     <div>
       <button type="submit" [disabled]="!formGroup.valid">Save</button>

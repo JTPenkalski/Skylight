@@ -10,5 +10,6 @@
     <Folder Include="src\models\" />
     <Folder Include="src\forms\" />
     <Folder Include="src\services\dynamic-forms\forms\" />
+    <Folder Include="src\services\dynamic-forms\sections\" />
   </ItemGroup>
 </Project>
