@@ -10,13 +10,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkylightServicesModule } from './skylight-services.module';
 
-import { DropdownWeatherAlertComponent } from '../components/dropdown-weather-alert/dropdown-weather-alert.component';
 import { FormLocationComponent } from '../components/forms/location/form-location.component'; // TODO: Extra forms to own Angular Module?
-import { NavigationBarComponent } from '../components/navigation-bar/navigation-bar.component';
+import { NavigationBarComponent } from '../components/layout/navigation-bar/navigation-bar.component';
+import { DynamicFormsModule } from './dynamic-forms.module';
+import { DynamicFormComponent } from '../components/forms/dynamic-form/dynamic-form.component';
+import { DropdownQuestionComponent } from '../components/controls/dynamic-forms/dropdown-question/dropdown-question.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    DynamicFormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -28,12 +31,14 @@ import { NavigationBarComponent } from '../components/navigation-bar/navigation-
     SkylightServicesModule
   ],
   declarations: [
-    DropdownWeatherAlertComponent,
+    DynamicFormComponent,
+    DropdownQuestionComponent,
     FormLocationComponent,
     NavigationBarComponent
   ],
   exports: [
-    DropdownWeatherAlertComponent,
+    DynamicFormComponent,
+    DropdownQuestionComponent,
     FormLocationComponent,
     NavigationBarComponent
   ]

@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { SkylightControlsModule } from './skylight-controls.module';
-
 import { AppComponent } from '../components/app/app.component';
 
 @NgModule({

@@ -4,11 +4,11 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupCommand>npm start</StartupCommand>
-    <JavaScriptTestFramework>Jasmine</JavaScriptTestFramework>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\components\forms\location\" />
     <Folder Include="src\models\" />
-    <Folder Include="src\services\" />
+    <Folder Include="src\forms\" />
+    <Folder Include="src\services\dynamic-forms\forms\" />
   </ItemGroup>
 </Project>

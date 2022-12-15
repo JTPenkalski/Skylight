@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Form title="Weather Experience">
+  <Section title="General Information">
+    <Question>
+      <TextBox id="name" label="Name">
+        <Validators>
+          <RequiredValidator/>
+        </Validators>
+      </TextBox>
+    </Question>
+    <Question>
+      <TextBox id="description" label="Description">
+        <Validators>
+          <RequiredValidator/>
+        </Validators>
+      </TextBox>
+    </Question>
+    <Question>
+      <DateTimePicker id="startTime" label="Start Time">
+        <Validators>
+          <RequiredValidator/>
+        </Validators>
+      </DateTimePicker>
+    </Question>
+    <Question>
+      <DateTimePicker id="endTime" label="End Time" enabled="false"/>
+    </Question>
+  </Section>
+  <Section title="Statistics">
+    <Question>
+      <TextBox id="damageCost" label="Damage Cost" enabled="false">
+        <Presenters>
+          <VisibleIf id="endTime"/>
+        </Presenters>
+      </TextBox>
+    </Question>
+    <Question>
+      <TextBox id="fatalities" label="Fatalities" enabled="false">
+        <Presenters>
+          <VisibleIf id="endTime"/>
+        </Presenters>
+      </TextBox>
+    </Question>
+  </Section>
+</Form>
