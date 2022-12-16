@@ -1,4 +1,5 @@
-import { Component, ComponentRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, Input, QueryList, ViewChildren } from '@angular/core';
+import { ControlContainer, FormControl, FormGroup } from '@angular/forms';
 
 import { Section } from '../../../services/dynamic-forms/sections/section';
 import { DynamicFormQuestionComponent, DynamicFormQuestionDirective } from '../../controls/dynamic-forms/dynamic-form-question/dynamic-form-question.component';
@@ -8,14 +9,15 @@ import { DynamicFormQuestionComponent, DynamicFormQuestionDirective } from '../.
   templateUrl: './dynamic-form-section.component.html',
   styleUrls: ['./dynamic-form-section.component.scss']
 })
-export class DynamicFormSectionComponent implements OnInit {
-  @Input() public formGroupName!: string;
+export class DynamicFormSectionComponent implements AfterViewInit {
   @Input() public section!: Section;
   @ViewChildren(DynamicFormQuestionDirective) protected dynamicQuestions!: QueryList<DynamicFormQuestionDirective>;
 
-  constructor() { }
+  public get formGroup(): FormGroup { return this.parent.control as FormGroup; }
 
-  public ngOnInit(): void {
+  constructor(protected parent: ControlContainer) { }
+
+  public ngAfterViewInit(): void {
     this.loadQuestions();
   }
 
@@ -25,6 +27,7 @@ export class DynamicFormSectionComponent implements OnInit {
         dynamicQuestion.viewContainer.createComponent<DynamicFormQuestionComponent>(this.section.questions[index].dynamicComponent);
 
       dynamicQuestionInstance.instance.question = this.section.questions[index];
+      //dynamicQuestionInstance.instance.formControl = this.formGroup.get(this.section.questions[index].key) as FormControl;
     });
   }
 }

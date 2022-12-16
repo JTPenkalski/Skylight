@@ -44,7 +44,7 @@ export abstract class Question<T = any> implements QuestionConfig<T> {
     this._key = config.key;
     this._value = config.value;
     this._label = config.label;
-    this._enabled = !!config.enabled;
+    this._enabled = !config.enabled;
     this._validators = validators || [];
   }
 }
