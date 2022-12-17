@@ -29,13 +29,13 @@ export class DropdownQuestion extends Question<string> {
  * If a value is not specified in the XML, the text will be used by default (see the service file).
  **/
 export class DropdownQuestionOptions {
-  protected _options: KeyValue<string, string>[];
-  public get options(): KeyValue<string, string>[] { return this._options; } 
+  protected _allOptions: KeyValue<string, string>[];
+  public get allOptions(): KeyValue<string, string>[] { return this._allOptions; } 
 
   protected map: { [key: string]: string };
 
   constructor(options: KeyValue<string, string>[]) {
-    this._options = options;
+    this._allOptions = options;
     this.map = options.reduce((accumulator, keyValuePair) => {
       return {
         ...accumulator,
@@ -44,5 +44,5 @@ export class DropdownQuestionOptions {
     }, {});
   }
 
-  public getOption(optionKey: string): string { return this.map[optionKey]; }
+  public option(optionKey: string): string { return this.map[optionKey]; }
 }

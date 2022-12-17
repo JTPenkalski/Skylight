@@ -5,7 +5,7 @@ import { Question } from "../questions/question";
  * They are used by the corresponding component when initializing the template.
  **/
 export interface SectionConfig {
-  key: string,
+  id: string,
   title: string
 }
 
@@ -15,8 +15,8 @@ export interface SectionConfig {
  * Sections utilize the <section> tag to delineate important groups of controls within a form.
  **/
 export class Section implements SectionConfig {
-  protected _key: string;
-  public get key(): string { return this._key; }
+  protected _id: string;
+  public get id(): string { return this._id; }
 
   protected _title: string;
   public get title(): string { return this._title; }
@@ -25,7 +25,7 @@ export class Section implements SectionConfig {
   public get questions(): Question[] { return this._questions; }
 
   constructor(config: SectionConfig, questions: Question[]) {
-    this._key = config.key;
+    this._id = config.id;
     this._title = config.title;
     this._questions = questions;
   }

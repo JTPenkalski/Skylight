@@ -1,12 +1,16 @@
-<div [formGroup]="formGroup">
-  <mat-form-field appearance="fill">
-    <mat-label [attr.for]="question.key">{{question.label}}</mat-label>
-    <mat-select [id]="question.key" [attr.name]="question.key" [formControlName]="question.key"> <!--May need id and formControlName attrs here?-->
-      <mat-option *ngFor="let option of question.options.options" [value]="option.key">
-        {{option.value}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<ng-container [formGroup]="formGroup">
+  <ng-container [formGroupName]="section.id">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label [attr.for]="question.id">{{question.label}}</mat-label>
+        <mat-select [id]="question.id" [attr.name]="question.id" [formControlName]="question.id">
+          <mat-option *ngFor="let option of question.options.allOptions" [value]="option.key">
+            {{option.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <!--<div class="errorMessage" *ngIf="!valid">{{question.label}} is required.</div>-->
-</div>
+      <div class="errorMessage" *ngIf="!control.valid">{{question.label}} is required.</div>
+    </div>
+  </ng-container>
+</ng-container>

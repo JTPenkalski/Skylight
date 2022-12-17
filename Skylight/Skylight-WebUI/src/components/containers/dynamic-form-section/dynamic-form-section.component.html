@@ -1,5 +1,6 @@
-<ng-container [formGroup]="formGroup"> 
-  <section [id]="section.key" [formGroupName]="section.key">
-    <ng-template *ngFor="let question of section.questions" dynamicQuestion [formControlName]="question.key"></ng-template>
+<ng-container [formGroup]="group">
+  <section [id]="section.id" [formGroupName]="section.id">
+    <div dynamicQuestion></div>
+    <!--<ng-template *ngFor="let question of section.questions" dynamicQuestion></ng-template>-->
   </section>
 </ng-container>

@@ -8,7 +8,7 @@ import { QuestionValidator } from "../validators/question-validator";
  * They are used by the corresponding component when initializing the template.
  **/
 export interface QuestionConfig<T> {
-  key: string,
+  id: string,
   value: T | undefined,
   label: string,
   enabled: boolean | undefined,
@@ -20,8 +20,8 @@ export interface QuestionConfig<T> {
  * This class must be overridden to support various question types and to supply control-specific data.
  **/
 export abstract class Question<T = any> implements QuestionConfig<T> {
-  protected _key: string;
-  public get key(): string { return this._key; }
+  protected _id: string;
+  public get id(): string { return this._id; }
 
   protected _value: T | undefined;
   public get value(): T | undefined { return this._value; }
@@ -41,7 +41,7 @@ export abstract class Question<T = any> implements QuestionConfig<T> {
   public abstract get dynamicComponent(): Type<DynamicFormQuestionComponent>;
 
   constructor(config: QuestionConfig<T>, validators?: QuestionValidator[]) {
-    this._key = config.key;
+    this._id = config.id;
     this._value = config.value;
     this._label = config.label;
     this._enabled = !config.enabled;

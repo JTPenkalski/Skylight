@@ -1,9 +1,9 @@
 <div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
-    <dynamic-form-section *ngFor="let section of form.sections" [section]="section"></dynamic-form-section>
+  <form (ngSubmit)="onSubmit()" [formGroup]="control">
+    <dynamic-form-section *ngFor="let section of form.sections" [form]="form" [section]="section"></dynamic-form-section>
 
     <div>
-      <button type="submit" [disabled]="!formGroup.valid">Save</button>
+      <button type="submit" [disabled]="!control.valid">Save</button>
     </div>
   </form>
 </div>

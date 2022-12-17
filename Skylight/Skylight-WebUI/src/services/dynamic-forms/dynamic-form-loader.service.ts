@@ -21,7 +21,7 @@ export class DynamicFormLoaderService {
    * @param formTemplate The XML containing the data necessary to create a Form model.
    **/
   public loadForm(formTemplate: string): Form {
-    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section key="area1" title="Area 1"> <Question key="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> </Section> </Form>';
+    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> </Section> </Form>';
     const formRaw = require('xml-js').xml2json(formXML, {
       compact: true,
       ignoreDeclaration: true,

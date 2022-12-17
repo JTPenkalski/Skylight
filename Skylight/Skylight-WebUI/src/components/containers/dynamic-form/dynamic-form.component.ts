@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormRecord } from '@angular/forms';
 
 import { DynamicFormLoaderService } from '../../../services/dynamic-forms/dynamic-form-loader.service';
 import { Form } from '../../../services/dynamic-forms/forms/form';
+import { Question } from '../../../services/dynamic-forms/questions/question';
+import { Section } from '../../../services/dynamic-forms/sections/section';
 
 @Component({
   selector: 'dynamic-form',
@@ -13,34 +15,30 @@ export class DynamicFormComponent implements OnInit {
   @Input() public formTemplate!: string;
 
   public form!: Form;
-  public formGroup!: FormGroup;
+  public control!: FormRecord;
 
   constructor(protected dynamicFormLoader: DynamicFormLoaderService) { }
 
   public ngOnInit(): void {
+    console.log('---FORM INIT---');
     this.loadForm();
-    this.loadFormGroup();
+    this.initForm();
   }
 
   protected onSubmit(): void {
-    console.log('Form submitted!');
+    console.log('FORM GROUP:');
+    console.log(this.control);
   }
 
   protected loadForm(): void {
     this.form = this.dynamicFormLoader.loadForm(this.formTemplate);
   }
 
-  protected loadFormGroup(): void {
-    this.formGroup = new FormGroup(this.form.sections.reduce((sectionAccumulator, section) => {
+  protected initForm(): void {
+    this.control = new FormRecord<AbstractControl<Section>>(this.form.sections.reduce((sectionAccumulator, section) => {
       return {
         ...sectionAccumulator,
-        [section.key]: new FormGroup(section.questions.reduce((questionAccumulator, question) => {
-          return {
-            ...questionAccumulator,
-            [question.key]: new FormControl(question.value || '', question.validators.map(v => v.getValidator()))
-          };
-          }, {})
-        )
+        [section.id]: new FormRecord<AbstractControl<Question>>({})
       }
     }, {}));
   }
