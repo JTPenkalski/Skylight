@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
+import * as XML from 'xml-js';
 
 import { Form, FormConfig } from './forms/form';
 import { Section, SectionConfig } from './sections/section';
@@ -22,24 +23,13 @@ export class DynamicFormLoaderService {
    **/
   public loadForm(formTemplate: string): Form {
     const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> </Section> </Form>';
-    const formRaw = require('xml-js').xml2json(formXML, {
+    const formRaw = XML.xml2json(formXML, {
       compact: true,
       ignoreDeclaration: true,
       spaces: 2
     });
 
-    console.log('Raw:');
-    console.log(formRaw);
-
-    const form = JSON.parse(formRaw).Form as FormSchema;
-    console.log('Form:')
-    console.log(form);
-
-    const realForm = this.parseForm(form);
-    console.log('Real Form:');
-    console.log(realForm);
-
-    return this.parseForm(form);
+    return this.parseForm(JSON.parse(formRaw).Form as FormSchema);
   }
 
   /**
