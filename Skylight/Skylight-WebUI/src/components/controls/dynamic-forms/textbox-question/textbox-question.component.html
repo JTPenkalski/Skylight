@@ -1,0 +1,12 @@
+<ng-container [formGroup]="model">
+    <ng-container [formGroupName]="section.id">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label [attr.for]="question.id">{{question.label}}</mat-label>
+          <input matInput [id]="question.id" [attr.name]="question.id" [formControlName]="question.id">
+        </mat-form-field>
+  
+        <mat-error *ngIf="!control.valid">{{question.label}} is required.</mat-error>
+      </div>
+    </ng-container>
+  </ng-container>

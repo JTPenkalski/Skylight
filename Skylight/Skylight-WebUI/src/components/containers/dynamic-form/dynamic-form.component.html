@@ -4,7 +4,7 @@
     <dynamic-form-section *ngFor="let section of form.sections" [form]="form" [section]="section" [model]="model"></dynamic-form-section>
 
     <div>
-      <button type="submit" [disabled]="!model.valid">Save</button>
+      <button mat-raised-button color="accent" type="submit" [disabled]="!model.valid">Save</button>
     </div>
   </form>
 </div>

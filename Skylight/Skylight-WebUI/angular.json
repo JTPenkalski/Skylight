@@ -31,7 +31,10 @@
               "src/app-theme.scss",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "xml-js"
+            ]
           },
           "configurations": {
             "production": {

@@ -1,6 +1,6 @@
 import { Type } from "@angular/core";
 
-import { DynamicFormQuestionComponent } from "../../../components/controls/dynamic-forms/dynamic-form-question/dynamic-form-question.component";
+import { DynamicFormQuestionComponent } from "src/components/controls/dynamic-forms/dynamic-form-question/dynamic-form-question.component";
 import { QuestionValidator } from "../validators/question-validator";
 
 /**

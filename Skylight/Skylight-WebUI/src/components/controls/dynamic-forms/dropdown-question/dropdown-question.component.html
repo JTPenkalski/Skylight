@@ -10,7 +10,7 @@
         </mat-select>
       </mat-form-field>
 
-      <div class="errorMessage" *ngIf="!control.valid">{{question.label}} is required.</div>
+      <mat-error *ngIf="!control.valid">{{question.label}} is required.</mat-error>
     </div>
   </ng-container>
 </ng-container>

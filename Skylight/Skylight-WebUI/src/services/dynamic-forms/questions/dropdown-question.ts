@@ -1,8 +1,8 @@
 import { KeyValue } from '@angular/common';
 import { Type } from '@angular/core';
 
-import { DropdownQuestionComponent } from '../../../components/controls/dynamic-forms/dropdown-question/dropdown-question.component';
-import { DynamicFormQuestionComponent } from '../../../components/controls/dynamic-forms/dynamic-form-question/dynamic-form-question.component';
+import { DynamicFormQuestionComponent } from 'src/components/controls/dynamic-forms/dynamic-form-question/dynamic-form-question.component';
+import { DropdownQuestionComponent } from 'src/components/controls/dynamic-forms/dropdown-question/dropdown-question.component';
 import { QuestionValidator } from '../validators/question-validator';
 import { Question, QuestionConfig } from './question';
 

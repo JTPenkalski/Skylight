@@ -10,7 +10,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkylightServicesModule } from './skylight-services.module';
 
-import { FormLocationComponent } from '../components/forms/location/form-location.component'; // TODO: Extra forms to own Angular Module?
 import { NavigationBarComponent } from '../components/containers/navigation-bar/navigation-bar.component';
 import { DynamicFormsModule } from './dynamic-forms.module';
 
@@ -29,11 +28,9 @@ import { DynamicFormsModule } from './dynamic-forms.module';
     SkylightServicesModule
   ],
   declarations: [
-    FormLocationComponent,
     NavigationBarComponent
   ],
   exports: [
-    FormLocationComponent,
     NavigationBarComponent
   ]
 })

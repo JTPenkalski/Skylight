@@ -6,6 +6,7 @@ import { Form, FormConfig } from './forms/form';
 import { Section, SectionConfig } from './sections/section';
 import { Question, QuestionConfig } from './questions/question';
 import { DropdownQuestion, DropdownQuestionOptions } from './questions/dropdown-question';
+import { TextboxQuestion } from './questions/textbox-question';
 import { QuestionValidator } from './validators/question-validator';
 import { RequiredQuestionValidator } from './validators/required-question-validator';
 
@@ -22,7 +23,7 @@ export class DynamicFormLoaderService {
    * @param formTemplate The XML containing the data necessary to create a Form model.
    **/
   public loadForm(formTemplate: string): Form {
-    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> </Section> </Form>';
+    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> <Question id="cookie" label="Cookie"> <Textbox/> </Question> </Section> <Section id="section2" title="Section 2"> <Question id="weather" label="Weather"> <Textbox/> </Question> </Section> </Form>';
     const formRaw = XML.xml2json(formXML, {
       compact: true,
       ignoreDeclaration: true,
@@ -61,10 +62,14 @@ export class DynamicFormLoaderService {
    **/
   private parseSection(section: SectionSchema): Section {
     if (section._attributes) {
-      const sectionConfig: SectionConfig = { ...section._attributes };
-      return new Section(sectionConfig, this.parseQuestions(section.Question));
+      if (section._attributes.id) {
+        const sectionConfig: SectionConfig = { ...section._attributes };
+        return new Section(sectionConfig, this.parseQuestions(section.Question));
+      } else {
+        throw this.error('A Section node is missing an ID.');
+      }
     } else {
-      throw this.error('One or more Section nodes are missing attributes.');
+      throw this.error('A Section node is missing its attributes.');
     }
   }
 
@@ -85,22 +90,29 @@ export class DynamicFormLoaderService {
    **/
   private parseQuestion(question: QuestionSchema): Question {
     if (question._attributes) {
-      const validators = question.Validators ? this.parseValidators(question.Validators) : undefined;
+      if (question._attributes.id) {
+        const validators = question.Validators ? this.parseValidators(question.Validators) : undefined;
       
-      if (question.Dropdown) { // Dropdown Questions
-        const questionConfig: QuestionConfig<string> = { ...question._attributes };
+        if (question.Dropdown) { // Dropdown Questions
+          const questionConfig: QuestionConfig<string> = { ...question._attributes };
 
-        const options: KeyValue<string, string>[] = [];
-        for (const option of question.Dropdown.Option) {
-          options.push({ key: option._text, value: option._attributes ? option._attributes.value : option._text })
+          const options: KeyValue<string, string>[] = [];
+          for (const option of question.Dropdown.Option) {
+            options.push({ key: option._text, value: option._attributes ? option._attributes.value : option._text })
+          }
+
+          return new DropdownQuestion(new DropdownQuestionOptions(options), questionConfig, validators);
+        } else if (question.Textbox) { // Textbox Questions
+          const questionConfig: QuestionConfig<string> = { ...question._attributes };
+          return new TextboxQuestion(questionConfig, validators);
+        } else { // Invalid Questions
+          throw this.error(`Question ${question._attributes.id} contains an unsupported control type.`);
         }
-
-        return new DropdownQuestion(new DropdownQuestionOptions(options), questionConfig, validators);
-      } else { // Invalid Questions
-        throw this.error('Question contains unsupported control type.');
+      } else {
+        throw this.error('A Question node is missing an ID.');
       }
     } else {
-      throw this.error('One or more Section nodes are missing attributes.');
+      throw this.error('A Question node is missing its attributes.');
     }
   }
 
@@ -141,6 +153,7 @@ interface SectionSchema extends XMLSchema<SectionConfig> {
 
 interface QuestionSchema extends XMLSchema<QuestionConfig<any>> {
   Dropdown?: DropdownSchema;
+  Textbox?: TextboxSchema;
   Validators?: ValidatorSchema;
 }
 
@@ -154,6 +167,10 @@ interface DropdownSchema extends ControlSchema<{}> {
 
 interface DropdownQuestionOptionSchema extends XMLSchema<{ value: string }> {
   _text: string;
+}
+
+interface TextboxSchema extends ControlSchema<{}> {
+  
 }
 
 interface ValidatorSchema extends XMLSchema<{}> {
