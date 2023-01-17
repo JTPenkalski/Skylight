@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import * as XML from 'xml-js';
 
+import { environment } from 'src/environments/environment';
 import { Form, FormConfig } from './forms/form';
 import { Section, SectionConfig } from './sections/section';
 import { Question, QuestionConfig } from './questions/question';
-import { DropdownQuestion, DropdownQuestionOptions } from './questions/dropdown-question';
+import { DropdownQuestion, DropdownQuestionConfig, DropdownQuestionOptions } from './questions/dropdown-question';
 import { TextboxQuestion } from './questions/textbox-question';
 import { QuestionValidator } from './validators/question-validator';
 import { RequiredQuestionValidator } from './validators/required-question-validator';
+
 
 /**
  * Reads in an XML string containing the definition for a Dynamic Form.
@@ -18,12 +21,20 @@ import { RequiredQuestionValidator } from './validators/required-question-valida
   providedIn: 'root'
 })
 export class DynamicFormLoaderService {
+  private readonly url: string;
+
+  constructor(
+    private http: HttpClient
+  ) {
+    this.url = environment.apiUrl;
+  }
+
   /**
    * Reads from the supplied XML to generate a Form model.
    * @param formTemplate The XML containing the data necessary to create a Form model.
    **/
   public loadForm(formTemplate: string): Form {
-    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> <Question id="cookie" label="Cookie"> <Textbox/> </Question> </Section> <Section id="section2" title="Section 2"> <Question id="weather" label="Weather"> <Textbox/> </Question> </Section> </Form>';
+    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> <Question id="type" label="Weather Type"> <Dropdown server="WeatherTypes" /> <Validators> <RequiredValidator/> </Validators> </Question> <Question id="cookie" label="Cookie"> <Textbox/> </Question> </Section> <Section id="section2" title="Section 2"> <Question id="weather" label="Weather"> <Textbox/> </Question> </Section> </Form>';
     const formRaw = XML.xml2json(formXML, {
       compact: true,
       ignoreDeclaration: true,
@@ -97,8 +108,23 @@ export class DynamicFormLoaderService {
           const questionConfig: QuestionConfig<string> = { ...question._attributes };
 
           const options: KeyValue<string, string>[] = [];
-          for (const option of question.Dropdown.Option) {
-            options.push({ key: option._text, value: option._attributes ? option._attributes.value : option._text })
+          if (question.Dropdown.Option) {
+            for (const option of question.Dropdown.Option) {
+              options.push({ key: option._text, value: option._attributes ? option._attributes.value : option._text })
+            }
+          } else if (question.Dropdown._attributes?.server) {
+            this.http.get<any[]>(this.url + question.Dropdown._attributes?.server).subscribe({
+              next: response => response.forEach(element => {
+                if (element.name) {
+                  options.push({ key: element.name, value: element.name });
+                } else {
+                  throw this.error(`Dropdown Question is fetching from a server that returned an object model without a 'name' property. Can't map options.`);
+                }
+              }),
+              error: () => { throw this.error(`Dropdown Question fetching from a server returned an error. Ensure that the API is running.`) }
+            });
+          } else {
+            throw this.error(`Dropdown Question ${question._attributes.id} contains no options. Either specify them manually or use an API.`);
           }
 
           return new DropdownQuestion(new DropdownQuestionOptions(options), questionConfig, validators);
@@ -161,8 +187,8 @@ interface ControlSchema<T> extends XMLSchema<T> {
   // Potentially any attributes/properties shared between all control types
 }
 
-interface DropdownSchema extends ControlSchema<{}> {
-  Option: DropdownQuestionOptionSchema[];
+interface DropdownSchema extends ControlSchema<DropdownQuestionConfig<any>> {
+  Option?: DropdownQuestionOptionSchema[];
 }
 
 interface DropdownQuestionOptionSchema extends XMLSchema<{ value: string }> {

@@ -7,6 +7,14 @@ import { QuestionValidator } from '../validators/question-validator';
 import { Question, QuestionConfig } from './question';
 
 /**
+ * Contains the customizable properties of a Dropdown Question model.
+ * They are used by the corresponding component when initializing the template.
+ **/
+export interface DropdownQuestionConfig<T> extends QuestionConfig<T> {
+  server?: string;
+}
+
+/**
  * Represents a Dropdown Question model to use when creating Dynamic Forms.
  * The properties here are used to generate an equivalent FormControl in the corresponding component.
  * This class will create a Dropdown control that uses manually specified options in the XML.
@@ -15,12 +23,16 @@ export class DropdownQuestion extends Question<string> {
   protected _options: DropdownQuestionOptions;
   public get options(): DropdownQuestionOptions { return this._options; }
 
+  protected _server: string;
+  public get server(): string { return this._server; }
+
   public override get dynamicComponent(): Type<DynamicFormQuestionComponent<DropdownQuestion>> { return DropdownQuestionComponent; }
 
-  constructor(options: DropdownQuestionOptions, config: QuestionConfig<string>, validators?: QuestionValidator[]) {
+  constructor(options: DropdownQuestionOptions, config: DropdownQuestionConfig<string>, validators?: QuestionValidator[]) {
     super(config, validators);
 
     this._options = options;
+    this._server = config.server || '';
   }
 }
 
