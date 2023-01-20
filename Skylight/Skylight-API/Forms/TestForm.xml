@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience">
+  <Section id="area1" title="Area 1">
+    <Question id="name" label="Name">
+      <Dropdown>
+        <Option value="hello">Hello</Option>
+        <Option>World</Option>
+      </Dropdown>
+      <Validators>
+        <RequiredValidator/>
+      </Validators>
+    </Question>
+    <Question id="type" label="Weather Type">
+      <Dropdown server="WeatherTypes" />
+      <Validators>
+        <RequiredValidator/>
+      </Validators>
+    </Question>
+    <Question id="cookie" label="Cookie">
+      <Textbox/>
+    </Question>
+  </Section>
+  <Section id="section2" title="Section 2">
+    <Question id="weather" label="Weather">
+      <Textbox/>
+    </Question>
+  </Section>
+</Form>

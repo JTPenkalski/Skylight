@@ -21,8 +21,8 @@ export class DynamicFormComponent implements OnInit {
     protected dynamicFormCreator: DynamicFormCreatorService
   ) { }
 
-  public ngOnInit(): void {
-    this.form = this.dynamicFormLoader.loadForm(this.formTemplate);
+  public async ngOnInit(): Promise<void> {
+    this.form = await this.dynamicFormLoader.loadForm(this.formTemplate);
     this.model = this.dynamicFormCreator.createFormModel(this.form);
   }
 

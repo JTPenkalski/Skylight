@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { first, firstValueFrom } from 'rxjs';
 import * as XML from 'xml-js';
 
 import { environment } from 'src/environments/environment';
@@ -11,7 +12,6 @@ import { DropdownQuestion, DropdownQuestionConfig, DropdownQuestionOptions } fro
 import { TextboxQuestion } from './questions/textbox-question';
 import { QuestionValidator } from './validators/question-validator';
 import { RequiredQuestionValidator } from './validators/required-question-validator';
-
 
 /**
  * Reads in an XML string containing the definition for a Dynamic Form.
@@ -31,17 +31,25 @@ export class DynamicFormLoaderService {
 
   /**
    * Reads from the supplied XML to generate a Form model.
+   * Subscribe to the results of the Observable to generate the Form components.
    * @param formTemplate The XML containing the data necessary to create a Form model.
    **/
-  public loadForm(formTemplate: string): Form {
-    const formXML = '<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience"> <Section id="area1" title="Area 1"> <Question id="name" label="Name"> <Dropdown> <Option value="hello">Hello</Option> <Option>World</Option> </Dropdown> <Validators> <RequiredValidator/> </Validators> </Question> <Question id="type" label="Weather Type"> <Dropdown server="WeatherTypes" /> <Validators> <RequiredValidator/> </Validators> </Question> <Question id="cookie" label="Cookie"> <Textbox/> </Question> </Section> <Section id="section2" title="Section 2"> <Question id="weather" label="Weather"> <Textbox/> </Question> </Section> </Form>';
-    const formRaw = XML.xml2json(formXML, {
-      compact: true,
-      ignoreDeclaration: true,
-      spaces: 2
-    });
+  public async loadForm(formTemplate: string): Promise<Form> {
+    try {
+      const formXML: string | undefined = await firstValueFrom(this.http.get(`${this.url}Forms/${formTemplate}Form`, { responseType: 'text' as const }));
+      console.log('XML: ' + formXML);
+      if (formXML) {
+        return this.parseForm(JSON.parse(XML.xml2json(formXML, {
+          compact: true,
+          ignoreDeclaration: true,
+          spaces: 2
+        })).Form as FormSchema)
+      }
+    } catch (ex) {
+      console.error(ex);
+    }
 
-    return this.parseForm(JSON.parse(formRaw).Form as FormSchema);
+    throw `The form '${formTemplate}' was not returned from the server.`;
   }
 
   /**
