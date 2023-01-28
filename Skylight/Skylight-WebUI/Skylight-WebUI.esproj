@@ -6,10 +6,18 @@
     <StartupCommand>npm start</StartupCommand>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\components\forms\location\" />
     <Folder Include="src\models\" />
-    <Folder Include="src\forms\" />
-    <Folder Include="src\services\dynamic-forms\forms\" />
-    <Folder Include="src\services\dynamic-forms\sections\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptConfiguration Remove="src\forms\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="src\forms\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptConfiguration Remove="src\components\forms\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="src\components\forms\**" />
   </ItemGroup>
 </Project>

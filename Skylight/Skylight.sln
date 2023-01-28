@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-API", "Skylight-AP
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Skylight-Database-Local", "Skylight-Database-Local\Skylight-Database-Local.sqlproj", "{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight-Infrastructure", "Skylight-Infrastructure\Skylight-Infrastructure.csproj", "{DAC640FD-4809-4062-B3AC-4EA121D4BCD1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +31,6 @@ Global
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{DAC640FD-4809-4062-B3AC-4EA121D4BCD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAC640FD-4809-4062-B3AC-4EA121D4BCD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAC640FD-4809-4062-B3AC-4EA121D4BCD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAC640FD-4809-4062-B3AC-4EA121D4BCD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
