@@ -1,27 +1,29 @@
-﻿<?xml version="1.0" encoding="UTF-8"?> <Form title="Weather Experience">
-  <Section id="area1" title="Area 1">
-    <Question id="name" label="Name">
-      <Dropdown>
-        <Option value="hello">Hello</Option>
-        <Option>World</Option>
-      </Dropdown>
-      <Validators>
-        <RequiredValidator/>
-      </Validators>
-    </Question>
-    <Question id="type" label="Weather Type">
-      <Dropdown server="WeatherTypes" />
-      <Validators>
-        <RequiredValidator/>
-      </Validators>
-    </Question>
-    <Question id="cookie" label="Cookie">
-      <Textbox/>
-    </Question>
-  </Section>
-  <Section id="section2" title="Section 2">
-    <Question id="weather" label="Weather">
-      <Textbox/>
-    </Question>
-  </Section>
-</Form>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<form label="Weather Experience">
+  <section label="Area 1">
+    <question id="optionally-needed-for-validators" label="Name">
+      <dropdown>
+        <option value="hello">Hello</option>
+        <option>World</option>
+      </dropdown>
+      <validators>
+        <required-validator/>
+      </validators>
+    </question>
+    <question label="Weather Type">
+      <dropdown server="WeatherTypes" />
+      <validators>
+        <required-validator/>
+      </validators>
+    </question>
+    <question label="Cookie">
+      <textbox/>
+    </question>
+  </section>
+  <section label="Section 2">
+    <question label="Weather">
+      <textbox/>
+    </question>
+  </section>
+</form>
