@@ -11,12 +11,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SkylightServicesModule } from './skylight-services.module';
 
 import { NavigationBarComponent } from '../components/containers/navigation-bar/navigation-bar.component';
-import { DynamicFormsModule } from './dynamic-forms.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    DynamicFormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,

@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { SkylightControlsModule } from './skylight-controls.module';
 import { AppComponent } from '../components/app/app.component';
-import { DynamicFormsModule } from './dynamic-forms.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -14,7 +13,6 @@ import { DynamicFormsModule } from './dynamic-forms.module';
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    DynamicFormsModule,
     SkylightControlsModule
   ]
 })
