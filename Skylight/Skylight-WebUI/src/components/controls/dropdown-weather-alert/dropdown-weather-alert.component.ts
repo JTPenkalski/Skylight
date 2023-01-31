@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherAlert } from '../../models/WeatherAlert';
-import { WeatherAlertsService } from '../../services/weather-alerts.service';
+
+import { WeatherAlert } from '../../../models/WeatherAlert';
+import { WeatherAlertsService } from '../../../services/weather-alerts.service';
 
 @Component({
   selector: 'skylight-dropdown-weather-alert',
@@ -12,16 +13,14 @@ export class DropdownWeatherAlertComponent implements OnInit {
 
   constructor(
     private weatherAlertsService: WeatherAlertsService
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.weatherAlertsService
       .getWeatherAlerts()
       .subscribe(
-        (response: WeatherAlert[]) => this.options = response.sort((a, b) => a.name.localeCompare(b.name)),
-        (error) => console.error(error)
+        response => this.options = response.sort((a, b) => a.name.localeCompare(b.name)),
+        error => console.error(error)
       );
   }
 }
