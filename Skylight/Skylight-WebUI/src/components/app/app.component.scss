@@ -13,7 +13,7 @@
 }
 
 #content {
-  background-color: theme.color('primary', 700);
+  
 }
 
 .toolbar {
@@ -34,8 +34,12 @@
 }
 
 .sidenav-container {
+  bottom: 0;
   height: 100%;
+  left: 0;
   position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .sidenav {

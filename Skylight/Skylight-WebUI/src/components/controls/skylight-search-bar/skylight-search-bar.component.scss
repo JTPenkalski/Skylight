@@ -1,3 +1,5 @@
+@use '~/src/app-theme' as theme;
+
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
@@ -7,15 +9,14 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .search-bar {
   align-items: center;
-  background: #247cff34;
-  border: 0.125em solid white;
+  background: theme.color('primary', 800, 0.75);
+  border: 0.125em solid theme.contrast-color('primary', 800);
   border-radius: 2em;
   display: flex;
   flex-direction: row;
   gap: 8px;
-  height: 2.5em;
+  height: 2.25em;
   padding: 0 0.75em 0 0.75em;
-  
 }
 
 .prefix {
@@ -30,8 +31,10 @@ input[type="search"]::-webkit-search-results-decoration {
   input {
     background: none;
     border: none;
+    color: theme.contrast-color('primary', 800);
     font-size: 1.5em;
     outline: none;
+    width: 100%;
   }
 }
 
