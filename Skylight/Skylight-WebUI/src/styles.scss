@@ -6,9 +6,20 @@ html, body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   margin: 0;
 }
 
 .horizontal-spacer {
   flex: 1 1 auto;
+}
+
+.icon-button {
+  font-size: 40px;
+}
+
+.icon-button mat-icon {
+  font-size: 40px;
 }

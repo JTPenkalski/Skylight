@@ -1,7 +1,30 @@
-<div id="page">
-  <skylight-navigation-bar id="toolbar"></skylight-navigation-bar>
+<!-- TOOLBAR -->
+<mat-toolbar class="mat-elevation-z4">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon class="icon-button">menu</mat-icon>
+  </button>
+  
+  <img id="logo" src="assets/logo256_64.png" alt="logo" />
 
-  <main id="content">
-    
-  </main>
-</div>
+  <span class="horizontal-spacer"></span>
+
+  <button mat-icon-button matTooltip="Login">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<!-- MAIN CONTENT -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="sidenav" fixedInViewport fixedTopGap="64" mode="side" opened role="navigation">
+    <ul class="navigation-links">
+      <li *ngFor="let link of navigationLinks" class="navigation-link">
+        <a mat-button [matTooltip]="link.tooltip" matTooltipPosition="right">{{link.name}}</a>
+      </li>
+    </ul>
+  </mat-sidenav>
+  <mat-sidenav-content role="main">
+    <main id="content">
+      <p>Hello World</p>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
