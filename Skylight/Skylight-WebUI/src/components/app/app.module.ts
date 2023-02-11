@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { SkylightLayoutModule } from './skylight-layout.module';
-import { AppComponent } from '../components/app/app.component';
+import { AppComponent } from './app.component';
+import { SkylightControlsModule } from 'components/controls/skylight-controls.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -13,7 +13,7 @@ import { AppComponent } from '../components/app/app.component';
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    SkylightLayoutModule
+    SkylightControlsModule
   ]
 })
 export class AppModule { }

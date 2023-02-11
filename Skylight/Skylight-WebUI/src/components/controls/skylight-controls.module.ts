@@ -8,15 +8,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SkylightServicesModule } from './skylight-services.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SkylightServicesModule } from '../../services/skylight-services.module';
 
-import { NavigationBarComponent } from 'components/containers/navigation-bar/navigation-bar.component';
-import { MainComponent } from 'components/containers/main/main.component';
+import { SkylightSearchBarComponent } from 'components/controls/skylight-search-bar/skylight-search-bar.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -29,12 +29,20 @@ import { MainComponent } from 'components/containers/main/main.component';
     SkylightServicesModule
   ],
   declarations: [
-    NavigationBarComponent,
-    MainComponent
+    SkylightSearchBarComponent
   ],
   exports: [
-    NavigationBarComponent,
-    MainComponent
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    ReactiveFormsModule,
+    SkylightServicesModule,
+    SkylightSearchBarComponent
   ]
 })
 export class SkylightControlsModule { }

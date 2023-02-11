@@ -19,12 +19,33 @@ body {
   flex: 1 1 auto;
 }
 
-.icon-button {
-  font-size: 40px;
+// Icons/Icon Buttons
+@mixin mat-icon-size($name, $icon-size) {
+  mat-icon.mat-icon-#{$name} {
+    align-items: center !important;
+    display: inline-flex !important;
+    font-size: $icon-size !important;
+    height: $icon-size !important;
+    justify-content: center !important;
+    line-height: $icon-size !important;
+    padding: 0px !important;
+    width: $icon-size !important;
+
+    svg {
+      width: $icon-size !important;
+      height: $icon-size !important;
+    }
+  }
 }
 
-// Material Icon Buttons
-@mixin mat-icon-size($name, $button-size, $icon-size) {
+@include mat-icon-size('xxl', 42px);
+@include mat-icon-size('xl', 32px);
+@include mat-icon-size('large', 24px);
+@include mat-icon-size('medium', 19px);
+@include mat-icon-size('small', 16px);
+@include mat-icon-size('tiny', 12px);
+
+@mixin mat-icon-button-size($name, $button-size, $icon-size) {
   .mat-icon-button-#{$name} {
     align-items: center !important;
     display: inline-flex !important;
@@ -34,27 +55,22 @@ body {
     width: $button-size !important;
 
     mat-icon {
-      width: $icon-size !important;
-      height: $icon-size !important;
       font-size: $icon-size !important;
+      height: $icon-size !important;
       line-height: $icon-size !important;
+      width: $icon-size !important;
 
       svg {
-        width: $icon-size !important;
         height: $icon-size !important;
+        width: $icon-size !important;
       }
-    }
-
-    .mat-mdc-button-touch-target {
-      width: $button-size !important;
-      height: $button-size !important;
     }
   }
 }
 
-@include mat-icon-size('xxl', 54px, 42px);
-@include mat-icon-size('xl', 48px, 32px);
-@include mat-icon-size('large', 40px, 24px);
-@include mat-icon-size('medium', 32px, 19px);
-@include mat-icon-size('small', 26px, 16px);
-@include mat-icon-size('tiny', 20px, 12px);
+@include mat-icon-button-size('xxl', 54px, 42px);
+@include mat-icon-button-size('xl', 48px, 32px);
+@include mat-icon-button-size('large', 40px, 24px);
+@include mat-icon-button-size('medium', 32px, 19px);
+@include mat-icon-button-size('small', 26px, 16px);
+@include mat-icon-button-size('tiny', 20px, 12px);
