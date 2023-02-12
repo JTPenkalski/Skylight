@@ -13,7 +13,7 @@
 }
 
 #content {
-  
+  margin: 80px 16px 0px 16px;
 }
 
 .toolbar {
@@ -50,16 +50,16 @@
 .navigation-links {
 	display: flex;
 	flex-direction: column;
-	margin: 0px;
+	margin: 16px 0px 0px 0px;
 	padding: 0px;
 }
 
 .navigation-link {
 	list-style: none;
-	margin: 4px 0px 4px 0px;
 
   a {
-    font-size: 20px;
+    font-size: max(min(3vw, 20pt), 14pt);
+    padding: 8px 16px;
     text-align: left;
     width: 100%;
   }

@@ -11,10 +11,10 @@ namespace Skylight.Models
         public Weather Weather { get; set; } = null!;
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public WeatherEventStatistics Statistics { get; set; } = null!;
         public WeatherExperience Experience { get; set; } = null!;
         public ICollection<Location> Locations { get; set; } = new List<Location>();
         public ICollection<WeatherEventAlert> Alerts { get; set; } = new List<WeatherEventAlert>();
-        public ICollection<WeatherEventStatistics> Statistics { get; set; } = new List<WeatherEventStatistics>();
 
         public WeatherEvent(
             string name, 

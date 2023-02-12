@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../environments/environment'
-import { WeatherAlert } from '../models/WeatherAlert';
+import { IWeatherAlert } from 'models/index';
 
 @Injectable({
   providedIn: 'any'
@@ -18,7 +18,7 @@ export class WeatherAlertsService {
     this.url = environment.apiUrl + "WeatherAlerts/";
   }
 
-  public getWeatherAlerts(): Observable<WeatherAlert[]> {
-    return this.http.get<WeatherAlert[]>(this.url);
+  public getWeatherAlerts(): Observable<IWeatherAlert[]> {
+    return this.http.get<IWeatherAlert[]>(this.url);
   }
 }

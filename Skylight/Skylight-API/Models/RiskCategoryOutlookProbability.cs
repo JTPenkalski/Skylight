@@ -19,7 +19,7 @@ namespace Skylight.Models
         public int Day { get; set; }
         public int Chance { get; set; }
         public bool SignificantSevere { get; set; }
-        public OutlookProbabilityWeatherType WeatherType { get; set; }
+        public OutlookProbabilityWeatherType OutlookProbabilityWeatherType { get; set; }
         public RiskCategory RiskCategory { get; set; } = null!;
 
         public RiskCategoryOutlookProbability() : this(OutlookProbabilityWeatherType.Combined, 1, 0, false) { }
@@ -36,14 +36,14 @@ namespace Skylight.Models
             Day = Math.Clamp(day, MIN_DAY, MAX_DAY);
             Chance = Math.Clamp(chance, 0, 100);
             SignificantSevere = significantSevere;
-            WeatherType = type;
+            OutlookProbabilityWeatherType = type;
         }
 
         /// <summary>
         /// Instantiates a new <see cref="RiskCategoryOutlookProbability"/> collection for the same type and day, for all given probabilities.
         /// It is more convenient than individually instantiating them in a collection initializer.
         /// </summary>
-        /// <param name="type">The <see cref="OutlookProbabilityWeatherType"/> to use for this collection.</param>
+        /// <param name="type">The <see cref="Models.OutlookProbabilityWeatherType"/> to use for this collection.</param>
         /// <param name="day">The day to use for this collection.</param>
         /// <param name="probabilities">The list of probabilities to use, in tuple form.</param>
         /// <returns>An <see cref="ICollection{T}"/> of Outlook Probabilities.</returns>

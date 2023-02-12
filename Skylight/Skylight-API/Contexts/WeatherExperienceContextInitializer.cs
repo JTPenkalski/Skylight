@@ -16,7 +16,7 @@ namespace Skylight.Contexts
         public static void Initialize(WeatherExperienceContext weatherExperienceContext)
         {
             // Weather Types
-            Weather[] weatherTypes = new Weather[]
+            Weather[] weather = new Weather[]
             {
                 new(
                     "Thunderstorm",
@@ -32,7 +32,7 @@ namespace Skylight.Contexts
                 )
             };
 
-            weatherExperienceContext.WeatherTypes.AddRange(weatherTypes);
+            weatherExperienceContext.Weather.AddRange(weather);
             weatherExperienceContext.SaveChanges();
 
             // Risk Categories

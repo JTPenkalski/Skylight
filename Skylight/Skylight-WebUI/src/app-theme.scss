@@ -36,7 +36,7 @@ $_skylight-palette: (
 
 // Privately define the color palettes for the theme using the Material Design palettes available in palette.scss.
 // For each palette, you can optionally specify a default, lighter, and darker hue. Available color palettes: https://material.io/design/color/
-// For accent colors, use the SCSS feature unquoted strings.
+// For optional color parameters, use the unquoted strings SCSS feature.
 $_skylight-palette-primary: mat.define-palette($_skylight-palette);
 $_skylight-palette-accent: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
 $_skylight-palette-warn: mat.define-palette(mat.$red-palette);

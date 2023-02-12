@@ -1,4 +1,4 @@
-export interface WeatherAlert {
+export interface IWeatherAlert {
   id: number,
   name: string,
   description: string,

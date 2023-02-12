@@ -14,6 +14,24 @@ body {
   margin: 0;
 }
 
+// Headings
+h1 {
+  color: theme.color('accent', 800);
+  font-size: max(min(5vw, 36pt), 20pt) !important;
+  font-weight: bold !important;
+}
+
+h2 {
+  color: theme.color('accent', 800);
+  font-size: max(min(4vw, 28pt), 18pt) !important;
+}
+
+h3 {
+  color: theme.color('accent', 800);
+  font-size: max(min(3vw, 20pt), 14pt) !important;
+  text-decoration: underline !important;
+}
+
 // Special Styles
 .horizontal-spacer {
   flex: 1 1 auto;

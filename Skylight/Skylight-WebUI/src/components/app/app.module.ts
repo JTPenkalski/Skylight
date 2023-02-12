@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { SkylightControlsModule } from 'components/controls/skylight-controls.module';
+import { SkylightFormsModule } from 'components/forms/skylight-forms.module';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -13,7 +14,8 @@ import { SkylightControlsModule } from 'components/controls/skylight-controls.mo
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    SkylightControlsModule
+    SkylightControlsModule,
+    SkylightFormsModule
   ]
 })
 export class AppModule { }

@@ -21,7 +21,7 @@ namespace Skylight.Contexts
         public DbSet<WeatherEventAlert> WeatherEventAlerts => Set<WeatherEventAlert>();
         public DbSet<WeatherAlert> WeatherAlerts => Set<WeatherAlert>();
         public DbSet<WeatherAlertModifier> WeatherAlertModifiers => Set<WeatherAlertModifier>();
-        public DbSet<Weather> WeatherTypes => Set<Weather>();
+        public DbSet<Weather> Weather => Set<Weather>();
         public DbSet<Location> Locations => Set<Location>();
         public DbSet<WeatherEventStatistics> WeatherEventStatistics => Set<WeatherEventStatistics>();
         public DbSet<RiskCategory> RiskCategories => Set<RiskCategory>();

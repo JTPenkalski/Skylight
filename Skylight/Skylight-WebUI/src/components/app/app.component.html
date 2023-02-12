@@ -12,7 +12,7 @@
     <skylight-search-bar class="horizontal-spacer"></skylight-search-bar>
 
     <span class="toolbar-group" style="gap: 8px">
-      <button mat-stroked-button>Sign Up</button>
+      <button mat-stroked-button matTooltip="Sign Up">Sign Up</button>
       <button class="mat-icon-button-xxl" mat-icon-button matTooltip="Login">
         <mat-icon>account_circle</mat-icon>
       </button>
@@ -29,8 +29,8 @@
       </ul>
     </mat-sidenav>
     <mat-sidenav-content role="main">
-      <main id="content" style="margin-top: 64px">
-        <p>Hello World</p>
+      <main id="content">
+        <skylight-form-weather-event></skylight-form-weather-event>
       </main>
     </mat-sidenav-content>
   </mat-sidenav-container>

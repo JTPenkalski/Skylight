@@ -8,8 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SkylightServicesModule } from '../../services/skylight-services.module';
+import { FormsModule } from '@angular/forms';
 
 import { SkylightSearchBarComponent } from 'components/controls/skylight-search-bar/skylight-search-bar.component';
 
@@ -24,9 +23,7 @@ import { SkylightSearchBarComponent } from 'components/controls/skylight-search-
     MatSelectModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatTooltipModule,
-    ReactiveFormsModule,
-    SkylightServicesModule
+    MatTooltipModule
   ],
   declarations: [
     SkylightSearchBarComponent
@@ -40,8 +37,6 @@ import { SkylightSearchBarComponent } from 'components/controls/skylight-search-
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    ReactiveFormsModule,
-    SkylightServicesModule,
     SkylightSearchBarComponent
   ]
 })

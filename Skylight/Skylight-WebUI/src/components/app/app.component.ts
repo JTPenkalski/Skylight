@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
-import { NavigationLink } from 'models/navigation-link';
+interface INavigationLink {
+  readonly name: string;
+  readonly tooltip: string;
+}
 
 @Component({
   selector: 'app-root',
@@ -10,7 +13,7 @@ import { NavigationLink } from 'models/navigation-link';
 export class AppComponent {
   title = 'Skylight';
 
-  readonly navigationLinks: NavigationLink[] = [
+  readonly navigationLinks: INavigationLink[] = [
     { name: 'Dashboard', tooltip: 'View your dashboard' },
     { name: 'Track', tooltip: 'Manage your tracked weather' },
     { name: 'Forecast', tooltip: 'See your upcoming forecast' },
