@@ -1,124 +1,76 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Skylight.Contexts;
-using Skylight.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Skylight.Services;
 
 namespace Skylight.Controllers
 {
-    [Route("api/[controller]")]
+    [Route($"api/{Version.VERSION}/[controller]")]
     [ApiController]
-    public class WeatherController : ControllerBase
+    public class WeatherController : BaseController
     {
-        private readonly WeatherExperienceContext context;
+        protected readonly IWeatherService weatherService;
 
-        public WeatherController(WeatherExperienceContext context)
+        public WeatherController(
+            IConfiguration config,
+            ILogger logger,
+            IMapper mapper,
+            IWeatherService weatherService
+        ) : base(config, logger, mapper)
         {
-            this.context = context;
+            this.weatherService = weatherService;
         }
 
-        // GET: api/Weather
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Weather>>> GetWeatherTypes()
+        public async Task<ActionResult<IEnumerable<WebModels.Weather>>> GetWeatherTypes()
         {
-          if (context.Weather == null)
-          {
-              return NotFound();
-          }
-            return await context.Weather.ToListAsync();
+            IEnumerable<Models.Weather> weather = await weatherService.GetWeatherAsync();
+
+            // TODO: Map to IEnumerable<WebModels.Weather>
+            return weather.Any() ? NotFound() : Ok(weather);
         }
 
-        // GET: api/Weather/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Weather>> GetWeather(int id)
+        public async Task<ActionResult<WebModels.Weather>> GetWeather(int id)
         {
-          if (context.Weather == null)
-          {
-              return NotFound();
-          }
-            var weather = await context.Weather.FindAsync(id);
+            Models.Weather? weather = await weatherService.GetWeatherAsync(id);
 
-            if (weather == null)
-            {
-                return NotFound();
-            }
-
-            return weather;
+            return weather is null ? NotFound() : Ok(mapper.Map<Models.Weather, WebModels.Weather>(weather));
         }
 
-        // PUT: api/Weather/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWeather(int id, Weather weather)
+        public async Task<IActionResult> PutWeather(int id, WebModels.Weather weather)
         {
-            if (id != weather.Id)
-            {
-                return BadRequest();
-            }
+            //if (id != weather.Id)
+            //{
+            //    return BadRequest();
+            //}
 
-            context.Entry(weather).State = EntityState.Modified;
+            bool updated = await weatherService.UpdateWeatherAsync(id, mapper.Map<WebModels.Weather, Models.Weather>(weather));
 
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WeatherExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return updated ? NotFound() : NoContent();
         }
 
-        // POST: api/Weather
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Weather>> PostWeather(Weather weather)
+        public async Task<ActionResult<WebModels.Weather>> PostWeather(WebModels.Weather weather)
         {
-          if (context.Weather == null)
-          {
-              return Problem("Entity set 'WeatherExperienceContext.WeatherTypes'  is null.");
-          }
-            context.Weather.Add(weather);
-            await context.SaveChangesAsync();
+            Models.Weather? createdWeather = await weatherService.CreateWeatherAsync(mapper.Map<WebModels.Weather, Models.Weather>(weather));
 
-            return CreatedAtAction("GetWeather", new { id = weather.Id }, weather);
+            return createdWeather is null
+                ? Problem(POST_ERROR)
+                : CreatedAtAction("PostWeather", new { id = createdWeather.Id }, mapper.Map<Models.Weather, WebModels.Weather>(createdWeather));
         }
 
-        // DELETE: api/Weather/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWeather(int id)
         {
-            if (context.Weather == null)
-            {
-                return NotFound();
-            }
-            var weather = await context.Weather.FindAsync(id);
-            if (weather == null)
-            {
-                return NotFound();
-            }
+            bool deleted = await weatherService.DeleteWeatherAsync(id);
 
-            context.Weather.Remove(weather);
-            await context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool WeatherExists(int id)
-        {
-            return (context.Weather?.Any(e => e.Id == id)).GetValueOrDefault();
+            return deleted ? NotFound() : NoContent();
         }
     }
 }

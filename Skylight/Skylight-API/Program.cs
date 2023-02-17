@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Skylight.Contexts;
+using Skylight.Mappings;
 
 namespace Skylight
 {
@@ -21,8 +19,7 @@ namespace Skylight
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            AddDbContextProviders(builder);
+            builder.Services.AddAutoMapper(typeof(CoreProfile));
             
             // Add service development settings
             if (builder.Environment.IsDevelopment())
@@ -48,42 +45,10 @@ namespace Skylight
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-                // TODO: Delete after initial setup. Used for early development prototyping.
-                using (IServiceScope scope = app.Services.CreateScope())
-                {
-                    WeatherExperienceContext context = scope.ServiceProvider.GetRequiredService<WeatherExperienceContext>();
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
-
-                    WeatherExperienceContextInitializer.Initialize(context);
-                }
             }
 
             // Start the web application
             app.Run();
-        }
-
-        /// <summary>
-        /// Adds the required EF Core Database Contexts based on the executing environment. 
-        /// </summary>
-        /// <param name="builder">The builder used to generate the host.</param>
-        private static void AddDbContextProviders(WebApplicationBuilder builder)
-        {
-            string? connectionString = builder.Configuration.GetConnectionString("SQL_Server");
-
-            if (connectionString is not null)
-            {
-                if (builder.Environment.IsDevelopment())
-                {
-                    // Migrated to SQL Server for local development since the MySQL connector appeared to throw errors after the .NET 7 upgrade.
-                    builder.Services.AddDbContext<WeatherExperienceContext>(options => options.UseSqlServer(connectionString));
-                }
-                else
-                {
-                    builder.Services.AddDbContext<WeatherExperienceContext>(options => options.UseSqlServer(connectionString));
-                }
-            }
         }
     }
 }
