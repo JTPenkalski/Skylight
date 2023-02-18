@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Skylight.DatabaseContexts.Factories;
 using Skylight.Models;
 using System.Linq;
@@ -11,14 +12,19 @@ namespace Skylight.Services
     /// </summary>
     public class BaseService
     {
+        protected readonly ILogger logger;
         protected readonly IWeatherExperienceContextFactory contextFactory;
 
         /// <summary>
         /// Constructs a new service instance.
         /// </summary>
         /// <param name="contextFactory">Database context creator.</param>
-        public BaseService(IWeatherExperienceContextFactory contextFactory)
+        public BaseService(
+            ILogger logger,
+            IWeatherExperienceContextFactory contextFactory
+        )
         {
+            this.logger = logger;
             this.contextFactory = contextFactory;
         }
 

@@ -30,8 +30,7 @@ namespace Skylight.Controllers
         {
             IEnumerable<Models.Weather> weather = await weatherService.GetWeatherAsync();
 
-            // TODO: Map to IEnumerable<WebModels.Weather>
-            return weather.Any() ? NotFound() : Ok(weather);
+            return weather.Any() ? Ok(mapper.Map<IEnumerable<Models.Weather>, IEnumerable<WebModels.Weather>>(weather)) : NotFound();
         }
 
         [HttpGet("{id}")]
@@ -45,10 +44,10 @@ namespace Skylight.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutWeather(int id, WebModels.Weather weather)
         {
-            //if (id != weather.Id)
-            //{
-            //    return BadRequest();
-            //}
+            if (id != weather.Id)
+            {
+                return BadRequest();
+            }
 
             bool updated = await weatherService.UpdateWeatherAsync(id, mapper.Map<WebModels.Weather, Models.Weather>(weather));
 

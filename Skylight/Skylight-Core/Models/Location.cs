@@ -19,7 +19,7 @@ namespace Skylight.Models
         /// <param name="city">The name of the city.</param>
         /// <param name="zipCode">The postal code of the city.</param>
         /// <param name="country">The country the city is located in.</param>
-        public Location(string city, string zipCode, string country)
+        public Location(string city, string zipCode, string country = "United States")
         {
             City = city;
             ZipCode = zipCode;

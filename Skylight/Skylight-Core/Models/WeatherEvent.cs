@@ -26,11 +26,7 @@ namespace Skylight.Models
         /// <param name="name">The name of the event.</param>
         /// <param name="description">A brief description or notes about the event.</param>
         /// <param name="startDate">The earliest recorded time of the event.</param>
-        public WeatherEvent(
-            string name, 
-            string description, 
-            DateTime startDate
-        )
+        public WeatherEvent(string name, string description, DateTime startDate)
         {
             Name = name;
             Description = description;

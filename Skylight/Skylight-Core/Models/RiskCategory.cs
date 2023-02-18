@@ -12,7 +12,8 @@ namespace Skylight.Models
         public string Category { get; set; }
         public string Details { get; set; }
         public string Summary { get; set; }
-        public ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; set; }
+
+        public virtual ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; set; }
 
         /// <summary>
         /// Constructs a new <see cref="RiskCategory"/> instance.
@@ -21,12 +22,8 @@ namespace Skylight.Models
         /// <param name="category">The full name used to represent this risk type.</param>
         /// <param name="details">Official details describing this risk type.</param>
         /// <param name="summary">Official summary describing this risk type.</param>
-        public RiskCategory(
-            string code,
-            string category,
-            string details,
-            string summary
-        ) : this(code, category, details, summary, new HashSet<RiskCategoryOutlookProbability>()) { }
+        public RiskCategory(string code, string category, string details, string summary) :
+            this(code, category, details, summary, new HashSet<RiskCategoryOutlookProbability>()) { }
 
         /// <summary>
         /// Constructs a new <see cref="RiskCategory"/> instance.
@@ -36,13 +33,7 @@ namespace Skylight.Models
         /// <param name="details">Official details describing this risk type.</param>
         /// <param name="summary">Official summary describing this risk type.</param>
         /// <param name="riskProbabilities">A collection of probabilities that define why this risk type is warranted.</param>
-        public RiskCategory(
-            string code, 
-            string category, 
-            string details, 
-            string summary,
-            ICollection<RiskCategoryOutlookProbability> riskProbabilities
-        )
+        public RiskCategory(string code, string category, string details, string summary, ICollection<RiskCategoryOutlookProbability> riskProbabilities)
         {
             Code = code;
             Category = category;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Skylight.DatabaseContexts;
 using Skylight.DatabaseContexts.Factories;
 using Skylight.Models;
@@ -11,8 +12,8 @@ namespace Skylight.Services
     public class WeatherService : BaseService, IWeatherService
     {
         /// <inheritdoc cref="BaseService(IWeatherExperienceContextFactory)"/>
-        public WeatherService(IWeatherExperienceContextFactory contextFactory)
-            : base(contextFactory) { }
+        public WeatherService(ILogger<WeatherService> logger, IWeatherExperienceContextFactory contextFactory)
+            : base(logger, contextFactory) { }
 
         /// <inheritdoc cref="IWeatherService.CreateWeatherAsync(Weather)"/>
         public async Task<Weather?> CreateWeatherAsync(Weather weather)
@@ -73,15 +74,16 @@ namespace Skylight.Services
         /// <inheritdoc cref="IWeatherService.UpdateWeatherAsync(int, Weather)"/>
         public async Task<bool> UpdateWeatherAsync(int id, Weather weather)
         {
-            if (id != weather.Id)
+            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
+
+            Weather? entry = await context.Weather.FindAsync(id);
+            if (entry is null)
             {
                 return false;
             }
 
-            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
-
-            // TODO: Use AutoMapper?
-            context.Entry(weather).State = EntityState.Modified;
+            entry = weather;
+            context.Weather.Update(entry);
 
             try
             {

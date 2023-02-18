@@ -24,14 +24,7 @@ namespace Skylight.Models
         /// <param name="description">A brief summary of the experience.</param>
         /// <param name="startTime">The earliest recorded time of the experience.</param>
         /// <param name="endTime">The final recorded time of the experience.</param>
-        public WeatherExperience(
-            string name,
-            string description,
-            DateTime startTime,
-            DateTime endTime,
-            int damageCost,
-            int fatalities
-        )
+        public WeatherExperience(string name, string description, DateTime startTime, DateTime endTime)
         {
             Name = name;
             Description = description;

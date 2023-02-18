@@ -8,7 +8,6 @@ namespace Skylight.Models
     public class StormTracker : BaseIdentifiableModel
     {
         public string FirstName { get; set; }
-        public string? MiddleName { get; set; }
         public string LastName { get; set; }
         public string? Biography { get; set; }
         public DateTime StartDate { get; set; }
@@ -18,15 +17,13 @@ namespace Skylight.Models
         /// Constructs a new <see cref="StormTracker"/> instance.
         /// </summary>
         /// <param name="firstName">The person's first name.</param>
-        /// <param name="middleName">The person's middle name.</param>
         /// <param name="lastName">The person's last name.</param>
         /// <param name="biography">A brief description about the person.</param>
         /// <param name="startDate">The date the user joined Skylight.</param>
         /// <param name="picturePath">The file path storing the user's profile picture.</param>
-        public StormTracker(string firstName, string? middleName, string lastName, string? biography, DateTime startDate, string? picturePath)
+        public StormTracker(string firstName, string lastName, string? biography, DateTime startDate, string? picturePath)
         {
             FirstName = firstName;
-            MiddleName = middleName;
             LastName = lastName;
             Biography = biography;
             StartDate = startDate;

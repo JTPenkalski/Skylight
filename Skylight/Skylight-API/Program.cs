@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Skylight.DatabaseContexts.Factories;
 using Skylight.Startup.Mappings;
 using Skylight.Startup.Services;
-using System;
 
 namespace Skylight
 {
@@ -55,6 +54,7 @@ namespace Skylight
                 app.UseSwagger();
                 app.UseSwaggerUI();
 
+                // Use test database rather than Migrations API
                 if (app.Configuration.GetValue<bool>("UseTestDatabase"))
                 {
                     using (IServiceScope scope = app.Services.CreateScope())
