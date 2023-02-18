@@ -3,12 +3,12 @@
 namespace Skylight.WebModels
 {
     /// <inheritdoc cref="Models.Location"/>
-    public class Location : BaseWebModel
+    public record Location : BaseWebModel
     {
-        public required string City { get; set; }
-        public required string ZipCode { get; set; }
-        public required string Country { get; set; }
+        public required string City { get; init; }
+        public required string ZipCode { get; init; }
+        public required string Country { get; init; }
 
-        public virtual ICollection<WeatherEvent> Events { get; set; } = new HashSet<WeatherEvent>();
+        public virtual ICollection<WeatherEvent> Events { get; init; } = new HashSet<WeatherEvent>();
     }
 }

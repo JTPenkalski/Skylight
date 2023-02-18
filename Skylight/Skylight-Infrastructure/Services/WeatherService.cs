@@ -2,12 +2,10 @@
 using Skylight.DatabaseContexts;
 using Skylight.DatabaseContexts.Factories;
 using Skylight.Models;
-using Skylight.Services;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Skylight_Infrastructure.Services
+namespace Skylight.Services
 {
     /// <inheritdoc cref="IWeatherService"/>
     public class WeatherService : BaseService, IWeatherService

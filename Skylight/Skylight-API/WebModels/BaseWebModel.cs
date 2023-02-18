@@ -3,8 +3,8 @@
     /// <summary>
     /// Represents the shared properties of all view models.
     /// </summary>
-    public class BaseWebModel
+    public abstract record BaseWebModel
     {
-        public int Id { get; set; }
+        public required int Id { get; init; }
     }
 }

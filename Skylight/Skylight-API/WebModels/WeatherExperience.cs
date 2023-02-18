@@ -3,27 +3,15 @@ using System.Collections.Generic;
 
 namespace Skylight.WebModels
 {
-    public class WeatherExperience
+    /// <inheritdoc cref="Models.WeatherExperience"/>
+    public record WeatherExperience : BaseWebModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public required string Name { get; init; }
+        public required string Description { get; init; }
+        public required DateTime StartTime { get; init; }
+        public required DateTime EndTime { get; init; }
 
-        public virtual ICollection<WeatherExperienceParticipant> Participants { get; set; } = new HashSet<WeatherExperienceParticipant>();
-        public virtual ICollection<WeatherEvent> Events { get; set; } = new HashSet<WeatherEvent>();
-
-        public WeatherExperience(
-            string name,
-            string description,
-            DateTime startTime,
-            DateTime endTime
-        )
-        {
-            Name = name;
-            Description = description;
-            StartTime = startTime;
-            EndTime = endTime;
-        }
+        public virtual ICollection<WeatherExperienceParticipant> Participants { get; init; } = new HashSet<WeatherExperienceParticipant>();
+        public virtual ICollection<WeatherEvent> Events { get; init; } = new HashSet<WeatherEvent>();
     }
 }

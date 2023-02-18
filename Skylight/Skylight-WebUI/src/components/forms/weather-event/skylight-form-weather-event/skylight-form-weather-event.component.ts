@@ -43,7 +43,7 @@ export class SkylightFormWeatherEventComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.http.get<IWeather[]>('https://localhost:7147/api/Weather').subscribe(result => {
+    this.http.get<IWeather[]>('https://localhost:7147/api/v1/Weather').subscribe(result => {
       this.weatherOptions = result;
     });
   }

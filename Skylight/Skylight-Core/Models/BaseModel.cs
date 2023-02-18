@@ -8,7 +8,7 @@ namespace Skylight.Models
     /// Allows subclasses to use custom primary keys, such as composite keys.
     /// Use <see cref="BaseIdentifiableModel"/> for establishing a primary key "Id" column.
     /// </summary>
-    public class BaseModel
+    public abstract class BaseModel
     {
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

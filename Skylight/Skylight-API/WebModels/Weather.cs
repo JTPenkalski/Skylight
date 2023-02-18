@@ -2,17 +2,12 @@
 
 namespace Skylight.WebModels
 {
-    public class Weather
+    /// <inheritdoc cref="Models.Weather"/>
+    public record Weather : BaseWebModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public required string Name { get; init; }
+        public required string Description { get; init; }
 
-        public virtual ICollection<WeatherEvent> Events { get; set; } = new HashSet<WeatherEvent>();
-
-        public Weather(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
+        public virtual ICollection<WeatherEvent> Events { get; init; } = new HashSet<WeatherEvent>();
     }
 }

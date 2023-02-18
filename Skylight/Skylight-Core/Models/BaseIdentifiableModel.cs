@@ -5,8 +5,8 @@
     /// Implements <see cref="IIdentifiable"/> to give all subclasses an ID.
     /// Primarily used for ensuring an ID and tracking columns exist.
     /// </summary>
-    public class BaseIdentifiableModel : BaseModel, IIdentifiable
+    public abstract class BaseIdentifiableModel : BaseModel, IIdentifiable
     {
-        public int Id { get; protected set; }
+        public int Id { get; set; }
     }
 }

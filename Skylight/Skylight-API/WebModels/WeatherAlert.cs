@@ -2,21 +2,14 @@
 
 namespace Skylight.WebModels
 {
-    public class WeatherAlert
+    /// <inheritdoc cref="Models.WeatherAlert"/>
+    public record WeatherAlert : BaseWebModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public float Value { get; set; }
-        public bool IsThirdParty { get; set; }
+        public required string Name { get; init; }
+        public required string Description { get; init; }
+        public required float Value { get; init; }
+        public required bool IsThirdParty { get; init; }
         
-        public virtual ICollection<WeatherEventAlert> Events { get; set; } = new HashSet<WeatherEventAlert>();
-
-        public WeatherAlert(string name, string description, float value, bool isThirdParty)
-        {
-            Name = name;
-            Description = description;
-            Value = value;
-            IsThirdParty = isThirdParty;
-        }
+        public virtual ICollection<WeatherEventAlert> Events { get; init; } = new HashSet<WeatherEventAlert>();
     }
 }

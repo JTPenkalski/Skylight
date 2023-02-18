@@ -17,7 +17,7 @@ namespace Skylight.Controllers
 
         public WeatherController(
             IConfiguration config,
-            ILogger logger,
+            ILogger<WeatherController> logger,
             IMapper mapper,
             IWeatherService weatherService
         ) : base(config, logger, mapper)

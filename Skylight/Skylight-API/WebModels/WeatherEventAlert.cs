@@ -2,11 +2,12 @@
 
 namespace Skylight.WebModels
 {
-    public class WeatherEventAlert
+    /// <inheritdoc cref="Models.WeatherEventAlert"/>
+    public record WeatherEventAlert : BaseWebModel
     {
-        public WeatherEvent Event { get; set; } = null!;
-        public WeatherAlert Alert { get; set; } = null!;
+        public required WeatherEvent Event { get; init; }
+        public required WeatherAlert Alert { get; init; }
 
-        public virtual ICollection<WeatherAlertModifier> Modifier { get; set; } = new HashSet<WeatherAlertModifier>();
+        public virtual ICollection<WeatherAlertModifier> Modifier { get; init; } = new HashSet<WeatherAlertModifier>();
     }
 }

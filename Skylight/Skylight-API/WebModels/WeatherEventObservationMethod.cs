@@ -1,14 +1,9 @@
 ﻿namespace Skylight.WebModels
 {
-    public class WeatherEventObservationMethod
+    /// <inheritdoc cref="Models.WeatherEventObservationMethod"/>
+    public record WeatherEventObservationMethod : BaseWebModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public WeatherEventObservationMethod(string name, string description)
-        {
-            Name = name;
-            Description = description;
-        }
+        public required string Name { get; init; }
+        public required string Description { get; init; }
     }
 }

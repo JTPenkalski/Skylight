@@ -1,7 +1,12 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Skylight.Mappings;
+using Microsoft.Extensions.Logging;
+using Skylight.DatabaseContexts.Factories;
+using Skylight.Startup.Mappings;
+using Skylight.Startup.Services;
+using System;
 
 namespace Skylight
 {
@@ -14,14 +19,18 @@ namespace Skylight
         {
             // Create the web application builder
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-            
+
+            // Add logging
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+
             // Add services
             builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CoreProfile));
+            builder.Services.AddDbContextRepositoryServices();
             
-            // Add service development settings
+            // Add development services
             if (builder.Environment.IsDevelopment())
             {
                 builder.Services.AddCors(options => options.AddPolicy
@@ -40,11 +49,20 @@ namespace Skylight
             app.MapControllers();
             app.UseCors("SkylightOrigins");
 
-            // Add middleware development settings
+            // Add development middleware
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                if (app.Configuration.GetValue<bool>("UseTestDatabase"))
+                {
+                    using (IServiceScope scope = app.Services.CreateScope())
+                    {
+                        IWeatherExperienceContextFactory contextFactory = scope.ServiceProvider.GetRequiredService<IWeatherExperienceContextFactory>();
+                        contextFactory.InitializeTestDatabase();
+                    }
+                }
             }
 
             // Start the web application

@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Skylight-Core\Skylight-Core.csproj" />
+    <ProjectReference Include="..\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

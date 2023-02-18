@@ -26,7 +26,7 @@ namespace Skylight.Models
             string category,
             string details,
             string summary
-        ) : this(code, category, details, summary, new List<RiskCategoryOutlookProbability>()) { }
+        ) : this(code, category, details, summary, new HashSet<RiskCategoryOutlookProbability>()) { }
 
         /// <summary>
         /// Constructs a new <see cref="RiskCategory"/> instance.

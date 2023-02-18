@@ -1,9 +1,10 @@
 ﻿namespace Skylight.WebModels
 {
-    public class WeatherExperienceParticipant
+    /// <inheritdoc cref="Models.WeatherExperienceParticipant"/>
+    public record WeatherExperienceParticipant : BaseWebModel
     {
-        public WeatherExperience Experience { get; set; } = null!;
-        public StormTracker Tracker { get; set; } = null!;
-        public WeatherEventObservationMethod ObservationMethod { get; set; } = null!;
+        public required WeatherExperience Experience { get; init; }
+        public required StormTracker Tracker { get; init; }
+        public required WeatherEventObservationMethod ObservationMethod { get; init; }
     }
 }

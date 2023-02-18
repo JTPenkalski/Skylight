@@ -1,19 +1,20 @@
 ﻿namespace Skylight.WebModels
 {
-    public class WeatherEventStatistics
+    /// <inheritdoc cref="Models.WeatherEventStatistics"/>
+    public record WeatherEventStatistics : BaseWebModel
     {
-        public int? DamageCost { get; set; }
-        public int? Fatalities { get; set; }
-        public string? EFRating { get; set; }
-        public int? PathDistance { get; set; }
-        public int? FunnelWidth { get; set; }
-        public string? SaffirSimpsonRating { get; set; }
-        public int? LowestPressure { get; set; }
-        public int? MaxWindSpeed { get; set; }
-        public float? RichterMagnitude { get; set; }
-        public int? MercalliIntensity { get; set; }
-        public int? Aftershocks { get; set; }
-        public string? Fault { get; set; }
-        public bool? RelatedTsunami { get; set; }
+        public required int? DamageCost { get; init; }
+        public required int? Fatalities { get; init; }
+        public required string? EFRating { get; init; }
+        public required int? PathDistance { get; init; }
+        public required int? FunnelWidth { get; init; }
+        public required string? SaffirSimpsonRating { get; init; }
+        public required int? LowestPressure { get; init; }
+        public required int? MaxWindSpeed { get; init; }
+        public required float? RichterMagnitude { get; init; }
+        public required int? MercalliIntensity { get; init; }
+        public required int? Aftershocks { get; init; }
+        public required string? Fault { get; init; }
+        public required bool? RelatedTsunami { get; init; }
     }
 }

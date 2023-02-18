@@ -2,23 +2,13 @@
 
 namespace Skylight.WebModels
 {
-    public class StormTracker
+    /// <inheritdoc cref="Models.StormTracker"/>
+    public record StormTracker : BaseWebModel
     {
-        public string FirstName { get; set; }
-        public string? MiddleName { get; set; }
-        public string LastName { get; set; }
-        public string? Biography { get; set; }
-        public DateTime StartDate { get; set; }
-        public string? PicturePath { get; set; }
-
-        public StormTracker(string firstName, string? middleName, string lastName, string? biography, DateTime startDate, string? picturePath)
-        {
-            FirstName = firstName;
-            MiddleName = middleName;
-            LastName = lastName;
-            Biography = biography;
-            StartDate = startDate;
-            PicturePath = picturePath;
-        }
+        public required string FirstName { get; init; }
+        public required string LastName { get; init; }
+        public required string? Biography { get; init; }
+        public required DateTime StartDate { get; init; }
+        public required string? PicturePath { get; init; }
     }
 }

@@ -2,35 +2,14 @@
 
 namespace Skylight.WebModels
 {
-    public class RiskCategory
+    /// <inheritdoc cref="Models.RiskCategory"/>
+    public record RiskCategory : BaseWebModel
     {
-        public string Code { get; set; }
-        public string Category { get; set; }
-        public string Details { get; set; }
-        public string Summary { get; set; }
+        public required string Code { get; init; }
+        public required string Category { get; init; }
+        public required string Details { get; init; }
+        public required string Summary { get; init; }
 
-        public virtual ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; set; }
-
-        public RiskCategory(
-            string code,
-            string category,
-            string details,
-            string summary
-        ) : this(code, category, details, summary, new List<RiskCategoryOutlookProbability>()) { }
-
-        public RiskCategory(
-            string code, 
-            string category, 
-            string details, 
-            string summary,
-            ICollection<RiskCategoryOutlookProbability> riskProbabilities
-        )
-        {
-            Code = code;
-            Category = category;
-            Details = details;
-            Summary = summary;
-            RiskProbabilities = riskProbabilities;
-        }
+        public virtual ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; init; } = new HashSet<RiskCategoryOutlookProbability>();
     }
 }
