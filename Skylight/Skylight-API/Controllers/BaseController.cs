@@ -12,7 +12,7 @@ namespace Skylight.Controllers
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
-    public class BaseController : ControllerBase
+    public abstract class BaseController : ControllerBase
     {
         public const string POST_ERROR = "Object creation failed.";
 

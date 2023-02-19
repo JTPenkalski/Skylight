@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Skylight.Startup.Services
 {
-    public static class DbContextRepositoryServices
+    public static class InfrastructureServices
     {
-        public static IServiceCollection AddDbContextRepositoryServices(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             var dependencyMappings = from core in typeof(BaseModel).Assembly.ExportedTypes
                                      join infrastructure in typeof(BaseService).Assembly.ExportedTypes on core.Name[1..] equals infrastructure.Name

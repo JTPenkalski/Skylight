@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Services;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skylight.Controllers
@@ -26,20 +25,38 @@ namespace Skylight.Controllers
             this.weatherService = weatherService;
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteWeather(int id)
+        {
+            var response = await weatherService.RemoveWeatherAsync(id);
+
+            return response.Success ? NoContent() : NotFound();
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WebModels.Weather>>> GetWeatherTypes()
         {
-            IEnumerable<Models.Weather> weather = await weatherService.GetWeatherAsync();
+            var response = await weatherService.GetWeatherAsync();
 
-            return weather.Any() ? Ok(mapper.Map<IEnumerable<Models.Weather>, IEnumerable<WebModels.Weather>>(weather)) : NotFound();
+            return response.Success ? Ok(mapper.Map<IEnumerable<Models.Weather>, IEnumerable<WebModels.Weather>>(response.Content!)) : NotFound();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<WebModels.Weather>> GetWeather(int id)
         {
-            Models.Weather? weather = await weatherService.GetWeatherAsync(id);
+            var response = await weatherService.GetWeatherAsync(id);
 
-            return weather is null ? NotFound() : Ok(mapper.Map<Models.Weather, WebModels.Weather>(weather));
+            return response.Success ? Ok(mapper.Map<Models.Weather, WebModels.Weather>(response.Content!)) : NotFound();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<WebModels.Weather>> PostWeather(WebModels.Weather weather)
+        {
+            var response = await weatherService.AddWeatherAsync(mapper.Map<WebModels.Weather, Models.Weather>(weather));
+
+            return response.Success
+                ? CreatedAtAction($"{nameof(PostWeather)}", new { id = response.Content!.Id }, mapper.Map<Models.Weather, WebModels.Weather>(response.Content))
+                : BadRequest();
         }
 
         [HttpPut("{id}")]
@@ -50,27 +67,9 @@ namespace Skylight.Controllers
                 return BadRequest();
             }
 
-            bool updated = await weatherService.UpdateWeatherAsync(id, mapper.Map<WebModels.Weather, Models.Weather>(weather));
+            var response = await weatherService.ModifyWeatherAsync(id, mapper.Map<WebModels.Weather, Models.Weather>(weather));
 
-            return updated ? NotFound() : NoContent();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<WebModels.Weather>> PostWeather(WebModels.Weather weather)
-        {
-            Models.Weather? createdWeather = await weatherService.CreateWeatherAsync(mapper.Map<WebModels.Weather, Models.Weather>(weather));
-
-            return createdWeather is null
-                ? Problem(POST_ERROR)
-                : CreatedAtAction("PostWeather", new { id = createdWeather.Id }, mapper.Map<Models.Weather, WebModels.Weather>(createdWeather));
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWeather(int id)
-        {
-            bool deleted = await weatherService.DeleteWeatherAsync(id);
-
-            return deleted ? NotFound() : NoContent();
+            return response.Success ? NoContent() : NotFound();
         }
     }
 }

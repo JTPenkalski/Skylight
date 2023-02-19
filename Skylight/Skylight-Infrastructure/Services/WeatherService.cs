@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Skylight.Communication;
 using Skylight.DatabaseContexts;
 using Skylight.DatabaseContexts.Factories;
 using Skylight.Models;
+using Skylight.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skylight.Services
@@ -11,88 +15,95 @@ namespace Skylight.Services
     /// <inheritdoc cref="IWeatherService"/>
     public class WeatherService : BaseService, IWeatherService
     {
+        protected readonly IWeatherRepository repository;
+
         /// <inheritdoc cref="BaseService(IWeatherExperienceContextFactory)"/>
-        public WeatherService(ILogger<WeatherService> logger, IWeatherExperienceContextFactory contextFactory)
-            : base(logger, contextFactory) { }
-
-        /// <inheritdoc cref="IWeatherService.CreateWeatherAsync(Weather)"/>
-        public async Task<Weather?> CreateWeatherAsync(Weather weather)
-        {
-            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
-
-            context.Weather.Add(weather);
-
-            try
-            {
-                return (await context.SaveChangesAsync() > 0) ? weather : null;
-            }
-            catch (DbUpdateException)
-            {
-                return null;
-            }
+        public WeatherService(ILogger<WeatherService> logger, IUnitOfWork unitOfWork, IWeatherRepository repository)
+            : base(logger, unitOfWork)
+        { 
+            this.repository = repository;
         }
 
-        /// <inheritdoc cref="IWeatherService.DeleteWeatherAsync(int)"/>
-        public async Task<bool> DeleteWeatherAsync(int id)
+        /// <inheritdoc cref="IWeatherService.AddWeatherAsync(Weather)"/>
+        public async Task<ServiceResponse<Weather>> AddWeatherAsync(Weather weather)
         {
-            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
-
-            Weather? weather = await context.Weather.FindAsync(id);
-            if (weather is null)
-            {
-                return false;
-            }
-
-            context.Weather.Remove(weather);
+            bool success = true;
 
             try
             {
-                return (await context.SaveChangesAsync()) > 0;
+                await repository.CreateAsync(weather);
+                await unitOfWork.CommitAndCloseAsync();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
-                return false;
+                success = false;
+                logger.LogError("{Message}", ex.Message);
             }
+
+            return new ServiceResponse<Weather>(success, weather);
         }
 
         /// <inheritdoc cref="IWeatherService.GetWeatherAsync(int)"/>
-        public async Task<Weather?> GetWeatherAsync(int id)
+        public async Task<ServiceResponse<Weather>> GetWeatherAsync(int id)
         {
-            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
+            Weather? weather = await repository.ReadAsync(id);
+            await unitOfWork.CommitAndCloseAsync();
 
-            return await context.Weather.FindAsync(id);
+            return new ServiceResponse<Weather>(weather is not null, weather);
         }
 
         /// <inheritdoc cref="IWeatherService.GetWeatherAsync"/>
-        public async Task<IEnumerable<Weather>> GetWeatherAsync()
+        public async Task<ServiceResponse<IEnumerable<Weather>>> GetWeatherAsync()
         {
-            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
+            IEnumerable<Weather> weather = await repository.ReadAllAsync();
+            await unitOfWork.CommitAndCloseAsync();
 
-            return await context.Weather.ToListAsync();
+            return new ServiceResponse<IEnumerable<Weather>>(weather.Any(), weather);
         }
 
-        /// <inheritdoc cref="IWeatherService.UpdateWeatherAsync(int, Weather)"/>
-        public async Task<bool> UpdateWeatherAsync(int id, Weather weather)
+        /// <inheritdoc cref="IWeatherService.ModifyWeatherAsync(int, Weather)"/>
+        public async Task<ServiceResponse<Weather>> ModifyWeatherAsync(int id, Weather weather)
         {
-            using WeatherExperienceContext context = await contextFactory.CreateDbContextAsync();
-
-            Weather? entry = await context.Weather.FindAsync(id);
-            if (entry is null)
-            {
-                return false;
-            }
-
-            entry = weather;
-            context.Weather.Update(entry);
+            bool success = await repository.ReadAsync(id) is not null;
 
             try
             {
-                return (await context.SaveChangesAsync()) > 0;
+                if (success)
+                {
+                    await repository.UpdateAsync(weather);
+                    await unitOfWork.CommitAndCloseAsync();
+                }
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                return EntityExists(context.Weather, id);
+                success = false;
+                logger.LogError("{Message}", ex.Message);
             }
+
+            return new ServiceResponse<Weather>(success, weather);
+        }
+
+        /// <inheritdoc cref="IWeatherService.RemoveWeatherAsync(int)"/>
+        public async Task<ServiceResponse<Weather>> RemoveWeatherAsync(int id)
+        {
+            Weather? weather = await repository.ReadAsync(id);
+            bool success = weather is not null;
+
+            try
+            {
+                if (success)
+                {
+                    await repository.DeleteAsync(id);
+                    await unitOfWork.CommitAndCloseAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                logger.LogError("{Message}", ex.Message);
+            }
+
+            return new ServiceResponse<Weather>(success, weather);
         }
     }
 }

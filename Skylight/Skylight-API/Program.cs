@@ -43,7 +43,8 @@ namespace Skylight
             });
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(typeof(CoreProfile));
-            builder.Services.AddDbContextRepositoryServices();
+            builder.Services.AddInfrastructureServices();
+            builder.Services.AddDataServices();
 
             // Add service options
             builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
