@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Asp.Versioning;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skylight.Controllers
 {
-    [Route($"api/{Version.VERSION}/[controller]")]
     [ApiController]
+    [ApiVersion(Version.VERSION)]
     public class WeatherController : BaseController
     {
         protected readonly IWeatherService weatherService;

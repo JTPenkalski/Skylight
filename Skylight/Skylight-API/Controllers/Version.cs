@@ -3,8 +3,11 @@
     /// <summary>
     /// Stores version information about the API.
     /// </summary>
-    public class Version
+    public static class Version
     {
-        public const string VERSION = "v1";
+        public const double VERSION = 1.0;
+
+        public const int MAJOR = 1;
+        public const int MINOR = 0;
     }
 }

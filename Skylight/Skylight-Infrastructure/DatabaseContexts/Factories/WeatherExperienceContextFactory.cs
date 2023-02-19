@@ -43,7 +43,6 @@ namespace Skylight.DatabaseContexts.Factories
                 throw new InvalidOperationException($"The connection string for {nameof(WeatherExperienceContext)} is null.");
 
             optionsBuilder.UseSqlServer(connectionString);
-            logger.LogInformation($"Database context successfully created with connection: {connectionString}");
 
             return new WeatherExperienceContext(optionsBuilder.Options);
         }

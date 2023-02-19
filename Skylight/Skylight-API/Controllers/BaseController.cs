@@ -10,6 +10,8 @@ namespace Skylight.Controllers
     /// Primarily used for ensuring all dependencies and common functionality is consolidated.
     /// </summary>
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Produces("application/json")]
     public class BaseController : ControllerBase
     {
         public const string POST_ERROR = "Object creation failed.";
