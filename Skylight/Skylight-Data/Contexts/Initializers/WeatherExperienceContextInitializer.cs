@@ -1,19 +1,31 @@
 ﻿using Skylight.Models;
+using Skylight.Repositories;
 
-namespace Skylight.DatabaseContexts.Initializers
+namespace Skylight.Contexts.Initializers
 {
-    /// <summary>
-    /// Used for testing purposes.
-    /// Initializes Weather Experience Contexts with the necessary data to use and query the APIs.
-    /// </summary>
-    public static class WeatherExperienceContextInitializer
+    /// <inheritdoc cref="IWeatherExperienceContextInitializer"/>
+    public class WeatherExperienceContextInitializer : IWeatherExperienceContextInitializer
     {
+        protected readonly IUnitOfWork unitOfWork;
+        protected readonly WeatherExperienceContext context;
+
         /// <summary>
-        /// Seeds the Weather Experience Context with preliminary data.
+        /// Constructs a new <see cref="WeatherExperienceContextInitializer"/> instance.
         /// </summary>
-        /// <param name="weatherExperienceContext"></param>
-        public static void Initialize(WeatherExperienceContext weatherExperienceContext)
+        /// <param name="unitOfWork">Unit of Work service.</param>
+        public WeatherExperienceContextInitializer(IUnitOfWork unitOfWork, WeatherExperienceContext context)
         {
+            this.unitOfWork = unitOfWork;
+            this.context = context; // TODO: Replace with repositories once they are set up.
+        }
+
+        /// <inheritdoc cref="IWeatherExperienceContextInitializer.Initialize"/>
+        public void Initialize()
+        {
+            // Reset Database
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
             // Weather Types
             Weather[] weather = new Weather[]
             {
@@ -31,8 +43,8 @@ namespace Skylight.DatabaseContexts.Initializers
                 )
             };
 
-            weatherExperienceContext.Weather.AddRange(weather);
-            weatherExperienceContext.SaveChanges();
+            context.Weather.AddRange(weather);
+            context.SaveChanges();
 
             // Risk Categories
             RiskCategory[] riskCategories = new RiskCategory[]
@@ -122,8 +134,8 @@ namespace Skylight.DatabaseContexts.Initializers
                 )
             };
 
-            weatherExperienceContext.RiskCategories.AddRange(riskCategories);
-            weatherExperienceContext.SaveChanges();
+            context.RiskCategories.AddRange(riskCategories);
+            context.SaveChanges();
 
             // Weather Alert Modifiers
             WeatherAlertModifier[] weatherAlertModifiers = new WeatherAlertModifier[]
@@ -142,8 +154,8 @@ namespace Skylight.DatabaseContexts.Initializers
                 )
             };
 
-            weatherExperienceContext.WeatherAlertModifiers.AddRange(weatherAlertModifiers);
-            weatherExperienceContext.SaveChanges();
+            context.WeatherAlertModifiers.AddRange(weatherAlertModifiers);
+            context.SaveChanges();
 
             // Weather Alerts
             WeatherAlert[] weatherAlerts = new WeatherAlert[]
@@ -180,8 +192,8 @@ namespace Skylight.DatabaseContexts.Initializers
                 )
             };
 
-            weatherExperienceContext.WeatherAlerts.AddRange(weatherAlerts);
-            weatherExperienceContext.SaveChanges();
+            context.WeatherAlerts.AddRange(weatherAlerts);
+            context.SaveChanges();
 
             // Weather Event Observation Methods
             WeatherEventObservationMethod[] weatherEventObservationMethods = new WeatherEventObservationMethod[]
@@ -196,8 +208,8 @@ namespace Skylight.DatabaseContexts.Initializers
                 )
             };
 
-            weatherExperienceContext.WeatherEventObservationMethods.AddRange(weatherEventObservationMethods);
-            weatherExperienceContext.SaveChanges();
+            context.WeatherEventObservationMethods.AddRange(weatherEventObservationMethods);
+            context.SaveChanges();
         }
     }
 }

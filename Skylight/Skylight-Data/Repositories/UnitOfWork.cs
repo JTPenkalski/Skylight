@@ -1,40 +1,41 @@
-﻿using Skylight.DatabaseContexts;
-using Skylight.DatabaseContexts.Factories;
+﻿using Skylight.Contexts;
+using Skylight.Models;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skylight.Repositories
 {
-    /// <inheritdoc cref="IUnitOfWork"/>
+    /// <summary>
+    /// Unit of Work implementation that uses Entity Framework Core for transaction management.
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
-        protected readonly IWeatherExperienceContextFactory contextFactory;
+        protected readonly WeatherExperienceContext context;
+
+        public IWeatherRepository Weather { get; }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWork"/> instance.
         /// </summary>
-        /// <param name="contextFactory">Context factory.</param>
-        public UnitOfWork(IWeatherExperienceContextFactory contextFactory)
+        /// <param name="context">EF Core database context.</param>
+        public UnitOfWork(WeatherExperienceContext context)
         { 
-            this.contextFactory = contextFactory;
+            this.context = context;
+
+            Weather = new WeatherRepository(context);
         }
 
         /// <inheritdoc cref="IUnitOfWork.CommitAsync"/>
         public async Task CommitAsync()
         {
-            await contextFactory.Context.SaveChangesAsync();
-        }
-
-        /// <inheritdoc cref="IUnitOfWork.CommitAndCloseAsync"/>
-        public async Task CommitAndCloseAsync()
-        {
-            await contextFactory.Context.SaveChangesAsync();
-            await contextFactory.Context.DisposeAsync();
+            await context.SaveChangesAsync();
         }
 
         /// <inheritdoc cref="IUnitOfWork.Rollback"/>
         public async Task RollbackAsync()
         {
-            await contextFactory.Context.DisposeAsync();
+            await context.DisposeAsync();
         }
     }
 }

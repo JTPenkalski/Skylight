@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Skylight.Communication;
-using Skylight.DatabaseContexts;
-using Skylight.DatabaseContexts.Factories;
 using Skylight.Models;
 using Skylight.Repositories;
 using System;
@@ -18,10 +15,10 @@ namespace Skylight.Services
         protected readonly IWeatherRepository repository;
 
         /// <inheritdoc cref="BaseService(IWeatherExperienceContextFactory)"/>
-        public WeatherService(ILogger<WeatherService> logger, IUnitOfWork unitOfWork, IWeatherRepository repository)
+        public WeatherService(ILogger<WeatherService> logger, IUnitOfWork unitOfWork)
             : base(logger, unitOfWork)
-        { 
-            this.repository = repository;
+        {
+            repository = unitOfWork.Weather;
         }
 
         /// <inheritdoc cref="IWeatherService.AddWeatherAsync(Weather)"/>
@@ -32,7 +29,7 @@ namespace Skylight.Services
             try
             {
                 await repository.CreateAsync(weather);
-                await unitOfWork.CommitAndCloseAsync();
+                await unitOfWork.CommitAsync();
             }
             catch (Exception ex)
             {
@@ -47,7 +44,6 @@ namespace Skylight.Services
         public async Task<ServiceResponse<Weather>> GetWeatherAsync(int id)
         {
             Weather? weather = await repository.ReadAsync(id);
-            await unitOfWork.CommitAndCloseAsync();
 
             return new ServiceResponse<Weather>(weather is not null, weather);
         }
@@ -56,7 +52,6 @@ namespace Skylight.Services
         public async Task<ServiceResponse<IEnumerable<Weather>>> GetWeatherAsync()
         {
             IEnumerable<Weather> weather = await repository.ReadAllAsync();
-            await unitOfWork.CommitAndCloseAsync();
 
             return new ServiceResponse<IEnumerable<Weather>>(weather.Any(), weather);
         }
@@ -71,7 +66,7 @@ namespace Skylight.Services
                 if (success)
                 {
                     await repository.UpdateAsync(weather);
-                    await unitOfWork.CommitAndCloseAsync();
+                    await unitOfWork.CommitAsync();
                 }
             }
             catch (Exception ex)
@@ -94,7 +89,7 @@ namespace Skylight.Services
                 if (success)
                 {
                     await repository.DeleteAsync(id);
-                    await unitOfWork.CommitAndCloseAsync();
+                    await unitOfWork.CommitAsync();
                 }
             }
             catch (Exception ex)

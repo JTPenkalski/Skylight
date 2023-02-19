@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Skylight.DatabaseContexts.Factories;
 using Skylight.Models;
 using Skylight.Repositories;
 using System.Linq;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skylight.Models;
 
-namespace Skylight.DatabaseContexts
+namespace Skylight.Contexts
 {
     /// <summary>
     /// Represents the database containing all information for Weather Experiences.

@@ -5,8 +5,15 @@ using System.Linq;
 
 namespace Skylight.Startup.Services
 {
+    /// <summary>
+    /// Extension class for adding necessary setup for the infrastructure layer during bootstrapping.
+    /// </summary>
     public static class InfrastructureServices
     {
+        /// <summary>
+        /// Adds the required dependency injection mappings to use services from the infrastructure layer.
+        /// </summary>
+        /// <returns>The service collection instance.</returns>
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             var dependencyMappings = from core in typeof(BaseModel).Assembly.ExportedTypes

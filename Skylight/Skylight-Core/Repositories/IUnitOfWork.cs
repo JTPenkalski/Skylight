@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Skylight.Models;
+using System.Threading.Tasks;
 
 namespace Skylight.Repositories
 {
@@ -7,20 +9,16 @@ namespace Skylight.Repositories
     /// </summary>
     public interface IUnitOfWork
     {
+        IWeatherRepository Weather { get; }
+
         /// <summary>
-        /// Saves all current changes to the database.
+        /// Saves all changes in the current transaction.
         /// Either all changes are applied, or none of them are.
         /// </summary>
         Task CommitAsync();
 
         /// <summary>
-        /// Saves all current changes to the database before closing the connection.
-        /// Either all changes are applied, or none of them are. Disposes the resource regardless.
-        /// </summary>
-        Task CommitAndCloseAsync();
-
-        /// <summary>
-        /// Disposes the current database, effectively cancelling all current changes.
+        /// Cancels all changes in the current transaction.
         /// </summary>
         Task RollbackAsync();
     }

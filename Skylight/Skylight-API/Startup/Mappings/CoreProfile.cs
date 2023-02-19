@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using System;
 using System.Linq;
 
 namespace Skylight.Startup.Mappings
 {
     /// <summary>
-    /// AutoMapper Profile for automatically converting between the Web API view models and the EF Core models.
+    /// AutoMapper Profile for automatically converting between the Web API view models and the Service models.
     /// </summary>
     public class CoreProfile : Profile
     {
