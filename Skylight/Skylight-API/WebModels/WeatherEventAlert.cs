@@ -8,6 +8,6 @@ namespace Skylight.WebModels
         public required WeatherEvent Event { get; init; }
         public required WeatherAlert Alert { get; init; }
 
-        public virtual ICollection<WeatherAlertModifier> Modifier { get; init; } = new HashSet<WeatherAlertModifier>();
+        public virtual ICollection<WeatherAlertModifier> Modifiers { get; init; } = new HashSet<WeatherAlertModifier>();
     }
 }

@@ -12,6 +12,6 @@ namespace Skylight.Models
         public WeatherAlert Alert { get; set; } = null!;
         public DateTime IssuanceTime { get; set; }
 
-        public virtual ICollection<WeatherAlertModifier> Modifier { get; set; } = new HashSet<WeatherAlertModifier>();
+        public virtual ICollection<WeatherAlertModifier> Modifiers { get; set; } = new HashSet<WeatherAlertModifier>();
     }
 }
