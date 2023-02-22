@@ -13,7 +13,7 @@ namespace Skylight.Repositories
         /// <summary>
         /// Creates an entity of type <typeparamref name="T"/> in the database. 
         /// </summary>
-        /// <param name="entity">The entity containing the data to store.</param>
+        /// <param name="entity">The entity to create.</param>
         Task CreateAsync(T entity);
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Skylight.Repositories
         /// <summary>
         /// Updates an entity of type <typeparamref name="T"/> in the database.
         /// </summary>
-        /// <param name="entity">The entity containing the data to store.</param>
+        /// <param name="entity">The entity to update.</param>
         Task UpdateAsync(T entity);
 
         /// <summary>
