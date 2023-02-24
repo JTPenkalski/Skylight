@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 
-interface INavigationLink {
-  readonly name: string;
-  readonly tooltip: string;
-}
+import { INavigationLink } from './models/navigation-link.model';
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,33 @@
+<div class="question" [formGroup]="formGroup">
+  <mat-form-field appearance="fill" color="accent">
+    <mat-label>{{label}}</mat-label>
+    <ng-container [ngSwitch]="type">
+      <!-- Dropdown -->
+      <mat-select *ngSwitchCase="'select'" [formControlName]="control.name">
+        <ng-container *ngIf="options">
+          <mat-option *ngFor="let option of options" [value]="option.value">{{option.name}}</mat-option>
+        </ng-container>
+        <ng-container *ngIf="optionsEndpoint">
+          <ng-container *ngIf="serverOptions$ | async as serverOptions">
+            <mat-option *ngFor="let option of serverOptions" [value]="option.value">{{option.name}}</mat-option>
+          </ng-container>
+        </ng-container>
+      </mat-select>
+
+      <!-- Date Picker -->
+      <ng-container *ngSwitchCase="'date'">
+        <input matInput [matDatepicker]="picker" [formControlName]="control.name">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </ng-container>
+
+      <!-- Text Area -->
+      <textarea *ngSwitchCase="'textarea'" matInput [type]="type" [formControlName]="control.name"></textarea>
+
+      <!-- Input (Default) -->
+      <input *ngSwitchDefault matInput [type]="type" [formControlName]="control.name">
+    </ng-container>
+    <mat-error *ngIf="required && control.formControl.invalid">{{label}} is required.</mat-error>
+  </mat-form-field>
+</div>

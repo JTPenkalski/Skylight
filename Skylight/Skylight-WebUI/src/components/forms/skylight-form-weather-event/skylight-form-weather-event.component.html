@@ -1,0 +1,66 @@
+<h1>New Weather Event</h1>
+
+<form id="form-weather-event" [formGroup]="weatherEvent" (ngSubmit)="submit()">
+  <section id="section-general" class="section">
+    <h2>General Information</h2>
+
+    <skylight-form-question
+      label="Name"
+      type="text"
+      [control]="formControlInstance('name')">
+    </skylight-form-question>
+
+    <skylight-form-question
+      label="Description"
+      type="textarea"
+      [control]="formControlInstance('description')">
+    </skylight-form-question>
+
+    <skylight-form-question
+      label="Weather"
+      type="select"
+      optionsEndpoint="Weather"
+      [control]="formControlInstance('weather')">
+    </skylight-form-question>
+
+    <skylight-form-question
+      label="Start Date"
+      type="date"
+      [control]="formControlInstance('startDate')">
+    </skylight-form-question>
+
+    <skylight-form-question
+      label="End Date"
+      type="date"
+      [control]="formControlInstance('endDate')">
+    </skylight-form-question>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </section>
+
+  <section id="section-alerts">
+    <h2>Alerts</h2>
+    <p>Question Here</p>
+  </section>
+
+  <section id="section-locations">
+    <h2>Locations</h2>
+    <p>Question Here</p>
+  </section>
+
+  <section id="section-statistics">
+    <h2>Statistics</h2>
+    <h3>Tornado</h3>
+    <p>Question Here</p>
+  </section>
+
+  <div>
+    <button mat-raised-button color="accent" type="submit" [disabled]="false">Submit</button>
+  </div>
+</form>
