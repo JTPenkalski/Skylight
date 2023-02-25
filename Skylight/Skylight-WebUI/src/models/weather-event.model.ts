@@ -23,17 +23,18 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
   public locations: Location[];
   public alerts: WeatherEventAlert[];
 
+  constructor();
   constructor(
-    id: number,
-    name: string,
-    description: string,
-    weather: Weather,
-    startDate: Date,
-    endDate: Date,
-    statistics: WeatherEventStatistics,
-    experience: WeatherExperience,
-    locations: Location[],
-    alerts: WeatherEventAlert[]
+    id?: number,
+    name?: string,
+    description?: string,
+    weather?: Weather,
+    startDate?: Date,
+    endDate?: Date,
+    statistics?: WeatherEventStatistics,
+    experience?: WeatherExperience,
+    locations?: Location[],
+    alerts?: WeatherEventAlert[]
   ) {
     super(id);
     this.name = name;

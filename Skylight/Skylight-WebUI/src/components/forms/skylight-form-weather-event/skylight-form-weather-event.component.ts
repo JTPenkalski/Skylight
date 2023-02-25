@@ -34,7 +34,7 @@ export class SkylightFormWeatherEventComponent {
       startDate: this.fb.control(new Date(), Validators.required),
       endDate: this.fb.control(null),
       weatherExperience: this.fb.control(null, Validators.required),
-      locations: this.fb.array([]),
+      locations: this.fb.array([this.fb.control(new WeatherEventAlert(), Validators.required)]),
       alerts: this.fb.array([]),
       statistics: this.fb.control(null)
     });

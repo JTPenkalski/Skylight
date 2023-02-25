@@ -5,7 +5,7 @@ export interface IBaseModel {
 export class BaseModel implements IBaseModel {
   public id: number;
 
-  constructor(id: number) {
+  constructor(id: number = 0) {
     this.id = id;
   }
 }
