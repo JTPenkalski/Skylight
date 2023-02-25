@@ -55,7 +55,7 @@ namespace Skylight.Controllers
             var response = await weatherService.AddAsync(mapper.Map<WebModels.Weather, Models.Weather>(weather));
 
             return response.Success
-                ? CreatedAtAction($"{nameof(PostWeather)}", new { id = response.Content!.Id }, mapper.Map<Models.Weather, WebModels.Weather>(response.Content))
+                ? CreatedAtAction(nameof(PostWeather), nameof(WeatherController), new { id = response.Content!.Id }, mapper.Map<Models.Weather, WebModels.Weather>(response.Content))
                 : BadRequest();
         }
 

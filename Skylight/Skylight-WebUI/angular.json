@@ -19,17 +19,17 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/skylight-web-ui",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "index": "src/presentation/index.html",
+            "main": "src/presentation/main.ts",
+            "polyfills": "src/presentation/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/core/assets/favicon.ico",
+              "src/core/assets"
             ],
             "styles": [
-              "src/app-theme.scss",
-              "src/styles.scss"
+              "src/core/styling/app-theme.scss",
+              "src/core/styling/styles.scss"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -52,8 +52,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "src/core/environments/environment.ts",
+                  "with": "src/core/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -81,7 +81,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "src/proxy.conf.js"
+            "proxyConfig": "src/communication/proxy.conf.js"
           }
         },
         "extract-i18n": {
