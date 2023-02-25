@@ -11,16 +11,15 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
   public alert: WeatherAlert;
   public modifiers: WeatherAlertModifier[];
 
-  constructor(event: WeatherEvent);
   constructor(
     event: WeatherEvent,
-    id?: number,
-    alert?: WeatherAlert,
-    modifiers?: WeatherAlertModifier[]
+    id: number,
+    alert: WeatherAlert,
+    modifiers: WeatherAlertModifier[]
   ) {
     super(id);
-    this.event = event ?? new WeatherEvent();
-    this.alert = alert ?? new WeatherAlert();
+    this.event = event;
+    this.alert = alert;
     this.modifiers = modifiers ?? [];
   }
 }
