@@ -13,8 +13,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { SkylightFormQuestionComponent } from 'components/controls/skylight-form-question/skylight-form-question.component';
+import { FORM_QUESTION_CONFIG, FORM_QUESTION_CONFIG_TOKEN } from './skylight-form-question/form-question-configuration.service';
 import { SkylightSearchBarComponent } from 'components/controls/skylight-search-bar/skylight-search-bar.component';
+import { SkylightFormQuestionDateComponent } from 'components/controls/skylight-form-question/skylight-form-question-date/skylight-form-question-date.component';
+import { SkylightFormQuestionInputComponent } from 'components/controls/skylight-form-question/skylight-form-question-input/skylight-form-question-input.component';
+import { SkylightFormQuestionSelectComponent } from 'components/controls/skylight-form-question/skylight-form-question-select/skylight-form-question-select.component';
+import { SkylightFormQuestionTextAreaComponent } from 'components/controls/skylight-form-question/skylight-form-question-textarea/skylight-form-question-textarea.component';
 
 @NgModule({
   imports: [
@@ -34,22 +38,31 @@ import { SkylightSearchBarComponent } from 'components/controls/skylight-search-
     ReactiveFormsModule
   ],
   declarations: [
-    SkylightFormQuestionComponent,
-    SkylightSearchBarComponent
+    SkylightSearchBarComponent,
+    SkylightFormQuestionDateComponent,
+    SkylightFormQuestionInputComponent,
+    SkylightFormQuestionSelectComponent,
+    SkylightFormQuestionTextAreaComponent
   ],
   exports: [
     MatButtonModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    SkylightFormQuestionComponent,
     SkylightSearchBarComponent,
-    MatDatepickerModule,
-    MatNativeDateModule
+    SkylightFormQuestionDateComponent,
+    SkylightFormQuestionInputComponent,
+    SkylightFormQuestionSelectComponent,
+    SkylightFormQuestionTextAreaComponent
+  ],
+  providers: [
+    { provide: FORM_QUESTION_CONFIG_TOKEN, useValue: FORM_QUESTION_CONFIG }
   ]
 })
 export class SkylightControlsModule { }

@@ -25,7 +25,7 @@ export class SkylightFormWeatherEventComponent {
   public readonly weatherEvent: FormGroup<IWeatherEventForm>;
 
   constructor(
-    private fb: FormBuilder
+    protected readonly fb: FormBuilder
   ) {
     this.weatherEvent = this.fb.group<IWeatherEventForm>({
       name: this.fb.control('', Validators.required),
@@ -52,7 +52,7 @@ export class SkylightFormWeatherEventComponent {
     const formControl: AbstractControl | null = this.weatherEvent.get(name);
 
     if (!formControl) {
-      throw new Error('Cannot create IFormControlInstance. Specified name is not a FormControl.');
+      throw new Error(`Cannot create IFormControlInstance. The control "${name}" is not a FormControl.`);
     }
 
     return {

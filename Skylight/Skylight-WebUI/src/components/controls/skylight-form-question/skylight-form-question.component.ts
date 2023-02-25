@@ -1,39 +1,28 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Directive, Inject, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
 
+import { FormQuestionConfiguration, FORM_QUESTION_CONFIG_TOKEN } from './form-question-configuration.service';
 import { IFormControlInstance } from 'components/forms/models/form-control-instance.model';
-import { ISelectOption } from './models/select-option.model';
-import { SkylightServerOptionsService } from './skylight-server-options.service';
 
-type QuestionType = 'date' | 'select' | 'text' | 'textarea';
-
-@Component({
-  selector: 'skylight-form-question',
-  templateUrl: './skylight-form-question.component.html',
-  styleUrls: ['./skylight-form-question.component.scss'],
-  providers: [SkylightServerOptionsService]
-})
-export class SkylightFormQuestionComponent implements OnInit {
-  // Required Config
+/**
+ * Base component for all Form Question components.
+ **/
+@Directive()
+export abstract class SkylightFormQuestionComponent {
   @Input() public label: string = '';
-  @Input() public type: QuestionType = 'text';
   @Input() public control: IFormControlInstance = { name: '', formControl: new FormControl() };
-  
-  // Dropdown Config
-  @Input() public options?: ISelectOption[];
-  @Input() public optionsEndpoint?: string;
-  public serverOptions$: Observable<ISelectOption[]> = of([]);
 
   public get required(): boolean { return this.control.formControl.hasValidator(Validators.required); }
   public get formGroup(): FormGroup { return this.control.formControl.parent as FormGroup; }
 
-  constructor(private serverOptionsService: SkylightServerOptionsService) { }
+  constructor(@Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration) { }
 
-  public ngOnInit(): void {
-    // Dropdown Setup
-    if (this.optionsEndpoint) {
-      this.serverOptions$ = this.serverOptionsService.getOptions(this.optionsEndpoint);
-    }
+  /**
+   * Formats a specified validation message with this control's specific label.
+   * @param message The message from the FormQuestionConfiguration's validation property.
+   * @returns A formatted string to display for a validation error message.
+   **/
+  public formatError(message: string): string {
+    return message.replace('{name}', this.label);
   }
 }

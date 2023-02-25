@@ -1,60 +1,31 @@
 <h1>New Weather Event</h1>
 
 <form id="form-weather-event" [formGroup]="weatherEvent" (ngSubmit)="submit()">
-  <section id="section-general" class="section">
+  <section id="section-general" class="form-section">
     <h2>General Information</h2>
 
-    <skylight-form-question
-      label="Name"
-      type="text"
-      [control]="formControlInstance('name')">
-    </skylight-form-question>
+    <skylight-form-question-input label="Name" [control]="formControlInstance('name')"></skylight-form-question-input>
 
-    <skylight-form-question
-      label="Description"
-      type="textarea"
-      [control]="formControlInstance('description')">
-    </skylight-form-question>
+    <skylight-form-question-textarea label="Description" [control]="formControlInstance('description')"></skylight-form-question-textarea>
 
-    <skylight-form-question
-      label="Weather"
-      type="select"
-      optionsEndpoint="Weather"
-      [control]="formControlInstance('weather')">
-    </skylight-form-question>
+    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [control]="formControlInstance('weather')"></skylight-form-question-select>
 
-    <skylight-form-question
-      label="Start Date"
-      type="date"
-      [control]="formControlInstance('startDate')">
-    </skylight-form-question>
+    <skylight-form-question-date label="Start Date" [control]="formControlInstance('startDate')"></skylight-form-question-date>
 
-    <skylight-form-question
-      label="End Date"
-      type="date"
-      [control]="formControlInstance('endDate')">
-    </skylight-form-question>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker">
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <skylight-form-question-date label="End Date" [control]="formControlInstance('endDate')"></skylight-form-question-date>
   </section>
 
-  <section id="section-alerts">
+  <section id="section-alerts" class="form-section">
     <h2>Alerts</h2>
     <p>Question Here</p>
   </section>
 
-  <section id="section-locations">
+  <section id="section-locations" class="form-section">
     <h2>Locations</h2>
     <p>Question Here</p>
   </section>
 
-  <section id="section-statistics">
+  <section id="section-statistics" class="form-section">
     <h2>Statistics</h2>
     <h3>Tornado</h3>
     <p>Question Here</p>
