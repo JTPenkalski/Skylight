@@ -1,14 +1,6 @@
-import { BaseModel, IBaseModel, WeatherAlertModifierOperation, WeatherEventAlert } from "./index";
+import { BaseModel, WeatherAlertModifierOperation, WeatherEventAlert } from './index';
 
-export interface IWeatherAlertModifier extends IBaseModel {
-  name: string;
-  description: string;
-  bonus: number;
-  operation: WeatherAlertModifierOperation;
-  alerts: WeatherEventAlert[];
-}
-
-export class WeatherAlertModifier extends BaseModel implements IWeatherAlertModifier {
+export class WeatherAlertModifier extends BaseModel {
   public name: string;
   public description: string;
   public bonus: number;

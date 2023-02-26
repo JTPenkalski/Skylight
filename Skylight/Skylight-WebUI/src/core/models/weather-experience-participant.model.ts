@@ -1,12 +1,6 @@
-import { BaseModel, IBaseModel, StormTracker, WeatherEventObservationMethod, WeatherExperience } from "./index";
+import { BaseModel, StormTracker, WeatherEventObservationMethod, WeatherExperience } from './index';
 
-export interface IWeatherExperienceParticipant extends IBaseModel {
-  experience: WeatherExperience;
-  tracker: StormTracker;
-  observationMethod: WeatherEventObservationMethod;
-}
-
-export class WeatherExperienceParticipant extends BaseModel implements IWeatherExperienceParticipant {
+export class WeatherExperienceParticipant extends BaseModel {
   public experience: WeatherExperience;
   public tracker: StormTracker;
   public observationMethod: WeatherEventObservationMethod;

@@ -1,11 +1,6 @@
-import { BaseModel, IBaseModel } from "./index";
+import { BaseModel } from './index';
 
-export interface IWeatherEventObservationMethod extends IBaseModel {
-  name: string;
-  description: string;
-}
-
-export class WeatherEventObservationMethod extends BaseModel implements IWeatherEventObservationMethod {
+export class WeatherEventObservationMethod extends BaseModel {
   public name: string;
   public description: string;
 

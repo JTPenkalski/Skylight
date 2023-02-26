@@ -1,12 +1,6 @@
-import { BaseModel, IBaseModel } from "./index";
+import { BaseModel } from './index';
 
-export interface ILocation extends IBaseModel {
-  city: string;
-  zipCode: string;
-  country: string;
-}
-
-export class Location extends BaseModel implements ILocation {
+export class Location extends BaseModel {
   public city: string;
   public zipCode: string;
   public country: string;

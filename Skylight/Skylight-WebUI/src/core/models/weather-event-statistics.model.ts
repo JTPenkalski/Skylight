@@ -1,22 +1,6 @@
-import { BaseModel, IBaseModel } from "./index";
+import { BaseModel } from './index';
 
-export interface IWeatherEventStatistics extends IBaseModel {
-  damageCost: number;
-  fatalities: number;
-  efRating: string;
-  pathDistance: number;
-  funnelWidth: number;
-  saffirSimpsonRating: string;
-  lowestPressure: number;
-  maxWindSpeed: number;
-  richterMagnitude: number;
-  mercalliIntensity: number;
-  aftershocks: number;
-  fault: string;
-  relatedTsunami: boolean;
-}
-
-export class WeatherEventStatistics extends BaseModel implements IWeatherEventStatistics {
+export class WeatherEventStatistics extends BaseModel {
   public damageCost: number;
   public fatalities: number;
   public efRating: string;
@@ -32,20 +16,20 @@ export class WeatherEventStatistics extends BaseModel implements IWeatherEventSt
   public relatedTsunami: boolean;
 
   constructor(
-    id: number,
-    damageCost: number,
-    fatalities: number,
-    efRating: string,
-    pathDistance: number,
-    funnelWidth: number,
-    saffirSimpsonRating: string,
-    lowestPressure: number,
-    maxWindSpeed: number,
-    richterMagnitude: number,
-    mercalliIntensity: number,
-    aftershocks: number,
-    fault: string,
-    relatedTsunami: boolean
+    id: number = 0,
+    damageCost: number = 0,
+    fatalities: number = 0,
+    efRating: string = '',
+    pathDistance: number = 0,
+    funnelWidth: number = 0,
+    saffirSimpsonRating: string = '',
+    lowestPressure: number = 0,
+    maxWindSpeed: number = 0,
+    richterMagnitude: number = 0,
+    mercalliIntensity: number = 0,
+    aftershocks: number = 0,
+    fault: string = '',
+    relatedTsunami: boolean = false
   ) {
     super(id);
     this.damageCost = damageCost;

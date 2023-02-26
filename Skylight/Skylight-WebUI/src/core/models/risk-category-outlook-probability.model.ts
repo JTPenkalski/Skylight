@@ -1,14 +1,6 @@
-import { BaseModel, IBaseModel, OutlookProbabilityWeatherType, RiskCategory } from "./index";
+import { BaseModel, OutlookProbabilityWeatherType, RiskCategory } from './index';
 
-export interface IRiskCategoryOutlookProbability extends IBaseModel {
-  day: number;
-  chance: number;
-  significantSevere: boolean;
-  outlookProbabilityWeatherType: OutlookProbabilityWeatherType;
-  riskCategory: RiskCategory;
-}
-
-export class RiskCategoryOutlookProbability extends BaseModel implements IRiskCategoryOutlookProbability {
+export class RiskCategoryOutlookProbability extends BaseModel {
   public day: number;
   public chance: number;
   public significantSevere: boolean;

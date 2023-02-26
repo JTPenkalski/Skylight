@@ -1,14 +1,6 @@
-import { BaseModel, IBaseModel } from "./index";
+import { BaseModel } from './index';
 
-export interface IStormTracker extends IBaseModel {
-  firstName: string;
-  lastName: string;
-  biography: string;
-  startDate: Date;
-  picturePath: string;
-}
-
-export class StormTracker extends BaseModel implements IStormTracker {
+export class StormTracker extends BaseModel {
   public firstName: string;
   public lastName: string;
   public biography: string;

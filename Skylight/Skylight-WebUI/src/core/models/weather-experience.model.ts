@@ -1,30 +1,21 @@
-import { BaseModel, IBaseModel, WeatherEvent, WeatherExperienceParticipant } from "./index";
+import { BaseModel, WeatherEvent, WeatherExperienceParticipant } from './index';
 
-export interface IWeatherExperience extends IBaseModel {
-  name: string;
-  description: string;
-  startTime: Date;
-  endTime: Date;
-  participants: WeatherExperienceParticipant[];
-  events: WeatherEvent[];
-}
-
-export class WeatherExperience extends BaseModel implements IWeatherExperience {
+export class WeatherExperience extends BaseModel {
   public name: string;
   public description: string;
   public startTime: Date;
-  public endTime: Date;
+  public endTime: Date | null;
   public participants: WeatherExperienceParticipant[];
   public events: WeatherEvent[];
 
   constructor(
-    id: number,
-    name: string,
-    description: string,
-    startTime: Date,
-    endTime: Date,
-    participants: WeatherExperienceParticipant[],
-    events: WeatherEvent[]
+    id: number = 0,
+    name: string = '',
+    description: string = '',
+    startTime: Date = new Date(),
+    endTime: Date | null = null,
+    participants: WeatherExperienceParticipant[] = [],
+    events: WeatherEvent[] = []
   ) {
     super(id);
     this.name = name;

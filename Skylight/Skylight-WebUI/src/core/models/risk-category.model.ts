@@ -1,14 +1,6 @@
-import { BaseModel, IBaseModel, RiskCategoryOutlookProbability } from "./index";
+import { BaseModel, RiskCategoryOutlookProbability } from './index';
 
-export interface IRiskCategory extends IBaseModel {
-  code: string;
-  category: string;
-  details: string;
-  summary: string;
-  riskProbabilities: RiskCategoryOutlookProbability[];
-}
-
-export class RiskCategory extends BaseModel implements IRiskCategory {
+export class RiskCategory extends BaseModel {
   public code: string;
   public category: string;
   public details: string;

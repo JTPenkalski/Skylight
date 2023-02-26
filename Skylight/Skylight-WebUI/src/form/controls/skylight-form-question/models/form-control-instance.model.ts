@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 /**
  * Represents an actual FormControl within a FormGroup, associated with its declared name.

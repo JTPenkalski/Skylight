@@ -1,23 +1,11 @@
-import { BaseModel, IBaseModel, Location, Weather, WeatherEventAlert, WeatherEventStatistics, WeatherExperience } from "./index";
+import { BaseModel, Location, Weather, WeatherEventAlert, WeatherEventStatistics, WeatherExperience } from './index';
 
-export interface IWeatherEvent extends IBaseModel {
-  name: string;
-  description: string;
-  weather: Weather;
-  startDate: Date;
-  endDate: Date;
-  statistics: WeatherEventStatistics;
-  experience: WeatherExperience;
-  locations: Location[];
-  alerts: WeatherEventAlert[];
-}
-
-export class WeatherEvent extends BaseModel implements IWeatherEvent {
+export class WeatherEvent extends BaseModel {
   public name: string;
   public description: string;
   public weather: Weather;
   public startDate: Date;
-  public endDate: Date;
+  public endDate: Date | null;
   public statistics: WeatherEventStatistics;
   public experience: WeatherExperience;
   public locations: Location[];
@@ -29,7 +17,7 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
     description: string,
     weather: Weather,
     startDate: Date,
-    endDate: Date,
+    endDate: Date | null,
     statistics: WeatherEventStatistics,
     experience: WeatherExperience,
     locations: Location[],

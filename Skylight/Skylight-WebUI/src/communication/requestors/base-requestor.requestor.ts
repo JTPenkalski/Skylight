@@ -1,10 +1,10 @@
-import { Observable, of } from "rxjs";
+import { Observable, of } from 'rxjs';
 
-import { environment } from "core/environments/environment";
-import { IRequestor } from "core/requestors/requestor-interface.requestor";
-import { IHttpControllerClient } from "core/services/http-controller-client-interface.service";
-import { CreateAtResult } from "core/types";
-import { BaseModel } from "core/models";
+import { environment } from 'core/environments/environment';
+import { IRequestor } from 'core/requestors';
+import { IHttpControllerClient } from 'core/services';
+import { CreateAtResult } from 'core/types';
+import { BaseModel } from 'core/models';
 
 export abstract class BaseRequestor<T extends BaseModel> implements IRequestor<T> { 
   protected readonly baseUrl: string;

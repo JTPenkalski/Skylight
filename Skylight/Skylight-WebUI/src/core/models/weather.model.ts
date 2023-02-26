@@ -1,21 +1,15 @@
-import { BaseModel, IBaseModel, WeatherEvent } from "./index";
+import { BaseModel, WeatherEvent } from './index';
 
-export interface IWeather extends IBaseModel {
-  name: string;
-  description: string;
-  events: WeatherEvent[];
-}
-
-export class Weather extends BaseModel implements IWeather {
+export class Weather extends BaseModel {
   public name: string;
   public description: string;
   public events: WeatherEvent[];
 
   constructor(
-    id: number,
-    name: string,
-    description: string,
-    events: WeatherEvent[]
+    id: number = 0,
+    name: string = '',
+    description: string = '',
+    events: WeatherEvent[] = []
   ) {
     super(id);
     this.name = name;

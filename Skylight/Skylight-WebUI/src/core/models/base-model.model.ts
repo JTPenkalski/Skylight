@@ -1,8 +1,4 @@
-export interface IBaseModel {
-  id: number;
-}
-
-export class BaseModel implements IBaseModel {
+export class BaseModel {
   public id: number;
 
   constructor(id: number = 0) {
