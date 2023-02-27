@@ -1,11 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { IHttpControllerClient } from "core/services";
+import { IHttpControllerClient } from 'core/clients';
 import { CreateAtResult } from 'core/types';
 
 // TODO: If we used a third-party HTTP library, we could move to Communication layer.
 
+@Injectable()
 export class HttpControllerClient<T> implements IHttpControllerClient<T> {
   protected _endpoint: string = '';
 

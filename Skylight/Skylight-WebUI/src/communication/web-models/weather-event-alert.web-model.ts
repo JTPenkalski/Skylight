@@ -3,5 +3,6 @@ import { IBaseWebModel, IWeatherAlertWebModel, IWeatherAlertModifierWebModel, IW
 export interface IWeatherEventAlertWebModel extends IBaseWebModel {
   readonly event: IWeatherEventWebModel;
   readonly alert: IWeatherAlertWebModel;
+  readonly issuanceTime: Date;
   readonly modifiers: IWeatherAlertModifierWebModel[];
 }

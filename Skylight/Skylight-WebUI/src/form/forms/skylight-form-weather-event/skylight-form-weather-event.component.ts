@@ -1,20 +1,11 @@
-import { Component } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
+import { IWeatherEventService } from 'core/services';
+import { WeatherEventMapper } from 'form/form-models/mappers';
+import { WeatherEventService } from 'presentation/services/backend-services';
 import { IFormControlInstance } from 'form/controls/skylight-form-question/models/form-control-instance.model';
-import { Location, Weather, WeatherEventAlert, WeatherEventStatistics, WeatherExperience } from 'core/models/index';
-
-interface IWeatherEventForm {
-  name: FormControl<string | null>;
-  description: FormControl<string | null>;
-  weather: FormControl<Weather | null>;
-  startDate: FormControl<Date | null>;
-  endDate: FormControl<Date | null>;
-  weatherExperience: FormControl<WeatherExperience | null>;
-  locations: FormArray;
-  alerts: FormArray;
-  statistics: FormControl<WeatherEventStatistics | null>;
-}
+import { IWeatherEventFormModel } from 'form/form-models';
 
 @Component({
   selector: 'skylight-form-weather-event',
@@ -22,22 +13,13 @@ interface IWeatherEventForm {
   styleUrls: ['./skylight-form-weather-event.component.scss']
 })
 export class SkylightFormWeatherEventComponent {
-  public readonly weatherEvent: FormGroup<IWeatherEventForm>;
+  public readonly weatherEvent: FormGroup<IWeatherEventFormModel>;
 
   constructor(
-    protected readonly fb: FormBuilder
-  ) {
-    this.weatherEvent = this.fb.group<IWeatherEventForm>({
-      name: this.fb.control('', Validators.required),
-      description: this.fb.control(''),
-      weather: this.fb.control(null, Validators.required),
-      startDate: this.fb.control(new Date(), Validators.required),
-      endDate: this.fb.control(null),
-      weatherExperience: this.fb.control(null, Validators.required),
-      locations: this.fb.array([]),
-      alerts: this.fb.array([]),
-      statistics: this.fb.control(null)
-    });
+    @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
+    protected readonly weatherEventMapper: WeatherEventMapper
+    ) {
+    this.weatherEvent = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toFormModel());
   }
 
   public ngOnInit(): void {
@@ -45,7 +27,8 @@ export class SkylightFormWeatherEventComponent {
   }
 
   public submit(): void {
-
+    console.log('Submit');
+    this.weatherEventService.add(this.weatherEventMapper.toPresentationModel(this.weatherEvent.controls));
   }
 
   public formControlInstance(name: string): IFormControlInstance {

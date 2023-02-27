@@ -2,16 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkylightControlsModule } from 'form/controls/skylight-controls.module';
+import { SkylightServicesModule } from 'presentation/services/skylight-services.module';
 
-import { REQUESTORS } from 'presentation/injection/requestors.injector';
+import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
 import { LocationMapper, WeatherEventAlertMapper, WeatherEventMapper, WeatherEventStatisticsMapper } from 'form/form-models/mappers';
 import { SkylightFormWeatherEventComponent } from 'form/forms/skylight-form-weather-event/skylight-form-weather-event.component';
+import { WeatherEventService } from 'presentation/services/backend-services';
+import { HttpControllerClient } from 'presentation/services/clients';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    SkylightControlsModule
+    SkylightControlsModule,
+    SkylightServicesModule
   ],
   declarations: [
     SkylightFormWeatherEventComponent
@@ -20,11 +24,16 @@ import { SkylightFormWeatherEventComponent } from 'form/forms/skylight-form-weat
     SkylightFormWeatherEventComponent
   ],
   providers: [
-    ...REQUESTORS, // TODO: Why is this here?
+    FORM_QUESTION_CONFIG_PROVIDER,
+
+    HttpControllerClient,
+
     LocationMapper,
     WeatherEventAlertMapper,
     WeatherEventMapper,
-    WeatherEventStatisticsMapper
+    WeatherEventStatisticsMapper,
+
+    WeatherEventService
   ]
 })
 export class SkylightFormsModule { }

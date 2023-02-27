@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 
 import { environment } from 'core/environments/environment';
 import { IRequestor } from 'core/requestors';
-import { IHttpControllerClient } from 'core/services';
+import { IHttpControllerClient } from 'core/clients';
 import { CreateAtResult } from 'core/types';
 import { BaseModel } from 'core/models';
 
@@ -14,9 +14,10 @@ export abstract class BaseRequestor<T extends BaseModel> implements IRequestor<T
 
   constructor(protected readonly client: IHttpControllerClient<T>) { 
     this.baseUrl = `${environment.apiUrl}/${environment.apiVersion}/`;
+    this.client.endpoint = this.endpoint;
   }
 
-  public add(model: T): Observable<CreateAtResult<T>> {
+  public post(model: T): Observable<CreateAtResult<T>> {
     if (this.validateUrl()) {
       return this.client.post(model);
     }
@@ -36,11 +37,11 @@ export abstract class BaseRequestor<T extends BaseModel> implements IRequestor<T
     return this.client.getAll();
   }
 
-  public modify(id: number, model: T) : Observable<void> {
+  public put(id: number, model: T) : Observable<void> {
     return this.client.put(id, model);
   }
 
-  public remove(id: number): Observable<void> {
+  public delete(id: number): Observable<void> {
     return this.client.delete(id);
   }
 

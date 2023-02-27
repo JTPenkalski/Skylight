@@ -1,1 +1,2 @@
-export * from './http-controller-client-interface.service';
+export * from './service-interface.service';
+export * from './weather-event-service-inteface.service';
