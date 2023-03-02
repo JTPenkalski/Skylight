@@ -1,0 +1,16 @@
+<div class="question" [formGroup]="formGroup">
+  <ng-container *ngFor="let control of weatherEventAlert.controls; index as controlIndex">
+    <skylight-form-question-select label="Alert" optionsEndpoint="Alerts" [instance]="{ name: 'alert', control: control.get('alerts')! }"></skylight-form-question-select>
+
+    <skylight-form-question-date label="Issuance Date" [instance]="{ name: 'issuanceDate', control: control.get('issuanceDate')! }"></skylight-form-question-date>
+    
+    <ng-container formArrayName="modifiers">
+      <skylight-form-question-select
+        *ngFor="let modifier of getAlertModifiers(controlIndex).controls; index as controlIndex"
+        label="Modifer {{controlIndex}}"
+        optionsEndpoint="WeatherAlertModifiers"
+        [instance]="{ name: '{{i}}', control: modifier }">
+      </skylight-form-question-select>
+    </ng-container>
+  </ng-container>
+</div>

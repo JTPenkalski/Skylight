@@ -5,7 +5,7 @@ import { SkylightControlsModule } from 'form/controls/skylight-controls.module';
 import { SkylightServicesModule } from 'presentation/services/skylight-services.module';
 
 import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
-import { LocationMapper, WeatherEventAlertMapper, WeatherEventMapper, WeatherEventStatisticsMapper } from 'form/form-models/mappers';
+import { LocationMapper, WeatherEventAlertMapper, WeatherEventMapper, WeatherEventStatisticsMapper } from 'presentation/services/mappers';
 import { SkylightFormWeatherEventComponent } from 'form/forms/skylight-form-weather-event/skylight-form-weather-event.component';
 import { WeatherEventService } from 'presentation/services/backend-services';
 import { HttpControllerClient } from 'presentation/services/clients';

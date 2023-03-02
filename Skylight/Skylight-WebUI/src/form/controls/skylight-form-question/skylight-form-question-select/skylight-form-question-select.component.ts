@@ -7,7 +7,7 @@ import { FormQuestionConfiguration, FORM_QUESTION_CONFIG_TOKEN } from '../form-q
 import { SkylightServerOptionsService } from './skylight-server-options.service';
 
 @Component({
-  selector: 'skylight-form-question-select',
+  selector: 'skylight-form-question-select[instance]',
   templateUrl: './skylight-form-question-select.component.html',
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-select.component.scss'],
   providers: [SkylightServerOptionsService]

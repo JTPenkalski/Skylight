@@ -5,18 +5,17 @@ export class WeatherAlertModifier extends BaseModel {
   public description: string;
   public bonus: number;
   public operation: WeatherAlertModifierOperation;
-  public alerts: WeatherEventAlert[];
+  public alerts?: WeatherEventAlert[];
 
   constructor(
-    id: number,
-    name: string,
-    description: string,
-    bonus: number,
-    operation: WeatherAlertModifierOperation,
-    alerts: WeatherEventAlert[]
+    name: string = '',
+    description: string = '',
+    bonus: number = 0,
+    operation: WeatherAlertModifierOperation = WeatherAlertModifierOperation.Add,
+    alerts?: WeatherEventAlert[],
+    id?: number
   ) {
     super(id);
-    this.id = id;
     this.name = name;
     this.description = description;
     this.bonus = bonus;

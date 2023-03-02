@@ -6,10 +6,10 @@ export class WeatherExperienceParticipant extends BaseModel {
   public observationMethod: WeatherEventObservationMethod;
 
   constructor(
-    id: number,
     experience: WeatherExperience,
     tracker: StormTracker,
-    observationMethod: WeatherEventObservationMethod
+    observationMethod: WeatherEventObservationMethod,
+    id?: number
   ) {
     super(id);
     this.experience = experience;

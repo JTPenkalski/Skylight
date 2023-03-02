@@ -8,12 +8,12 @@ export class RiskCategoryOutlookProbability extends BaseModel {
   public riskCategory: RiskCategory;
 
   constructor(
-    id: number,
     day: number,
     chance: number,
     significantSevere: boolean,
     outlookProbabilityWeatherType: OutlookProbabilityWeatherType,
-    riskCategory: RiskCategory
+    riskCategory: RiskCategory,
+    id?: number
   ) {
     super(id);
     this.day = day;
@@ -21,5 +21,5 @@ export class RiskCategoryOutlookProbability extends BaseModel {
     this.significantSevere = significantSevere;
     this.outlookProbabilityWeatherType = outlookProbabilityWeatherType;
     this.riskCategory = riskCategory;
-    }
+  }
 }

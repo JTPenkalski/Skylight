@@ -19,6 +19,7 @@ import { SkylightFormQuestionDateComponent } from 'form/controls/skylight-form-q
 import { SkylightFormQuestionInputComponent } from 'form/controls/skylight-form-question/skylight-form-question-input/skylight-form-question-input.component';
 import { SkylightFormQuestionSelectComponent } from 'form/controls/skylight-form-question/skylight-form-question-select/skylight-form-question-select.component';
 import { SkylightFormQuestionTextAreaComponent } from 'form/controls/skylight-form-question/skylight-form-question-textarea/skylight-form-question-textarea.component';
+import { SkylightFormQuestionWeatherEventAlertComponent } from './skylight-form-question-weather-event-alert/skylight-form-question-weather-event-alert.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { SkylightFormQuestionTextAreaComponent } from 'form/controls/skylight-fo
     SkylightFormQuestionDateComponent,
     SkylightFormQuestionInputComponent,
     SkylightFormQuestionSelectComponent,
-    SkylightFormQuestionTextAreaComponent
+    SkylightFormQuestionTextAreaComponent,
+    SkylightFormQuestionWeatherEventAlertComponent
   ],
   exports: [
     MatButtonModule,
@@ -59,7 +61,8 @@ import { SkylightFormQuestionTextAreaComponent } from 'form/controls/skylight-fo
     SkylightFormQuestionDateComponent,
     SkylightFormQuestionInputComponent,
     SkylightFormQuestionSelectComponent,
-    SkylightFormQuestionTextAreaComponent
+    SkylightFormQuestionTextAreaComponent,
+    SkylightFormQuestionWeatherEventAlertComponent
   ],
   providers: [
     { provide: FORM_QUESTION_CONFIG_TOKEN, useValue: FORM_QUESTION_CONFIG }

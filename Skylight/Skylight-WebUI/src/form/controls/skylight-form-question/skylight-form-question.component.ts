@@ -2,18 +2,19 @@ import { Directive, Inject, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { FormQuestionConfiguration, FORM_QUESTION_CONFIG_TOKEN } from './form-question-configuration.service';
-import { IFormControlInstance } from './models/form-control-instance.model';
+import { IFormQuestionInstance } from './models/form-control-instance.model';
 
 /**
  * Base component for all Form Question components.
+ * @requires [instance]: The name and AbstractControl associated with this control.
  **/
 @Directive()
 export abstract class SkylightFormQuestionComponent {
   @Input() public label: string = '';
-  @Input() public control: IFormControlInstance = { name: '', formControl: new FormControl() };
+  @Input() public instance: IFormQuestionInstance = { name: '', control: new FormControl() };
 
-  public get required(): boolean { return this.control.formControl.hasValidator(Validators.required); }
-  public get formGroup(): FormGroup { return this.control.formControl.parent as FormGroup; }
+  public get required(): boolean { return this.instance.control.hasValidator(Validators.required); }
+  public get formGroup(): FormGroup { return this.instance.control.parent as FormGroup; }
 
   constructor(@Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration) { }
 

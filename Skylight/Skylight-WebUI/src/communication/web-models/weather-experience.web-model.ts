@@ -4,7 +4,7 @@ export interface IWeatherExperienceWebModel extends IBaseWebModel {
   readonly name: string;
   readonly description: string;
   readonly startTime: Date;
-  readonly endTime: Date;
-  readonly participants: IWeatherExperienceParticipantWebModel[];
-  readonly events: IWeatherEventWebModel[];
+  readonly endTime?: Date;
+  readonly participants?: IWeatherExperienceParticipantWebModel[];
+  readonly events?: IWeatherEventWebModel[];
 }

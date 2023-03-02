@@ -1,19 +1,22 @@
 import { BaseModel, WeatherAlert, WeatherAlertModifier, WeatherEvent } from './index';
 
 export class WeatherEventAlert extends BaseModel {
-  public event: WeatherEvent | null;
+  public event?: WeatherEvent;
   public alert: WeatherAlert;
+  public issuanceTime: Date;
   public modifiers: WeatherAlertModifier[];
 
   constructor(
-    id: number = 0,
-    event: WeatherEvent | null,
     alert: WeatherAlert = new WeatherAlert(),
-    modifiers: WeatherAlertModifier[] = []
+    issuanceTime: Date = new Date(),
+    modifiers: WeatherAlertModifier[] = [],
+    event?: WeatherEvent,
+    id?: number
   ) {
     super(id);
     this.event = event;
     this.alert = alert;
+    this.issuanceTime = issuanceTime;
     this.modifiers = modifiers ?? [];
   }
 }

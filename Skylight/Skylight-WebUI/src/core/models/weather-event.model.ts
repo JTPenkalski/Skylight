@@ -5,23 +5,23 @@ export class WeatherEvent extends BaseModel {
   public description: string;
   public weather: Weather;
   public startDate: Date;
-  public endDate: Date | null;
+  public endDate?: Date;
   public statistics: WeatherEventStatistics;
   public experience: WeatherExperience;
   public locations: Location[];
   public alerts: WeatherEventAlert[];
 
   constructor(
-    id: number,
-    name: string,
-    description: string,
-    weather: Weather,
-    startDate: Date,
-    endDate: Date | null,
-    statistics: WeatherEventStatistics,
-    experience: WeatherExperience,
-    locations: Location[],
-    alerts: WeatherEventAlert[]
+    name: string = '',
+    description: string = '',
+    weather: Weather = new Weather(),
+    startDate: Date = new Date(),
+    statistics: WeatherEventStatistics = new WeatherEventStatistics(),
+    experience: WeatherExperience = new WeatherExperience(),
+    locations: Location[] = [],
+    alerts: WeatherEventAlert[] = [],
+    endDate?: Date,
+    id?: number
   ) {
     super(id);
     this.name = name;

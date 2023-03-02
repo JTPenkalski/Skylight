@@ -8,12 +8,12 @@ export class RiskCategory extends BaseModel {
   public riskProbabilities: RiskCategoryOutlookProbability[];
 
   constructor(
-    id: number,
     code: string,
     category: string,
     details: string,
     summary: string,
-    riskProbabilities: RiskCategoryOutlookProbability[]
+    riskProbabilities: RiskCategoryOutlookProbability[],
+    id?: number
   ) {
     super(id);
     this.code = code;

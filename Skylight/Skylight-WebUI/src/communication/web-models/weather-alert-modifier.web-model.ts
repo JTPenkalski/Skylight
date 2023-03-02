@@ -6,5 +6,5 @@ export interface IWeatherAlertModifierWebModel extends IBaseWebModel {
   readonly description: string;
   readonly bonus: number;
   readonly operation: WeatherAlertModifierOperation;
-  readonly alerts: IWeatherEventAlertWebModel[];
+  readonly alerts?: IWeatherEventAlertWebModel[];
 }

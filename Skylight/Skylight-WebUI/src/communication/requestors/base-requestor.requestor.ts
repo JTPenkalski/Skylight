@@ -4,9 +4,9 @@ import { environment } from 'core/environments/environment';
 import { IRequestor } from 'core/requestors';
 import { IHttpControllerClient } from 'core/clients';
 import { CreateAtResult } from 'core/types';
-import { BaseModel } from 'core/models';
+import { IBaseWebModel } from 'communication/web-models';
 
-export abstract class BaseRequestor<T extends BaseModel> implements IRequestor<T> { 
+export abstract class BaseRequestor<T extends IBaseWebModel> implements IRequestor<T> { 
   protected readonly baseUrl: string;
 
   public abstract get controller(): string;

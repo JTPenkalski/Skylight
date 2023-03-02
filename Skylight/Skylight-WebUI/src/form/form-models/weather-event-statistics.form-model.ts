@@ -3,17 +3,17 @@ import { FormControl } from '@angular/forms';
 import { IBaseFormModel } from "./index";
 
 export interface IWeatherEventStatisticsFormModel extends IBaseFormModel {
-  readonly damageCost: FormControl<number>;
-  readonly fatalities: FormControl<number>;
-  readonly efRating: FormControl<string>;
-  readonly pathDistance: FormControl<number>;
-  readonly funnelWidth: FormControl<number>;
-  readonly saffirSimpsonRating: FormControl<string>;
-  readonly lowestPressure: FormControl<number>;
-  readonly maxWindSpeed: FormControl<number>;
-  readonly richterMagnitude: FormControl<number>;
-  readonly mercalliIntensity: FormControl<number>;
-  readonly aftershocks: FormControl<number>;
-  readonly fault: FormControl<string>;
-  readonly relatedTsunami: FormControl<boolean>;
+  readonly damageCost: FormControl<number | null>;
+  readonly fatalities: FormControl<number | null>;
+  readonly efRating: FormControl<string | null>;
+  readonly pathDistance: FormControl<number | null>;
+  readonly funnelWidth: FormControl<number | null>;
+  readonly saffirSimpsonRating: FormControl<string | null>;
+  readonly lowestPressure: FormControl<number | null>;
+  readonly maxWindSpeed: FormControl<number | null>;
+  readonly richterMagnitude: FormControl<number | null>;
+  readonly mercalliIntensity: FormControl<number | null>;
+  readonly aftershocks: FormControl<number | null>;
+  readonly fault: FormControl<string | null>;
+  readonly relatedTsunami: FormControl<boolean | null>;
 }

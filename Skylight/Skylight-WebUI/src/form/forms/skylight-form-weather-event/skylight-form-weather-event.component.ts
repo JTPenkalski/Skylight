@@ -2,10 +2,11 @@ import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 import { IWeatherEventService } from 'core/services';
-import { WeatherEventMapper } from 'form/form-models/mappers';
+import { WeatherEventMapper } from 'presentation/services/mappers';
 import { WeatherEventService } from 'presentation/services/backend-services';
-import { IFormControlInstance } from 'form/controls/skylight-form-question/models/form-control-instance.model';
+import { IFormQuestionInstance } from 'form/controls/skylight-form-question/models/form-control-instance.model';
 import { IWeatherEventFormModel } from 'form/form-models';
+import { WeatherEvent } from 'core/models';
 
 @Component({
   selector: 'skylight-form-weather-event',
@@ -18,7 +19,7 @@ export class SkylightFormWeatherEventComponent {
   constructor(
     @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
     protected readonly weatherEventMapper: WeatherEventMapper
-    ) {
+  ) {
     this.weatherEvent = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toFormModel());
   }
 
@@ -31,16 +32,16 @@ export class SkylightFormWeatherEventComponent {
     this.weatherEventService.add(this.weatherEventMapper.toPresentationModel(this.weatherEvent.controls));
   }
 
-  public formControlInstance(name: string): IFormControlInstance {
-    const formControl: AbstractControl | null = this.weatherEvent.get(name);
+  public formQuestionInstance<T extends AbstractControl<T, T>>(name: string): IFormQuestionInstance {
+    const control: AbstractControl<T, T> | null = this.weatherEvent.get(name);
 
-    if (!formControl) {
+    if (!control) {
       throw new Error(`Cannot create IFormControlInstance. The control "${name}" is not a FormControl.`);
     }
 
     return {
       name: name,
-      formControl: formControl
+      control: control
     };
   }
 }

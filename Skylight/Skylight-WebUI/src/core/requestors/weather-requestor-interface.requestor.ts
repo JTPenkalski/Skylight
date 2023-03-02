@@ -1,6 +1,6 @@
 import { IRequestor } from './index';
-import { Weather } from 'core/models';
+import { IWeatherWebModel } from 'communication/web-models';
 
-export interface IWeatherRequestor extends IRequestor<Weather> {
+export interface IWeatherRequestor extends IRequestor<IWeatherWebModel> {
   
 }

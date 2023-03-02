@@ -1,7 +1,7 @@
 <div class="question" [formGroup]="formGroup">
   <mat-form-field [appearance]="config.appearance" [color]="config.color">
     <mat-label>{{label}}</mat-label>
-      <mat-select [formControlName]="control.name">
+      <mat-select [formControlName]="instance.name">
         <ng-container *ngIf="options">
           <mat-option *ngFor="let option of options" [value]="option.value">{{option.name}}</mat-option>
         </ng-container>
@@ -11,6 +11,6 @@
           </ng-container>
         </ng-container>
       </mat-select>
-    <mat-error *ngIf="required && control.formControl.invalid">{{formatError(config.validation.required)}}</mat-error>
+    <mat-error *ngIf="required && instance.control.invalid">{{formatError(config.validation.required)}}</mat-error>
   </mat-form-field>
 </div>

@@ -1,7 +1,7 @@
 <div class="question" [formGroup]="formGroup">
   <mat-form-field [appearance]="config.appearance" [color]="config.color">
     <mat-label>{{label}}</mat-label>
-      <input matInput type="text" [formControlName]="control.name">
-    <mat-error *ngIf="required && control.formControl.invalid">{{formatError(config.validation.required)}}</mat-error>
+      <input matInput type="text" [formControlName]="instance.name">
+    <mat-error *ngIf="required && instance.control.invalid">{{formatError(config.validation.required)}}</mat-error>
   </mat-form-field>
 </div>

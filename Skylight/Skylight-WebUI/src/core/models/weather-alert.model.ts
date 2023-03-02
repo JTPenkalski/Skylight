@@ -5,15 +5,15 @@ export class WeatherAlert extends BaseModel {
   public description: string;
   public value: number;
   public thirdParty: boolean;
-  public events: WeatherEventAlert[];
+  public events?: WeatherEventAlert[];
 
   constructor(
-    id: number = 0,
     name: string = '',
     description: string = '',
     value: number = 0,
     thirdParty: boolean = false,
-    events: WeatherEventAlert[] = []
+    events?: WeatherEventAlert[],
+    id?: number
   ) {
     super(id);
     this.name = name;

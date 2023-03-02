@@ -5,7 +5,12 @@ export class Location extends BaseModel {
   public zipCode: string;
   public country: string;
 
-  constructor (id: number, city: string, zipCode: string, country: string) {
+  constructor(
+    city: string = '',
+    zipCode: string = '',
+    country: string = '',
+    id?: number
+  ) {
     super(id);
     this.city = city;
     this.zipCode = zipCode;
