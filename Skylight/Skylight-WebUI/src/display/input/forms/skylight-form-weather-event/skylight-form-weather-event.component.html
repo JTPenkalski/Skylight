@@ -1,0 +1,38 @@
+<h1>New Weather Event</h1>
+
+<form id="form-weather-event" [formGroup]="form" (ngSubmit)="submit()">
+  <section id="section-general" class="form-section">
+    <h2>General Information</h2>
+
+    <skylight-form-question-input label="Name" [instance]="formQuestionInstance('name')"></skylight-form-question-input>
+
+    <skylight-form-question-textarea label="Description" [instance]="formQuestionInstance('description')"></skylight-form-question-textarea>
+
+    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [instance]="formQuestionInstance('weather')"></skylight-form-question-select>
+
+    <skylight-form-question-date label="Start Date" [instance]="formQuestionInstance('startDate')"></skylight-form-question-date>
+
+    <skylight-form-question-date label="End Date" [instance]="formQuestionInstance('endDate')"></skylight-form-question-date>
+  </section>
+
+  <section id="section-alerts" class="form-section">
+    <h2>Alerts</h2>
+    
+    <skylight-form-question-weather-event-alert [instance]="formQuestionInstance('alerts')"></skylight-form-question-weather-event-alert>
+  </section>
+
+  <section id="section-locations" class="form-section">
+    <h2>Locations</h2>
+    <p>Question Here</p>
+  </section>
+
+  <section id="section-statistics" class="form-section">
+    <h2>Statistics</h2>
+    <h3>Tornado</h3>
+    <p>Question Here</p>
+  </section>
+
+  <div>
+    <button mat-raised-button color="accent" type="submit" [disabled]="false">Submit</button>
+  </div>
+</form>

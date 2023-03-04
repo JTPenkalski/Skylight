@@ -1,19 +1,22 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { IHttpControllerClient } from 'core/clients';
-import { WeatherRequestor, WeatherEventRequestor } from 'communication/requestors';
-import { HttpControllerClient } from 'presentation/services/clients';
-import { IWeatherEventWebModel, IWeatherWebModel } from 'communication/web-models';
+import { IHttpProtocol } from 'core/protocols';
+import { HttpProtocol } from 'presentation/protocols';
 
-// TOKEN
-export const WEATHER_REQUESTOR: InjectionToken<IWeatherWebModel> = new InjectionToken<IWeatherWebModel>('WEATHER_REQUESTOR');
-export const WEATHER_EVENT_REQUESTOR: InjectionToken<IWeatherEventWebModel> = new InjectionToken<IWeatherEventWebModel>('WEATHER_EVENT_REQUESTOR');
+import { IWeatherEventClient, IWeatherClient } from 'core/clients';
+import { WeatherClient, WeatherEventClient } from 'web/clients';
+
+import { WeatherEventWebModel, WeatherWebModel } from 'web/web-models';
+
+// TOKENS
+export const WEATHER_REQUESTOR = new InjectionToken<IWeatherClient>('WEATHER_REQUESTOR');
+export const WEATHER_EVENT_REQUESTOR = new InjectionToken<IWeatherEventClient>('WEATHER_EVENT_REQUESTOR');
 
 // SERVICES
-// See src/communication/requestors
+// See src/web/requestors
 
-// PROVIDER
+// PROVIDERS
 export const REQUESTOR_PROVIDERS: Provider[] = [
-  { provide: WEATHER_REQUESTOR, useFactory: (client: IHttpControllerClient<IWeatherWebModel>) => new WeatherRequestor(client), deps: [HttpControllerClient] },
-  { provide: WEATHER_EVENT_REQUESTOR, useFactory: (client: IHttpControllerClient<IWeatherEventWebModel>) => new WeatherEventRequestor(client), deps: [HttpControllerClient] }
+  { provide: WEATHER_REQUESTOR, useFactory: (client: IHttpProtocol<WeatherWebModel>) => new WeatherClient(client), deps: [HttpProtocol] },
+  { provide: WEATHER_EVENT_REQUESTOR, useFactory: (client: IHttpProtocol<WeatherEventWebModel>) => new WeatherEventClient(client), deps: [HttpProtocol] }
 ];

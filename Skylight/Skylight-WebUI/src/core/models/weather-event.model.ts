@@ -5,11 +5,11 @@ export class WeatherEvent extends BaseModel {
   public description: string;
   public weather: Weather;
   public startDate: Date;
-  public endDate?: Date;
   public statistics: WeatherEventStatistics;
   public experience: WeatherExperience;
   public locations: Location[];
   public alerts: WeatherEventAlert[];
+  public endDate?: Date;
 
   constructor(
     name: string = '',

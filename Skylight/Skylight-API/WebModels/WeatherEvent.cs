@@ -10,11 +10,11 @@ namespace Skylight.WebModels
         public required string Description { get; init; }
         public required Weather Weather { get; init; }
         public required DateTime StartDate { get; init; }
-        public required DateTime EndDate { get; init; }
+        public required DateTime? EndDate { get; init; }
         public required WeatherEventStatistics Statistics { get; init; }
         public required WeatherExperience Experience { get; init; }
 
-        public virtual ICollection<Location> Locations { get; init; } = new HashSet<Location>();
-        public virtual ICollection<WeatherEventAlert> Alerts { get; init; } = new HashSet<WeatherEventAlert>();
+        public ICollection<Location> Locations { get; init; } = new HashSet<Location>();
+        public ICollection<WeatherEventAlert> Alerts { get; init; } = new HashSet<WeatherEventAlert>();
     }
 }

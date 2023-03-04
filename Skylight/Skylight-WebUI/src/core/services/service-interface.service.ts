@@ -1,8 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { BaseModel } from 'core/models';
-
-export interface IService<T extends BaseModel> {
+export interface IService<T> {
   add(model: T): Observable<T | null>;
 
   get(id: number): Observable<T>;

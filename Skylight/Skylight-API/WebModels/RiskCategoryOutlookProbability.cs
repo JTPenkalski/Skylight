@@ -10,6 +10,5 @@ namespace Skylight.WebModels
         [Range(0, 100)] public required int Chance { get; init; }
         public required bool SignificantSevere { get; init; }
         public required OutlookProbabilityWeatherType OutlookProbabilityWeatherType { get; init; }
-        public required RiskCategory RiskCategory { get; init; }
     }
 }

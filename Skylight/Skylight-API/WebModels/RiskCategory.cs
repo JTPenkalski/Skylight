@@ -10,6 +10,6 @@ namespace Skylight.WebModels
         public required string Details { get; init; }
         public required string Summary { get; init; }
 
-        public virtual ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; init; } = new HashSet<RiskCategoryOutlookProbability>();
+        public ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; init; } = new HashSet<RiskCategoryOutlookProbability>();
     }
 }
