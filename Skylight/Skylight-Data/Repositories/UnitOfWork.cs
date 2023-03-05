@@ -1,7 +1,4 @@
 ﻿using Skylight.Contexts;
-using Skylight.Models;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skylight.Repositories
@@ -14,16 +11,22 @@ namespace Skylight.Repositories
         protected readonly WeatherExperienceContext context;
 
         public IWeatherRepository Weather { get; }
+        public IWeatherAlertRepository WeatherAlerts { get; }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWork"/> instance.
         /// </summary>
         /// <param name="context">EF Core database context.</param>
-        public UnitOfWork(WeatherExperienceContext context)
-        { 
+        public UnitOfWork(
+            WeatherExperienceContext context,
+            IWeatherRepository weather,
+            IWeatherAlertRepository weatherAlerts
+        )
+        {
             this.context = context;
 
-            Weather = new WeatherRepository(context);
+            Weather = weather;
+            WeatherAlerts = weatherAlerts;
         }
 
         /// <inheritdoc cref="IUnitOfWork.CommitAsync"/>

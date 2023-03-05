@@ -7,8 +7,10 @@ namespace Skylight.Services
     /// <inheritdoc cref="IWeatherService"/>
     public class WeatherService : BaseService<Weather>, IWeatherService
     {
-        /// Constructs a new <see cref="WeatherService"/> instance.
-        public WeatherService(ILogger<WeatherService> logger, IUnitOfWork unitOfWork, IWeatherRepository repository)
-            : base(logger, unitOfWork, repository) { }
+        protected override IWeatherRepository Repository => unitOfWork.Weather;
+
+        /// <inheritdoc cref="BaseService{T}.BaseService(ILogger, IUnitOfWork, IRepository{T})"/>
+        public WeatherService(ILogger<WeatherService> logger, IUnitOfWork unitOfWork)
+            : base(logger, unitOfWork) { }
     }
 }

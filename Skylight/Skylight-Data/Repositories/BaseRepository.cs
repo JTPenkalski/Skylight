@@ -19,7 +19,7 @@ namespace Skylight.Repositories
         /// <summary>
         /// Constructs a new repository instance.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">EF Core Database Context service.</param>
         public BaseRepository(WeatherExperienceContext context)
         {
             table = context.Set<T>();
