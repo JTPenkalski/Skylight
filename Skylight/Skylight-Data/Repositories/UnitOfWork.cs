@@ -12,6 +12,7 @@ namespace Skylight.Repositories
 
         public IWeatherRepository Weather { get; }
         public IWeatherAlertRepository WeatherAlerts { get; }
+        public IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWork"/> instance.
@@ -20,13 +21,15 @@ namespace Skylight.Repositories
         public UnitOfWork(
             WeatherExperienceContext context,
             IWeatherRepository weather,
-            IWeatherAlertRepository weatherAlerts
+            IWeatherAlertRepository weatherAlerts,
+            IWeatherAlertModifierRepository weatherAlertModifiers
         )
         {
             this.context = context;
 
             Weather = weather;
             WeatherAlerts = weatherAlerts;
+            WeatherAlertModifiers = weatherAlertModifiers;
         }
 
         /// <inheritdoc cref="IUnitOfWork.CommitAsync"/>

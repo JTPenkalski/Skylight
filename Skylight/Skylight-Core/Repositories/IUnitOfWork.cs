@@ -9,6 +9,7 @@ namespace Skylight.Repositories
     {
         IWeatherRepository Weather { get; }
         IWeatherAlertRepository WeatherAlerts { get; }
+        IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
 
         /// <summary>
         /// Saves all changes in the current transaction.

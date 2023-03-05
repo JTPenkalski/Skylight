@@ -9,7 +9,7 @@ namespace Skylight.Services
     {
         protected override IWeatherAlertRepository Repository => unitOfWork.WeatherAlerts;
 
-        /// <inheritdoc cref="BaseService{T}.BaseService(ILogger, IUnitOfWork, IRepository{T})"/>
+        /// <inheritdoc cref="BaseService{T}.BaseService(ILogger, IUnitOfWork)"/>
         public WeatherAlertService(ILogger<WeatherAlertService> logger, IUnitOfWork unitOfWork)
             : base(logger, unitOfWork) { }
     }

@@ -34,7 +34,7 @@ namespace Skylight.Repositories
             await table.AddAsync(entity);
         }
 
-        /// /// <inheritdoc cref="IRepository{T}.ReadAsync(int)"/>
+        /// <inheritdoc cref="IRepository{T}.ReadAsync(int)"/>
         public virtual async Task<T?> ReadAsync(int id)
         {
             return await table.FindAsync(id);
