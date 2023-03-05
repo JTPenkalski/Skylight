@@ -1,11 +1,9 @@
 import { AbstractControl } from '@angular/forms';
 
-// TODO: Rename and rename file.
-
 /**
  * Represents an actual FormControl within a FormGroup, associated with its declared name.
  **/
-export interface IFormQuestionInstance {
-  readonly name: string;
+export interface IFormControlInstance {
+  readonly name: string | number;
   readonly control: AbstractControl;
 }

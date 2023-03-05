@@ -11,7 +11,7 @@ export class WeatherEventObservationMethodFormMapper extends BaseFormMapper<Weat
     throw new Error('Not implemented.');
   }
 
-  public toFormModel(source: WeatherEventObservationMethod): any {
+  public toDisplayModel(source: WeatherEventObservationMethod): any {
     throw new Error('Not implemented.');
   }
 }

@@ -11,7 +11,7 @@ export class StormTrackerFormMapper extends BaseFormMapper<StormTracker, any> {
     throw new Error('Not implemented.');
   }
 
-  public toFormModel(source: StormTracker): any {
+  public toDisplayModel(source: StormTracker): any {
     throw new Error('Not implemented.');
   }
 }

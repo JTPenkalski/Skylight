@@ -26,7 +26,7 @@ export class WeatherEventStatisticsFormMapper extends BaseFormMapper<WeatherEven
     );
   }
 
-  public toFormModel(source: WeatherEventStatistics): IWeatherEventStatisticsFormModel {
+  public toDisplayModel(source: WeatherEventStatistics): IWeatherEventStatisticsFormModel {
     return {
       damageCost: this.formBuilder.control(source.damageCost),
       fatalities: this.formBuilder.control(source.fatalities),

@@ -12,7 +12,7 @@ export class WeatherAlertFormMapper extends BaseFormMapper<WeatherAlert, any> {
     throw new Error('Not implemented.');
   }
 
-  public toFormModel(source: WeatherAlert): any {
+  public toDisplayModel(source: WeatherAlert): any {
     throw new Error('Not implemented.');
   }
 }

@@ -17,7 +17,7 @@ export class LocationFormMapper extends BaseFormMapper<Location, ILocationFormMo
     );
   }
 
-  public toFormModel(source: Location): ILocationFormModel {
+  public toDisplayModel(source: Location): ILocationFormModel {
     return {
       city: this.formBuilder.nonNullable.control(source.city, Validators.required),
       zipCode: this.formBuilder.nonNullable.control(source.zipCode, Validators.required),

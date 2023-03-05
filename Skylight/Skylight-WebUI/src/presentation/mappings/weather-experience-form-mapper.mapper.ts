@@ -11,7 +11,7 @@ export class WeatherExperienceFormMapper extends BaseFormMapper<WeatherExperienc
     throw new Error('Not implemented.');
   }
 
-  public toFormModel(source: WeatherExperience): any {
+  public toDisplayModel(source: WeatherExperience): any {
     throw new Error('Not implemented.');
   }
 }

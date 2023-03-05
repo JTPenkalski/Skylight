@@ -18,8 +18,8 @@ export class WeatherEvent extends BaseModel {
     startDate: Date = new Date(),
     statistics: WeatherEventStatistics = new WeatherEventStatistics(),
     experience: WeatherExperience = new WeatherExperience(),
-    locations: Location[] = [],
-    alerts: WeatherEventAlert[] = [],
+    locations: Location[] = [ new Location() ],
+    alerts: WeatherEventAlert[] = [ new WeatherEventAlert() ],
     endDate?: Date,
     id?: number
   ) {

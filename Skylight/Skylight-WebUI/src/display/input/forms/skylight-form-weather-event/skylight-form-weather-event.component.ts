@@ -6,7 +6,7 @@ import { WeatherEvent } from 'core/models';
 import { WeatherEventService } from 'presentation/services';
 import { WeatherEventFormMapper } from 'presentation/mappings';
 import { IWeatherEventFormModel } from 'display/input/form-models';
-import { IFormQuestionInstance } from 'display/input/controls/skylight-form-question/models/form-control-instance.model';
+import { IFormControlInstance } from 'display/input/controls/skylight-form-questions/models';
 
 @Component({
   selector: 'skylight-form-weather-event',
@@ -22,11 +22,7 @@ export class SkylightFormWeatherEventComponent {
     @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
     protected readonly weatherEventMapper: WeatherEventFormMapper
   ) {
-    this.form = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toFormModel(this.model));
-  }
-
-  public ngOnInit(): void {
-    
+    this.form = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toDisplayModel(this.model));
   }
 
   public submit(): void {
@@ -34,8 +30,8 @@ export class SkylightFormWeatherEventComponent {
     this.weatherEventService.add(this.weatherEventMapper.toPresentationModel(this.form.controls));
   }
 
-  public formQuestionInstance<T extends AbstractControl<T, T>>(name: string): IFormQuestionInstance {
-    const control: AbstractControl<T, T> | null = this.form.get(name);
+  public getControlInstance(name: string): IFormControlInstance {
+    const control: AbstractControl | null = this.form.get(name);
 
     if (!control) {
       throw new Error(`Cannot create IFormControlInstance. The control "${name}" is not a FormControl.`);

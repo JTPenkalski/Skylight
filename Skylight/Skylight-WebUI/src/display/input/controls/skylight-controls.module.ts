@@ -13,13 +13,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { FORM_QUESTION_CONFIG, FORM_QUESTION_CONFIG_TOKEN } from './skylight-form-question/form-question-configuration.service';
+import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
+
 import { SkylightSearchBarComponent } from 'display/input/controls/skylight-search-bar/skylight-search-bar.component';
-import { SkylightFormQuestionDateComponent } from 'display/input/controls/skylight-form-question/skylight-form-question-date/skylight-form-question-date.component';
-import { SkylightFormQuestionInputComponent } from 'display/input/controls/skylight-form-question/skylight-form-question-input/skylight-form-question-input.component';
-import { SkylightFormQuestionSelectComponent } from 'display/input/controls/skylight-form-question/skylight-form-question-select/skylight-form-question-select.component';
-import { SkylightFormQuestionTextAreaComponent } from 'display/input/controls/skylight-form-question/skylight-form-question-textarea/skylight-form-question-textarea.component';
-import { SkylightFormQuestionWeatherEventAlertComponent } from './skylight-form-question-weather-event-alert/skylight-form-question-weather-event-alert.component';
+import * as SkylightFormQuestions from './skylight-form-questions';
 
 @NgModule({
   imports: [
@@ -40,11 +37,11 @@ import { SkylightFormQuestionWeatherEventAlertComponent } from './skylight-form-
   ],
   declarations: [
     SkylightSearchBarComponent,
-    SkylightFormQuestionDateComponent,
-    SkylightFormQuestionInputComponent,
-    SkylightFormQuestionSelectComponent,
-    SkylightFormQuestionTextAreaComponent,
-    SkylightFormQuestionWeatherEventAlertComponent
+    SkylightFormQuestions.SkylightFormQuestionDateComponent,
+    SkylightFormQuestions.SkylightFormQuestionInputComponent,
+    SkylightFormQuestions.SkylightFormQuestionSelectComponent,
+    SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent
   ],
   exports: [
     MatButtonModule,
@@ -58,14 +55,14 @@ import { SkylightFormQuestionWeatherEventAlertComponent } from './skylight-form-
     MatToolbarModule,
     MatTooltipModule,
     SkylightSearchBarComponent,
-    SkylightFormQuestionDateComponent,
-    SkylightFormQuestionInputComponent,
-    SkylightFormQuestionSelectComponent,
-    SkylightFormQuestionTextAreaComponent,
-    SkylightFormQuestionWeatherEventAlertComponent
+    SkylightFormQuestions.SkylightFormQuestionDateComponent,
+    SkylightFormQuestions.SkylightFormQuestionInputComponent,
+    SkylightFormQuestions.SkylightFormQuestionSelectComponent,
+    SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent
   ],
   providers: [
-    { provide: FORM_QUESTION_CONFIG_TOKEN, useValue: FORM_QUESTION_CONFIG }
+    ...FORM_QUESTION_CONFIG_PROVIDER
   ]
 })
 export class SkylightControlsModule { }

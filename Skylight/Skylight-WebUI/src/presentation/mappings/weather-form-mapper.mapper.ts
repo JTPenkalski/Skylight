@@ -12,7 +12,7 @@ export class WeatherFormMapper extends BaseFormMapper<Weather, any> {
     throw new Error('Not implemented.');
   }
 
-  public toFormModel(source: Weather): any {
+  public toDisplayModel(source: Weather): any {
     throw new Error('Not implemented.');
   }
 }

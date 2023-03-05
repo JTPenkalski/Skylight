@@ -8,12 +8,12 @@ export class WeatherEventAlert extends BaseModel {
   constructor(
     alert: WeatherAlert = new WeatherAlert(),
     issuanceTime: Date = new Date(),
-    modifiers: WeatherAlertModifier[] = [],
+    modifiers: WeatherAlertModifier[] = [ new WeatherAlertModifier() ],
     id?: number
   ) {
     super(id);
     this.alert = alert;
     this.issuanceTime = issuanceTime;
-    this.modifiers = modifiers ?? [];
+    this.modifiers = modifiers;
   }
 }

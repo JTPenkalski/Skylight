@@ -4,21 +4,21 @@
   <section id="section-general" class="form-section">
     <h2>General Information</h2>
 
-    <skylight-form-question-input label="Name" [instance]="formQuestionInstance('name')"></skylight-form-question-input>
+    <skylight-form-question-input label="Name" [instance]="getControlInstance('name')"></skylight-form-question-input>
 
-    <skylight-form-question-textarea label="Description" [instance]="formQuestionInstance('description')"></skylight-form-question-textarea>
+    <skylight-form-question-textarea label="Description" [instance]="getControlInstance('description')"></skylight-form-question-textarea>
 
-    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [instance]="formQuestionInstance('weather')"></skylight-form-question-select>
+    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [instance]="getControlInstance('weather')"></skylight-form-question-select>
 
-    <skylight-form-question-date label="Start Date" [instance]="formQuestionInstance('startDate')"></skylight-form-question-date>
+    <skylight-form-question-date label="Start Date" [instance]="getControlInstance('startDate')"></skylight-form-question-date>
 
-    <skylight-form-question-date label="End Date" [instance]="formQuestionInstance('endDate')"></skylight-form-question-date>
+    <skylight-form-question-date label="End Date" [instance]="getControlInstance('endDate')"></skylight-form-question-date>
   </section>
 
   <section id="section-alerts" class="form-section">
     <h2>Alerts</h2>
     
-    <skylight-form-question-weather-event-alert [instance]="formQuestionInstance('alerts')"></skylight-form-question-weather-event-alert>
+    <skylight-form-question-weather-event-alert [instance]="getControlInstance('alerts')"></skylight-form-question-weather-event-alert>
   </section>
 
   <section id="section-locations" class="form-section">

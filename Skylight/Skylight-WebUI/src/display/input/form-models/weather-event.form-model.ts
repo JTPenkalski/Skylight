@@ -9,7 +9,7 @@ export interface IWeatherEventFormModel {
   readonly weather: FormControl<Weather>;
   readonly startDate: FormControl<Date>;
   readonly endDate: FormControl<Date | null>;
-  readonly weatherExperience: FormControl<WeatherExperience>;
+  readonly experience: FormControl<WeatherExperience>;
   readonly locations: FormArray<FormGroup<ILocationFormModel>>;
   readonly alerts: FormArray<FormGroup<IWeatherEventAlertFormModel>>;
   readonly statistics: FormGroup<IWeatherEventStatisticsFormModel>;

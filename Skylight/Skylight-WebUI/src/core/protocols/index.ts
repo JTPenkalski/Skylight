@@ -1,1 +1,1 @@
-export * from './http-protocol.protocol';
+export * from './http-protocol-interface.protocol';

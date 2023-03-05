@@ -21,15 +21,15 @@ export class WeatherEventAlertFormMapper extends BaseFormMapper<WeatherEventAler
     return new WeatherEventAlert(
       source.alert.value,
       source.issuanceTime.value,
-      source.modifiers.value
+      source.modifiers.getRawValue().map(m => m.control)
     );
   }
 
-  public toFormModel(source: WeatherEventAlert): IWeatherEventAlertFormModel {
+  public toDisplayModel(source: WeatherEventAlert): IWeatherEventAlertFormModel {
     return {
       alert: this.formBuilder.nonNullable.control(source.alert, Validators.required),
       issuanceTime: this.formBuilder.nonNullable.control(source.issuanceTime, Validators.required),
-      modifiers: this.formBuilder.nonNullable.array(source.modifiers.map(m => this.formBuilder.nonNullable.control(m, Validators.required)))
+      modifiers: this.formBuilder.nonNullable.array(source.modifiers.map(m => this.formBuilder.nonNullable.group({ control: this.formBuilder.nonNullable.control(m, Validators.required) })))
     };
   }
 }
