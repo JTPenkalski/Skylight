@@ -61,7 +61,7 @@ namespace Skylight.Controllers
             
             return response.Success
                 ? CreatedAtAction(
-                    $"{nameof(Get)}",
+                    nameof(Get),
                     GetType().Name.Replace("Controller", string.Empty),
                     new { id = response.Content!.Id },
                     mapper.Map<TModel, TWebModel>(response.Content)
