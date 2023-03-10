@@ -7,6 +7,7 @@ namespace Skylight.Repositories
     /// </summary>
     public interface IUnitOfWork
     {
+        ILocationRepository Location { get; }
         IWeatherRepository Weather { get; }
         IWeatherAlertRepository WeatherAlerts { get; }
         IWeatherAlertModifierRepository WeatherAlertModifiers { get; }

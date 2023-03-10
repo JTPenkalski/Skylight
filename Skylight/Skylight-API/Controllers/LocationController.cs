@@ -10,44 +10,44 @@ using System.Threading.Tasks;
 namespace Skylight.Controllers
 {
     /// <summary>
-    /// Web API Controller for manipulating <see cref="WebModels.WeatherAlertModifierModifier"/> models.
+    /// Web API Controller for manipulating <see cref="WebModels.Location"/> models.
     /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherAlertModifierController : BaseController<Models.WeatherAlertModifier, WebModels.WeatherAlertModifier>
+    public class LocationController : BaseController<Models.Location, WebModels.Location>
     {
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger, IMapper, IService{TModel})"/>
-        public WeatherAlertModifierController(
+        public LocationController(
             IConfiguration config,
-            ILogger<WeatherController> logger,
+            ILogger<LocationController> logger,
             IMapper mapper,
-            IWeatherAlertModifierService service
+            ILocationService service
         ) : base(config, logger, mapper, service) { }
 
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.Post(TWebModel)"/>
         [HttpPost]
-        public override async Task<ActionResult<WebModels.WeatherAlertModifier>> Post(WebModels.WeatherAlertModifier model)
+        public override async Task<ActionResult<WebModels.Location>> Post(WebModels.Location model)
         {
             return await base.Post(model);
         }
 
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.Get(int)"/>
         [HttpGet("{id}")]
-        public override async Task<ActionResult<WebModels.WeatherAlertModifier>> Get(int id)
+        public override async Task<ActionResult<WebModels.Location>> Get(int id)
         {
             return await base.Get(id);
         }
 
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.GetAll"/>
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<WebModels.WeatherAlertModifier>>> GetAll()
+        public override async Task<ActionResult<IEnumerable<WebModels.Location>>> GetAll()
         {
             return await base.GetAll();
         }
 
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.Put(int, TWebModel)"/>
         [HttpPut("{id}")]
-        public override async Task<IActionResult> Put(int id, WebModels.WeatherAlertModifier model)
+        public override async Task<IActionResult> Put(int id, WebModels.Location model)
         {
             return await base.Put(id, model);
         }

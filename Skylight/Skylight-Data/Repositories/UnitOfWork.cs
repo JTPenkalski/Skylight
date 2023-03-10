@@ -10,6 +10,7 @@ namespace Skylight.Repositories
     {
         protected readonly WeatherExperienceContext context;
 
+        public ILocationRepository Location { get; }
         public IWeatherRepository Weather { get; }
         public IWeatherAlertRepository WeatherAlerts { get; }
         public IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
@@ -20,6 +21,7 @@ namespace Skylight.Repositories
         /// <param name="context">EF Core database context.</param>
         public UnitOfWork(
             WeatherExperienceContext context,
+            ILocationRepository location,
             IWeatherRepository weather,
             IWeatherAlertRepository weatherAlerts,
             IWeatherAlertModifierRepository weatherAlertModifiers
@@ -27,6 +29,7 @@ namespace Skylight.Repositories
         {
             this.context = context;
 
+            Location = location;
             Weather = weather;
             WeatherAlerts = weatherAlerts;
             WeatherAlertModifiers = weatherAlertModifiers;
