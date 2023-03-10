@@ -54,6 +54,7 @@ namespace Skylight.Controllers
         /// </summary>
         /// <param name="model">The data of the model to post.</param>
         /// <returns>An HTTP response for the POST request.</returns>
+        [HttpPost]
         public virtual async Task<ActionResult<TWebModel>> Post(TWebModel model)
         {
             var response = await service.AddAsync(mapper.Map<TWebModel, TModel>(model));
@@ -73,6 +74,7 @@ namespace Skylight.Controllers
         /// </summary>
         /// <param name="id">The ID of the model to get.</param>
         /// <returns>An HTTP response for the GET request.</returns>
+        [HttpGet("{id}")]
         public virtual async Task<ActionResult<TWebModel>> Get(int id)
         {
             var response = await service.GetAsync(id);
@@ -84,6 +86,7 @@ namespace Skylight.Controllers
         /// Gets all models from the data store.
         /// </summary>
         /// <returns>An HTTP response for the GET request.</returns>
+        [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TWebModel>>> GetAll()
         {
             var response = await service.GetAllAsync();
@@ -97,6 +100,7 @@ namespace Skylight.Controllers
         /// <param name="id">The ID of the model to update.</param>
         /// <param name="model">The data of the updated model to put.</param>
         /// <returns>An HTTP response for the PUT request.</returns>
+        [HttpPut("{id}")]
         public virtual async Task<IActionResult> Put(int id, TWebModel model)
         {
             if (id != model.Id)
@@ -114,6 +118,7 @@ namespace Skylight.Controllers
         /// </summary>
         /// <param name="id">The ID of the model to delete.</param>
         /// <returns>An HTTP response for the DELETE request.</returns>
+        [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(int id)
         {
             var response = await service.RemoveAsync(id);

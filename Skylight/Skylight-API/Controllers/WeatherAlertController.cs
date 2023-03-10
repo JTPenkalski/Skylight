@@ -23,40 +23,5 @@ namespace Skylight.Controllers
             IMapper mapper,
             IWeatherAlertService service
         ) : base(config, logger, mapper, service) { }
-
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.Post(TWebModel)"/>
-        [HttpPost]
-        public override async Task<ActionResult<WebModels.WeatherAlert>> Post(WebModels.WeatherAlert model)
-        {
-            return await base.Post(model);
-        }
-
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.Get(int)"/>
-        [HttpGet("{id}")]
-        public override async Task<ActionResult<WebModels.WeatherAlert>> Get(int id)
-        {
-            return await base.Get(id);
-        }
-
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.GetAll"/>
-        [HttpGet]
-        public override async Task<ActionResult<IEnumerable<WebModels.WeatherAlert>>> GetAll()
-        {
-            return await base.GetAll();
-        }
-
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.Put(int, TWebModel)"/>
-        [HttpPut("{id}")]
-        public override async Task<IActionResult> Put(int id, WebModels.WeatherAlert model)
-        {
-            return await base.Put(id, model);
-        }
-
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.Delete(int)"/>
-        [HttpDelete("{id}")]
-        public override async Task<IActionResult> Delete(int id)
-        {
-            return await base.Delete(id);
-        }
     }
 }
