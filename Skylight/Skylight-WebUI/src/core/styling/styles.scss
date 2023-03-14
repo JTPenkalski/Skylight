@@ -14,6 +14,31 @@ body {
   margin: 0;
 }
 
+// Layout
+.flex-column {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.no-gap {
+  gap: 0px;
+}
+
+.horizontal-spacer {
+  flex: 1 1 auto;
+}
+
 // Headings
 h1 {
   color: theme.color('accent', 800);
@@ -30,11 +55,6 @@ h3 {
   color: theme.color('accent', 800);
   font-size: max(min(3vw, 20pt), 14pt) !important;
   text-decoration: underline !important;
-}
-
-// Special Styles
-.horizontal-spacer {
-  flex: 1 1 auto;
 }
 
 // Icons/Icon Buttons

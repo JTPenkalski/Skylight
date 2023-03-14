@@ -5,8 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { SkylightControlsModule } from 'display/input/controls/skylight-controls.module';
 import { SkylightFormsModule } from 'display/input/forms/skylight-forms.module';
 
-
-
 import { AppComponent } from './app.component';
 
 @NgModule({

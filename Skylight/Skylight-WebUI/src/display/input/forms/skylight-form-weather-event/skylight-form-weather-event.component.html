@@ -1,36 +1,32 @@
 <h1>New Weather Event</h1>
 
-<form id="form-weather-event" [formGroup]="form" (ngSubmit)="submit()">
-  <section id="section-general" class="form-section">
-    <h2>General Information</h2>
-
+<form id="form-weather-event" class="flex-column" [formGroup]="form" (ngSubmit)="submit()">
+  <skylight-form-field-set id="section-general" label="General Information">
     <skylight-form-question-input label="Name" [instance]="getControlInstance('name')"></skylight-form-question-input>
 
     <skylight-form-question-textarea label="Description" [instance]="getControlInstance('description')"></skylight-form-question-textarea>
 
     <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [instance]="getControlInstance('weather')"></skylight-form-question-select>
-
-    <skylight-form-question-date label="Start Date" [instance]="getControlInstance('startDate')"></skylight-form-question-date>
-
-    <skylight-form-question-date label="End Date" [instance]="getControlInstance('endDate')"></skylight-form-question-date>
-  </section>
-
-  <section id="section-alerts" class="form-section">
-    <h2>Alerts</h2>
     
+    <div class="flex-row">
+      <skylight-form-question-date label="Start Date" [instance]="getControlInstance('startDate')"></skylight-form-question-date>
+
+      <skylight-form-question-date label="End Date" [instance]="getControlInstance('endDate')"></skylight-form-question-date>
+    </div>
+  </skylight-form-field-set>
+
+  <skylight-form-field-set id="section-alerts" label="Alerts">
     <skylight-form-question-weather-event-alert [instance]="getControlInstance('alerts')"></skylight-form-question-weather-event-alert>
-  </section>
+  </skylight-form-field-set>
 
-  <section id="section-locations" class="form-section">
-    <h2>Locations</h2>
-    <p>Question Here</p>
-  </section>
+  <skylight-form-field-set id="section-locations" label="Locations">
+    <skylight-form-question-location [instance]="getControlInstance('locations')"></skylight-form-question-location>
+  </skylight-form-field-set>
 
-  <section id="section-statistics" class="form-section">
-    <h2>Statistics</h2>
+  <skylight-form-field-set id="section-statistics" label="Statistics">
     <h3>Tornado</h3>
     <p>Question Here</p>
-  </section>
+  </skylight-form-field-set>
 
   <div>
     <button mat-raised-button color="accent" type="submit" [disabled]="false">Submit</button>

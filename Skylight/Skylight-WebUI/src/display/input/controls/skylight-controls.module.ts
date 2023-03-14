@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,12 +16,15 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
 
-import { SkylightSearchBarComponent } from 'display/input/controls/skylight-search-bar/skylight-search-bar.component';
 import * as SkylightFormQuestions from './skylight-form-questions';
+import { SkylightSearchBarComponent } from 'display/input/controls/skylight-search-bar/skylight-search-bar.component';
+import { SkylightFormFieldSetComponent } from './skylight-form-field-set/skylight-form-field-set.component';
+import { SkylightReorderableListComponent } from './skylight-reorderable-list/skylight-reorderable-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
+    DragDropModule,
     FormsModule,
     MatButtonModule,
     MatDatepickerModule,
@@ -36,12 +40,15 @@ import * as SkylightFormQuestions from './skylight-form-questions';
     ReactiveFormsModule
   ],
   declarations: [
-    SkylightSearchBarComponent,
     SkylightFormQuestions.SkylightFormQuestionDateComponent,
     SkylightFormQuestions.SkylightFormQuestionInputComponent,
     SkylightFormQuestions.SkylightFormQuestionSelectComponent,
     SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
-    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent,
+    SkylightFormQuestions.SkylightFormQuestionLocationComponent,
+    SkylightSearchBarComponent,
+    SkylightFormFieldSetComponent,
+    SkylightReorderableListComponent
   ],
   exports: [
     MatButtonModule,
@@ -54,12 +61,15 @@ import * as SkylightFormQuestions from './skylight-form-questions';
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    SkylightSearchBarComponent,
     SkylightFormQuestions.SkylightFormQuestionDateComponent,
     SkylightFormQuestions.SkylightFormQuestionInputComponent,
     SkylightFormQuestions.SkylightFormQuestionSelectComponent,
     SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
-    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent,
+    SkylightFormQuestions.SkylightFormQuestionLocationComponent,
+    SkylightSearchBarComponent,
+    SkylightFormFieldSetComponent,
+    SkylightReorderableListComponent
   ],
   providers: [
     ...FORM_QUESTION_CONFIG_PROVIDER

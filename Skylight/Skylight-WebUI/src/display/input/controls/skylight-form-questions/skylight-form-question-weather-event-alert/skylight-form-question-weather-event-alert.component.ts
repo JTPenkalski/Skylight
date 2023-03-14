@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 
 import { WeatherAlertModifier } from 'core/models';
 import { IWeatherEventAlertFormModel } from 'display/input/form-models';
