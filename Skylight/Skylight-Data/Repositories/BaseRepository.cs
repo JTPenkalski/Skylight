@@ -19,7 +19,7 @@ namespace Skylight.Repositories
         /// <summary>
         /// Constructs a new repository instance.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">EF Core Database Context service.</param>
         public BaseRepository(WeatherExperienceContext context)
         {
             table = context.Set<T>();
@@ -34,7 +34,7 @@ namespace Skylight.Repositories
             await table.AddAsync(entity);
         }
 
-        /// /// <inheritdoc cref="IRepository{T}.ReadAsync(int)"/>
+        /// <inheritdoc cref="IRepository{T}.ReadAsync(int)"/>
         public virtual async Task<T?> ReadAsync(int id)
         {
             return await table.FindAsync(id);

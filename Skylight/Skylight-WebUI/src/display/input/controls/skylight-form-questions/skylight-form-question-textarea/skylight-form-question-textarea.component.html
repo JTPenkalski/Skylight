@@ -1,0 +1,7 @@
+<div class="question" [formGroup]="parent">
+  <mat-form-field [appearance]="config.appearance" [color]="config.color">
+    <mat-label>{{label}}</mat-label>
+      <textarea matInput [formControlName]="name"></textarea>
+    <mat-error *ngIf="required && control.invalid">{{formatError(config.validation.required)}}</mat-error>
+  </mat-form-field>
+</div>

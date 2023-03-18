@@ -8,7 +8,5 @@ namespace Skylight.WebModels
         public required string City { get; init; }
         public required string ZipCode { get; init; }
         public required string Country { get; init; }
-
-        public virtual ICollection<WeatherEvent> Events { get; init; } = new HashSet<WeatherEvent>();
     }
 }

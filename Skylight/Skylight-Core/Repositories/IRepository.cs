@@ -1,5 +1,4 @@
-﻿using Skylight.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skylight.Repositories
@@ -7,8 +6,7 @@ namespace Skylight.Repositories
     /// <summary>
     /// Manages access to a data source for storing entities.
     /// </summary>
-    /// <typeparam name="T">The type of the entity to store.</typeparam>
-    public interface IRepository<T> where T : BaseIdentifiableModel
+    public interface IRepository<T>
     {
         /// <summary>
         /// Creates an entity of type <typeparamref name="T"/> in the database. 

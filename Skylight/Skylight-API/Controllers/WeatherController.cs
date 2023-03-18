@@ -9,67 +9,19 @@ using System.Threading.Tasks;
 
 namespace Skylight.Controllers
 {
+    /// <summary>
+    /// Web API Controller for manipulating <see cref="WebModels.Weather"/> models.
+    /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherController : BaseController
+    public class WeatherController : BaseController<Models.Weather, WebModels.Weather>
     {
-        protected readonly IWeatherService weatherService;
-
+        /// <inheritdoc cref="BaseController{Models.Weather, WebModels.Weather}.BaseController(IConfiguration, ILogger, IMapper, IService{Models.Weather})"/>
         public WeatherController(
             IConfiguration config,
             ILogger<WeatherController> logger,
             IMapper mapper,
-            IWeatherService weatherService
-        ) : base(config, logger, mapper)
-        {
-            this.weatherService = weatherService;
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWeather(int id)
-        {
-            var response = await weatherService.RemoveAsync(id);
-
-            return response.Success ? NoContent() : NotFound();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<WebModels.Weather>> GetWeather(int id)
-        {
-            var response = await weatherService.GetAsync(id);
-
-            return response.Success ? Ok(mapper.Map<Models.Weather, WebModels.Weather>(response.Content!)) : NotFound();
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<WebModels.Weather>>> GetWeatherTypes()
-        {
-            var response = await weatherService.GetAllAsync();
-
-            return response.Success ? Ok(mapper.Map<IEnumerable<Models.Weather>, IEnumerable<WebModels.Weather>>(response.Content!)) : NotFound();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<WebModels.Weather>> PostWeather(WebModels.Weather weather)
-        {
-            var response = await weatherService.AddAsync(mapper.Map<WebModels.Weather, Models.Weather>(weather));
-
-            return response.Success
-                ? CreatedAtAction($"{nameof(PostWeather)}", new { id = response.Content!.Id }, mapper.Map<Models.Weather, WebModels.Weather>(response.Content))
-                : BadRequest();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutWeather(int id, WebModels.Weather weather)
-        {
-            if (id != weather.Id)
-            {
-                return BadRequest();
-            }
-
-            var response = await weatherService.ModifyAsync(id, mapper.Map<WebModels.Weather, Models.Weather>(weather));
-
-            return response.Success ? NoContent() : NotFound();
-        }
+            IWeatherService service
+        ) : base(config, logger, mapper, service) { }
     }
 }

@@ -19,23 +19,21 @@ namespace Skylight.Services
     {
         protected readonly ILogger logger;
         protected readonly IUnitOfWork unitOfWork;
-        protected readonly IRepository<T> repository;
+
+        protected abstract IRepository<T> Repository { get; }
 
         /// <summary>
         /// Constructs a new service instance.
         /// </summary>
         /// <param name="logger">Logging service.</param>
         /// <param name="unitOfWork">Unit of Work service.</param>
-        /// <param name="repository">Repository service.</param>
         public BaseService(
             ILogger logger,
-            IUnitOfWork unitOfWork,
-            IRepository<T> repository
+            IUnitOfWork unitOfWork
         )
         {
             this.logger = logger;
             this.unitOfWork = unitOfWork;
-            this.repository = repository;
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace Skylight.Services
 
             try
             {
-                await repository.CreateAsync(model);
+                await Repository.CreateAsync(model);
                 await unitOfWork.CommitAsync();
             }
             catch (Exception ex)
@@ -71,7 +69,7 @@ namespace Skylight.Services
         /// <inheritdoc cref="IService{T}.GetAsync(int)"/>
         public virtual async Task<ServiceResponse<T>> GetAsync(int id)
         {
-            T? model = await repository.ReadAsync(id);
+            T? model = await Repository.ReadAsync(id);
 
             return new ServiceResponse<T>(model is not null, model);
         }
@@ -79,7 +77,7 @@ namespace Skylight.Services
         /// <inheritdoc cref="IService{T}.GetAsync"/>
         public virtual async Task<ServiceResponse<IEnumerable<T>>> GetAllAsync()
         {
-            IEnumerable<T> models = await repository.ReadAllAsync();
+            IEnumerable<T> models = await Repository.ReadAllAsync();
 
             return new ServiceResponse<IEnumerable<T>>(models.Any(), models);
         }
@@ -87,13 +85,13 @@ namespace Skylight.Services
         /// <inheritdoc cref="IService{T}.ModifyAsync(int, T)"/>
         public virtual async Task<ServiceResponse<T>> ModifyAsync(int id, T model)
         {
-            bool success = await repository.ReadAsync(id) is not null;
+            bool success = await Repository.ReadAsync(id) is not null;
 
             try
             {
                 if (success)
                 {
-                    await repository.UpdateAsync(model);
+                    await Repository.UpdateAsync(model);
                     await unitOfWork.CommitAsync();
                 }
             }
@@ -109,14 +107,14 @@ namespace Skylight.Services
         /// <inheritdoc cref="IService{T}.RemoveAsync(int)"/>
         public virtual async Task<ServiceResponse<T>> RemoveAsync(int id)
         {
-            T? model = await repository.ReadAsync(id);
+            T? model = await Repository.ReadAsync(id);
             bool success = model is not null;
 
             try
             {
                 if (success)
                 {
-                    await repository.DeleteAsync(id);
+                    await Repository.DeleteAsync(id);
                     await unitOfWork.CommitAsync();
                 }
             }

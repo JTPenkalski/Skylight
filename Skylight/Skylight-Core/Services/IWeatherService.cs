@@ -3,7 +3,7 @@
 namespace Skylight.Services
 {
     /// <summary>
-    /// Business logic services for interacting with <see cref="Weather"/> entities.
+    /// Manages business logic operations on <see cref="Weather"/> models.
     /// </summary>
     public interface IWeatherService : IService<Weather>
     {

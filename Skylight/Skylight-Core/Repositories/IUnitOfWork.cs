@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using Skylight.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Skylight.Repositories
 {
@@ -9,7 +7,10 @@ namespace Skylight.Repositories
     /// </summary>
     public interface IUnitOfWork
     {
+        ILocationRepository Location { get; }
         IWeatherRepository Weather { get; }
+        IWeatherAlertRepository WeatherAlerts { get; }
+        IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
 
         /// <summary>
         /// Saves all changes in the current transaction.
