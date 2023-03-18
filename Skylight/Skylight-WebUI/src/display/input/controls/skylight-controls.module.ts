@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
 
+import { SkylightReorderableListItemDirective } from './skylight-reorderable-list/skylight-reorderable-list-item.directive';
+
 import * as SkylightFormQuestions from './skylight-form-questions';
 import { SkylightSearchBarComponent } from 'display/input/controls/skylight-search-bar/skylight-search-bar.component';
 import { SkylightFormFieldSetComponent } from './skylight-form-field-set/skylight-form-field-set.component';
@@ -40,6 +42,7 @@ import { SkylightReorderableListComponent } from './skylight-reorderable-list/sk
     ReactiveFormsModule
   ],
   declarations: [
+    SkylightReorderableListItemDirective,
     SkylightFormQuestions.SkylightFormQuestionDateComponent,
     SkylightFormQuestions.SkylightFormQuestionInputComponent,
     SkylightFormQuestions.SkylightFormQuestionSelectComponent,

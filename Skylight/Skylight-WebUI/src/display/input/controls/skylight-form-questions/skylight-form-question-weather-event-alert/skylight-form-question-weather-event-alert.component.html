@@ -6,21 +6,19 @@
   
         <skylight-form-question-date label="Issuance Time" [instance]="{ name: 'issuanceTime', control: control.get('issuanceTime')! }"></skylight-form-question-date>
       </div>
-      
-      <skylight-reorderable-list [items]="['A', 'B', 'C']">
-        <p>Hi</p>
-      </skylight-reorderable-list>
 
-      <ng-container [formGroup]="control">
-        <ng-container formArrayName="modifiers">
+      <skylight-reorderable-list
+        [instance]="getControlInstance('modifiers', control)"
+        (itemAdded)="addWeatherAlertModifier(controlIndex)"
+        (itemRemoved)="removeWeatherAlertModifier(controlIndex, $event)">
+        <ng-template reorderableListItem let-item="item" let-index="index">
           <skylight-form-question-select
-            *ngFor="let modifier of getAlertModifiers(controlIndex).controls; index as modifierIndex"
-            label="Modifier {{modifierIndex}}"
+            label="Modifier {{index}}"
             optionsEndpoint="WeatherAlertModifier"
-            [instance]="{ name: 'control', control: modifier.controls.control }">
+            [instance]="getControlInstance('control', item)">
           </skylight-form-question-select>
-        </ng-container>
-      </ng-container>
+        </ng-template>
+      </skylight-reorderable-list>
     </ng-container>
   </div>
 </div>
