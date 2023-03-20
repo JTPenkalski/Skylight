@@ -14,7 +14,8 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-alert.component.scss']
 })
 export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightFormQuestionComponent {
-  public get weatherEventAlert(): FormArray<FormGroup<IWeatherEventAlertFormModel>> { return this.control as FormArray<FormGroup<IWeatherEventAlertFormModel>>; }
+  public get weatherEventAlert(): FormGroup<IWeatherEventAlertFormModel> { return this.control as FormGroup<IWeatherEventAlertFormModel>; }
+  public get modifiers(): FormArray<ReadOnlyFormGroup<WeatherAlertModifier>> { return this.control.get('modifiers') as FormArray<ReadOnlyFormGroup<WeatherAlertModifier>>; }
 
   constructor(
     @Inject(FORM_QUESTION_CONFIG) config: FormQuestionConfiguration,
@@ -23,15 +24,11 @@ export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightForm
     super(config);
   }
 
-  public getAlertModifiers(index: number): FormArray<ReadOnlyFormGroup<WeatherAlertModifier>> { return this.weatherEventAlert.at(index).get('modifiers') as FormArray<ReadOnlyFormGroup<WeatherAlertModifier>>; }
-
-  public addWeatherAlertModifier(weatherEventAlertIndex: number): void {
-    console.log('Adding mod');
-    this.getAlertModifiers(weatherEventAlertIndex).push(this.weatherAlertModifierMapper.toDisplayModel(new WeatherAlertModifier()));
+  public addWeatherAlertModifier(): void {
+    this.modifiers.push(this.weatherAlertModifierMapper.toDisplayModel(new WeatherAlertModifier()));
   }
 
-  public removeWeatherAlertModifier(weatherEventAlertIndex: number, modifierIndex: number): void {
-    console.log('Removing mod');
-    this.getAlertModifiers(weatherEventAlertIndex).removeAt(modifierIndex);
+  public removeWeatherAlertModifier(modifierIndex: number): void {
+    this.modifiers.removeAt(modifierIndex);
   }
 }

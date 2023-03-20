@@ -64,6 +64,7 @@ import { SkylightReorderableListComponent } from './skylight-reorderable-list/sk
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
+    SkylightReorderableListItemDirective,
     SkylightFormQuestions.SkylightFormQuestionDateComponent,
     SkylightFormQuestions.SkylightFormQuestionInputComponent,
     SkylightFormQuestions.SkylightFormQuestionSelectComponent,

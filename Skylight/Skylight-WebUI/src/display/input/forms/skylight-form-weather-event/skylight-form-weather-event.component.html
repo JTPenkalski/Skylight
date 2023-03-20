@@ -16,7 +16,17 @@
   </skylight-form-field-set>
 
   <skylight-form-field-set id="section-alerts" label="Alerts">
-    <skylight-form-question-weather-event-alert [instance]="getControlInstance('alerts')"></skylight-form-question-weather-event-alert>
+    <skylight-reorderable-list
+      [instance]="getControlInstance('alerts')"
+      (itemAdded)="addWeatherEventAlert()"
+      (itemRemoved)="removeWeatherEventAlert($event)">
+      <ng-template reorderableListItem let-item="item" let-index="index">
+        <skylight-form-question-weather-event-alert
+          label="Alert {{index}}"
+          [instance]="getControlInstance(index, form.controls.alerts)">
+        </skylight-form-question-weather-event-alert>
+      </ng-template>
+    </skylight-reorderable-list>
   </skylight-form-field-set>
 
   <skylight-form-field-set id="section-locations" label="Locations">

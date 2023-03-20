@@ -33,11 +33,11 @@ export class SkylightReorderableListComponent {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
   }
 
-  public add(): void {
+  public onItemAdded(): void {
     this.itemAdded.emit();
   }
 
-  public remove(index: number): void {
+  public onItemRemoved(index: number): void {
     this.itemRemoved.emit(index);
   }
 }

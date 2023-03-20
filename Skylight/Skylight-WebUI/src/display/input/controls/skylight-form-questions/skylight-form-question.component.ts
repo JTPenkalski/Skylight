@@ -1,5 +1,5 @@
 import { Directive, Inject, Input } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
 import { IAbstractControlInstance } from './models';
@@ -34,11 +34,13 @@ export abstract class SkylightFormQuestionComponent {
 
   /**
    * Maps an AbstractControl to an AbstractControlInstance.
-   * @param name The name of the AbstractControl within a FormGroup.
+   * @param name The name or index of the AbstractControl within a control.
+   * @param parent Optionally provide a more specific parent to search under.
    * @returns An object with the AbstractControl and its name within the FormGroup.
    **/
-  public getControlInstance(name: string, parent?: FormGroup): IAbstractControlInstance {
-    const control: AbstractControl | null = (parent ?? this.parent).get(name);
+  public getControlInstance(name: string | number, parent?: FormGroup | FormArray): IAbstractControlInstance {
+    name = name.toString(); // Convert string | number to string
+    const control: AbstractControl | null = parent?.get(name) ?? this.parent.get(name);
 
     if (!control) {
       throw new Error(`Cannot create IAbstractControlInstance. The control "${name}" is not an AbstractControl.`);

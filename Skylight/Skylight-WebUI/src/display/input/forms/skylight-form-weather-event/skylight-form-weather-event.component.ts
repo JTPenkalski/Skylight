@@ -1,11 +1,11 @@
 import { Component, Inject, Input } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 
 import { IWeatherEventService } from 'core/services';
-import { WeatherEvent } from 'core/models';
+import { WeatherEvent, WeatherEventAlert } from 'core/models';
 import { WeatherEventService } from 'presentation/services';
-import { WeatherEventFormMapper } from 'presentation/mappings';
-import { IWeatherEventFormModel } from 'display/input/form-models';
+import { WeatherEventAlertFormMapper, WeatherEventFormMapper } from 'presentation/mappings';
+import { IWeatherEventAlertFormModel, IWeatherEventFormModel } from 'display/input/form-models';
 import { IAbstractControlInstance } from 'display/input/controls/skylight-form-questions/models';
 
 @Component({
@@ -20,7 +20,8 @@ export class SkylightFormWeatherEventComponent {
 
   constructor(
     @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
-    protected readonly weatherEventMapper: WeatherEventFormMapper
+    protected readonly weatherEventMapper: WeatherEventFormMapper,
+    protected readonly weatherEventAlertMapper: WeatherEventAlertFormMapper
   ) {
     this.form = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toDisplayModel(this.model));
   }
@@ -36,11 +37,13 @@ export class SkylightFormWeatherEventComponent {
 
   /**
    * Maps an AbstractControl to an AbstractControlInstance.
-   * @param name The name of the AbstractControl within a FormGroup.
+   * @param name The name or index of the AbstractControl within a control.
+   * @param parent Optionally provide a more specific parent to search under.
    * @returns An object with the AbstractControl and its name within the FormGroup.
    **/
-  public getControlInstance(name: string): IAbstractControlInstance {
-    const control: AbstractControl | null = this.form.get(name);
+  public getControlInstance(name: string | number, parent?: FormGroup | FormArray): IAbstractControlInstance {
+    name = name.toString(); // Convert string | number to string
+    const control: AbstractControl | null = parent?.get(name) ?? this.form.get(name);
 
     if (!control) {
       throw new Error(`Cannot create IAbstractControlInstance. The control "${name}" is not an AbstractControl.`);
@@ -50,5 +53,13 @@ export class SkylightFormWeatherEventComponent {
       name: name,
       control: control
     };
+  }
+
+  public addWeatherEventAlert(): void {
+    this.form.controls.alerts.push(new FormGroup<IWeatherEventAlertFormModel>(this.weatherEventAlertMapper.toDisplayModel(new WeatherEventAlert())));
+  }
+
+  public removeWeatherEventAlert(index: number): void {
+    this.form.controls.alerts.removeAt(index);
   }
 }
