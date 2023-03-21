@@ -1,7 +1,8 @@
 @use 'src/core/styling/app-theme' as theme;
 
 .list {
-  border: 0.125rem solid theme.contrast-color('primary', 800, 0.5);
+  background-color: rgba(theme.background-color('card'), 0.5);
+  border: 0.125rem solid rgba(theme.foreground-color('base'), 0.5);
   border-radius: 0.5rem;
   box-sizing: border-box;
   padding: 4px;
@@ -10,18 +11,19 @@
 
 .list-item {
   align-items: center;
-  border-bottom: solid 1px theme.contrast-color('primary', 800);
+  border-bottom: solid 1px theme.foreground-color('base');
   box-sizing: border-box;
   cursor: move;
 }
 
 .cdk-drag-preview {
-  background-color: theme.color('primary', 800); // Color from theme used for background color
+  background-color: theme.background-color('background');
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgb(0, 0, 0),
               0 8px 10px 1px rgba(0, 0, 0, 0.14),
               0 3px 14px 2px rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
+  color: theme.$text_color;
 
   .mat-icon {
     color: theme.color('accent', 500);

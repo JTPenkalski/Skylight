@@ -10,5 +10,5 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-location.component.scss']
 })
 export class SkylightFormQuestionLocationComponent extends SkylightFormQuestionComponent {
-  public get location(): FormArray<FormGroup<ILocationFormModel>> { return this.control as FormArray<FormGroup<ILocationFormModel>>; }
+  public get location(): FormGroup<ILocationFormModel> { return this.control as FormGroup<ILocationFormModel>; }
 }

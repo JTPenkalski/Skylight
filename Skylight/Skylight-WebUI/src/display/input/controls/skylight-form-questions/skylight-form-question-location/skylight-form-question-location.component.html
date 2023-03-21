@@ -1,11 +1,9 @@
-<div class="question" [formGroup]="parent">
-  <div [formArrayName]="name">
-    <ng-container *ngFor="let control of location.controls; index as controlIndex">
-      <skylight-form-question-input label="City" [instance]="{ name: 'city', control: control.get('city')! }"></skylight-form-question-input>
+<div class="question flex-column">
+  <div class="flex-row">
+    <skylight-form-question-input label="City" [instance]="{ name: 'city', control: control.get('city')! }"></skylight-form-question-input>
 
-      <skylight-form-question-input label="Zip Code" [instance]="{ name: 'zipCode', control: control.get('zipCode')! }"></skylight-form-question-input>
+    <skylight-form-question-input label="Zip Code" [instance]="{ name: 'zipCode', control: control.get('zipCode')! }"></skylight-form-question-input>
 
-      <skylight-form-question-input label="Country" [instance]="{ name: 'country', control: control.get('country')! }"></skylight-form-question-input>
-      </ng-container>
+    <skylight-form-question-input label="Country" [instance]="{ name: 'country', control: control.get('country')! }"></skylight-form-question-input>
   </div>
 </div>

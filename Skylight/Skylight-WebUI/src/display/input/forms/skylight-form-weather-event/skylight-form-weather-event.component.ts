@@ -2,10 +2,10 @@ import { Component, Inject, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 
 import { IWeatherEventService } from 'core/services';
-import { WeatherEvent, WeatherEventAlert } from 'core/models';
+import { Location, WeatherEvent, WeatherEventAlert } from 'core/models';
 import { WeatherEventService } from 'presentation/services';
-import { WeatherEventAlertFormMapper, WeatherEventFormMapper } from 'presentation/mappings';
-import { IWeatherEventAlertFormModel, IWeatherEventFormModel } from 'display/input/form-models';
+import { LocationFormMapper, WeatherEventAlertFormMapper, WeatherEventFormMapper } from 'presentation/mappings';
+import { ILocationFormModel, IWeatherEventAlertFormModel, IWeatherEventFormModel } from 'display/input/form-models';
 import { IAbstractControlInstance } from 'display/input/controls/skylight-form-questions/models';
 
 @Component({
@@ -21,7 +21,8 @@ export class SkylightFormWeatherEventComponent {
   constructor(
     @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
     protected readonly weatherEventMapper: WeatherEventFormMapper,
-    protected readonly weatherEventAlertMapper: WeatherEventAlertFormMapper
+    protected readonly weatherEventAlertMapper: WeatherEventAlertFormMapper,
+    protected readonly locationMapper: LocationFormMapper
   ) {
     this.form = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toDisplayModel(this.model));
   }
@@ -61,5 +62,13 @@ export class SkylightFormWeatherEventComponent {
 
   public removeWeatherEventAlert(index: number): void {
     this.form.controls.alerts.removeAt(index);
+  }
+
+  public addLocation(): void {
+    this.form.controls.locations.push(new FormGroup<ILocationFormModel>(this.locationMapper.toDisplayModel(new Location())));
+  }
+
+  public removeLocation(index: number): void {
+    this.form.controls.locations.removeAt(index);
   }
 }

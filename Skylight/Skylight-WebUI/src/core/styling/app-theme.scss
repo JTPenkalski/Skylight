@@ -44,8 +44,9 @@ $_skylight-palette-warn: mat.define-palette(mat.$red-palette);
 // Privately define the background and foreground configuration properties for the theme.
 // This is how we achieve greater customization in the following step where the actual theme object is defined.
 // These are based off the default definition for a dark theme in palette.scss.
+$text_color: white;
 $_skylight-theme-foreground: (
-  base: white,
+  base: $text_color,
   divider: rgba(white, 0.12),
   dividers:  rgba(white, 0.12),
   disabled: rgba(white, 0.5),
@@ -54,9 +55,9 @@ $_skylight-theme-foreground: (
   elevation: black,
   hint-text: rgba(white, 0.5),
   secondary-text: rgba(white, 0.7),
-  icon: white,
-  icons: white,
-  text: white,
+  icon: $text_color,
+  icons: $text_color,
+  text: $text_color,
   slider-min: white,
   slider-off: rgba(white, 0.3),
   slider-off-active: rgba(white, 0.3),
@@ -136,6 +137,40 @@ $skylight-theme: (
 
   // Get the specific color requested from this palette.
   $color: mat.get-color-from-palette($palette, '#{$hue}-contrast', $opacity);
+
+  @return $color;
+}
+
+/// Gets a foreground color from the given property of the current theme.
+/// @param {String} $property - The name of the property to use.
+/// @returns {Color} - The final color from the current theme.
+@function foreground-color($property)
+{
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($skylight-theme);
+
+  // Get the foreground palette from the color config.
+  $foreground: map.get($color-config, foreground);
+
+  // Get the specific color requested from this palette.
+  $color: map.get($foreground, $property);
+
+  @return $color;
+}
+
+/// Gets a background color from the given property of the current theme.
+/// @param {String} $property - The name of the property to use.
+/// @returns {Color} - The final color from the current theme.
+@function background-color($property)
+{
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($skylight-theme);
+
+  // Get the background palette from the color config.
+  $background: map.get($color-config, background);
+
+  // Get the specific color requested from this palette.
+  $color: map.get($background, $property);
 
   @return $color;
 }

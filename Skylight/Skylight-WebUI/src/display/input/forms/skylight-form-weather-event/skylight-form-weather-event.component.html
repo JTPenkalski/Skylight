@@ -30,7 +30,18 @@
   </skylight-form-field-set>
 
   <skylight-form-field-set id="section-locations" label="Locations">
-    <skylight-form-question-location [instance]="getControlInstance('locations')"></skylight-form-question-location>
+    <skylight-reorderable-list
+      [instance]="getControlInstance('locations')"
+      (itemAdded)="addLocation()"
+      (itemRemoved)="removeLocation($event)">
+      <ng-template reorderableListItem let-item="item" let-index="index">
+        <skylight-form-question-location
+          label="Location {{index}}"
+          [instance]="getControlInstance(index, form.controls.locations)">
+        </skylight-form-question-location>
+      </ng-template>
+    </skylight-reorderable-list>
+    
   </skylight-form-field-set>
 
   <skylight-form-field-set id="section-statistics" label="Statistics">
