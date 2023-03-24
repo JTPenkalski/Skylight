@@ -1,4 +1,4 @@
 export interface ISelectOption {
   name: string;
-  value: number;
+  value: string | number;
 }

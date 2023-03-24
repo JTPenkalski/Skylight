@@ -41,12 +41,13 @@
         </skylight-form-question-location>
       </ng-template>
     </skylight-reorderable-list>
-    
   </skylight-form-field-set>
 
   <skylight-form-field-set id="section-statistics" label="Statistics">
-    <h3>Tornado</h3>
-    <p>Question Here</p>
+    <skylight-form-question-weather-event-statistics
+      label="Weather Event Statistics"
+      [instance]="getControlInstance('statistics')">
+    </skylight-form-question-weather-event-statistics>
   </skylight-form-field-set>
 
   <div>

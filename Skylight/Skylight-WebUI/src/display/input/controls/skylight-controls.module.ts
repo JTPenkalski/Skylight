@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +30,7 @@ import { SkylightReorderableListComponent } from './skylight-reorderable-list/sk
     DragDropModule,
     FormsModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
@@ -49,12 +51,14 @@ import { SkylightReorderableListComponent } from './skylight-reorderable-list/sk
     SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
     SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent,
     SkylightFormQuestions.SkylightFormQuestionLocationComponent,
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventStatisticsComponent,
     SkylightSearchBarComponent,
     SkylightFormFieldSetComponent,
     SkylightReorderableListComponent
   ],
   exports: [
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
@@ -71,6 +75,7 @@ import { SkylightReorderableListComponent } from './skylight-reorderable-list/sk
     SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
     SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent,
     SkylightFormQuestions.SkylightFormQuestionLocationComponent,
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventStatisticsComponent,
     SkylightSearchBarComponent,
     SkylightFormFieldSetComponent,
     SkylightReorderableListComponent

@@ -1,0 +1,40 @@
+<div class="question flex-column" [formGroup]="statistics">
+  <h3>General</h3>
+  <div class="flex-row">
+    <skylight-form-question-input label="Damage Cost" [instance]="getControlInstance('damageCost', statistics)"></skylight-form-question-input>
+
+    <skylight-form-question-input label="Fatalities" [instance]="getControlInstance('fatalities', statistics)"></skylight-form-question-input>
+  </div>
+
+  <h3>Tornado</h3>
+  <div class="flex-row">
+    <skylight-form-question-select label="EF Rating" [options]="efRatingOptions" [instance]="getControlInstance('efRating', statistics)"></skylight-form-question-select>
+
+    <skylight-form-question-input label="Funnel Width" [instance]="getControlInstance('funnelWidth', statistics)"></skylight-form-question-input>
+
+    <skylight-form-question-input label="Path Distance" [instance]="getControlInstance('pathDistance', statistics)"></skylight-form-question-input>
+  </div>
+
+  <h3>Hurricane</h3>
+  <div class="flex-row">
+    <skylight-form-question-select label="Saffir Simpson Rating" [options]="saffirSimpsonRatingOptions" [instance]="getControlInstance('saffirSimpsonRating', statistics)"></skylight-form-question-select>
+
+    <skylight-form-question-input label="Lowest Pressure" [instance]="getControlInstance('lowestPressure', statistics)"></skylight-form-question-input>
+
+    <skylight-form-question-input label="Max Wind Speed" [instance]="getControlInstance('maxWindSpeed', statistics)"></skylight-form-question-input>
+  </div>
+
+  <h3>Earthquake</h3>
+  <div class="flex-row">
+    <skylight-form-question-input label="Richter Magnitude" [instance]="getControlInstance('richterMagnitude', statistics)"></skylight-form-question-input>
+    
+    <skylight-form-question-select label="Mercalli Intensity" [options]="mercalliIntensityOptions" [instance]="getControlInstance('mercalliIntensity', statistics)"></skylight-form-question-select>
+
+    <skylight-form-question-input label="Aftershocks" [instance]="getControlInstance('aftershocks', statistics)"></skylight-form-question-input>
+
+    <skylight-form-question-input label="Fault" [instance]="getControlInstance('fault', statistics)"></skylight-form-question-input>
+
+    <!-- TODO: Wrap in custom component that utilizes FormField. -->
+    <mat-checkbox formControlName="relatedTsunami">Related Tsunami</mat-checkbox>
+  </div>
+</div>
