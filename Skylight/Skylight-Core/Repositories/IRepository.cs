@@ -12,7 +12,8 @@ namespace Skylight.Repositories
         /// Creates an entity of type <typeparamref name="T"/> in the database. 
         /// </summary>
         /// <param name="entity">The entity to create.</param>
-        Task CreateAsync(T entity);
+        /// <returns>The ID of the created entity.</returns>
+        Task<int> CreateAsync(T entity);
 
         /// <summary>
         /// Reads an entity of type <typeparamref name="T"/> from the database.

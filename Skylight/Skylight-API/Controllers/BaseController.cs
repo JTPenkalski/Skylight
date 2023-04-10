@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Models;
 using Skylight.Services;
 using Skylight.WebModels;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -54,6 +54,8 @@ namespace Skylight.Controllers
         /// </summary>
         /// <param name="model">The data of the model to post.</param>
         /// <returns>An HTTP response for the POST request.</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         public virtual async Task<ActionResult<TWebModel>> Post(TWebModel model)
         {
@@ -74,6 +76,8 @@ namespace Skylight.Controllers
         /// </summary>
         /// <param name="id">The ID of the model to get.</param>
         /// <returns>An HTTP response for the GET request.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<TWebModel>> Get(int id)
         {
@@ -86,6 +90,8 @@ namespace Skylight.Controllers
         /// Gets all models from the data store.
         /// </summary>
         /// <returns>An HTTP response for the GET request.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TWebModel>>> GetAll()
         {
@@ -100,6 +106,9 @@ namespace Skylight.Controllers
         /// <param name="id">The ID of the model to update.</param>
         /// <param name="model">The data of the updated model to put.</param>
         /// <returns>An HTTP response for the PUT request.</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         public virtual async Task<IActionResult> Put(int id, TWebModel model)
         {
@@ -118,6 +127,8 @@ namespace Skylight.Controllers
         /// </summary>
         /// <param name="id">The ID of the model to delete.</param>
         /// <returns>An HTTP response for the DELETE request.</returns>
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(int id)
         {

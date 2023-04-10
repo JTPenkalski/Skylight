@@ -1,16 +1,18 @@
 <div class="question" [formGroup]="parent">
   <mat-form-field [appearance]="config.appearance" [color]="config.color">
     <mat-label>{{label}}</mat-label>
-      <mat-select [formControlName]="name">
-        <ng-container *ngIf="options">
-          <mat-option *ngFor="let option of options" [value]="option.value">{{option.name}}</mat-option>
+
+    <mat-select [formControlName]="name">
+      <ng-container *ngIf="options">
+        <mat-option *ngFor="let option of options" [value]="option.value">{{option.name}}</mat-option>
+      </ng-container>
+      <ng-container *ngIf="optionsEndpoint">
+        <ng-container *ngIf="serverOptions$ | async as serverOptions">
+          <mat-option *ngFor="let option of serverOptions" [value]="option.value">{{option.name}}</mat-option>
         </ng-container>
-        <ng-container *ngIf="optionsEndpoint">
-          <ng-container *ngIf="serverOptions$ | async as serverOptions">
-            <mat-option *ngFor="let option of serverOptions" [value]="option.value">{{option.name}}</mat-option>
-          </ng-container>
-        </ng-container>
-      </mat-select>
+      </ng-container>
+    </mat-select>
+    
     <mat-error *ngIf="required && control.invalid">{{formatError(config.validation.required)}}</mat-error>
   </mat-form-field>
 </div>

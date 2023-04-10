@@ -34,7 +34,6 @@
 
     <skylight-form-question-input label="Fault" [instance]="getControlInstance('fault', statistics)"></skylight-form-question-input>
 
-    <!-- TODO: Wrap in custom component that utilizes FormField. -->
-    <mat-checkbox formControlName="relatedTsunami">Related Tsunami</mat-checkbox>
+    <skylight-form-question-checkbox label="Related Tsunami" [instance]="getControlInstance('relatedTsunami', statistics)"></skylight-form-question-checkbox>
   </div>
 </div>

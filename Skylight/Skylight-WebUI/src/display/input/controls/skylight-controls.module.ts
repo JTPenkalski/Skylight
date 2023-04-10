@@ -23,6 +23,7 @@ import * as SkylightFormQuestions from './skylight-form-questions';
 import { SkylightSearchBarComponent } from 'display/input/controls/skylight-search-bar/skylight-search-bar.component';
 import { SkylightFormFieldSetComponent } from './skylight-form-field-set/skylight-form-field-set.component';
 import { SkylightReorderableListComponent } from './skylight-reorderable-list/skylight-reorderable-list.component';
+import { SkylightFormQuestionCheckboxComponent } from './skylight-form-questions/skylight-form-question-checkbox/skylight-form-question-checkbox.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { SkylightReorderableListComponent } from './skylight-reorderable-list/sk
     SkylightFormQuestions.SkylightFormQuestionWeatherEventStatisticsComponent,
     SkylightSearchBarComponent,
     SkylightFormFieldSetComponent,
-    SkylightReorderableListComponent
+    SkylightReorderableListComponent,
+    SkylightFormQuestionCheckboxComponent
   ],
   exports: [
     MatButtonModule,

@@ -14,11 +14,8 @@ import { FormControl, FormGroup } from '@angular/forms';
  * So, when there is a FormArray of form models, it would be the normal 'FormArray<FormGroup<IFormModel>>'.
  * But, when there is a FormArray of view models, it would be 'FormArray<ReadOnlyFormGroup<<Model>>'.
  **/
-export type ReadOnlyFormControl<T> = {
+type ReadOnlyFormControl<T> = {
   control: FormControl<T>;
 };
 
-/**
- * Type alias to simplify declarations of controls based on ReadOnlyFormControl.
- **/
 export type ReadOnlyFormGroup<T> = FormGroup<ReadOnlyFormControl<T>>;

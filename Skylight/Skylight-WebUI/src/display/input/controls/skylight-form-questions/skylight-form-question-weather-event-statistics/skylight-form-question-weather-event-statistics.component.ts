@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { IWeatherEventStatisticsFormModel } from 'display/input/form-models';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
-import { ISelectOption } from '../models';
+import { ISelectOption } from '../types';
 
 @Component({
   selector: 'skylight-form-question-weather-event-statistics',

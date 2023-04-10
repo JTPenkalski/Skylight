@@ -7,10 +7,11 @@ namespace Skylight.Repositories
     /// </summary>
     public interface IUnitOfWork
     {
-        ILocationRepository Location { get; }
+        ILocationRepository Locations { get; }
         IWeatherRepository Weather { get; }
         IWeatherAlertRepository WeatherAlerts { get; }
         IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
+        IWeatherEventRepository WeatherEvents { get; }
 
         /// <summary>
         /// Saves all changes in the current transaction.

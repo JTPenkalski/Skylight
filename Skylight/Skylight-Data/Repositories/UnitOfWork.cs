@@ -10,10 +10,11 @@ namespace Skylight.Repositories
     {
         protected readonly WeatherExperienceContext context;
 
-        public ILocationRepository Location { get; }
+        public ILocationRepository Locations { get; }
         public IWeatherRepository Weather { get; }
         public IWeatherAlertRepository WeatherAlerts { get; }
         public IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
+        public IWeatherEventRepository WeatherEvents { get; }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWork"/> instance.
@@ -24,15 +25,17 @@ namespace Skylight.Repositories
             ILocationRepository location,
             IWeatherRepository weather,
             IWeatherAlertRepository weatherAlerts,
-            IWeatherAlertModifierRepository weatherAlertModifiers
+            IWeatherAlertModifierRepository weatherAlertModifiers,
+            IWeatherEventRepository weatherEvents
         )
         {
             this.context = context;
 
-            Location = location;
+            Locations = location;
             Weather = weather;
             WeatherAlerts = weatherAlerts;
             WeatherAlertModifiers = weatherAlertModifiers;
+            WeatherEvents = weatherEvents;
         }
 
         /// <inheritdoc cref="IUnitOfWork.CommitAsync"/>

@@ -1,5 +1,5 @@
 .question {
-  flex: 1 1 auto;
+  flex: 1 1 auto; // I don't think this is actually used, since the question components themselves don't display flex, eh...
 
   mat-form-field {
     width: 100%;

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { environment } from 'core/environments/environment';
-import { ISelectOption } from '../models/select-option.model';
+import { ISelectOption } from '../types/select-option';
 
 /**
  * Retrieves options for a dropdown control from an endpoint on the server.

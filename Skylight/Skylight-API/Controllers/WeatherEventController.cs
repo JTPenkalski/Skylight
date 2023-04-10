@@ -8,18 +8,18 @@ using Skylight.Services;
 namespace Skylight.Controllers
 {
     /// <summary>
-    /// Web API Controller for manipulating <see cref="WebModels.WeatherAlert"/> models.
+    /// Web API Controller for manipulating <see cref="WebModels.WeatherEvent"/> models.
     /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherAlertController : BaseController<Models.WeatherAlert, WebModels.WeatherAlert>
+    public class WeatherEventController : BaseController<Models.WeatherEvent, WebModels.WeatherEvent>
     {
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger, IMapper, IService{TModel})"/>
-        public WeatherAlertController(
+        public WeatherEventController(
             IConfiguration config,
-            ILogger<WeatherAlertController> logger,
+            ILogger<WeatherEventController> logger,
             IMapper mapper,
-            IWeatherAlertService service
+            IWeatherEventService service
         ) : base(config, logger, mapper, service) { }
     }
 }

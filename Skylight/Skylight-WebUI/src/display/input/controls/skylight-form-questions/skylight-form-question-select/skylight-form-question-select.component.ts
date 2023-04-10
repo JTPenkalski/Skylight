@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
 import { SkylightServerOptionsService } from './skylight-server-options.service';
-import { ISelectOption } from '../models';
+import { ISelectOption } from '../types';
 
 @Component({
   selector: 'skylight-form-question-select[instance]',

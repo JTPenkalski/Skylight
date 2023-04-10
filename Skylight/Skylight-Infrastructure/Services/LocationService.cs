@@ -7,7 +7,7 @@ namespace Skylight.Services
     /// <inheritdoc cref="ILocationService"/>
     public class LocationService : BaseService<Location>, ILocationService
     {
-        protected override ILocationRepository Repository => unitOfWork.Location;
+        protected override ILocationRepository Repository => unitOfWork.Locations;
 
         /// <inheritdoc cref="BaseService{T}.BaseService(ILogger, IUnitOfWork)"/>
         public LocationService(ILogger<LocationService> logger, IUnitOfWork unitOfWork)

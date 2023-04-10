@@ -6,7 +6,7 @@ import { Location, WeatherEvent, WeatherEventAlert } from 'core/models';
 import { WeatherEventService } from 'presentation/services';
 import { LocationFormMapper, WeatherEventAlertFormMapper, WeatherEventFormMapper } from 'presentation/mappings';
 import { ILocationFormModel, IWeatherEventAlertFormModel, IWeatherEventFormModel } from 'display/input/form-models';
-import { IAbstractControlInstance } from 'display/input/controls/skylight-form-questions/models';
+import { IAbstractControlInstance } from 'display/input/controls/skylight-form-questions/types';
 
 @Component({
   selector: 'skylight-form-weather-event',

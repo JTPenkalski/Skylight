@@ -1,1 +1,1 @@
-export * from './form-array-control';
+export * from './read-only-form-group';
