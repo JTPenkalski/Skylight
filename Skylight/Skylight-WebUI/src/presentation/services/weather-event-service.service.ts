@@ -3,7 +3,7 @@ import { Observable, map } from 'rxjs';
 
 import { IWeatherEventService } from 'core/services';
 import { IWeatherEventClient } from 'core/clients';
-import { WeatherEvent } from 'core/models';
+import { WeatherEvent } from 'presentation/models';
 import { WeatherEventClient } from 'web/clients';
 import { WeatherEventWebMapper } from 'web/mappings';
 import { WeatherEventWebModel } from 'web/web-models';

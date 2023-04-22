@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
-import { WeatherAlertModifier } from 'core/models';
+import { WeatherAlertModifier } from 'presentation/models';
 import { IWeatherEventAlertFormModel } from 'display/input/form-models';
 import { ReadOnlyFormGroup } from 'display/input/types';
 import { FormQuestionConfiguration, FORM_QUESTION_CONFIG } from 'presentation/injection';

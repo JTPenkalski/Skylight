@@ -28,8 +28,8 @@
               "src/core/assets"
             ],
             "styles": [
-              "src/core/styling/app-theme.scss",
-              "src/core/styling/styles.scss"
+              "src/core/styles/app-theme.scss",
+              "src/core/styles/styles.scss"
             ],
             "scripts": []
           },

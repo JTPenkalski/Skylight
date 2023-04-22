@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BaseFormMapper } from './index';
-import { WeatherExperience } from 'core/models';
+import { WeatherExperience } from 'presentation/models';
 
 @Injectable({
   providedIn: 'root'

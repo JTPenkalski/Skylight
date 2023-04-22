@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BaseFormMapper } from 'presentation/mappings';
-import { WeatherEventStatistics } from 'core/models';
+import { WeatherEventStatistics } from 'presentation/models';
 import { IWeatherEventStatisticsFormModel } from 'display/input/form-models';
 
 @Injectable({

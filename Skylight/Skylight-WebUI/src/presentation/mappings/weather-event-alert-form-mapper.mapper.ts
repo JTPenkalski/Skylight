@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { BaseFormMapper, WeatherAlertFormMapper, WeatherAlertModifierFormMapper } from './index';
-import { WeatherEventAlert } from 'core/models';
+import { WeatherEventAlert } from 'presentation/models';
 import { IWeatherEventAlertFormModel } from 'display/input/form-models';
 
 @Injectable({

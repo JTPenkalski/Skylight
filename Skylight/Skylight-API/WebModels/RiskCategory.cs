@@ -1,15 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Skylight.WebModels
 {
     /// <inheritdoc cref="Models.RiskCategory"/>
     public record RiskCategory : BaseWebModel
     {
+        [Required]
         public required string Code { get; init; }
+
+        [Required]
         public required string Category { get; init; }
+
+        [Required]
         public required string Details { get; init; }
+
+        [Required]
         public required string Summary { get; init; }
 
-        public ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; init; } = new HashSet<RiskCategoryOutlookProbability>();
+        [Required]    
+        public required ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; init; }
     }
 }

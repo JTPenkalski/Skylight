@@ -20,18 +20,16 @@ export class SkylightServerOptionsService {
 
   /**
    * Makes a call to the server to get all values from the database for the specified endpoint.
-   * @param endpoint The endpoint to call to retrieve values from the database.
-   * @param nameProp A function that returns a property on the model to use for the display text on the option HTML.
-   * @param valueProp A function that returns a property on the model to use for the value attribute on the option HTML.
+   * @param controller The API Controller to call to retrieve values from the database.
    * @returns An Observable containing an array of all items from the database.
    **/
-  public getOptions(endpoint: string): Observable<ISelectOption[]> {
-    return this.http.get<any[]>(this.url + endpoint).pipe(
+  public getOptions(controller: string): Observable<ISelectOption[]> {
+    return this.http.get<any[]>(this.url + controller).pipe(
       map(response => {
         return response.map(x => {
           return {
             name: x.name,
-            value: x.id
+            value: x
           };
         });
       })

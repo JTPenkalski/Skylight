@@ -1,4 +1,4 @@
-import { OutlookProbabilityWeatherType } from 'core/models';
+import { OutlookProbabilityWeatherType } from 'presentation/models';
 import { IBaseViewModel } from './index';
 
 export interface IRiskCategoryOutlookProbabilityViewModel extends IBaseViewModel {

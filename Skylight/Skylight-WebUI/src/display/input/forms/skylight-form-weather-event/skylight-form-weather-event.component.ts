@@ -2,7 +2,7 @@ import { Component, Inject, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 
 import { IWeatherEventService } from 'core/services';
-import { Location, WeatherEvent, WeatherEventAlert } from 'core/models';
+import { Location, WeatherEvent, WeatherEventAlert } from 'presentation/models';
 import { WeatherEventService } from 'presentation/services';
 import { LocationFormMapper, WeatherEventAlertFormMapper, WeatherEventFormMapper } from 'presentation/mappings';
 import { ILocationFormModel, IWeatherEventAlertFormModel, IWeatherEventFormModel } from 'display/input/form-models';
@@ -31,9 +31,9 @@ export class SkylightFormWeatherEventComponent {
    * Submits the form to the server.
    **/
   public submit(): void {
-    console.log('Submit');
-    console.log(this.form);
-    this.weatherEventService.add(this.weatherEventMapper.toPresentationModel(this.form.controls));
+    console.log(`Valid: ${this.form.valid}`);
+    this.weatherEventService.add(this.weatherEventMapper.toPresentationModel(this.form.controls)).subscribe();
+    this.form.getRawValue();
   }
 
   /**

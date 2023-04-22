@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 import { BaseFormMapper, StormTrackerFormMapper, WeatherEventObservationMethodFormMapper, WeatherExperienceFormMapper } from './index';
-import { WeatherExperienceParticipant } from 'core/models';
+import { WeatherExperienceParticipant } from 'presentation/models';
 
 @Injectable({
   providedIn: 'root'

@@ -7,7 +7,7 @@ export interface IService<T> {
 
   getAll(): Observable<T[]>;
 
-  modify(id: number, model: T) : Observable<boolean>;
+  modify(id: number, model: T): Observable<boolean>;
 
   remove(id: number): Observable<boolean>;
 }

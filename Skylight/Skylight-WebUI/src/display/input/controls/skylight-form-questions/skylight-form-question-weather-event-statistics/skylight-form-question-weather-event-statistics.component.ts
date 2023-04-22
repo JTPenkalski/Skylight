@@ -41,8 +41,4 @@ export class SkylightFormQuestionWeatherEventStatisticsComponent extends Skyligh
     { name: 'IX - Violent', value: 9 },
     { name: 'X - Extreme', value: 10 }
   ]
-
-  ngOnInit() {
-    console.log(this.statistics);
-  }
 }

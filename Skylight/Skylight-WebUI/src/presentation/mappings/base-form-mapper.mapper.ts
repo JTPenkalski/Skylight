@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 import { IDisplayMapper } from 'core/mappings';
-import { BaseModel } from 'core/models';
+import { BaseModel } from 'presentation/models';
 import { IBaseFormModel } from 'display/input/form-models';
 
 @Injectable()

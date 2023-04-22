@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { IService } from 'core/services';
 import { IClient } from 'core/clients';
 import { IWebMapper } from 'core/mappings';
-import { BaseModel } from 'core/models';
+import { BaseModel } from 'presentation/models';
 import { BaseWebModel } from 'web/web-models';
 
 export abstract class BaseService<TWebModel extends BaseWebModel, TPresentationModel extends BaseModel> implements IService<TPresentationModel> { 

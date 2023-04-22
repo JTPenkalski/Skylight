@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 
 import { BaseFormMapper } from './index';
-import { Location } from 'core/models';
+import { Location } from 'presentation/models';
 import { ILocationFormModel } from 'display/input/form-models';
 
 @Injectable({

@@ -1,11 +1,11 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-import { Weather, WeatherExperience } from 'core/models';
+import { Weather, WeatherExperience } from 'presentation/models';
 import { ILocationFormModel, IWeatherEventAlertFormModel, IWeatherEventStatisticsFormModel } from './index';
 
 export interface IWeatherEventFormModel {
   readonly name: FormControl<string>;
-  readonly description: FormControl<string>;
+  readonly description: FormControl<string | null>;
   readonly weather: FormControl<Weather>;
   readonly startDate: FormControl<Date>;
   readonly endDate: FormControl<Date | null>;

@@ -1,6 +1,6 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-import { WeatherAlert, WeatherAlertModifier } from 'core/models';
+import { WeatherAlert, WeatherAlertModifier } from 'presentation/models';
 import { ReadOnlyFormGroup } from '../types';
 import { IBaseFormModel } from './index';
 

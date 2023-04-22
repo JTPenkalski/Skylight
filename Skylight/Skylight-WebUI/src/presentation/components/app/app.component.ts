@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { INavigationLink } from './models/navigation-link.model';
+import { INavigationLink } from './types/navigation-link';
 
 @Component({
   selector: 'app-root',

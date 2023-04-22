@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BaseFormMapper } from './index';
-import { StormTracker } from 'core/models';
+import { StormTracker } from 'presentation/models';
 
 @Injectable({
   providedIn: 'root'

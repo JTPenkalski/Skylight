@@ -1,4 +1,4 @@
-@use 'src/core/styling/app-theme' as theme;
+@use 'src/core/styles/app-theme' as theme;
 
 fieldset {
   border: 0.125rem solid theme.contrast-color('primary', 800, 0.5);

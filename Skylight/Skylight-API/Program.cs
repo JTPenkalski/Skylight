@@ -12,6 +12,7 @@ using Skylight.Contexts.Initializers;
 using System.Reflection;
 using Skylight.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Skylight
 {
@@ -30,7 +31,7 @@ namespace Skylight
             builder.Logging.AddConsole();
 
             // Add services
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             builder.Services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;

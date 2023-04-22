@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 
-import { WeatherEventObservationMethod } from 'core/models';
+import { WeatherEventObservationMethod } from 'presentation/models';
 import { IBaseFormModel, IStormTrackerFormModel } from './index';
 
 export interface IWeatherExperienceParticipantFormModel extends IBaseFormModel {

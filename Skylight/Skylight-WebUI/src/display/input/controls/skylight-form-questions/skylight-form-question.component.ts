@@ -59,8 +59,7 @@ export abstract class SkylightFormQuestionComponent {
   public getControlInstance(name: string | number, parent?: FormGroup | FormArray): IAbstractControlInstance {
     name = name.toString(); // Convert string | number to string
     const control: AbstractControl | null = parent?.get(name) ?? this.parent.get(name);
-    console.log(`ctrl ${name}:`);
-    console.log(control);
+    
     if (!control) {
       throw new Error(`Cannot create IAbstractControlInstance. The control "${name}" is not an AbstractControl.`);
     }

@@ -1,4 +1,4 @@
-@use 'src/core/styling/app-theme' as theme;
+@use 'src/core/styles/app-theme' as theme;
 
 .list {
   background-color: rgba(theme.background-color('card'), 0.5);

@@ -6,6 +6,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Skylight.Startup.Services.Options
 {
+    /// <summary>
+    /// In-depth configuration setup for the <c>builder.Services.AddSwaggerGen()</c> call in Program setup.
+    /// Configures settings how the swagger.json file generates, according to the OpenAPI specification.
+    /// </summary>
     public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
         protected readonly IApiVersionDescriptionProvider apiVersionDescriptionProvider;
