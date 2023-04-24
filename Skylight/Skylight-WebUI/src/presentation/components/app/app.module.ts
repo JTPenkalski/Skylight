@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { SkylightControlsModule } from 'display/input/controls/skylight-controls.module';
 import { SkylightFormsModule } from 'display/input/forms/skylight-forms.module';
+import { SkylightWebClientsModule } from 'web/clients/skylight-web-clients.module';
 
 import { AppComponent } from './app.component';
 
@@ -16,7 +17,8 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     BrowserModule,
     SkylightControlsModule,
-    SkylightFormsModule
+    SkylightFormsModule,
+    SkylightWebClientsModule
   ]
 })
 export class AppModule { }

@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { map, of, Observable } from 'rxjs';
 
 import { environment } from 'core/environments/environment';
 import { ISelectOption } from '../types/select-option';
+import { IWeatherService } from 'core/services';
+import { WeatherService } from 'presentation/services/weather-service.service';
 
 /**
  * Retrieves options for a dropdown control from an endpoint on the server.
@@ -13,7 +14,7 @@ export class SkylightServerOptionsService {
   private readonly url: string;
 
   constructor(
-    private http: HttpClient
+    @Inject(WeatherService) private weatherService: IWeatherService
   ) {
     this.url = `${environment.apiUrl}/${environment.apiVersion}/`;
   }
@@ -24,7 +25,15 @@ export class SkylightServerOptionsService {
    * @returns An Observable containing an array of all items from the database.
    **/
   public getOptions(controller: string): Observable<ISelectOption[]> {
-    return this.http.get<any[]>(this.url + controller).pipe(
+    let values: Observable<any[]> = of([]);
+
+    switch (controller.toUpperCase()) {
+      case 'WEATHER':
+        values = this.weatherService.getAll();
+        break;
+    }
+    
+    return values.pipe(
       map(response => {
         return response.map(x => {
           return {

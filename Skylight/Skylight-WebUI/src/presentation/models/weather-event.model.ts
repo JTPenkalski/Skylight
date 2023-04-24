@@ -1,14 +1,14 @@
 import { Modify } from 'core/types';
-import { BaseModel, Location, Weather, WeatherEventAlert, WeatherEventStatistics, WeatherExperience } from './index';
-import { IWeatherEvent as IWeatherEventWebModel } from 'web/web-models';
+import { BaseModel, IBaseModel, ILocation, IWeather, IWeatherEventAlert, IWeatherEventStatistics, IWeatherExperience, Location, Weather, WeatherEventAlert, WeatherEventStatistics, WeatherExperience } from './index';
+import { WeatherEvent as WeatherEventWebModel, IWeatherEvent as IWeatherEventWebModel } from 'web/web-models';
 
 export interface IWeatherEvent extends Modify<IWeatherEventWebModel, {
-  weather: Weather,
-  statistics: WeatherEventStatistics,
-  experience: WeatherExperience,
-  locations: Location[],
-  alerts: WeatherEventAlert[],
-}> {
+  weather: IWeather,
+  statistics: IWeatherEventStatistics,
+  experience: IWeatherExperience,
+  locations: ILocation[],
+  alerts: IWeatherEventAlert[],
+}>, IBaseModel {
   // Add any Presentation Layer data fields here...
 }
 
@@ -20,19 +20,19 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
   public experience: WeatherExperience;
   public locations: Location[];
   public alerts: WeatherEventAlert[];
-  public description?: string;
-  public endDate?: Date;
+  public description?: string | null;
+  public endDate?: Date | null;
 
   constructor(data?: IWeatherEvent) {
     super(data);
 
     this.name = this.str(data?.name);
-    this.weather = this.obj(data?.weather, new Weather());
+    this.weather = new Weather(data?.weather);
     this.startDate = this.date(data?.startDate);
-    this.statistics = this.obj(data?.statistics, new WeatherEventStatistics());
-    this.experience = this.obj(data?.experience, new WeatherExperience());
-    this.locations = this.arr(data?.locations);
-    this.alerts = this.arr(data?.alerts);
+    this.statistics = new WeatherEventStatistics(data?.statistics);
+    this.experience = new WeatherExperience(data?.experience);
+    this.locations = this.arr<Location>(data?.locations as Location[]);
+    this.alerts = this.arr<WeatherEventAlert>(data?.alerts as WeatherEventAlert[]);
     this.description = data?.description;
     this.endDate = data?.endDate;
   }

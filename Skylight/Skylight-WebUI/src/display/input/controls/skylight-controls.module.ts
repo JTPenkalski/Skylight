@@ -13,7 +13,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 
 import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
 
@@ -41,7 +40,6 @@ import { SkylightFormQuestionCheckboxComponent } from './skylight-form-questions
     MatSidenavModule,
     MatToolbarModule,
     MatTooltipModule,
-    HttpClientModule,
     ReactiveFormsModule
   ],
   declarations: [

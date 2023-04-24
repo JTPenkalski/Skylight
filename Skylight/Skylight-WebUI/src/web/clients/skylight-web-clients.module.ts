@@ -19,7 +19,8 @@ import * as Clients from './index';
     Clients.LocationClient,
     Clients.WeatherAlertClient,
     Clients.WeatherAlertModifierClient,
-    Clients.WeatherEventClient
+    Clients.WeatherEventClient,
+    Clients.WeatherClient
   ]
 })
 export class SkylightWebClientsModule { }

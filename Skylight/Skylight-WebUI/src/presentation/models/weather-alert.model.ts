@@ -1,7 +1,7 @@
-import { BaseModel } from './index';
+import { BaseModel, IBaseModel } from './index';
 import { IWeatherAlert as IWeatherAlertWebModel } from 'web/web-models';
 
-export interface IWeatherAlert extends IWeatherAlertWebModel {
+export interface IWeatherAlert extends IWeatherAlertWebModel, IBaseModel {
   // Add any Presentation Layer data fields here...
 }
 
@@ -14,9 +14,9 @@ export class WeatherAlert extends BaseModel implements IWeatherAlert {
   constructor(data?: IWeatherAlert) {
     super(data);
     
-    this.name = this.str(data, 'name');
-    this.description = this.str(data, 'description');;
-    this.value = this.num(data, 'value');
-    this.isThirdParty = this.bool(data, 'isThirdParty');
+    this.name = this.str(data?.name);
+    this.description = this.str(data?.description);;
+    this.value = this.num(data?.value);
+    this.isThirdParty = this.bool(data?.isThirdParty);
   }
 }

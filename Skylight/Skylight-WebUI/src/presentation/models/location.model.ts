@@ -1,7 +1,7 @@
-import { BaseModel } from './index';
+import { BaseModel, IBaseModel } from './index';
 import { ILocation as ILocationWebModel } from 'web/web-models';
 
-export interface ILocation extends ILocationWebModel {
+export interface ILocation extends ILocationWebModel, IBaseModel {
   // Add any Presentation Layer data fields here...
 }
 

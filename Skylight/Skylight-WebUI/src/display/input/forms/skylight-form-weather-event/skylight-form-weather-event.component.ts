@@ -1,11 +1,10 @@
 import { Component, Inject, Input } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 import { IWeatherEventService } from 'core/services';
-import { Location, WeatherEvent, WeatherEventAlert } from 'presentation/models';
 import { WeatherEventService } from 'presentation/services';
-import { LocationFormMapper, WeatherEventAlertFormMapper, WeatherEventFormMapper } from 'presentation/mappings';
-import { ILocationFormModel, IWeatherEventAlertFormModel, IWeatherEventFormModel } from 'display/input/form-models';
+import { IWeatherEvent as IWeatherEventCoreModel, WeatherEvent as WeatherEventCoreModel } from 'presentation/models';
+import { ILocation, Location, IWeatherEvent, WeatherEvent, IWeatherEventAlert, WeatherEventAlert } from 'display/input/form-models';
 import { IAbstractControlInstance } from 'display/input/controls/skylight-form-questions/types';
 
 @Component({
@@ -14,17 +13,15 @@ import { IAbstractControlInstance } from 'display/input/controls/skylight-form-q
   styleUrls: ['./skylight-form-weather-event.component.scss']
 })
 export class SkylightFormWeatherEventComponent {
-  @Input() public readonly model: WeatherEvent = new WeatherEvent();
+  @Input() public readonly model: IWeatherEventCoreModel = new WeatherEventCoreModel();
 
-  public readonly form: FormGroup<IWeatherEventFormModel>;
+  public readonly form: FormGroup<IWeatherEvent>;
 
   constructor(
+    protected readonly formBuilder: FormBuilder,
     @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
-    protected readonly weatherEventMapper: WeatherEventFormMapper,
-    protected readonly weatherEventAlertMapper: WeatherEventAlertFormMapper,
-    protected readonly locationMapper: LocationFormMapper
   ) {
-    this.form = new FormGroup<IWeatherEventFormModel>(this.weatherEventMapper.toDisplayModel(this.model));
+    this.form = new FormGroup<IWeatherEvent>(new WeatherEvent(this.formBuilder, this.model));
   }
 
   /**
@@ -32,8 +29,7 @@ export class SkylightFormWeatherEventComponent {
    **/
   public submit(): void {
     console.log(`Valid: ${this.form.valid}`);
-    this.weatherEventService.add(this.weatherEventMapper.toPresentationModel(this.form.controls)).subscribe();
-    this.form.getRawValue();
+    this.weatherEventService.add(new WeatherEventCoreModel(this.form.getRawValue())).subscribe();
   }
 
   /**
@@ -57,7 +53,7 @@ export class SkylightFormWeatherEventComponent {
   }
 
   public addWeatherEventAlert(): void {
-    this.form.controls.alerts.push(new FormGroup<IWeatherEventAlertFormModel>(this.weatherEventAlertMapper.toDisplayModel(new WeatherEventAlert())));
+    this.form.controls.alerts.push(new FormGroup<IWeatherEventAlert>(new WeatherEventAlert(this.formBuilder)));
   }
 
   public removeWeatherEventAlert(index: number): void {
@@ -65,7 +61,7 @@ export class SkylightFormWeatherEventComponent {
   }
 
   public addLocation(): void {
-    this.form.controls.locations.push(new FormGroup<ILocationFormModel>(this.locationMapper.toDisplayModel(new Location())));
+    this.form.controls.locations.push(new FormGroup<ILocation>(new Location(this.formBuilder)));
   }
 
   public removeLocation(index: number): void {

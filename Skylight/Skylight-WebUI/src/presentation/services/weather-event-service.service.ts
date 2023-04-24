@@ -1,48 +1,42 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 import { IWeatherEventService } from 'core/services';
-import { IWeatherEventClient } from 'core/clients';
 import { WeatherEvent } from 'presentation/models';
-import { WeatherEventClient } from 'web/clients';
-import { WeatherEventWebMapper } from 'web/mappings';
-import { WeatherEventWebModel } from 'web/web-models';
+import { IWeatherEventClient, WeatherEventClient, WeatherEvent as WeatherEventWebModel } from 'web/clients';
 import { BaseService } from './index';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WeatherEventService extends BaseService<WeatherEventWebModel, WeatherEvent> implements IWeatherEventService {
-  constructor(
-    @Inject(WeatherEventClient) client: IWeatherEventClient,
-    mapper: WeatherEventWebMapper
-  ) {
-    super(client, mapper);
-  }
+export class WeatherEventService extends BaseService<WeatherEvent> implements IWeatherEventService {
+  constructor(@Inject(WeatherEventClient) protected client: IWeatherEventClient) { super(); }
 
   public add(model: WeatherEvent): Observable<WeatherEvent | null> {
-    return this.client.post(this.mapper.toWebModel(model)).pipe(
-      map(result => result.value ? this.mapper.toPresentationModel(result.value) : null)
+    return this.client.weatherEventPOST(new WeatherEventWebModel(model)).pipe(
+      map(result => new WeatherEvent(result))
     );
   }
 
   public get(id: number): Observable<WeatherEvent> {
-    return this.client.get(id).pipe(
-      map(result => this.mapper.toPresentationModel(result))
+    return this.client.weatherEventGET(id).pipe(
+      map(result => new WeatherEvent(result))
     );
   }
 
   public getAll(): Observable<WeatherEvent[]> {
-    return this.client.getAll().pipe(
-      map(results => results.map(result => this.mapper.toPresentationModel(result)))
+    return this.client.weatherEventAll().pipe(
+      map(results => results.map(result => new WeatherEvent(result)))
     );
   }
 
   public modify(id: number, model: WeatherEvent) : Observable<boolean> {
-    throw new Error('Not implemented.');
+    this.client.weatherEventPUT(id, new WeatherEventWebModel(model));
+    return of(true); // TODO: Status response
   }
 
   public remove(id: number): Observable<boolean> {
-    throw new Error('Not implemented.');
+    this.client.weatherEventDELETE(id);
+    return of(true); // TODO: Status response
   }
 }

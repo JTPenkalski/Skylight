@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
-import { ILocationFormModel } from 'display/input/form-models';
+import { ILocation } from 'display/input/form-models';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
 
 @Component({
@@ -10,5 +10,5 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-location.component.scss']
 })
 export class SkylightFormQuestionLocationComponent extends SkylightFormQuestionComponent {
-  public get location(): FormGroup<ILocationFormModel> { return this.control as FormGroup<ILocationFormModel>; }
+  public get location(): FormGroup<ILocation> { return this.control as FormGroup<ILocation>; }
 }

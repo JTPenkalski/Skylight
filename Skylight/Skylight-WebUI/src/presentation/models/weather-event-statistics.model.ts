@@ -1,40 +1,40 @@
-import { BaseModel } from './index';
+import { BaseModel, IBaseModel } from './index';
 import { IWeatherEventStatistics as IWeatherEventStatisticsWebModel } from 'web/web-models';
 
-export interface IWeatherEventStatistics extends IWeatherEventStatisticsWebModel {
+export interface IWeatherEventStatistics extends IWeatherEventStatisticsWebModel, IBaseModel {
   // Add any Presentation Layer data fields here...
 }
 
 export class WeatherEventStatistics extends BaseModel implements IWeatherEventStatistics {
-  public damageCost?: number;
-  public fatalities?: number;
-  public efRating?: number;
-  public pathDistance?: number;
-  public funnelWidth?: number;
-  public saffirSimpsonRating?: number;
-  public lowestPressure?: number;
-  public maxWindSpeed?: number;
-  public richterMagnitude?: number;
-  public mercalliIntensity?: number;
-  public aftershocks?: number;
-  public fault?: string;
-  public relatedTsunami?: boolean;
+  public damageCost?: number | null;
+  public fatalities?: number | null;
+  public efRating?: number | null;
+  public pathDistance?: number | null;
+  public funnelWidth?: number | null;
+  public saffirSimpsonRating?: number | null;
+  public lowestPressure?: number | null;
+  public maxWindSpeed?: number | null;
+  public richterMagnitude?: number | null;
+  public mercalliIntensity?: number | null;
+  public aftershocks?: number | null;
+  public fault?: string | null;
+  public relatedTsunami?: boolean | null;
 
   constructor(data?: IWeatherEventStatistics) {
     super(data);
 
-    this.damageCost = this.num(data?.damageCost);
-    this.fatalities = this.num(data?.fatalities);
-    this.efRating = this.num(data?.efRating);
-    this.pathDistance = this.num(data?.pathDistance);
-    this.funnelWidth = this.num(data?.funnelWidth);
-    this.saffirSimpsonRating = this.num(data?.saffirSimpsonRating);
-    this.lowestPressure = this.num(data?.lowestPressure);
-    this.maxWindSpeed = this.num(data?.maxWindSpeed);
-    this.richterMagnitude = this.num(data?.richterMagnitude);
-    this.mercalliIntensity = this.num(data?.mercalliIntensity);
-    this.aftershocks = this.num(data?.aftershocks);
-    this.fault = this.str(data?.fault);
-    this.relatedTsunami = this.bool(data?.relatedTsunami);
+    this.damageCost = data?.damageCost;
+    this.fatalities = data?.fatalities;
+    this.efRating = data?.efRating;
+    this.pathDistance = data?.pathDistance;
+    this.funnelWidth = data?.funnelWidth;
+    this.saffirSimpsonRating = data?.saffirSimpsonRating;
+    this.lowestPressure = data?.lowestPressure;
+    this.maxWindSpeed = data?.maxWindSpeed;
+    this.richterMagnitude = data?.richterMagnitude;
+    this.mercalliIntensity = data?.mercalliIntensity;
+    this.aftershocks = data?.aftershocks;
+    this.fault = data?.fault;
+    this.relatedTsunami = data?.relatedTsunami;
   }
 }

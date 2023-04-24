@@ -1,7 +1,7 @@
-import { BaseModel } from './index';
+import { BaseModel, IBaseModel } from './index';
 import { IWeatherExperience as IWeatherExperienceWebModel } from 'web/web-models';
 
-export interface IWeatherExperience extends IWeatherExperienceWebModel {
+export interface IWeatherExperience extends IWeatherExperienceWebModel, IBaseModel {
   // Add any Presentation Layer data fields here...
 }
 

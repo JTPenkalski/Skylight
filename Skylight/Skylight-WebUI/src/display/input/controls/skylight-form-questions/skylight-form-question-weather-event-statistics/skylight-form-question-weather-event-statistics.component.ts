@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { IWeatherEventStatisticsFormModel } from 'display/input/form-models';
+import { IWeatherEventStatistics } from 'display/input/form-models';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
 import { ISelectOption } from '../types';
 
@@ -11,7 +11,7 @@ import { ISelectOption } from '../types';
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-statistics.component.scss']
 })
 export class SkylightFormQuestionWeatherEventStatisticsComponent extends SkylightFormQuestionComponent {
-  public get statistics(): FormGroup<IWeatherEventStatisticsFormModel> { return this.control as FormGroup<IWeatherEventStatisticsFormModel>; }
+  public get statistics(): FormGroup<IWeatherEventStatistics> { return this.control as FormGroup<IWeatherEventStatistics>; }
 
   public readonly efRatingOptions: ISelectOption[] = [
     { name: 'EF-1', value: 1 },

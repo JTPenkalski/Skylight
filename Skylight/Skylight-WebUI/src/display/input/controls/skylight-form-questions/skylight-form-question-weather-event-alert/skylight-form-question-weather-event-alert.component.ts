@@ -1,12 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-import { WeatherAlertModifier } from 'presentation/models';
-import { IWeatherEventAlertFormModel } from 'display/input/form-models';
-import { ReadOnlyFormGroup } from 'display/input/types';
-import { FormQuestionConfiguration, FORM_QUESTION_CONFIG } from 'presentation/injection';
-import { WeatherAlertModifierFormMapper } from 'presentation/mappings';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
+import { FormQuestionConfiguration, FORM_QUESTION_CONFIG } from 'presentation/injection';
+import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models';
+import { IWeatherEventAlert } from 'display/input/form-models';
+import { ReadOnlyFormGroup } from 'display/input/types';
 
 @Component({
   selector: 'skylight-form-question-weather-event-alert[instance]',
@@ -14,18 +13,15 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-alert.component.scss']
 })
 export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightFormQuestionComponent {
-  public get weatherEventAlert(): FormGroup<IWeatherEventAlertFormModel> { return this.control as FormGroup<IWeatherEventAlertFormModel>; }
-  public get modifiers(): FormArray<ReadOnlyFormGroup<WeatherAlertModifier>> { return this.control.get('modifiers') as FormArray<ReadOnlyFormGroup<WeatherAlertModifier>>; }
+  public get weatherEventAlert(): FormGroup<IWeatherEventAlert> { return this.control as FormGroup<IWeatherEventAlert>; }
+  public get modifiers(): FormArray<FormControl<IWeatherAlertModifier>> { return this.weatherEventAlert.controls.modifiers; }
 
-  constructor(
-    @Inject(FORM_QUESTION_CONFIG) config: FormQuestionConfiguration,
-    private readonly weatherAlertModifierMapper: WeatherAlertModifierFormMapper
-  ) {
+  constructor(@Inject(FORM_QUESTION_CONFIG) config: FormQuestionConfiguration) {
     super(config);
   }
 
   public addWeatherAlertModifier(): void {
-    this.modifiers.push(this.weatherAlertModifierMapper.toDisplayModel(new WeatherAlertModifier()));
+    this.modifiers.push(new FormControl<IWeatherAlertModifier>(new WeatherAlertModifier(), { nonNullable: true }));
   }
 
   public removeWeatherAlertModifier(modifierIndex: number): void {

@@ -1,17 +1,9 @@
 import { Observable } from 'rxjs';
 
 import { IService } from 'core/services';
-import { IClient } from 'core/clients';
-import { IWebMapper } from 'core/mappings';
 import { BaseModel } from 'presentation/models';
-import { BaseWebModel } from 'web/web-models';
 
-export abstract class BaseService<TWebModel extends BaseWebModel, TPresentationModel extends BaseModel> implements IService<TPresentationModel> { 
-  constructor(
-    protected readonly client: IClient<TWebModel>,
-    protected readonly mapper: IWebMapper<TPresentationModel, TWebModel>
-  ) { }
-
+export abstract class BaseService<TPresentationModel extends BaseModel> implements IService<TPresentationModel> {
   public abstract add(model: TPresentationModel): Observable<TPresentationModel | null>;
 
   public abstract get(id: number): Observable<TPresentationModel>;

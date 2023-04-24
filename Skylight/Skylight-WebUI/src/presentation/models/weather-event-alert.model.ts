@@ -1,11 +1,11 @@
 import { Modify } from 'core/types';
-import { BaseModel, WeatherAlert, WeatherAlertModifier } from './index';
+import { BaseModel, IBaseModel, IWeatherAlert, IWeatherAlertModifier, WeatherAlert, WeatherAlertModifier } from './index';
 import { IWeatherEventAlert as IWeatherEventAlertWebModel } from 'web/web-models';
 
 export interface IWeatherEventAlert extends Modify<IWeatherEventAlertWebModel, {
-  alert: WeatherAlert,
-  modifiers: WeatherAlertModifier[]
-}> {
+  alert: IWeatherAlert,
+  modifiers: IWeatherAlertModifier[]
+}>, IBaseModel {
   // Add any Presentation Layer data fields here...
 }
 
@@ -16,9 +16,9 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
 
   constructor(data?: IWeatherEventAlert) {
     super(data);
-    let x = data?.issuanceTime;
-    this.alert = this.obj(data?.alert, new WeatherAlert());
+    
+    this.alert = new WeatherAlert(data?.alert);
     this.issuanceTime = this.date(data?.issuanceTime);
-    this.modifiers = this.arr(data?.modifiers, [ new WeatherAlertModifier() ]);
+    this.modifiers = this.arr<WeatherAlertModifier>(data?.modifiers as WeatherAlertModifier[], [ new WeatherAlertModifier() ]);
   }
 }

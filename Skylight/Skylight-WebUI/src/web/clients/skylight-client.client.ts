@@ -1798,10 +1798,10 @@ export class Location extends BaseModel implements ILocation {
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.city = _data["city"];
-            this.zipCode = _data["zipCode"];
-            this.country = _data["country"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.city = _data["city"] !== undefined ? _data["city"] : <any>null;
+            this.zipCode = _data["zipCode"] !== undefined ? _data["zipCode"] : <any>null;
+            this.country = _data["country"] !== undefined ? _data["country"] : <any>null;
         }
     }
 
@@ -1823,27 +1823,27 @@ export class Location extends BaseModel implements ILocation {
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["city"] = this.city;
-        data["zipCode"] = this.zipCode;
-        data["country"] = this.country;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["city"] = this.city !== undefined ? this.city : <any>null;
+        data["zipCode"] = this.zipCode !== undefined ? this.zipCode : <any>null;
+        data["country"] = this.country !== undefined ? this.country : <any>null;
         return data;
     }
 }
 
 export interface ILocation {
-    id: number;
+    id?: number;
     city: string;
     zipCode: string;
     country: string;
 }
 
 export class ProblemDetails implements IProblemDetails {
-    public type?: string | undefined;
-    public title?: string | undefined;
-    public status?: number | undefined;
-    public detail?: string | undefined;
-    public instance?: string | undefined;
+    public type?: string | null;
+    public title?: string | null;
+    public status?: number | null;
+    public detail?: string | null;
+    public instance?: string | null;
 
     [key: string]: any;
 
@@ -1867,11 +1867,11 @@ export class ProblemDetails implements IProblemDetails {
                 if (_data.hasOwnProperty(property))
                     this[property] = _data[property];
             }
-            this.type = _data["type"];
-            this.title = _data["title"];
-            this.status = _data["status"];
-            this.detail = _data["detail"];
-            this.instance = _data["instance"];
+            this.type = _data["type"] !== undefined ? _data["type"] : <any>null;
+            this.title = _data["title"] !== undefined ? _data["title"] : <any>null;
+            this.status = _data["status"] !== undefined ? _data["status"] : <any>null;
+            this.detail = _data["detail"] !== undefined ? _data["detail"] : <any>null;
+            this.instance = _data["instance"] !== undefined ? _data["instance"] : <any>null;
         }
     }
 
@@ -1897,21 +1897,21 @@ export class ProblemDetails implements IProblemDetails {
             if (this.hasOwnProperty(property))
                 data[property] = this[property];
         }
-        data["type"] = this.type;
-        data["title"] = this.title;
-        data["status"] = this.status;
-        data["detail"] = this.detail;
-        data["instance"] = this.instance;
+        data["type"] = this.type !== undefined ? this.type : <any>null;
+        data["title"] = this.title !== undefined ? this.title : <any>null;
+        data["status"] = this.status !== undefined ? this.status : <any>null;
+        data["detail"] = this.detail !== undefined ? this.detail : <any>null;
+        data["instance"] = this.instance !== undefined ? this.instance : <any>null;
         return data;
     }
 }
 
 export interface IProblemDetails {
-    type?: string | undefined;
-    title?: string | undefined;
-    status?: number | undefined;
-    detail?: string | undefined;
-    instance?: string | undefined;
+    type?: string | null;
+    title?: string | null;
+    status?: number | null;
+    detail?: string | null;
+    instance?: string | null;
 
     [key: string]: any;
 }
@@ -1937,9 +1937,9 @@ export class Weather extends BaseModel implements IWeather {
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.description = _data["description"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
+            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
         }
     }
 
@@ -1961,15 +1961,15 @@ export class Weather extends BaseModel implements IWeather {
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["description"] = this.description;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["description"] = this.description !== undefined ? this.description : <any>null;
         return data;
     }
 }
 
 export interface IWeather {
-    id: number;
+    id?: number;
     name: string;
     description: string;
 }
@@ -1997,11 +1997,11 @@ export class WeatherAlert extends BaseModel implements IWeatherAlert {
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.description = _data["description"];
-            this.value = _data["value"];
-            this.isThirdParty = _data["isThirdParty"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
+            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
+            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
+            this.isThirdParty = _data["isThirdParty"] !== undefined ? _data["isThirdParty"] : <any>null;
         }
     }
 
@@ -2023,17 +2023,17 @@ export class WeatherAlert extends BaseModel implements IWeatherAlert {
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        data["value"] = this.value;
-        data["isThirdParty"] = this.isThirdParty;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["value"] = this.value !== undefined ? this.value : <any>null;
+        data["isThirdParty"] = this.isThirdParty !== undefined ? this.isThirdParty : <any>null;
         return data;
     }
 }
 
 export interface IWeatherAlert {
-    id: number;
+    id?: number;
     name: string;
     description: string;
     value: number;
@@ -2063,11 +2063,11 @@ export class WeatherAlertModifier extends BaseModel implements IWeatherAlertModi
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.description = _data["description"];
-            this.bonus = _data["bonus"];
-            this.operation = _data["operation"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
+            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
+            this.bonus = _data["bonus"] !== undefined ? _data["bonus"] : <any>null;
+            this.operation = _data["operation"] !== undefined ? _data["operation"] : <any>null;
         }
     }
 
@@ -2089,17 +2089,17 @@ export class WeatherAlertModifier extends BaseModel implements IWeatherAlertModi
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        data["bonus"] = this.bonus;
-        data["operation"] = this.operation;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["bonus"] = this.bonus !== undefined ? this.bonus : <any>null;
+        data["operation"] = this.operation !== undefined ? this.operation : <any>null;
         return data;
     }
 }
 
 export interface IWeatherAlertModifier {
-    id: number;
+    id?: number;
     name: string;
     description: string;
     bonus: number;
@@ -2120,8 +2120,8 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
     public experience!: WeatherExperience;
     public locations!: Location[];
     public alerts!: WeatherEventAlert[];
-    public description?: string | undefined;
-    public endDate?: Date | undefined;
+    public description?: string | null;
+    public endDate?: Date | null;
 
     constructor(data?: IWeatherEvent) {
         super(data);
@@ -2147,10 +2147,10 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
             this.weather = _data["weather"] ? Weather.fromJS(_data["weather"]) : new Weather();
-            this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
+            this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>null;
             this.statistics = _data["statistics"] ? WeatherEventStatistics.fromJS(_data["statistics"]) : new WeatherEventStatistics();
             this.experience = _data["experience"] ? WeatherExperience.fromJS(_data["experience"]) : new WeatherExperience();
             if (Array.isArray(_data["locations"])) {
@@ -2158,13 +2158,19 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
                 for (let item of _data["locations"])
                     this.locations!.push(Location.fromJS(item));
             }
+            else {
+                this.locations = <any>null;
+            }
             if (Array.isArray(_data["alerts"])) {
                 this.alerts = [] as any;
                 for (let item of _data["alerts"])
                     this.alerts!.push(WeatherEventAlert.fromJS(item));
             }
-            this.description = _data["description"];
-            this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
+            else {
+                this.alerts = <any>null;
+            }
+            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
+            this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>null;
         }
     }
 
@@ -2186,12 +2192,12 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["weather"] = this.weather ? this.weather.toJSON() : <any>undefined;
-        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
-        data["statistics"] = this.statistics ? this.statistics.toJSON() : <any>undefined;
-        data["experience"] = this.experience ? this.experience.toJSON() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["weather"] = this.weather ? this.weather.toJSON() : <any>null;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>null;
+        data["statistics"] = this.statistics ? this.statistics.toJSON() : <any>null;
+        data["experience"] = this.experience ? this.experience.toJSON() : <any>null;
         if (Array.isArray(this.locations)) {
             data["locations"] = [];
             for (let item of this.locations)
@@ -2202,23 +2208,23 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
             for (let item of this.alerts)
                 data["alerts"].push(item.toJSON());
         }
-        data["description"] = this.description;
-        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>null;
         return data;
     }
 }
 
 export interface IWeatherEvent {
-    id: number;
+    id?: number;
     name: string;
-    weather: Weather;
+    weather: IWeather;
     startDate: Date;
-    statistics: WeatherEventStatistics;
-    experience: WeatherExperience;
-    locations: Location[];
-    alerts: WeatherEventAlert[];
-    description?: string | undefined;
-    endDate?: Date | undefined;
+    statistics: IWeatherEventStatistics;
+    experience: IWeatherExperience;
+    locations: ILocation[];
+    alerts: IWeatherEventAlert[];
+    description?: string | null;
+    endDate?: Date | null;
 }
 
 export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
@@ -2247,13 +2253,16 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
             this.alert = _data["alert"] ? WeatherAlert.fromJS(_data["alert"]) : new WeatherAlert();
-            this.issuanceTime = _data["issuanceTime"] ? new Date(_data["issuanceTime"].toString()) : <any>undefined;
+            this.issuanceTime = _data["issuanceTime"] ? new Date(_data["issuanceTime"].toString()) : <any>null;
             if (Array.isArray(_data["modifiers"])) {
                 this.modifiers = [] as any;
                 for (let item of _data["modifiers"])
                     this.modifiers!.push(WeatherAlertModifier.fromJS(item));
+            }
+            else {
+                this.modifiers = <any>null;
             }
         }
     }
@@ -2276,9 +2285,9 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["alert"] = this.alert ? this.alert.toJSON() : <any>undefined;
-        data["issuanceTime"] = this.issuanceTime ? this.issuanceTime.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["alert"] = this.alert ? this.alert.toJSON() : <any>null;
+        data["issuanceTime"] = this.issuanceTime ? this.issuanceTime.toISOString() : <any>null;
         if (Array.isArray(this.modifiers)) {
             data["modifiers"] = [];
             for (let item of this.modifiers)
@@ -2289,26 +2298,26 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
 }
 
 export interface IWeatherEventAlert {
-    id: number;
-    alert: WeatherAlert;
+    id?: number;
+    alert: IWeatherAlert;
     issuanceTime: Date;
-    modifiers: WeatherAlertModifier[];
+    modifiers: IWeatherAlertModifier[];
 }
 
 export class WeatherEventStatistics extends BaseModel implements IWeatherEventStatistics {
-    public damageCost?: number | undefined;
-    public fatalities?: number | undefined;
-    public efRating?: number | undefined;
-    public pathDistance?: number | undefined;
-    public funnelWidth?: number | undefined;
-    public saffirSimpsonRating?: number | undefined;
-    public lowestPressure?: number | undefined;
-    public maxWindSpeed?: number | undefined;
-    public richterMagnitude?: number | undefined;
-    public mercalliIntensity?: number | undefined;
-    public aftershocks?: number | undefined;
-    public fault?: string | undefined;
-    public relatedTsunami?: boolean | undefined;
+    public damageCost?: number | null;
+    public fatalities?: number | null;
+    public efRating?: number | null;
+    public pathDistance?: number | null;
+    public funnelWidth?: number | null;
+    public saffirSimpsonRating?: number | null;
+    public lowestPressure?: number | null;
+    public maxWindSpeed?: number | null;
+    public richterMagnitude?: number | null;
+    public mercalliIntensity?: number | null;
+    public aftershocks?: number | null;
+    public fault?: string | null;
+    public relatedTsunami?: boolean | null;
 
     constructor(data?: IWeatherEventStatistics) {
         super(data);
@@ -2327,20 +2336,20 @@ export class WeatherEventStatistics extends BaseModel implements IWeatherEventSt
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.damageCost = _data["damageCost"];
-            this.fatalities = _data["fatalities"];
-            this.efRating = _data["efRating"];
-            this.pathDistance = _data["pathDistance"];
-            this.funnelWidth = _data["funnelWidth"];
-            this.saffirSimpsonRating = _data["saffirSimpsonRating"];
-            this.lowestPressure = _data["lowestPressure"];
-            this.maxWindSpeed = _data["maxWindSpeed"];
-            this.richterMagnitude = _data["richterMagnitude"];
-            this.mercalliIntensity = _data["mercalliIntensity"];
-            this.aftershocks = _data["aftershocks"];
-            this.fault = _data["fault"];
-            this.relatedTsunami = _data["relatedTsunami"];
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.damageCost = _data["damageCost"] !== undefined ? _data["damageCost"] : <any>null;
+            this.fatalities = _data["fatalities"] !== undefined ? _data["fatalities"] : <any>null;
+            this.efRating = _data["efRating"] !== undefined ? _data["efRating"] : <any>null;
+            this.pathDistance = _data["pathDistance"] !== undefined ? _data["pathDistance"] : <any>null;
+            this.funnelWidth = _data["funnelWidth"] !== undefined ? _data["funnelWidth"] : <any>null;
+            this.saffirSimpsonRating = _data["saffirSimpsonRating"] !== undefined ? _data["saffirSimpsonRating"] : <any>null;
+            this.lowestPressure = _data["lowestPressure"] !== undefined ? _data["lowestPressure"] : <any>null;
+            this.maxWindSpeed = _data["maxWindSpeed"] !== undefined ? _data["maxWindSpeed"] : <any>null;
+            this.richterMagnitude = _data["richterMagnitude"] !== undefined ? _data["richterMagnitude"] : <any>null;
+            this.mercalliIntensity = _data["mercalliIntensity"] !== undefined ? _data["mercalliIntensity"] : <any>null;
+            this.aftershocks = _data["aftershocks"] !== undefined ? _data["aftershocks"] : <any>null;
+            this.fault = _data["fault"] !== undefined ? _data["fault"] : <any>null;
+            this.relatedTsunami = _data["relatedTsunami"] !== undefined ? _data["relatedTsunami"] : <any>null;
         }
     }
 
@@ -2362,46 +2371,46 @@ export class WeatherEventStatistics extends BaseModel implements IWeatherEventSt
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["damageCost"] = this.damageCost;
-        data["fatalities"] = this.fatalities;
-        data["efRating"] = this.efRating;
-        data["pathDistance"] = this.pathDistance;
-        data["funnelWidth"] = this.funnelWidth;
-        data["saffirSimpsonRating"] = this.saffirSimpsonRating;
-        data["lowestPressure"] = this.lowestPressure;
-        data["maxWindSpeed"] = this.maxWindSpeed;
-        data["richterMagnitude"] = this.richterMagnitude;
-        data["mercalliIntensity"] = this.mercalliIntensity;
-        data["aftershocks"] = this.aftershocks;
-        data["fault"] = this.fault;
-        data["relatedTsunami"] = this.relatedTsunami;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["damageCost"] = this.damageCost !== undefined ? this.damageCost : <any>null;
+        data["fatalities"] = this.fatalities !== undefined ? this.fatalities : <any>null;
+        data["efRating"] = this.efRating !== undefined ? this.efRating : <any>null;
+        data["pathDistance"] = this.pathDistance !== undefined ? this.pathDistance : <any>null;
+        data["funnelWidth"] = this.funnelWidth !== undefined ? this.funnelWidth : <any>null;
+        data["saffirSimpsonRating"] = this.saffirSimpsonRating !== undefined ? this.saffirSimpsonRating : <any>null;
+        data["lowestPressure"] = this.lowestPressure !== undefined ? this.lowestPressure : <any>null;
+        data["maxWindSpeed"] = this.maxWindSpeed !== undefined ? this.maxWindSpeed : <any>null;
+        data["richterMagnitude"] = this.richterMagnitude !== undefined ? this.richterMagnitude : <any>null;
+        data["mercalliIntensity"] = this.mercalliIntensity !== undefined ? this.mercalliIntensity : <any>null;
+        data["aftershocks"] = this.aftershocks !== undefined ? this.aftershocks : <any>null;
+        data["fault"] = this.fault !== undefined ? this.fault : <any>null;
+        data["relatedTsunami"] = this.relatedTsunami !== undefined ? this.relatedTsunami : <any>null;
         return data;
     }
 }
 
 export interface IWeatherEventStatistics {
-    id: number;
-    damageCost?: number | undefined;
-    fatalities?: number | undefined;
-    efRating?: number | undefined;
-    pathDistance?: number | undefined;
-    funnelWidth?: number | undefined;
-    saffirSimpsonRating?: number | undefined;
-    lowestPressure?: number | undefined;
-    maxWindSpeed?: number | undefined;
-    richterMagnitude?: number | undefined;
-    mercalliIntensity?: number | undefined;
-    aftershocks?: number | undefined;
-    fault?: string | undefined;
-    relatedTsunami?: boolean | undefined;
+    id?: number;
+    damageCost?: number | null;
+    fatalities?: number | null;
+    efRating?: number | null;
+    pathDistance?: number | null;
+    funnelWidth?: number | null;
+    saffirSimpsonRating?: number | null;
+    lowestPressure?: number | null;
+    maxWindSpeed?: number | null;
+    richterMagnitude?: number | null;
+    mercalliIntensity?: number | null;
+    aftershocks?: number | null;
+    fault?: string | null;
+    relatedTsunami?: boolean | null;
 }
 
 export class WeatherExperience extends BaseModel implements IWeatherExperience {
     public name!: string;
     public description!: string;
     public startTime!: Date;
-    public endTime?: Date | undefined;
+    public endTime?: Date | null;
 
     constructor(data?: IWeatherExperience) {
         super(data);
@@ -2420,11 +2429,11 @@ export class WeatherExperience extends BaseModel implements IWeatherExperience {
     **/
     protected init(_data?: any): void {
         if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.description = _data["description"];
-            this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>undefined;
-            this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>undefined;
+            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
+            this.description = _data["description"] !== undefined ? _data["description"] : <any>null;
+            this.startTime = _data["startTime"] ? new Date(_data["startTime"].toString()) : <any>null;
+            this.endTime = _data["endTime"] ? new Date(_data["endTime"].toString()) : <any>null;
         }
     }
 
@@ -2446,21 +2455,21 @@ export class WeatherExperience extends BaseModel implements IWeatherExperience {
      **/
     public toJSON(): any {
         let data: any = {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["description"] = this.description;
-        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
-        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
+        data["id"] = this.id !== undefined ? this.id : <any>null;
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["description"] = this.description !== undefined ? this.description : <any>null;
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>null;
+        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>null;
         return data;
     }
 }
 
 export interface IWeatherExperience {
-    id: number;
+    id?: number;
     name: string;
     description: string;
     startTime: Date;
-    endTime?: Date | undefined;
+    endTime?: Date | null;
 }
 
 export class SkylightApiException extends Error {
