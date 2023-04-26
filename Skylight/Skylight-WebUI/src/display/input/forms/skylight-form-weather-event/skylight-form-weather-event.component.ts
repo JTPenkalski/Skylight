@@ -4,8 +4,8 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/for
 import { IWeatherEventService } from 'core/services';
 import { WeatherEventService } from 'presentation/services';
 import { IWeatherEvent as IWeatherEventCoreModel, WeatherEvent as WeatherEventCoreModel } from 'presentation/models';
-import { ILocation, Location, IWeatherEvent, WeatherEvent, IWeatherEventAlert, WeatherEventAlert } from 'display/input/form-models';
-import { IAbstractControlInstance } from 'display/input/controls/skylight-form-questions/types';
+import { ILocation, Location, IWeatherEvent, WeatherEvent, IWeatherEventAlert, WeatherEventAlert } from 'display/input/models';
+import { IAbstractControlInstance } from 'display/input/controls/skylight-form-question/types';
 
 @Component({
   selector: 'skylight-form-weather-event',
@@ -22,6 +22,7 @@ export class SkylightFormWeatherEventComponent {
     @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
   ) {
     this.form = new FormGroup<IWeatherEvent>(new WeatherEvent(this.formBuilder, this.model));
+    
   }
 
   /**
@@ -45,6 +46,9 @@ export class SkylightFormWeatherEventComponent {
     if (!control) {
       throw new Error(`Cannot create IAbstractControlInstance. The control "${name}" is not an AbstractControl.`);
     }
+
+    console.log(!!control.parent);
+    console.log(control.parent);
 
     return {
       name: name,

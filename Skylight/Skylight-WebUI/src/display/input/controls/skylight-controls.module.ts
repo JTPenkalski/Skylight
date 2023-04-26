@@ -18,11 +18,10 @@ import { FORM_QUESTION_CONFIG_PROVIDER } from 'presentation/injection';
 
 import { SkylightReorderableListItemDirective } from './skylight-reorderable-list/skylight-reorderable-list-item.directive';
 
-import * as SkylightFormQuestions from './skylight-form-questions';
+import * as SkylightFormQuestions from './skylight-form-question';
 import { SkylightSearchBarComponent } from 'display/input/controls/skylight-search-bar/skylight-search-bar.component';
 import { SkylightFormFieldSetComponent } from './skylight-form-field-set/skylight-form-field-set.component';
 import { SkylightReorderableListComponent } from './skylight-reorderable-list/skylight-reorderable-list.component';
-import { SkylightFormQuestionCheckboxComponent } from './skylight-form-questions/skylight-form-question-checkbox/skylight-form-question-checkbox.component';
 
 @NgModule({
   imports: [
@@ -44,17 +43,17 @@ import { SkylightFormQuestionCheckboxComponent } from './skylight-form-questions
   ],
   declarations: [
     SkylightReorderableListItemDirective,
+    SkylightFormQuestions.SkylightFormQuestionCheckboxComponent,
     SkylightFormQuestions.SkylightFormQuestionDateComponent,
     SkylightFormQuestions.SkylightFormQuestionInputComponent,
     SkylightFormQuestions.SkylightFormQuestionSelectComponent,
     SkylightFormQuestions.SkylightFormQuestionTextAreaComponent,
-    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent,
     SkylightFormQuestions.SkylightFormQuestionLocationComponent,
+    SkylightFormQuestions.SkylightFormQuestionWeatherEventAlertComponent,
     SkylightFormQuestions.SkylightFormQuestionWeatherEventStatisticsComponent,
     SkylightSearchBarComponent,
     SkylightFormFieldSetComponent,
     SkylightReorderableListComponent,
-    SkylightFormQuestionCheckboxComponent
   ],
   exports: [
     MatButtonModule,

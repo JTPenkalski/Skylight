@@ -1,1 +1,1 @@
-import { BaseModel } from 'web/web-models';
+import { BaseModel } from 'web/models';

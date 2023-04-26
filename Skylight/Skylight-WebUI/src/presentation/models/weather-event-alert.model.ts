@@ -1,6 +1,6 @@
 import { Modify } from 'core/types';
 import { BaseModel, IBaseModel, IWeatherAlert, IWeatherAlertModifier, WeatherAlert, WeatherAlertModifier } from './index';
-import { IWeatherEventAlert as IWeatherEventAlertWebModel } from 'web/web-models';
+import { IWeatherEventAlert as IWeatherEventAlertWebModel } from 'web/models';
 
 export interface IWeatherEventAlert extends Modify<IWeatherEventAlertWebModel, {
   alert: IWeatherAlert,

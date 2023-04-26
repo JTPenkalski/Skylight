@@ -1,4 +1,4 @@
-import { IBaseModel as IBaseWebModel } from 'web/web-models';
+import { IBaseModel as IBaseWebModel } from 'web/models';
 
 export interface IBaseModel extends IBaseWebModel {
   // Add any Presentation Layer data fields here...

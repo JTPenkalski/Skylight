@@ -8,7 +8,7 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-import { BaseModel } from 'web/web-models';
+import { BaseModel } from 'web/models';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
@@ -2130,6 +2130,23 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.weather = data.weather && !(<any>data.weather).toJSON ? new Weather(data.weather) : <Weather>this.weather;
+            this.statistics = data.statistics && !(<any>data.statistics).toJSON ? new WeatherEventStatistics(data.statistics) : <WeatherEventStatistics>this.statistics;
+            this.experience = data.experience && !(<any>data.experience).toJSON ? new WeatherExperience(data.experience) : <WeatherExperience>this.experience;
+            if (data.locations) {
+                this.locations = [];
+                for (let i = 0; i < data.locations.length; i++) {
+                    let item = data.locations[i];
+                    this.locations[i] = item && !(<any>item).toJSON ? new Location(item) : <Location>item;
+                }
+            }
+            if (data.alerts) {
+                this.alerts = [];
+                for (let i = 0; i < data.alerts.length; i++) {
+                    let item = data.alerts[i];
+                    this.alerts[i] = item && !(<any>item).toJSON ? new WeatherEventAlert(item) : <WeatherEventAlert>item;
+                }
+            }
         }
         if (!data) {
             this.weather = new Weather();
@@ -2238,6 +2255,14 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
+            }
+            this.alert = data.alert && !(<any>data.alert).toJSON ? new WeatherAlert(data.alert) : <WeatherAlert>this.alert;
+            if (data.modifiers) {
+                this.modifiers = [];
+                for (let i = 0; i < data.modifiers.length; i++) {
+                    let item = data.modifiers[i];
+                    this.modifiers[i] = item && !(<any>item).toJSON ? new WeatherAlertModifier(item) : <WeatherAlertModifier>item;
+                }
             }
         }
         if (!data) {

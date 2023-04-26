@@ -3,40 +3,30 @@ import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { SkylightReorderableListItemDirective } from './skylight-reorderable-list-item.directive';
-import { IAbstractControlInstance } from '../skylight-form-questions/types';
 
+/**
+ * A component for displaying FormArrays that allows the user to add, delete, and reorder its elements.
+ * Specify a child 'ng-template' node with the 'reorderableListItem' Directive to define the view of an individual list element.
+ * @requires [array]: The FormArray this component is linked to.
+ * @requires [formArrayName]: The name FormArray this component is linked to. Both are needed, since a [formArray] Directive does not exist.
+ **/
 @Component({
-  selector: 'skylight-reorderable-list',
+  selector: 'skylight-reorderable-list[formArrayName][array]',
   templateUrl: './skylight-reorderable-list.component.html',
   styleUrls: ['./skylight-reorderable-list.component.scss']
 })
 export class SkylightReorderableListComponent {
+  @Input() public array!: FormArray;
+
   @Output() public itemAdded: EventEmitter<undefined> = new EventEmitter<undefined>();
   @Output() public itemRemoved: EventEmitter<number> = new EventEmitter<number>();
   
-  @Input() public instance: IAbstractControlInstance = { name: '', control: new FormArray([]) };
   @ContentChild(SkylightReorderableListItemDirective) public content!: SkylightReorderableListItemDirective;
 
   /**
-   * The key of the AbstractControl within a FormGroup.
-   * Could be a number if based on the index within a FormArray.
+   * The collection of AbstractControls within this array.
    **/
-  public get name(): string | number { return this.instance.name; }
-
-  /**
-   * The collection of FormGroup controls within this array.
-   **/
-  public get items(): FormGroup[] { return (this.instance.control as FormArray<FormGroup>).controls; }
-
-  /**
-   * The actual AbstractControl within a FormGroup.
-   **/
-  public get control(): AbstractControl { return this.instance.control; }
-
-  /**
-   * The parent of the AbstractControl.
-   **/
-  public get parent(): FormGroup { return this.control.parent as FormGroup; }
+  public get items(): AbstractControl[] { return this.array.controls; }
 
   /**
    * Generates the ngTemplateContext object to be used by client component HTML templates.
@@ -44,9 +34,8 @@ export class SkylightReorderableListComponent {
    * @param index The index of the current item being rendered within the array.
    * @returns An object with the specified item and index properties.
    **/
-  public context(item: FormGroup, index: number): { item: FormGroup, index: number } {
+  public context(index: number): { index: number } {
     return {
-      item: item,
       index: index
     };
   }

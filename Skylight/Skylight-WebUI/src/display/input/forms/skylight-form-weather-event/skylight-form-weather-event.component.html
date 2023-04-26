@@ -2,28 +2,29 @@
 
 <form id="form-weather-event" class="flex-column" [formGroup]="form" (ngSubmit)="submit()">
   <skylight-form-field-set id="section-general" label="General Information">
-    <skylight-form-question-input label="Name" [instance]="getControlInstance('name')"></skylight-form-question-input>
+    <skylight-form-question-input label="Name" [control]="form.controls.name"></skylight-form-question-input>
 
-    <skylight-form-question-textarea label="Description" [instance]="getControlInstance('description')"></skylight-form-question-textarea>
+    <skylight-form-question-textarea label="Description" [control]="form.controls.description"></skylight-form-question-textarea>
 
-    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [instance]="getControlInstance('weather')"></skylight-form-question-select>
+    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [control]="form.controls.weather"></skylight-form-question-select>
     
     <div class="flex-row">
-      <skylight-form-question-date label="Start Date" [instance]="getControlInstance('startDate')"></skylight-form-question-date>
+      <skylight-form-question-date label="Start Date" [control]="form.controls.startDate"></skylight-form-question-date>
 
-      <skylight-form-question-date label="End Date" [instance]="getControlInstance('endDate')"></skylight-form-question-date>
+      <skylight-form-question-date label="End Date" [control]="form.controls.endDate"></skylight-form-question-date>
     </div>
   </skylight-form-field-set>
 
   <skylight-form-field-set id="section-alerts" label="Alerts">
     <skylight-reorderable-list
-      [instance]="getControlInstance('alerts')"
+      formArrayName="alerts"
+      [array]="form.controls.alerts"
       (itemAdded)="addWeatherEventAlert()"
       (itemRemoved)="removeWeatherEventAlert($event)">
-      <ng-template reorderableListItem let-item="item" let-index="index">
+      <ng-template reorderableListItem let-index="index">
         <skylight-form-question-weather-event-alert
           label="Alert {{index}}"
-          [instance]="getControlInstance(index, form.controls.alerts)">
+          [group]="form.controls.alerts.at(index)">
         </skylight-form-question-weather-event-alert>
       </ng-template>
     </skylight-reorderable-list>
@@ -31,13 +32,14 @@
 
   <skylight-form-field-set id="section-locations" label="Locations">
     <skylight-reorderable-list
-      [instance]="getControlInstance('locations')"
+      formArrayName="locations"
+      [array]="form.controls.locations"
       (itemAdded)="addLocation()"
       (itemRemoved)="removeLocation($event)">
-      <ng-template reorderableListItem let-item="item" let-index="index">
+      <ng-template reorderableListItem let-index="index">
         <skylight-form-question-location
           label="Location {{index}}"
-          [instance]="getControlInstance(index, form.controls.locations)">
+          [group]="form.controls.locations.at(index)">
         </skylight-form-question-location>
       </ng-template>
     </skylight-reorderable-list>
@@ -46,7 +48,7 @@
   <skylight-form-field-set id="section-statistics" label="Statistics">
     <skylight-form-question-weather-event-statistics
       label="Weather Event Statistics"
-      [instance]="getControlInstance('statistics')">
+      [group]="form.controls.statistics">
     </skylight-form-question-weather-event-statistics>
   </skylight-form-field-set>
 
