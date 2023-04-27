@@ -1,20 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Skylight.WebModels
 {
     /// <inheritdoc cref="Models.WeatherEvent"/>
     public record WeatherEvent : BaseWebModel
     {
+        [Required]
         public required string Name { get; init; }
-        public required string Description { get; init; }
-        public required Weather Weather { get; init; }
+
+        [Required]
         public required DateTime StartDate { get; init; }
-        public required DateTime EndDate { get; init; }
-        public required WeatherEventStatistics Statistics { get; init; }
+
+        [Required]
+        public required Weather Weather { get; init; }
+
+        [Required]
         public required WeatherExperience Experience { get; init; }
 
-        public virtual ICollection<Location> Locations { get; init; } = new HashSet<Location>();
-        public virtual ICollection<WeatherEventAlert> Alerts { get; init; } = new HashSet<WeatherEventAlert>();
+        [Required]
+        public required WeatherEventStatistics Statistics { get; init; }
+
+        [Required]
+        public required IEnumerable<Location> Locations { get; init; }
+
+        [Required]
+        public required IEnumerable<WeatherEventAlert> Alerts { get; init; }
+ 
+        public string? Description { get; init; }
+
+        public DateTime? EndDate { get; init; }
     }
 }

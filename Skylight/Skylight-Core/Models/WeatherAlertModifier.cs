@@ -13,7 +13,7 @@ namespace Skylight.Models
         public float Bonus { get; set; }
         public WeatherAlertModifierOperation Operation { get; set; }
 
-        public virtual ICollection<WeatherEventAlert> Alerts { get; set; } = new HashSet<WeatherEventAlert>();
+        public virtual IEnumerable<WeatherEventAlert> Alerts { get; set; } = new List<WeatherEventAlert>();
 
         /// <summary>
         /// Constructs a new <see cref="WeatherAlertModifier"/> instance.

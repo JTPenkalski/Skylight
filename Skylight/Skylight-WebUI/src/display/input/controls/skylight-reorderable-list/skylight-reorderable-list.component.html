@@ -1,0 +1,16 @@
+<ng-container *ngIf="content">
+  <div cdkDropList class="list flex-column" [cdkDropListData]="items" (cdkDropListDropped)="drop($event)">
+    <div cdkDrag class="list-item flex-row" [cdkDragData]="item" *ngFor="let item of items; index as index">
+      <mat-icon class="drag-indicator" aria-hidden="true">drag_indicator</mat-icon>
+      
+      <ng-container [ngTemplateOutlet]="content.template" [ngTemplateOutletContext]="context(index)"></ng-container>
+
+      <button mat-icon-button aria-label="Delete Modifier" matTooltip="Delete" type="button" (click)="onItemRemoved(index)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <button mat-stroked-button type="button" (click)="onItemAdded()"><mat-icon>add</mat-icon></button>
+  </div>
+</ng-container>
+

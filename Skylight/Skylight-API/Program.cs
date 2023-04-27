@@ -6,10 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Skylight.Controllers;
-using Skylight.DatabaseContexts.Factories;
-using Skylight.Startup.Mappings;
 using Skylight.Startup.Services;
 using Skylight.Startup.Services.Options;
+using Skylight.Contexts.Initializers;
+using System.Reflection;
+using Skylight.Contexts;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Skylight
 {
@@ -28,7 +31,7 @@ namespace Skylight
             builder.Logging.AddConsole();
 
             // Add services
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             builder.Services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;
@@ -42,7 +45,12 @@ namespace Skylight
                 options.SubstituteApiVersionInUrl = true;
             });
             builder.Services.AddSwaggerGen();
-            builder.Services.AddAutoMapper(typeof(CoreProfile));
+            builder.Services.AddDbContext<WeatherExperienceContext>(options =>
+            {
+                options.UseLazyLoadingProxies();
+                options.UseSqlServer(builder.Configuration.GetConnectionString("SQL_Server"));
+            });
+            builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
             builder.Services.AddInfrastructureServices();
             builder.Services.AddDataServices();
 
@@ -90,8 +98,8 @@ namespace Skylight
                     using (IServiceScope scope = app.Services.CreateScope())
                     {
                         scope.ServiceProvider
-                            .GetRequiredService<IWeatherExperienceContextFactory>()
-                            .InitializeTestDatabase();
+                            .GetRequiredService<IWeatherExperienceContextInitializer>()
+                            .Initialize();
                     }
                 }
             }

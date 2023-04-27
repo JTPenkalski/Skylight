@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Skylight.WebModels
 {
     /// <inheritdoc cref="Models.WeatherEventAlert"/>
     public record WeatherEventAlert : BaseWebModel
     {
-        public required WeatherEvent Event { get; init; }
+        [Required]
         public required WeatherAlert Alert { get; init; }
 
-        public virtual ICollection<WeatherAlertModifier> Modifier { get; init; } = new HashSet<WeatherAlertModifier>();
+        [Required]
+        public required DateTime IssuanceTime { get; init; }
+
+        [Required]
+        public required IEnumerable<WeatherAlertModifier> Modifiers { get; init; }
     }
 }

@@ -1,0 +1,45 @@
+@use 'src/core/styles/app-theme' as theme;
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+
+.search-bar {
+  align-items: center;
+  background: theme.color('primary', 800, 0.75);
+  border: 0.125em solid theme.contrast-color('primary', 800);
+  border-radius: 2em;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  height: 2.25em;
+  padding: 0 0.75em 0 0.75em;
+}
+
+.prefix {
+  display: flex;
+  flex: none;
+}
+
+.infix {
+  display: flex;
+  flex: 1;
+
+  input {
+    background: none;
+    border: none;
+    color: theme.contrast-color('primary', 800);
+    font-size: 1.5em;
+    outline: none;
+    width: 100%;
+  }
+}
+
+.suffix {
+  display: flex;
+  flex: none;
+}
+
