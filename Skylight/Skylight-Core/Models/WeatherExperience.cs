@@ -14,8 +14,8 @@ namespace Skylight.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
-        public virtual ICollection<WeatherExperienceParticipant> Participants { get; set; } = new HashSet<WeatherExperienceParticipant>();
-        public virtual ICollection<WeatherEvent> Events { get; set; } = new HashSet<WeatherEvent>();
+        public virtual IEnumerable<WeatherExperienceParticipant> Participants { get; set; } = new List<WeatherExperienceParticipant>();
+        public virtual IEnumerable<WeatherEvent> Events { get; set; } = new List<WeatherEvent>();
 
         /// <summary>
         /// Constructs a new <see cref="WeatherExperience"/> instance.

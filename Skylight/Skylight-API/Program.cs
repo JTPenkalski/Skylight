@@ -47,6 +47,7 @@ namespace Skylight
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<WeatherExperienceContext>(options =>
             {
+                options.UseLazyLoadingProxies();
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SQL_Server"));
             });
             builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());

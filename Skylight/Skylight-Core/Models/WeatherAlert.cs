@@ -12,7 +12,7 @@ namespace Skylight.Models
         public float Value { get; set; }
         public bool IsThirdParty { get; set; }
 
-        public virtual ICollection<WeatherEventAlert> Events { get; set; } = new HashSet<WeatherEventAlert>();
+        public virtual IEnumerable<WeatherEventAlert> Events { get; set; } = new List<WeatherEventAlert>();
 
         /// <summary>
         /// Constructs a new <see cref="WeatherAlert"/> instance.

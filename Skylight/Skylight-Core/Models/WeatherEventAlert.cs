@@ -8,10 +8,11 @@ namespace Skylight.Models
     /// </summary>
     public class WeatherEventAlert : BaseIdentifiableModel
     {
-        public WeatherEvent Event { get; set; } = null!;
-        public WeatherAlert Alert { get; set; } = null!;
         public DateTime IssuanceTime { get; set; }
 
-        public virtual ICollection<WeatherAlertModifier> Modifiers { get; set; } = new HashSet<WeatherAlertModifier>();
+        public virtual WeatherEvent Event { get; set; } = null!;
+        public virtual WeatherAlert Alert { get; set; } = null!;
+
+        public virtual IEnumerable<WeatherAlertModifier> Modifiers { get; set; } = new List<WeatherAlertModifier>();
     }
 }

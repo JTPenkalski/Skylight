@@ -1,6 +1,5 @@
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { ReadOnlyFormGroup } from '../types';
 import { BaseModel, IBaseModel } from './index';
 import {
   WeatherEventAlert as WeatherEventAlertCoreModel, IWeatherEventAlert as IWeatherEventAlertCoreModel,

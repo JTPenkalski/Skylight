@@ -17,10 +17,11 @@ import * as Clients from './index';
     { provide: Clients.API_BASE_URL, useValue: environment.apiUrl },
 
     Clients.LocationClient,
+    Clients.WeatherClient,
     Clients.WeatherAlertClient,
     Clients.WeatherAlertModifierClient,
     Clients.WeatherEventClient,
-    Clients.WeatherClient
+    Clients.WeatherExperienceClient
   ]
 })
 export class SkylightWebClientsModule { }

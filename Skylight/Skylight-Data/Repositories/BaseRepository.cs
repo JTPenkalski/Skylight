@@ -25,7 +25,18 @@ namespace Skylight.Repositories
             table = context.Set<T>();
         }
 
-        /// <inheritdoc cref="IRepository{T}.CreateAsync(T)"/>
+        public virtual void Attach(T entity)
+        {
+            if (entity.Id == 0)
+            {
+                entity.CreatedDate = DateTime.Now;
+            }
+
+            entity.UpdatedDate = DateTime.Now;
+
+            table.Attach(entity);
+        }
+
         public virtual async Task<int> CreateAsync(T entity)
         {
             entity.CreatedDate = DateTime.Now;
@@ -34,19 +45,16 @@ namespace Skylight.Repositories
             return (await table.AddAsync(entity)).Entity.Id;
         }
 
-        /// <inheritdoc cref="IRepository{T}.ReadAsync(int)"/>
         public virtual async Task<T?> ReadAsync(int id)
         {
             return await table.FindAsync(id);
         }
 
-        /// <inheritdoc cref="IRepository{T}.ReadAllAsync"/>
         public virtual async Task<IEnumerable<T>> ReadAllAsync()
         {
             return await table.ToListAsync();
         }
 
-        /// <inheritdoc cref="IRepository{T}.UpdateAsync(T)"/>
         public virtual async Task UpdateAsync(T entity)
         {
             if (await table.FindAsync(entity.Id) is not null)
@@ -57,7 +65,6 @@ namespace Skylight.Repositories
             }
         }
 
-        /// <inheritdoc cref="IRepository{T}.DeleteAsync(int)"/>
         public virtual async Task DeleteAsync(int id)
         {
             T? entity = await table.FindAsync(id);

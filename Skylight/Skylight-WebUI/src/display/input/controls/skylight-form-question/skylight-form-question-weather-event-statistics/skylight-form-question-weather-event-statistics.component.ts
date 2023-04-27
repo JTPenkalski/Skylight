@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
+import { ISelectOption, ISkylightFormQuestionContainer } from '../types';
 import { IWeatherEventStatistics } from 'display/input/models';
-import { ISelectOption } from '../types';
 
 /**
  * Form Field group for the Weather Event Statistics model.
@@ -13,7 +13,8 @@ import { ISelectOption } from '../types';
   templateUrl: './skylight-form-question-weather-event-statistics.component.html',
   styleUrls: ['./skylight-form-question-weather-event-statistics.component.scss']
 })
-export class SkylightFormQuestionWeatherEventStatisticsComponent {
+export class SkylightFormQuestionWeatherEventStatisticsComponent implements ISkylightFormQuestionContainer {
+  @Input() public label: string = '';
   @Input() public group!: FormGroup<IWeatherEventStatistics>;
 
   public readonly efRatingOptions: ISelectOption[] = [

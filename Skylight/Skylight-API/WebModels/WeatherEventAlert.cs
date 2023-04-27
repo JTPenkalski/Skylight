@@ -14,6 +14,6 @@ namespace Skylight.WebModels
         public required DateTime IssuanceTime { get; init; }
 
         [Required]
-        public required ICollection<WeatherAlertModifier> Modifiers { get; init; }
+        public required IEnumerable<WeatherAlertModifier> Modifiers { get; init; }
     }
 }

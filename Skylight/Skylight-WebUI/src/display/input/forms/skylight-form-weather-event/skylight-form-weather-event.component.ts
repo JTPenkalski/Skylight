@@ -5,7 +5,6 @@ import { IWeatherEventService } from 'core/services';
 import { WeatherEventService } from 'presentation/services';
 import { IWeatherEvent as IWeatherEventCoreModel, WeatherEvent as WeatherEventCoreModel } from 'presentation/models';
 import { ILocation, Location, IWeatherEvent, WeatherEvent, IWeatherEventAlert, WeatherEventAlert } from 'display/input/models';
-import { IAbstractControlInstance } from 'display/input/controls/skylight-form-question/types';
 
 @Component({
   selector: 'skylight-form-weather-event',
@@ -31,29 +30,6 @@ export class SkylightFormWeatherEventComponent {
   public submit(): void {
     console.log(`Valid: ${this.form.valid}`);
     this.weatherEventService.add(new WeatherEventCoreModel(this.form.getRawValue())).subscribe();
-  }
-
-  /**
-   * Maps an AbstractControl to an AbstractControlInstance.
-   * @param name The name or index of the AbstractControl within a control.
-   * @param parent Optionally provide a more specific parent to search under.
-   * @returns An object with the AbstractControl and its name within the FormGroup.
-   **/
-  public getControlInstance(name: string | number, parent?: FormGroup | FormArray): IAbstractControlInstance {
-    name = name.toString(); // Convert string | number to string
-    const control: AbstractControl | null = parent?.get(name) ?? this.form.get(name);
-
-    if (!control) {
-      throw new Error(`Cannot create IAbstractControlInstance. The control "${name}" is not an AbstractControl.`);
-    }
-
-    console.log(!!control.parent);
-    console.log(control.parent);
-
-    return {
-      name: name,
-      control: control
-    };
   }
 
   public addWeatherEventAlert(): void {

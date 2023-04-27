@@ -1,5 +1,6 @@
 ﻿using Skylight.Models;
 using Skylight.Repositories;
+using System;
 
 namespace Skylight.Contexts.Initializers
 {
@@ -209,6 +210,20 @@ namespace Skylight.Contexts.Initializers
             };
 
             context.WeatherEventObservationMethods.AddRange(weatherEventObservationMethods);
+            context.SaveChanges();
+
+            // Weather Experiences (TEMP)
+            WeatherExperience[] weatherExperiences = new WeatherExperience[]
+            {
+                new(
+                    "Tornado Outbreak of December 10th, 2021 [TEMP]",
+                    "A deadly late-season tornado outbreak, the deadliest on record in December, produced catastrophic damage and numerous fatalities across portions of the Southern United States and Ohio Valley from the evening of December 10 to the early morning of December 11, 2021. The event developed as a trough progressed eastward across the United States, interacting with an unseasonably moist and unstable environment across the Mississippi Valley. Tornado activity began in northeastern Arkansas, before progressing into Missouri, Illinois, Tennessee, and Kentucky.",
+                    new DateTime(2021, 12, 10),
+                    new DateTime(2021, 12, 11)
+                )
+            };
+
+            context.WeatherExperiences.AddRange(weatherExperiences);
             context.SaveChanges();
         }
     }

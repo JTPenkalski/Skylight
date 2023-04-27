@@ -9,28 +9,16 @@ namespace Skylight.Models
     /// </summary>
     public class WeatherEvent : BaseIdentifiableModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Weather Weather { get; set; } = null!;
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public WeatherExperience Experience { get; set; } = null!;
-        public WeatherEventStatistics Statistics { get; set; } = null!;
+        public DateTime? EndDate { get; set; }
 
-        public virtual ICollection<Location> Locations { get; set; } = new HashSet<Location>();
-        public virtual ICollection<WeatherEventAlert> Alerts { get; set; } = new HashSet<WeatherEventAlert>();
+        public virtual Weather Weather { get; set; } = null!;
+        public virtual WeatherExperience Experience { get; set; } = null!;
+        public virtual WeatherEventStatistics Statistics { get; set; } = null!;
 
-        /// <summary>
-        /// Constructs a new <see cref="WeatherEvent"/> instance.
-        /// </summary>
-        /// <param name="name">The name of the event.</param>
-        /// <param name="description">A brief description or notes about the event.</param>
-        /// <param name="startDate">The earliest recorded time of the event.</param>
-        public WeatherEvent(string name, string description, DateTime startDate)
-        {
-            Name = name;
-            Description = description;
-            StartDate = startDate;
-        }
+        public virtual IEnumerable<Location> Locations { get; set; } = new List<Location>();
+        public virtual IEnumerable<WeatherEventAlert> Alerts { get; set; } = new List<WeatherEventAlert>();
     }
 }

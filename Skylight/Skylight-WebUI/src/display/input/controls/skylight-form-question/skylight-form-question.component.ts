@@ -1,6 +1,7 @@
 import { Directive, Inject, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
+import { ISkylightFormQuestion } from './types';
 import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
 
 /**
@@ -8,7 +9,7 @@ import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/in
  * @requires [control]: The FormControl this component is linked to.
  **/
 @Directive()
-export abstract class SkylightFormQuestionComponent {
+export abstract class SkylightFormQuestionComponent implements ISkylightFormQuestion {
   @Input() public label: string = '';
   @Input() public control!: FormControl;
 

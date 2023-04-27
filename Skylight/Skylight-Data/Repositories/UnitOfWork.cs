@@ -10,11 +10,23 @@ namespace Skylight.Repositories
     {
         protected readonly WeatherExperienceContext context;
 
+        public string ChangeTrackingStatus
+        {
+            get
+            {
+                context.ChangeTracker.DetectChanges();
+                return context.ChangeTracker.DebugView.LongView;
+            }
+        }
+
         public ILocationRepository Locations { get; }
         public IWeatherRepository Weather { get; }
         public IWeatherAlertRepository WeatherAlerts { get; }
         public IWeatherAlertModifierRepository WeatherAlertModifiers { get; }
         public IWeatherEventRepository WeatherEvents { get; }
+        public IWeatherEventAlertRepository WeatherEventAlerts { get; }
+        public IWeatherEventStatisticsRepository WeatherEventStatistics { get; }
+        public IWeatherExperienceRepository WeatherExperiences { get; }
 
         /// <summary>
         /// Creates a new <see cref="UnitOfWork"/> instance.
@@ -26,7 +38,10 @@ namespace Skylight.Repositories
             IWeatherRepository weather,
             IWeatherAlertRepository weatherAlerts,
             IWeatherAlertModifierRepository weatherAlertModifiers,
-            IWeatherEventRepository weatherEvents
+            IWeatherEventRepository weatherEvents,
+            IWeatherEventAlertRepository weatherEventAlerts,
+            IWeatherEventStatisticsRepository weatherEventStatistics,
+            IWeatherExperienceRepository weatherExperiences
         )
         {
             this.context = context;
@@ -36,6 +51,9 @@ namespace Skylight.Repositories
             WeatherAlerts = weatherAlerts;
             WeatherAlertModifiers = weatherAlertModifiers;
             WeatherEvents = weatherEvents;
+            WeatherEventAlerts = weatherEventAlerts;
+            WeatherEventStatistics = weatherEventStatistics;
+            WeatherExperiences = weatherExperiences;
         }
 
         /// <inheritdoc cref="IUnitOfWork.CommitAsync"/>
@@ -44,7 +62,7 @@ namespace Skylight.Repositories
             await context.SaveChangesAsync();
         }
 
-        /// <inheritdoc cref="IUnitOfWork.Rollback"/>
+        /// <inheritdoc cref="IUnitOfWork.RollbackAsync"/>
         public async Task RollbackAsync()
         {
             await context.DisposeAsync();

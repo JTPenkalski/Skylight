@@ -5,8 +5,8 @@
     /// </summary>
     public class WeatherExperienceParticipant : BaseIdentifiableModel
     {
-        public WeatherExperience Experience { get; set; } = null!;
-        public StormTracker Tracker { get; set; } = null!;
-        public WeatherEventObservationMethod ObservationMethod { get; set; } = null!;
+        public virtual WeatherExperience Experience { get; set; } = null!;
+        public virtual StormTracker Tracker { get; set; } = null!;
+        public virtual WeatherEventObservationMethod ObservationMethod { get; set; } = null!;
     }
 }

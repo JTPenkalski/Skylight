@@ -7,7 +7,7 @@ import {
   WeatherEventStatistics, IWeatherEventStatistics
 } from './index';
 import {
-  WeatherEvent as WeatherEventCoreModel, IWeatherEvent as IWeatherEventCoreModel,
+  WeatherEvent as WeatherEventCoreModel,IWeatherEvent as IWeatherEventCoreModel,
   IWeather as IWeatherCoreModel,
   IWeatherExperience as IWeatherExperienceCoreModel
 } from 'presentation/models';

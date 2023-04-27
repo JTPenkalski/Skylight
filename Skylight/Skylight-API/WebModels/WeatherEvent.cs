@@ -10,24 +10,24 @@ namespace Skylight.WebModels
     {
         [Required]
         public required string Name { get; init; }
-        
-        [Required]
-        public required Weather Weather { get; init; }
-        
+
         [Required]
         public required DateTime StartDate { get; init; }
-        
+
         [Required]
-        public required WeatherEventStatistics Statistics { get; init; }
-        
+        public required Weather Weather { get; init; }
+
         [Required]
         public required WeatherExperience Experience { get; init; }
 
         [Required]
-        public required ICollection<Location> Locations { get; init; }
+        public required WeatherEventStatistics Statistics { get; init; }
 
         [Required]
-        public required ICollection<WeatherEventAlert> Alerts { get; init; }
+        public required IEnumerable<Location> Locations { get; init; }
+
+        [Required]
+        public required IEnumerable<WeatherEventAlert> Alerts { get; init; }
  
         public string? Description { get; init; }
 

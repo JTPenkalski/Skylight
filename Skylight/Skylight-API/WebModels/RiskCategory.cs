@@ -19,6 +19,6 @@ namespace Skylight.WebModels
         public required string Summary { get; init; }
 
         [Required]    
-        public required ICollection<RiskCategoryOutlookProbability> RiskProbabilities { get; init; }
+        public required IEnumerable<RiskCategoryOutlookProbability> RiskProbabilities { get; init; }
     }
 }
