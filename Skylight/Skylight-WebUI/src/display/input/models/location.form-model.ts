@@ -17,8 +17,8 @@ export class Location extends BaseModel implements ILocation {
   public readonly country: FormControl<string>;
 
   constructor(formBuilder: FormBuilder, data?: ILocationCoreModel) {
-    super(formBuilder);
-
+    super();
+    
     data ??= new LocationCoreModel();
 
     this.city = formBuilder.nonNullable.control(data.city, Validators.required);

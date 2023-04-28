@@ -1,35 +1,35 @@
-import { Component, Inject, Input } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { SkylightFormComponent } from '../skylight-form.component';
 import { IWeatherEventService } from 'core/services';
 import { WeatherEventService } from 'presentation/services';
 import { IWeatherEvent as IWeatherEventCoreModel, WeatherEvent as WeatherEventCoreModel } from 'presentation/models';
-import { ILocation, Location, IWeatherEvent, WeatherEvent, IWeatherEventAlert, WeatherEventAlert } from 'display/input/models';
+import {
+  IWeatherEvent, WeatherEvent,
+  ILocation, Location,
+  IWeatherEventAlert, WeatherEventAlert
+} from 'display/input/models';
 
 @Component({
-  selector: 'skylight-form-weather-event',
+  selector: 'skylight-form-weather-event[model]',
   templateUrl: './skylight-form-weather-event.component.html',
   styleUrls: ['./skylight-form-weather-event.component.scss']
 })
-export class SkylightFormWeatherEventComponent {
-  @Input() public readonly model: IWeatherEventCoreModel = new WeatherEventCoreModel();
-
-  public readonly form: FormGroup<IWeatherEvent>;
-
+export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWeatherEventCoreModel, IWeatherEvent> {
   constructor(
-    protected readonly formBuilder: FormBuilder,
-    @Inject(WeatherEventService) protected readonly weatherEventService: IWeatherEventService,
+    formBuilder: FormBuilder,
+    @Inject(WeatherEventService) service: IWeatherEventService,
   ) {
-    this.form = new FormGroup<IWeatherEvent>(new WeatherEvent(this.formBuilder, this.model));
-    
+    super(formBuilder, service);
   }
 
-  /**
-   * Submits the form to the server.
-   **/
-  public submit(): void {
-    console.log(`Valid: ${this.form.valid}`);
-    this.weatherEventService.add(new WeatherEventCoreModel(this.form.getRawValue())).subscribe();
+  public override ngOnInit(): void {
+    this.form = new FormGroup<IWeatherEvent>(new WeatherEvent(this.formBuilder, this.model));
+  }
+
+  public override submit(): void {
+    this.service.add(new WeatherEventCoreModel(this.form.getRawValue())).subscribe();
   }
 
   public addWeatherEventAlert(): void {

@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
 
-import { ISkylightFormQuestionContainer } from '../types';
+import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { ILocation } from 'display/input/models';
 
 /**
@@ -11,9 +10,8 @@ import { ILocation } from 'display/input/models';
 @Component({
   selector: 'skylight-form-question-location[group]',
   templateUrl: './skylight-form-question-location.component.html',
-  styleUrls: ['./skylight-form-question-location.component.scss']
+  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-location.component.scss']
 })
-export class SkylightFormQuestionLocationComponent implements ISkylightFormQuestionContainer {
-  @Input() public label: string = '';
-  @Input() public group!: FormGroup<ILocation>;
+export class SkylightFormQuestionLocationComponent extends SkylightFormQuestionContainerComponent<ILocation> {
+
 }

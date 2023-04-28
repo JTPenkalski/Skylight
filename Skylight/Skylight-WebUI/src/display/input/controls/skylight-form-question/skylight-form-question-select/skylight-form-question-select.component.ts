@@ -2,6 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
+import { ErrorFormatterService } from 'display/input/services';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
 import { SkylightServerOptionsService } from './skylight-server-options.service';
 import { ISelectOption } from '../types';
@@ -20,9 +21,10 @@ export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionCom
 
   constructor(
     @Inject(FORM_QUESTION_CONFIG) config: FormQuestionConfiguration,
+    errorFormatter: ErrorFormatterService,
     protected readonly serverOptionsService: SkylightServerOptionsService
   ) {
-    super(config);
+    super(config, errorFormatter);
   }
 
   public ngOnInit(): void {

@@ -19,7 +19,7 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
   public readonly modifiers: FormArray<FormControl<IWeatherAlertModifierCoreModel>>;
 
   constructor(formBuilder: FormBuilder, data?: IWeatherEventAlertCoreModel) {
-    super(formBuilder);
+    super();
 
     data ??= new WeatherEventAlertCoreModel();
 

@@ -1,8 +1,6 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
-import { IBaseModel as IBaseCoreModel } from 'presentation/models';
-
-export interface IBaseModel {
+export interface IBaseModel extends Record<string, AbstractControl> {
   
 }
 
@@ -11,5 +9,5 @@ export interface IBaseModel {
  * It allows the Input Layer to have an independent interface for form logic.
  **/
 export abstract class BaseModel implements IBaseModel {
-  constructor(formBuilder: FormBuilder) { }
+  [key: string]: AbstractControl;
 }
