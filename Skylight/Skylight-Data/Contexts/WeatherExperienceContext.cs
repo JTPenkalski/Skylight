@@ -23,12 +23,6 @@ namespace Skylight.Contexts
 
         public WeatherExperienceContext(DbContextOptions<WeatherExperienceContext> contextOptions) : base(contextOptions) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Eager Load Navigation Properties
-            modelBuilder.Entity<WeatherEvent>().Navigation(x => x.Weather).AutoInclude();
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.EnableSensitiveDataLogging();

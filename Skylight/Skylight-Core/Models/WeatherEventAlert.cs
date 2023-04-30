@@ -13,6 +13,6 @@ namespace Skylight.Models
         public virtual WeatherEvent Event { get; set; } = null!;
         public virtual WeatherAlert Alert { get; set; } = null!;
 
-        public virtual IEnumerable<WeatherAlertModifier> Modifiers { get; set; } = new List<WeatherAlertModifier>();
+        public virtual ICollection<WeatherAlertModifier> Modifiers { get; set; } = new List<WeatherAlertModifier>();
     }
 }

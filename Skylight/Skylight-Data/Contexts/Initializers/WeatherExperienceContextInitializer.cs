@@ -1,6 +1,7 @@
 ﻿using Skylight.Models;
 using Skylight.Repositories;
 using System;
+using System.Collections.Generic;
 
 namespace Skylight.Contexts.Initializers
 {
@@ -224,6 +225,48 @@ namespace Skylight.Contexts.Initializers
             };
 
             context.WeatherExperiences.AddRange(weatherExperiences);
+            context.SaveChanges();
+
+            // Weather Events (TEMP)
+            WeatherEvent[] weatherEvents = new WeatherEvent[]
+            {
+                new()
+                {
+                    Name = "Mayfield Tornado",
+                    Description = "A destructive tornado in Mayfield KY.",
+                    StartDate = new DateTime(2021, 12, 10),
+                    EndDate = new DateTime(2021, 12, 11),
+                    Weather = weather[0],
+                    Experience = weatherExperiences[0],
+                    Statistics = new()
+                    {
+                        DamageCost = 123,
+                        Fatalities = 1,
+                        EFRating = 1,
+                        PathDistance = 23,
+                        FunnelWidth = 45,
+                        RelatedTsunami = true
+                    },
+                    Locations = new List<Location>()
+                    {
+                        new Location("Chester", "12345")
+                    },
+                    Alerts = new List<WeatherEventAlert>()
+                    {
+                        new()
+                        {
+                            IssuanceTime = new DateTime(2021, 12, 10),
+                            Alert = weatherAlerts[0],
+                            Modifiers = new List<WeatherAlertModifier>()
+                            {
+                                weatherAlertModifiers[0]
+                            }
+                        }
+                    }
+                }
+            };
+
+            context.WeatherEvents.AddRange(weatherEvents);
             context.SaveChanges();
         }
     }
