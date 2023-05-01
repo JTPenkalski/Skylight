@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Skylight.Contexts;
 using Skylight.Models;
 using System;
@@ -30,21 +29,11 @@ namespace Skylight.Repositories
 
         public virtual void Attach(T entity)
         {
-            if (entity.Id == 0)
-            {
-                entity.CreatedDate = DateTime.Now;
-            }
-
-            entity.UpdatedDate = DateTime.Now;
-
             table.Attach(entity);
         }
 
         public virtual int Create(T entity)
         {
-            entity.CreatedDate = DateTime.Now;
-            entity.UpdatedDate = DateTime.Now;
-
             return table.Add(entity).Entity.Id;
         }
 
@@ -67,19 +56,25 @@ namespace Skylight.Repositories
             {
                 success = true;
 
-                entity.UpdatedDate = DateTime.Now;
-
                 table.Entry(existing).CurrentValues.SetValues(entity);
             }
 
             return success;
         }
 
-        public virtual async Task<bool> Delete(T entity)
+        public virtual async Task<bool> Delete(int id)
         {
-            entity.Deleted = true;
+            T? existing = await ReadAsync(id);
+            bool success = false;
 
-            return await Update(entity);
+            if (existing is not null)
+            {
+                success = true;
+
+                table.Remove(existing);
+            }
+
+            return success;
         }
 
         /// <summary>

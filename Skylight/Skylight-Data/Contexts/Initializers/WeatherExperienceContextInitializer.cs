@@ -249,7 +249,9 @@ namespace Skylight.Contexts.Initializers
                     },
                     Locations = new List<Location>()
                     {
-                        new Location("Chester", "12345")
+                        new Location("Chester", "12345"),
+                        new Location("Platteville", "67890"),
+                        new Location("France", "10101")
                     },
                     Alerts = new List<WeatherEventAlert>()
                     {

@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skylight.Models;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Skylight.Contexts
 {
@@ -23,6 +27,18 @@ namespace Skylight.Contexts
 
         public WeatherExperienceContext(DbContextOptions<WeatherExperienceContext> contextOptions) : base(contextOptions) { }
 
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            UpdateAuditColumns();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            UpdateAuditColumns();
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.EnableSensitiveDataLogging();
@@ -33,6 +49,30 @@ namespace Skylight.Contexts
             // Enum Value Converters
             configurationBuilder.Properties<OutlookProbabilityWeatherType>().HaveConversion<string>();
             configurationBuilder.Properties<WeatherAlertModifierOperation>().HaveConversion<string>();
+        }
+
+        protected void UpdateAuditColumns()
+        {
+            foreach (var entityEntry in ChangeTracker.Entries())
+            {
+                if (entityEntry.Entity is BaseModel entity)
+                {
+                    switch (entityEntry.State)
+                    {
+                        case EntityState.Added:
+                            entity.CreatedDate = DateTime.UtcNow;
+                            entity.UpdatedDate = DateTime.UtcNow;
+                            break;
+                        case EntityState.Modified:
+                            entity.UpdatedDate = DateTime.UtcNow;
+                            break;
+                        case EntityState.Deleted:
+                            entity.Deleted = true;
+                            entityEntry.State = EntityState.Modified;
+                            break;
+                    }
+                }
+            }
         }
     }
 }

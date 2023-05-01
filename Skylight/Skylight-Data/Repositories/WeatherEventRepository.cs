@@ -25,8 +25,6 @@ namespace Skylight.Repositories
             {
                 success = true;
 
-                entity.UpdatedDate = DateTime.Now;
-
                 EntityEntry entityEntry = table.Entry(existing);
                 entityEntry.CurrentValues.SetValues(entity);
 

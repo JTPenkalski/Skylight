@@ -77,6 +77,7 @@ namespace Skylight.Services
             try
             {
                 await Repository.Update(model);
+                await Console.Out.WriteLineAsync(unitOfWork.ChangeTrackingStatus);
                 await unitOfWork.CommitAsync();
             }
             catch (Exception ex)
@@ -85,21 +86,18 @@ namespace Skylight.Services
                 logger.LogError("{Message}", ex.Message);
             }
 
-            return new ServiceResponse<T>(success, model);
+            return new ServiceResponse<T>(success, null);
         }
 
         public virtual async Task<ServiceResponse<T>> RemoveAsync(int id)
         {
-            T? model = await Repository.ReadAsync(id);
-            bool success = model is not null;
+            bool success = true;
 
             try
             {
-                if (success)
-                {
-                    await Repository.Delete(model!);
-                    await unitOfWork.CommitAsync();
-                }
+                await Repository.Delete(id);
+                await Console.Out.WriteLineAsync(unitOfWork.ChangeTrackingStatus);
+                await unitOfWork.CommitAsync();
             }
             catch (Exception ex)
             {
@@ -107,7 +105,7 @@ namespace Skylight.Services
                 logger.LogError("{Message}", ex.Message);
             }
 
-            return new ServiceResponse<T>(success, model);
+            return new ServiceResponse<T>(success, null);
         }
     }
 }

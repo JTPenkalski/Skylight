@@ -48,8 +48,8 @@ namespace Skylight.Repositories
         /// <remarks>
         /// This performs a soft delete, meaning a delete flag is enabled on the entity rather than deleting the physical row.
         /// </remarks>
-        /// <param name="entity">The entity to delete.</param>
+        /// <param name="id">The ID of the entity to delete.</param>
         /// <returns>True if the entity was deleted, false otherwise.</returns>
-        Task<bool> Delete(T entity);
+        Task<bool> Delete(int id);
     }
 }
