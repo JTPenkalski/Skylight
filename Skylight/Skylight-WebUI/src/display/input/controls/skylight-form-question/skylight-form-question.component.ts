@@ -2,10 +2,11 @@ import { Directive, Inject, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { ISkylightFormQuestion } from './types';
-import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
+import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
+import { ErrorFormatterService } from 'display/input/services';
 
 /**
- * Base Form Field for all individual Form Question controls.
+ * Base Form Control for all individual Form Question components.
  * @requires [control]: The FormControl this component is linked to.
  **/
 @Directive()
@@ -19,15 +20,7 @@ export abstract class SkylightFormQuestionComponent implements ISkylightFormQues
   public get required(): boolean { return this.control.hasValidator(Validators.required); }
 
   constructor(
-    @Inject(FORM_QUESTION_CONFIG) public readonly config: FormQuestionConfiguration,
+    @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,
+    public readonly errorFormatter: ErrorFormatterService
   ) { }
-
-  /**
-   * Formats a specified validation message with this control's specific label.
-   * @param message The message from the FormQuestionConfiguration's validation property.
-   * @returns A formatted string to display for a validation error message.
-   **/
-  public formatError(message: string): string {
-    return message.replace('{name}', this.label);
-  }
 }

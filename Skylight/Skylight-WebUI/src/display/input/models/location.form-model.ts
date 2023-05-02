@@ -1,5 +1,6 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
+import { zipCodeValidator } from '../validators';
 import { BaseModel, IBaseModel } from './index';
 import {
   Location as LocationCoreModel, ILocation as ILocationCoreModel
@@ -17,12 +18,12 @@ export class Location extends BaseModel implements ILocation {
   public readonly country: FormControl<string>;
 
   constructor(formBuilder: FormBuilder, data?: ILocationCoreModel) {
-    super(formBuilder);
-
+    super();
+    
     data ??= new LocationCoreModel();
 
     this.city = formBuilder.nonNullable.control(data.city, Validators.required);
-    this.zipCode = formBuilder.nonNullable.control(data.zipCode, Validators.required);
+    this.zipCode = formBuilder.nonNullable.control(data.zipCode, [Validators.required, zipCodeValidator]);
     this.country = formBuilder.nonNullable.control(data.country, Validators.required);
   }
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
+import { ROUTE_NAMES_CONFIG_TOKEN, RouteNamesConfiguration } from 'presentation/injection';
 import { INavigationLink } from './types/navigation-link';
 
 @Component({
@@ -8,14 +9,12 @@ import { INavigationLink } from './types/navigation-link';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Skylight';
-
-  readonly navigationLinks: INavigationLink[] = [
+  public readonly navigationLinks: INavigationLink[] = [
     { name: 'Dashboard', tooltip: 'View your dashboard' },
     { name: 'Track', tooltip: 'Manage your tracked weather' },
     { name: 'Forecast', tooltip: 'See your upcoming forecast' },
     { name: 'Radar', tooltip: 'Observe current radar readings' }
   ];
 
-  constructor() { }
+  constructor(@Inject(ROUTE_NAMES_CONFIG_TOKEN) public readonly routesConfig: RouteNamesConfiguration) { }
 }

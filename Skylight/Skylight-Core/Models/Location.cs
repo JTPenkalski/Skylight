@@ -11,7 +11,7 @@ namespace Skylight.Models
         public string ZipCode { get; set; }
         public string Country { get; set; }
 
-        public virtual IEnumerable<WeatherEvent> Events { get; set; } = new List<WeatherEvent>();
+        public virtual ICollection<WeatherEvent> Events { get; set; } = new List<WeatherEvent>();
 
         /// <summary>
         /// Constructs a new <see cref="Location"/> instance.

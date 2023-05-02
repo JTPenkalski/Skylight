@@ -20,7 +20,7 @@ namespace Skylight.Repositories
         /// </summary>
         /// <param name="entity">The entity to create.</param>
         /// <returns>The ID of the created entity.</returns>
-        Task<int> CreateAsync(T entity);
+        int Create(T entity);
 
         /// <summary>
         /// Reads an entity of type <typeparamref name="T"/> from the database.
@@ -39,12 +39,17 @@ namespace Skylight.Repositories
         /// Updates an entity of type <typeparamref name="T"/> in the database.
         /// </summary>
         /// <param name="entity">The entity to update.</param>
-        Task UpdateAsync(T entity);
+        /// <returns>True if the entity was updated, false otherwise.</returns>
+        Task<bool> Update(T entity);
 
         /// <summary>
         /// Deletes an entity of type <typeparamref name="T"/> from the database.
         /// </summary>
+        /// <remarks>
+        /// This performs a soft delete, meaning a delete flag is enabled on the entity rather than deleting the physical row.
+        /// </remarks>
         /// <param name="id">The ID of the entity to delete.</param>
-        Task DeleteAsync(int id);
+        /// <returns>True if the entity was deleted, false otherwise.</returns>
+        Task<bool> Delete(int id);
     }
 }

@@ -3,6 +3,7 @@ using Skylight.Contexts;
 using Skylight.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skylight.Repositories
@@ -19,6 +20,7 @@ namespace Skylight.Repositories
         /// <summary>
         /// Constructs a new repository instance.
         /// </summary>
+        /// <param name="mapper">Mapping service.</param>
         /// <param name="context">EF Core Database Context service.</param>
         public BaseRepository(WeatherExperienceContext context)
         {
@@ -27,22 +29,12 @@ namespace Skylight.Repositories
 
         public virtual void Attach(T entity)
         {
-            if (entity.Id == 0)
-            {
-                entity.CreatedDate = DateTime.Now;
-            }
-
-            entity.UpdatedDate = DateTime.Now;
-
             table.Attach(entity);
         }
 
-        public virtual async Task<int> CreateAsync(T entity)
+        public virtual int Create(T entity)
         {
-            entity.CreatedDate = DateTime.Now;
-            entity.UpdatedDate = DateTime.Now;
-
-            return (await table.AddAsync(entity)).Entity.Id;
+            return table.Add(entity).Entity.Id;
         }
 
         public virtual async Task<T?> ReadAsync(int id)
@@ -52,29 +44,81 @@ namespace Skylight.Repositories
 
         public virtual async Task<IEnumerable<T>> ReadAllAsync()
         {
-            return await table.ToListAsync();
+            return (await table.ToListAsync()).Where(e => !e.Deleted);
         }
 
-        public virtual async Task UpdateAsync(T entity)
+        public virtual async Task<bool> Update(T entity)
         {
-            if (await table.FindAsync(entity.Id) is not null)
-            {
-                entity.UpdatedDate = DateTime.Now;
+            T? existing = await ReadAsync(entity.Id);
+            bool success = false;
 
-                table.Update(entity);
+            if (existing is not null)
+            {
+                success = true;
+
+                table.Entry(existing).CurrentValues.SetValues(entity);
             }
+
+            return success;
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual async Task<bool> Delete(int id)
         {
-            T? entity = await table.FindAsync(id);
+            T? existing = await ReadAsync(id);
+            bool success = false;
 
-            if (entity is not null)
+            if (existing is not null)
             {
-                entity.UpdatedDate = DateTime.Now;
-                entity.Deleted = true;
+                success = true;
 
-                table.Update(entity);
+                table.Remove(existing);
+            }
+
+            return success;
+        }
+
+        /// <summary>
+        /// Automatically 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="context"></param>
+        /// <param name="currentItems"></param>
+        /// <param name="newItems"></param>
+        /// <param name="keyFunc"></param>
+        protected void UpdateCollection<TEntity>(DbContext context, ICollection<TEntity> currentItems, ICollection<TEntity> newItems, Func<TEntity, int> keyFunc) where TEntity : BaseIdentifiableModel
+        {
+            // Loop through all items in the existing collection
+            // If the new collection does not have an item, remove it from the existing collection, otherwise update it
+            var toRemove = new List<TEntity>();
+            foreach (TEntity item in currentItems)
+            {
+                TEntity? found = newItems.FirstOrDefault(x => keyFunc(item)!.Equals(keyFunc(x)));
+
+                if (found is null)
+                {
+                    toRemove.Add(item);
+                }
+                else if (!ReferenceEquals(found, item))
+                {
+                    context.Entry(item).CurrentValues.SetValues(found);
+                }
+            }
+
+            if (toRemove.Any())
+            {
+                toRemove.ForEach(x => currentItems.Remove(x));
+            }
+
+            // Loop through all items in the new collection
+            // If the existing collection does not have an item, add it to the existing collection
+            foreach (TEntity newItem in newItems)
+            {
+                TEntity? found = currentItems.FirstOrDefault(x => keyFunc(newItem)!.Equals(keyFunc(x)));
+
+                if (found is null)
+                {
+                    currentItems.Add(newItem);
+                }
             }
         }
     }

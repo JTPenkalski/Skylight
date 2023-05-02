@@ -4,6 +4,7 @@
 
     <input matInput type="text" [formControl]="control">
     
-    <mat-error *ngIf="required && control.invalid">{{formatError(config.validation.required)}}</mat-error>
+    <mat-error *ngIf="required && control.invalid">{{errorFormatter.required(label)}}</mat-error>
+    <mat-error *ngIf="zipCode && control.invalid">{{errorFormatter.zipCode(label)}}</mat-error>
   </mat-form-field>
 </div>

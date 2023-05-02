@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
 
-import { ISelectOption, ISkylightFormQuestionContainer } from '../types';
+import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { IWeatherEventStatistics } from 'display/input/models';
+import { ISelectOption } from '../types';
 
 /**
  * Form Field group for the Weather Event Statistics model.
@@ -11,13 +11,12 @@ import { IWeatherEventStatistics } from 'display/input/models';
 @Component({
   selector: 'skylight-form-question-weather-event-statistics[group]',
   templateUrl: './skylight-form-question-weather-event-statistics.component.html',
-  styleUrls: ['./skylight-form-question-weather-event-statistics.component.scss']
+  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-statistics.component.scss']
 })
-export class SkylightFormQuestionWeatherEventStatisticsComponent implements ISkylightFormQuestionContainer {
-  @Input() public label: string = '';
-  @Input() public group!: FormGroup<IWeatherEventStatistics>;
-
+export class SkylightFormQuestionWeatherEventStatisticsComponent extends SkylightFormQuestionContainerComponent<IWeatherEventStatistics> {
   public readonly efRatingOptions: ISelectOption[] = [
+    { name: 'EF-U', value: -1 },
+    { name: 'EF-0', value: 0 },
     { name: 'EF-1', value: 1 },
     { name: 'EF-2', value: 2 },
     { name: 'EF-3', value: 3 },

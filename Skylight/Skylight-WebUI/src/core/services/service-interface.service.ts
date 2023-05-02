@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
 
+/**
+ * Base service for interacting with Web API Clients.
+ **/
 export interface IService<T> {
   add(model: T): Observable<T | null>;
 

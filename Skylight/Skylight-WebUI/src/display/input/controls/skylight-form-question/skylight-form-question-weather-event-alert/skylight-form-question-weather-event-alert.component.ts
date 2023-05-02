@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormArray, FormControl } from '@angular/forms';
 
-import { ISkylightFormQuestionContainer } from '../types';
-import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models';
+import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { IWeatherEventAlert } from 'display/input/models';
+import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models';
 
 /**
  * Form Field group for the Weather Event Alert model.
@@ -12,12 +12,9 @@ import { IWeatherEventAlert } from 'display/input/models';
 @Component({
   selector: 'skylight-form-question-weather-event-alert[group]',
   templateUrl: './skylight-form-question-weather-event-alert.component.html',
-  styleUrls: ['./skylight-form-question-weather-event-alert.component.scss']
+  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-alert.component.scss']
 })
-export class SkylightFormQuestionWeatherEventAlertComponent implements ISkylightFormQuestionContainer {
-  @Input() public label: string = '';
-  @Input() public group!: FormGroup<IWeatherEventAlert>;
-  
+export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightFormQuestionContainerComponent<IWeatherEventAlert> {  
   public get modifiers(): FormArray<FormControl<IWeatherAlertModifier>> { return this.group.controls.modifiers; }
 
   public addWeatherAlertModifier(): void {

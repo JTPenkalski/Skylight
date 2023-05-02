@@ -36,7 +36,7 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
   public readonly endDate: FormControl<Date | null>;
 
   constructor(formBuilder: FormBuilder, data?: IWeatherEventCoreModel) {
-    super(formBuilder);
+    super();
 
     data ??= new WeatherEventCoreModel();
 

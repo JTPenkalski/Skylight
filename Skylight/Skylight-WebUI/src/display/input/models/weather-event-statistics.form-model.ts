@@ -1,4 +1,4 @@
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 import { BaseModel, IBaseModel } from './index';
 import {
@@ -37,7 +37,7 @@ export class WeatherEventStatistics extends BaseModel implements IWeatherEventSt
   public readonly relatedTsunami: FormControl<boolean | null>;
 
   constructor(formBuilder: FormBuilder, data?: IWeatherEventStatisticsCoreModel) {
-    super(formBuilder);
+    super();
 
     data ??= new WeatherEventStatisticsCoreModel();
 
