@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
+import { ROUTE_NAMES_CONFIG_TOKEN, RouteNamesConfiguration } from 'presentation/injection';
 import { INavigationLink } from './types/navigation-link';
-import { WeatherEvent } from 'presentation/models';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +16,5 @@ export class AppComponent {
     { name: 'Radar', tooltip: 'Observe current radar readings' }
   ];
 
-  public title: string = 'Skylight';
-  public temp: WeatherEvent = new WeatherEvent();
-
-  constructor() { }
+  constructor(@Inject(ROUTE_NAMES_CONFIG_TOKEN) public readonly routesConfig: RouteNamesConfiguration) { }
 }

@@ -7,7 +7,6 @@ import { IBaseModel } from '../models';
 
 /**
  * Base Form for all model forms.
- * @requires [model]: The Presentation model this form represents.
  **/
 @Directive()
 export abstract class SkylightFormComponent<TModel extends IBaseCoreModel, TFormModel extends IBaseModel> implements OnInit {

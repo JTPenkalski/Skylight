@@ -12,7 +12,7 @@ import {
 } from 'display/input/models';
 
 @Component({
-  selector: 'skylight-form-weather-event[model]',
+  selector: 'skylight-form-weather-event',
   templateUrl: './skylight-form-weather-event.component.html',
   styleUrls: ['./skylight-form-weather-event.component.scss']
 })

@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
+import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 import { ErrorFormatterService } from 'display/input/services';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
 import { SkylightServerOptionsService } from './skylight-server-options.service';
@@ -20,7 +20,7 @@ export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionCom
   public serverOptions$: Observable<ISelectOption[]> = of([]);
 
   constructor(
-    @Inject(FORM_QUESTION_CONFIG) config: FormQuestionConfiguration,
+    @Inject(FORM_QUESTION_CONFIG_TOKEN) config: FormQuestionConfiguration,
     errorFormatter: ErrorFormatterService,
     protected readonly serverOptionsService: SkylightServerOptionsService
   ) {

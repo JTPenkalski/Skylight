@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
+import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 
 /**
  * Formats common error messages to display during form validation.
@@ -10,7 +10,7 @@ import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/in
 })
 export class ErrorFormatterService {
   constructor(
-    @Inject(FORM_QUESTION_CONFIG) public readonly config: FormQuestionConfiguration,
+    @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,
   ) { }
   
   /**

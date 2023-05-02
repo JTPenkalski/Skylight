@@ -11,10 +11,10 @@ export type FormQuestionConfiguration = {
 };
 
 // TOKEN
-export const FORM_QUESTION_CONFIG = new InjectionToken<FormQuestionConfiguration>('FORM_QUESTION_CONFIG_TOKEN');
+export const FORM_QUESTION_CONFIG_TOKEN = new InjectionToken<FormQuestionConfiguration>('FORM_QUESTION_CONFIG_TOKEN');
 
 // SERVICE
-export const CONFIG: FormQuestionConfiguration = {
+export const FORM_QUESTION_CONFIG: FormQuestionConfiguration = {
   appearance: 'fill',
   color: 'accent',
   validation: {
@@ -24,5 +24,5 @@ export const CONFIG: FormQuestionConfiguration = {
 
 // PROVIDER
 export const FORM_QUESTION_CONFIG_PROVIDER: Provider[] = [
-  { provide: FORM_QUESTION_CONFIG, useValue: CONFIG }
+  { provide: FORM_QUESTION_CONFIG_TOKEN, useValue: FORM_QUESTION_CONFIG }
 ];

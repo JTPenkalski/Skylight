@@ -2,7 +2,7 @@ import { Directive, Inject, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { ISkylightFormQuestion } from './types';
-import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
+import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 import { ErrorFormatterService } from 'display/input/services';
 
 /**
@@ -20,7 +20,7 @@ export abstract class SkylightFormQuestionComponent implements ISkylightFormQues
   public get required(): boolean { return this.control.hasValidator(Validators.required); }
 
   constructor(
-    @Inject(FORM_QUESTION_CONFIG) public readonly config: FormQuestionConfiguration,
+    @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,
     public readonly errorFormatter: ErrorFormatterService
   ) { }
 }

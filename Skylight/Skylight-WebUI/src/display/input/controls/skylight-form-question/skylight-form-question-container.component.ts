@@ -2,7 +2,7 @@ import { Directive, Inject, Input } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 
 import { ISkylightFormQuestionContainer } from './types';
-import { FORM_QUESTION_CONFIG, FormQuestionConfiguration } from 'presentation/injection';
+import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 import { ErrorFormatterService } from 'display/input/services';
 import { IBaseModel } from 'display/input/models';
 
@@ -21,7 +21,7 @@ export abstract class SkylightFormQuestionContainerComponent<T extends IBaseMode
   public get required(): boolean { return this.group.hasValidator(Validators.required); }
 
   constructor(
-    @Inject(FORM_QUESTION_CONFIG) public readonly config: FormQuestionConfiguration,
+    @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,
     public readonly errorFormatter: ErrorFormatterService
   ) { }
 }
