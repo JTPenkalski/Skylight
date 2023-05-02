@@ -2,6 +2,8 @@ import { Inject, Injectable } from '@angular/core';
 
 import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 
+// TODO: Consider simply accepting control.errors and returning an array of error messages?
+
 /**
  * Formats common error messages to display during form validation.
  **/
@@ -19,4 +21,11 @@ export class ErrorFormatterService {
    * @returns The formatted error message.
    **/
   public required(name: string): string { return this.config.validation.required.replace('{name}', name || 'This control '); }
+
+  /**
+   * Generates a formatted error message for zip code validators.
+   * @param name The name of the control that is required.
+   * @returns The formatted error message.
+   **/
+  public zipCode(name: string): string { return this.config.validation.zipCode.replace('{name}', name || 'This control '); }
 }

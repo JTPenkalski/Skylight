@@ -6,7 +6,8 @@ export type FormQuestionConfiguration = {
   appearance: MatFormFieldAppearance,
   color: ThemePalette,
   validation: {
-    required: string
+    required: string,
+    zipCode: string
   }
 };
 
@@ -18,7 +19,8 @@ export const FORM_QUESTION_CONFIG: FormQuestionConfiguration = {
   appearance: 'fill',
   color: 'accent',
   validation: {
-    required: '{name} is a required field.'
+    required: '{name} is a required field.',
+    zipCode: '{name} must be a zip code with exactly 5 digits.'
   }
 }
 
