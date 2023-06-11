@@ -110,7 +110,7 @@ namespace Skylight.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
-        public virtual async Task<IActionResult> Put(int id, TWebModel model)
+        public virtual async Task<ActionResult> Put(int id, TWebModel model)
         {
             if (id != model.Id)
             {
@@ -130,7 +130,7 @@ namespace Skylight.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
-        public virtual async Task<IActionResult> Delete(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
             var response = await service.RemoveAsync(id);
 
