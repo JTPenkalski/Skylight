@@ -40,18 +40,8 @@ namespace Skylight.Services
 
         public virtual async Task<ServiceResponse<T>> AddAsync(T model)
         {
-            bool success = true;
-
-            try
-            {
-                Repository.Create(model);
-                await unitOfWork.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                success = false;
-                logger.LogError("{ERROR}", ex.Message);
-            }
+            Repository.Create(model);
+            bool success = await unitOfWork.CommitAsync();
 
             return new ServiceResponse<T>(success, model);
         }
@@ -59,53 +49,31 @@ namespace Skylight.Services
         public virtual async Task<ServiceResponse<T>> GetAsync(int id)
         {
             T? model = await Repository.ReadAsync(id);
+            bool success = model is not null;
 
-            return new ServiceResponse<T>(model is not null, model);
+            return new ServiceResponse<T>(success, model);
         }
 
         public virtual async Task<ServiceResponse<IEnumerable<T>>> GetAllAsync()
         {
             IEnumerable<T> models = await Repository.ReadAllAsync();
+            bool success = models.Any();
 
-            return new ServiceResponse<IEnumerable<T>>(models.Any(), models);
+            return new ServiceResponse<IEnumerable<T>>(success, models);
         }
 
         public virtual async Task<ServiceResponse<T>> ModifyAsync(int id, T model)
         {
-            bool success = true;
+            bool success = Repository.Update(model) && await unitOfWork.CommitAsync();
 
-            try
-            {
-                await Repository.Update(model);
-                await Console.Out.WriteLineAsync(unitOfWork.ChangeTrackingStatus);
-                await unitOfWork.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                success = false;
-                logger.LogError("{ERROR}", ex.Message);
-            }
-
-            return new ServiceResponse<T>(success, null);
+            return new ServiceResponse<T>(success);
         }
 
         public virtual async Task<ServiceResponse<T>> RemoveAsync(int id)
         {
-            bool success = true;
+            bool success = await Repository.Delete(id) && await unitOfWork.CommitAsync();
 
-            try
-            {
-                await Repository.Delete(id);
-                await Console.Out.WriteLineAsync(unitOfWork.ChangeTrackingStatus);
-                await unitOfWork.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                success = false;
-                logger.LogError("{ERROR}", ex.Message);
-            }
-
-            return new ServiceResponse<T>(success, null);
+            return new ServiceResponse<T>(success);
         }
     }
 }
