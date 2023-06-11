@@ -63,6 +63,7 @@ namespace Skylight.Contexts
                             entity.UpdatedDate = DateTime.UtcNow;
                             break;
                         case EntityState.Modified:
+                            entityEntry.Property(nameof(entity.CreatedDate)).IsModified = false;
                             entity.UpdatedDate = DateTime.UtcNow;
                             break;
                     }
