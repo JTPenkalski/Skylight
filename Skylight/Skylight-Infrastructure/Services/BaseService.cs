@@ -44,13 +44,13 @@ namespace Skylight.Services
 
             try
             {
-                Repository.Attach(model);
+                Repository.Create(model);
                 await unitOfWork.CommitAsync();
             }
             catch (Exception ex)
             {
                 success = false;
-                logger.LogError("{Message}", ex.Message);
+                logger.LogError("{ERROR}", ex.Message);
             }
 
             return new ServiceResponse<T>(success, model);
@@ -83,7 +83,7 @@ namespace Skylight.Services
             catch (Exception ex)
             {
                 success = false;
-                logger.LogError("{Message}", ex.Message);
+                logger.LogError("{ERROR}", ex.Message);
             }
 
             return new ServiceResponse<T>(success, null);
@@ -102,7 +102,7 @@ namespace Skylight.Services
             catch (Exception ex)
             {
                 success = false;
-                logger.LogError("{Message}", ex.Message);
+                logger.LogError("{ERROR}", ex.Message);
             }
 
             return new ServiceResponse<T>(success, null);

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skylight.Models;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -65,10 +64,6 @@ namespace Skylight.Contexts
                             break;
                         case EntityState.Modified:
                             entity.UpdatedDate = DateTime.UtcNow;
-                            break;
-                        case EntityState.Deleted:
-                            entity.Deleted = true;
-                            entityEntry.State = EntityState.Modified;
                             break;
                     }
                 }

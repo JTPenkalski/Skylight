@@ -56,13 +56,11 @@ namespace Skylight.Repositories
             WeatherExperiences = weatherExperiences;
         }
 
-        /// <inheritdoc cref="IUnitOfWork.CommitAsync"/>
         public async Task CommitAsync()
         {
             await context.SaveChangesAsync();
         }
 
-        /// <inheritdoc cref="IUnitOfWork.RollbackAsync"/>
         public async Task RollbackAsync()
         {
             await context.DisposeAsync();

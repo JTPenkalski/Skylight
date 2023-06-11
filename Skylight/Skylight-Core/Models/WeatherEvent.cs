@@ -18,7 +18,7 @@ namespace Skylight.Models
         public virtual WeatherExperience Experience { get; set; } = null!;
         public virtual WeatherEventStatistics Statistics { get; set; } = null!;
 
-        public virtual ICollection<Location> Locations { get; set; } = new List<Location>();
+        public virtual ICollection<WeatherEventLocation> Locations { get; set; } = new List<WeatherEventLocation>();
         public virtual ICollection<WeatherEventAlert> Alerts { get; set; } = new List<WeatherEventAlert>();
     }
 }

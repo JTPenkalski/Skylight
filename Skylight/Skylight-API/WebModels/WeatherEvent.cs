@@ -24,7 +24,7 @@ namespace Skylight.WebModels
         public required WeatherEventStatistics Statistics { get; init; }
 
         [Required]
-        public required IEnumerable<Location> Locations { get; init; } // TODO: Consider making this a WeatherEventLocation to make it have audit columns, but then all many to many nav props would need this, so...
+        public required IEnumerable<WeatherEventLocation> Locations { get; init; }
 
         [Required]
         public required IEnumerable<WeatherEventAlert> Alerts { get; init; }

@@ -247,11 +247,26 @@ namespace Skylight.Contexts.Initializers
                         FunnelWidth = 45,
                         RelatedTsunami = true
                     },
-                    Locations = new List<Location>()
+                    Locations = new List<WeatherEventLocation>()
                     {
-                        new Location("Chester", "12345"),
-                        new Location("Platteville", "67890"),
-                        new Location("France", "10101")
+                        new()
+                        {
+                            Location = new Location("Chester", "12345"),
+                            StartTime = new DateTime(2021, 12, 10, 12, 20, 0),
+                            EndTime = new DateTime(2021, 12, 10, 12, 35, 0)
+                        },
+                        new()
+                        {
+                            Location = new Location("Platteville", "67890"),
+                            StartTime = new DateTime(2021, 12, 10, 12, 35, 0),
+                            EndTime = new DateTime(2021, 12, 10, 14, 00, 0)
+                        },
+                        new()
+                        {
+                            Location = new Location("France", "10101"),
+                            StartTime = new DateTime(2021, 12, 10, 14, 00, 0),
+                            EndTime = new DateTime(2021, 12, 10, 15, 15, 0)
+                        }
                     },
                     Alerts = new List<WeatherEventAlert>()
                     {
@@ -259,9 +274,12 @@ namespace Skylight.Contexts.Initializers
                         {
                             IssuanceTime = new DateTime(2021, 12, 10),
                             Alert = weatherAlerts[0],
-                            Modifiers = new List<WeatherAlertModifier>()
+                            Modifiers = new List<WeatherEventAlertModifier>()
                             {
-                                weatherAlertModifiers[0]
+                                new()
+                                {
+                                    Modifier = weatherAlertModifiers[0]
+                                }
                             }
                         }
                     }
