@@ -27,35 +27,56 @@ namespace Skylight
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             // Add logging
-            builder.Logging.ClearProviders();
-            builder.Logging.AddConsole();
+            builder.Logging
+                .ClearProviders()
+                .AddConsole()
+                .Configure(options =>
+                {
+                    // These flags are based on common distributed tracing concepts
+                    options.ActivityTrackingOptions =
+                        ActivityTrackingOptions.TraceId
+                        | ActivityTrackingOptions.SpanId;
+                });
+            
+            // Add MVC services
+            builder.Services
+                .AddControllers()
+                .AddJsonOptions(options => 
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+                );
 
-            // Add services
-            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-            builder.Services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = true;
-                options.DefaultApiVersion = new ApiVersion(Version.MAJOR, Version.MINOR);
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            }).AddMvc().AddApiExplorer(options =>
-            {
-                // Specify group name for versions as "'v'major[.minor][-status]"
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<WeatherExperienceContext>(options =>
-            {
-                options.UseLazyLoadingProxies();
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SQL_Server"));
-            });
-            builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
-            builder.Services.AddInfrastructureServices();
-            builder.Services.AddDataServices();
+            // Add Versioning services
+            builder.Services
+                .AddApiVersioning(options =>
+                {
+                    options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.ReportApiVersions = true;
+                    options.DefaultApiVersion = new ApiVersion(Version.MAJOR, Version.MINOR);
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+                .AddMvc()
+                .AddApiExplorer(options =>
+                {
+                    // Specify group name for versions as "'v'major[.minor][-status]"
+                    options.GroupNameFormat = "'v'VVV";
+                    options.SubstituteApiVersionInUrl = true;
+                });
 
-            // Add service options
-            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+            // Add General services
+            builder.Services
+                .AddSwaggerGen()
+                .AddDbContext<WeatherExperienceContext>(options =>
+                {
+                    options.UseLazyLoadingProxies();
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("SQL_Server"));
+                })
+                .AddAutoMapper(Assembly.GetEntryAssembly())
+                .AddInfrastructureServices()
+                .AddDataServices();
+
+            // Configure services
+            builder.Services
+                .ConfigureOptions<ConfigureSwaggerOptions>();
 
             // Add development services
             if (builder.Environment.IsDevelopment())

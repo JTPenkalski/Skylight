@@ -38,7 +38,7 @@ namespace Skylight.Controllers
         /// <param name="service">Business logic service.</param>
         public BaseController(
             IConfiguration config,
-            ILogger logger,
+            ILogger<BaseController<TModel, TWebModel>> logger,
             IMapper mapper,
             IService<TModel> service
         )

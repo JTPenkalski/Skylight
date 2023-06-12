@@ -30,7 +30,7 @@ namespace Skylight.Services
         /// <param name="logger">Logging service.</param>
         /// <param name="unitOfWork">Unit of Work service.</param>
         public BaseService(
-            ILogger logger,
+            ILogger<BaseService<T>> logger,
             IUnitOfWork unitOfWork
         )
         {
