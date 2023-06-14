@@ -1,18 +1,19 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Skylight.Controllers;
-using Skylight.Startup.Services;
-using Skylight.Startup.Services.Options;
 using Skylight.Contexts.Initializers;
-using System.Reflection;
+using Skylight.Controllers;
 using Skylight.Contexts;
-using Microsoft.EntityFrameworkCore;
+using Skylight.Host.Services.ConfigureOptions;
 using System.Text.Json.Serialization;
+using System.Reflection;
+using Skylight.Configuration.Options;
+using Skylight.Host.Services.DependencyInjection;
 
 namespace Skylight
 {
@@ -23,10 +24,10 @@ namespace Skylight
     {
         public static void Main(string[] args)
         {
-            // Create the web application builder
+            // Create the Web Application Builder
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-            // Add logging
+            System.Console.WriteLine(System.AppDomain.CurrentDomain.GetAssemblies());
+            // Add Logging
             builder.Logging
                 .ClearProviders()
                 .AddConsole()
@@ -37,15 +38,21 @@ namespace Skylight
                         ActivityTrackingOptions.TraceId
                         | ActivityTrackingOptions.SpanId;
                 });
-            
-            // Add MVC services
+
+            // Add Configuration
+            builder.Services
+                .AddOptions<DatabaseOptions>()
+                .Bind(builder.Configuration.GetSection(DatabaseOptions.RootKey))
+                .ValidateDataAnnotations();
+
+            // Add MVC Services
             builder.Services
                 .AddControllers()
                 .AddJsonOptions(options => 
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
                 );
 
-            // Add Versioning services
+            // Add Versioning Services
             builder.Services
                 .AddApiVersioning(options =>
                 {
@@ -62,42 +69,37 @@ namespace Skylight
                     options.SubstituteApiVersionInUrl = true;
                 });
 
-            // Add General services
+            // Add General Services
             builder.Services
                 .AddSwaggerGen()
-                .AddDbContext<WeatherExperienceContext>(options =>
-                {
-                    options.UseLazyLoadingProxies();
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("SQL_Server"));
-                })
                 .AddAutoMapper(Assembly.GetEntryAssembly())
                 .AddInfrastructureServices()
-                .AddDataServices();
+                .AddDataServices()
+                .AddDatabase(builder.Configuration.GetConnectionString("SQL_Server"));
 
-            // Configure services
+            // Configure Services
             builder.Services
                 .ConfigureOptions<ConfigureSwaggerOptions>();
 
-            // Add development services
+            // Add Development Services
             if (builder.Environment.IsDevelopment())
             {
-                builder.Services.AddCors(options => options.AddPolicy
-                (
+                builder.Services.AddCors(options => options.AddPolicy(
                     "SkylightOrigins",
-                    (policy) => policy.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+                    policy => policy.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
                 ));
             }
             
-            // Build the web application
+            // Build the Web Application
             WebApplication app = builder.Build();
-
-            // Add middleware
+            
+            // Add Middleware
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseCors("SkylightOrigins");
             app.MapControllers();
 
-            // Add development middleware
+            // Add Development Middleware
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -113,8 +115,7 @@ namespace Skylight
                     }
                 });
 
-                // Use test database rather than Migrations API
-                if (app.Configuration.GetValue<bool>("UseTestDatabase"))
+                if (app.Configuration.Get<DatabaseOptions>()?.UseCreateAndDropMigrations ?? false)
                 {
                     using (IServiceScope scope = app.Services.CreateScope())
                     {
@@ -125,7 +126,7 @@ namespace Skylight
                 }
             }
 
-            // Start the web application
+            // Start the Web Application
             app.Run();
         }
     }

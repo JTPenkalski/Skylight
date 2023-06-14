@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Skylight.Startup.Services.Options
+namespace Skylight.Host.Services.ConfigureOptions
 {
     /// <summary>
     /// In-depth configuration setup for the <c>builder.Services.AddSwaggerGen()</c> call in Program setup.
