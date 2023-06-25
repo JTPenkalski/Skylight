@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Skylight.Contexts;
 using Skylight.Models;
+using System.Threading.Tasks;
 
 namespace Skylight.Repositories
 {
@@ -12,5 +14,10 @@ namespace Skylight.Repositories
             ILogger<WeatherRepository> logger,
             WeatherExperienceContext context
         ) : base(logger, context) { }
+
+        public async Task<int> GetWeatherIdByName(string name)
+        {
+            return (await table.FirstOrDefaultAsync(x => x.Name.ToUpper() == name.ToUpper()))?.Id ?? -1;
+        }
     }
 }

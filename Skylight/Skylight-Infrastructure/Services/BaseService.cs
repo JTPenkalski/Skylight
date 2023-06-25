@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Skylight.Communication;
 using Skylight.Models;
 using Skylight.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,12 +15,10 @@ namespace Skylight.Services
     /// <typeparam name="T">The type of entity this service is operating on. Must be a <see cref="BaseIdentifiableModel"/>.</typeparam>
     public abstract class BaseService<T> : IService<T> where T : BaseIdentifiableModel
     {
-        protected const string NULL_MSG = "{0} cannot be null.";
-
         protected readonly ILogger logger;
         protected readonly IUnitOfWork unitOfWork;
 
-        protected abstract IRepository<T> Repository { get; }
+        protected abstract IRepository<T> Repository { get; } // Helper property to get specific repo from Unit of Work
 
         /// <summary>
         /// Constructs a new service instance.
