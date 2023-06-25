@@ -17,7 +17,7 @@ namespace Skylight.Controllers
         /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger, IMapper, IService{TModel})"/>
         public WeatherAlertModifierController(
             IConfiguration config,
-            ILogger<WeatherController> logger,
+            ILogger<WeatherAlertModifierController> logger,
             IMapper mapper,
             IWeatherAlertModifierService service
         ) : base(config, logger, mapper, service) { }

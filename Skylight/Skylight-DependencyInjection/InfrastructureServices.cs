@@ -3,7 +3,7 @@ using Skylight.Models;
 using Skylight.Services;
 using System.Linq;
 
-namespace Skylight.Startup.Services
+namespace Skylight.Host.Services.DependencyInjection
 {
     /// <summary>
     /// Extension class for adding necessary setup for the infrastructure layer during bootstrapping.
@@ -25,7 +25,7 @@ namespace Skylight.Startup.Services
             {
                 services.AddScoped(mapping.Interface, mapping.Class);
             }
-
+            
             return services;
         }
     }

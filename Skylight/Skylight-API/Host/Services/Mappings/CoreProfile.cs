@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Linq;
 
-namespace Skylight.Startup.Mappings
+namespace Skylight.Host.Mappings
 {
     /// <summary>
     /// AutoMapper Profile for automatically converting between the Web API view models and the Service models.

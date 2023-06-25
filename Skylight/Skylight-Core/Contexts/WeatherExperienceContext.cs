@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Skylight.Configuration.Options;
 using Skylight.Models;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@ namespace Skylight.Contexts
     /// </summary>
     public class WeatherExperienceContext : DbContext
     {
+        protected readonly DatabaseOptions config;
+
         public DbSet<WeatherExperience> WeatherExperiences => Set<WeatherExperience>();
         public DbSet<WeatherExperienceParticipant> WeatherExperienceParticipants => Set<WeatherExperienceParticipant>();
         public DbSet<StormTracker> StormTrackers => Set<StormTracker>();
@@ -25,7 +28,13 @@ namespace Skylight.Contexts
         public DbSet<WeatherEventStatistics> WeatherEventStatistics => Set<WeatherEventStatistics>();
         public DbSet<RiskCategory> RiskCategories => Set<RiskCategory>();
 
-        public WeatherExperienceContext(DbContextOptions<WeatherExperienceContext> contextOptions) : base(contextOptions) { }
+        public WeatherExperienceContext(
+            IOptions<DatabaseOptions> config,
+            DbContextOptions<WeatherExperienceContext> contextOptions
+        ) : base(contextOptions)
+        {
+            this.config = config.Value;
+        }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
@@ -41,7 +50,10 @@ namespace Skylight.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.EnableSensitiveDataLogging();
+            if (config.EnableSensitiveDataLogging)
+            {
+                optionsBuilder.EnableSensitiveDataLogging();
+            }
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
@@ -64,11 +76,8 @@ namespace Skylight.Contexts
                             entity.UpdatedDate = DateTime.UtcNow;
                             break;
                         case EntityState.Modified:
+                            entityEntry.Property(nameof(entity.CreatedDate)).IsModified = false;
                             entity.UpdatedDate = DateTime.UtcNow;
-                            break;
-                        case EntityState.Deleted:
-                            entity.Deleted = true;
-                            entityEntry.State = EntityState.Modified;
                             break;
                     }
                 }

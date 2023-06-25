@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Skylight.Contexts;
 using Skylight.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,55 +15,73 @@ namespace Skylight.Repositories
     /// <typeparam name="T">The type of entity this repository is accessing. Must be a <see cref="BaseIdentifiableModel"/>.</typeparam>
     public class BaseRepository<T> : IRepository<T> where T : BaseIdentifiableModel
     {
+        protected readonly ILogger logger;
         protected readonly DbSet<T> table;
 
         /// <summary>
         /// Constructs a new repository instance.
         /// </summary>
-        /// <param name="mapper">Mapping service.</param>
+        /// <param name="logger">Logging service.</param>
         /// <param name="context">EF Core Database Context service.</param>
-        public BaseRepository(WeatherExperienceContext context)
+        public BaseRepository(
+            ILogger<BaseRepository<T>> logger,
+            WeatherExperienceContext context
+        )
         {
+            this.logger = logger;
             table = context.Set<T>();
-        }
-
-        public virtual void Attach(T entity)
-        {
-            table.Attach(entity);
         }
 
         public virtual int Create(T entity)
         {
-            return table.Add(entity).Entity.Id;
+            logger.LogInformation(
+                "Creating entity of type {TYPE_NAME} in the database.",
+                typeof(T).Name
+            );
+
+            return table.Attach(entity).Entity.Id;
         }
 
         public virtual async Task<T?> ReadAsync(int id)
         {
+            logger.LogInformation(
+                "Reading entity of type {TYPE_NAME} with ID = {ID} from the database.",
+                typeof(T).Name,
+                id
+            );
+
             return await table.FindAsync(id);
         }
 
         public virtual async Task<IEnumerable<T>> ReadAllAsync()
         {
+            logger.LogInformation(
+                "Reading all entities of type {TYPE_NAME} from the database.",
+                typeof(T).Name
+            );
+
             return (await table.ToListAsync()).Where(e => !e.Deleted);
         }
 
-        public virtual async Task<bool> Update(T entity)
+        public virtual bool Update(T entity)
         {
-            T? existing = await ReadAsync(entity.Id);
-            bool success = false;
+            logger.LogInformation(
+                "Updating entity of type {TYPE_NAME} with ID = {ID} in the database.",
+                typeof(T).Name,
+                entity.Id
+            );
 
-            if (existing is not null)
-            {
-                success = true;
-
-                table.Entry(existing).CurrentValues.SetValues(entity);
-            }
-
-            return success;
+            return table.Update(entity) is not null;
         }
 
         public virtual async Task<bool> Delete(int id)
         {
+            logger.LogInformation(
+                "Hard deleting entity of type {TYPE_NAME} with ID = {ID} from the database.",
+                typeof(T).Name,
+                id
+            );
+
             T? existing = await ReadAsync(id);
             bool success = false;
 
@@ -75,51 +93,6 @@ namespace Skylight.Repositories
             }
 
             return success;
-        }
-
-        /// <summary>
-        /// Automatically 
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="context"></param>
-        /// <param name="currentItems"></param>
-        /// <param name="newItems"></param>
-        /// <param name="keyFunc"></param>
-        protected void UpdateCollection<TEntity>(DbContext context, ICollection<TEntity> currentItems, ICollection<TEntity> newItems, Func<TEntity, int> keyFunc) where TEntity : BaseIdentifiableModel
-        {
-            // Loop through all items in the existing collection
-            // If the new collection does not have an item, remove it from the existing collection, otherwise update it
-            var toRemove = new List<TEntity>();
-            foreach (TEntity item in currentItems)
-            {
-                TEntity? found = newItems.FirstOrDefault(x => keyFunc(item)!.Equals(keyFunc(x)));
-
-                if (found is null)
-                {
-                    toRemove.Add(item);
-                }
-                else if (!ReferenceEquals(found, item))
-                {
-                    context.Entry(item).CurrentValues.SetValues(found);
-                }
-            }
-
-            if (toRemove.Any())
-            {
-                toRemove.ForEach(x => currentItems.Remove(x));
-            }
-
-            // Loop through all items in the new collection
-            // If the existing collection does not have an item, add it to the existing collection
-            foreach (TEntity newItem in newItems)
-            {
-                TEntity? found = currentItems.FirstOrDefault(x => keyFunc(newItem)!.Equals(keyFunc(x)));
-
-                if (found is null)
-                {
-                    currentItems.Add(newItem);
-                }
-            }
         }
     }
 }

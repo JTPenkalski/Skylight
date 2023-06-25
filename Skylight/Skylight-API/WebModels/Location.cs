@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Skylight.WebModels
 {
     /// <inheritdoc cref="Models.Location"/>
-    [JsonSerializable(typeof(Location))]
     public record Location : BaseWebModel
     {
         [Required]

@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="success">If the request successfully completed its intended operation.</param>
         /// <param name="content">The model used to complete the request.</param>
-        public ServiceResponse(bool success, T? content)
+        public ServiceResponse(bool success, T? content = default)
         {
             Success = success;
             Content = content;

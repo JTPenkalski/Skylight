@@ -1,18 +1,19 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Skylight.Controllers;
-using Skylight.Startup.Services;
-using Skylight.Startup.Services.Options;
 using Skylight.Contexts.Initializers;
-using System.Reflection;
+using Skylight.Controllers;
 using Skylight.Contexts;
-using Microsoft.EntityFrameworkCore;
+using Skylight.Host.Services.ConfigureOptions;
 using System.Text.Json.Serialization;
+using System.Reflection;
+using Skylight.Configuration.Options;
+using Skylight.Host.Services.DependencyInjection;
 
 namespace Skylight
 {
@@ -23,60 +24,82 @@ namespace Skylight
     {
         public static void Main(string[] args)
         {
-            // Create the web application builder
+            // Create the Web Application Builder
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            System.Console.WriteLine(System.AppDomain.CurrentDomain.GetAssemblies());
+            // Add Logging
+            builder.Logging
+                .ClearProviders()
+                .AddConsole()
+                .Configure(options =>
+                {
+                    // These flags are based on common distributed tracing concepts
+                    options.ActivityTrackingOptions =
+                        ActivityTrackingOptions.TraceId
+                        | ActivityTrackingOptions.SpanId;
+                });
 
-            // Add logging
-            builder.Logging.ClearProviders();
-            builder.Logging.AddConsole();
+            // Add Configuration
+            builder.Services
+                .AddOptions<DatabaseOptions>()
+                .Bind(builder.Configuration.GetSection(DatabaseOptions.RootKey))
+                .ValidateDataAnnotations();
 
-            // Add services
-            builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-            builder.Services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.ReportApiVersions = true;
-                options.DefaultApiVersion = new ApiVersion(Version.MAJOR, Version.MINOR);
-                options.ApiVersionReader = new UrlSegmentApiVersionReader();
-            }).AddMvc().AddApiExplorer(options =>
-            {
-                // Specify group name for versions as "'v'major[.minor][-status]"
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<WeatherExperienceContext>(options =>
-            {
-                options.UseLazyLoadingProxies();
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SQL_Server"));
-            });
-            builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
-            builder.Services.AddInfrastructureServices();
-            builder.Services.AddDataServices();
+            // Add MVC Services
+            builder.Services
+                .AddControllers()
+                .AddJsonOptions(options => 
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+                );
 
-            // Add service options
-            builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+            // Add Versioning Services
+            builder.Services
+                .AddApiVersioning(options =>
+                {
+                    options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.ReportApiVersions = true;
+                    options.DefaultApiVersion = new ApiVersion(Version.MAJOR, Version.MINOR);
+                    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                })
+                .AddMvc()
+                .AddApiExplorer(options =>
+                {
+                    // Specify group name for versions as "'v'major[.minor][-status]"
+                    options.GroupNameFormat = "'v'VVV";
+                    options.SubstituteApiVersionInUrl = true;
+                });
 
-            // Add development services
+            // Add General Services
+            builder.Services
+                .AddSwaggerGen()
+                .AddAutoMapper(Assembly.GetEntryAssembly())
+                .AddInfrastructureServices()
+                .AddDataServices()
+                .AddDatabase(builder.Configuration.GetConnectionString("SQL_Server"));
+
+            // Configure Services
+            builder.Services
+                .ConfigureOptions<ConfigureSwaggerOptions>();
+
+            // Add Development Services
             if (builder.Environment.IsDevelopment())
             {
-                builder.Services.AddCors(options => options.AddPolicy
-                (
+                builder.Services.AddCors(options => options.AddPolicy(
                     "SkylightOrigins",
-                    (policy) => policy.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+                    policy => policy.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
                 ));
             }
             
-            // Build the web application
+            // Build the Web Application
             WebApplication app = builder.Build();
-
-            // Add middleware
+            
+            // Add Middleware
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.UseCors("SkylightOrigins");
             app.MapControllers();
 
-            // Add development middleware
+            // Add Development Middleware
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -92,8 +115,7 @@ namespace Skylight
                     }
                 });
 
-                // Use test database rather than Migrations API
-                if (app.Configuration.GetValue<bool>("UseTestDatabase"))
+                if (app.Configuration.Get<DatabaseOptions>()?.UseCreateAndDropMigrations ?? false)
                 {
                     using (IServiceScope scope = app.Services.CreateScope())
                     {
@@ -104,7 +126,7 @@ namespace Skylight
                 }
             }
 
-            // Start the web application
+            // Start the Web Application
             app.Run();
         }
     }

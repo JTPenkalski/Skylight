@@ -21,7 +21,8 @@ namespace Skylight.Repositories
         /// Saves all changes in the current transaction.
         /// Either all changes are applied, or none of them are.
         /// </summary>
-        Task CommitAsync();
+        /// <returns>True if the operation was successful, false otherwise.</returns>
+        Task<bool> CommitAsync();
 
         /// <summary>
         /// Cancels all changes in the current transaction.
