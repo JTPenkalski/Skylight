@@ -18,7 +18,7 @@ namespace Skylight.Contexts.Initializers
         public WeatherExperienceContextInitializer(IUnitOfWork unitOfWork, WeatherExperienceContext context)
         {
             this.unitOfWork = unitOfWork;
-            this.context = context; // TODO: Replace with repositories once they are set up.
+            this.context = context;
         }
 
         /// <inheritdoc cref="IWeatherExperienceContextInitializer.Initialize"/>
