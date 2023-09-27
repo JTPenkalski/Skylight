@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatLegacyFormFieldAppearance as MatFormFieldAppearance } from '@angular/material/legacy-form-field';
 
 export type FormQuestionConfiguration = {
   appearance: MatFormFieldAppearance,
