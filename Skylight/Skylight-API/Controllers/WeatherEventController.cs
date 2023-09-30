@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Skylight.Controllers.Interfaces;
 using Skylight.Forms;
 using Skylight.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skylight.Controllers
@@ -16,7 +16,7 @@ namespace Skylight.Controllers
     /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherEventController : BaseController<Models.WeatherEvent, WebModels.WeatherEvent>
+    public class WeatherEventController : BaseController<Models.WeatherEvent, WebModels.WeatherEvent>, IFormModifiable<WebModels.WeatherEvent>
     {
         protected readonly IWeatherEventFormDirector formDirector;
 
@@ -32,18 +32,14 @@ namespace Skylight.Controllers
             this.formDirector = formDirector;
         }
 
-        /// <summary>
-        /// Gets a form guide based on the current status of the model.
-        /// </summary>
-        /// <param name="model">The model to base guide validation on.</param>
-        /// <returns>A form guide.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Route("FormGuide")]
-        public async Task<ActionResult<IEnumerable<FormGuide>>> GetGuide(WebModels.WeatherEvent model)
+        public async Task<WebModels.FormGuide> GetGuide(WebModels.WeatherEvent model, WebModels.FormGuideContext context)
         {
-            return Ok(await formDirector.GetGuide(mapper.Map<WebModels.WeatherEvent, Models.WeatherEvent>(model)));
+            await Task.Yield();
+            return null!; // Ok(await formDirector.GetGuide(mapper.Map<WebModels.WeatherEvent, Models.WeatherEvent>(model)));
         }
     }
 }
