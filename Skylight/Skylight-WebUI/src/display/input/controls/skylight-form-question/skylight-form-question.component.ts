@@ -12,7 +12,7 @@ import { ErrorFormatterService } from 'display/input/services';
 @Directive()
 export abstract class SkylightFormQuestionComponent implements ISkylightFormQuestion {
   @Input() public label: string = '';
-  @Input() public control!: FormControl;
+  @Input({ required: true }) public control!: FormControl;
 
   /**
    * Indicates if this AbstractControl has the Required validator.
@@ -23,4 +23,12 @@ export abstract class SkylightFormQuestionComponent implements ISkylightFormQues
     @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,
     public readonly errorFormatter: ErrorFormatterService
   ) { }
+
+  /**
+   * Prevents "mouse down" events from propagating to cdkDrag handlers when moused over controls.
+   * @param event The DOM event triggered for this element.
+   */
+  public blockDrag(event: Event) : void {
+    event.stopPropagation();
+  }
 }

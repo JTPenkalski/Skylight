@@ -12,8 +12,7 @@ export class AppComponent {
   public readonly navigationLinks: INavigationLink[] = [
     { name: 'Dashboard', tooltip: 'View your dashboard' },
     { name: 'Track', tooltip: 'Manage your tracked weather' },
-    { name: 'Forecast', tooltip: 'See your upcoming forecast' },
-    { name: 'Radar', tooltip: 'Observe current radar readings' }
+    { name: 'Forecast', tooltip: 'See your upcoming forecast' }
   ];
 
   constructor(@Inject(ROUTE_NAMES_CONFIG_TOKEN) public readonly routesConfig: RouteNamesConfiguration) { }

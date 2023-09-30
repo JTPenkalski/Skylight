@@ -13,7 +13,7 @@ import { IBaseModel } from 'display/input/models';
 @Directive()
 export abstract class SkylightFormQuestionContainerComponent<T extends IBaseModel> implements ISkylightFormQuestionContainer {
   @Input() public label: string = '';
-  @Input() public group!: FormGroup<T>;
+  @Input({ required: true }) public group!: FormGroup<T>;
 
   /**
    * Indicates if this AbstractControl has the Required validator.

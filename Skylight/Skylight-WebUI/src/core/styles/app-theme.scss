@@ -5,16 +5,7 @@
 
 // Include the common styles for Angular Material. We include this here so that you only have to load a single CSS file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+@include mat.core();
 
 // Privately define the hues for each palette using the Material Design palette generator.
 // Alternatively, see the provided palettes available in palette.scss within the package directory.
@@ -49,6 +40,9 @@ $_skylight-palette: (
 $_skylight-palette-primary: mat.define-palette($_skylight-palette);
 $_skylight-palette-accent: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
 $_skylight-palette-warn: mat.define-palette(mat.$red-palette);
+
+// Privately define the typography config for the theme.
+$_skylight-typography: mat.define-typography-config();
 
 // Privately define the background and foreground configuration properties for the theme.
 // This is how we achieve greater customization in the following step where the actual theme object is defined.
@@ -103,13 +97,20 @@ $skylight-theme: (
     foreground: $_skylight-theme-foreground,
     background: $_skylight-theme-background
   ),
-  typography: mat.define-legacy-typography-config(),
+  typography: $_skylight-typography,
   density: 0
 );
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component that you are using.
-@include mat.all-legacy-component-themes($skylight-theme);
+@include mat.all-component-themes($skylight-theme);
+
+// Include typography hierarchies, which adds various helper CSS classes for styling text hierarchies,
+// and the native header HTML elements.
+@include mat.typography-hierarchy($_skylight-typography);
+$h1-size: max(min(5vw, 36pt), 20pt);
+$h2-size: max(min(4vw, 28pt), 18pt);
+$h3-size: max(min(3vw, 20pt), 14pt);
 
 /// Gets a color from the given palette of the current theme.
 /// @param {'primary' | 'accent' | 'warn'} $palette - The name of the palette to use.

@@ -16,6 +16,7 @@ import { ISelectOption } from '../types';
 export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionComponent implements OnInit {
   @Input() public options?: ISelectOption[];
   @Input() public optionsEndpoint?: string;
+  @Input() public multiple : boolean = false;
 
   public serverOptions$: Observable<ISelectOption[]> = of([]);
 

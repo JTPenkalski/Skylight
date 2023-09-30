@@ -2,18 +2,22 @@
 
 <form id="form-weather-event" class="flex-column" [formGroup]="form" (ngSubmit)="submit()">
   <skylight-form-field-set id="section-general" label="General Information">
-    <skylight-form-question-input label="Name" [control]="form.controls.name"></skylight-form-question-input>
-
-    <skylight-form-question-textarea label="Description" [control]="form.controls.description"></skylight-form-question-textarea>
-
-    <skylight-form-question-select label="Weather" optionsEndpoint="Weather" [control]="form.controls.weather"></skylight-form-question-select>
-
-    <skylight-form-question-select label="Experience" optionsEndpoint="WeatherExperience" [control]="form.controls.experience"></skylight-form-question-select>
+    <div class="flex-row">
+      <skylight-form-question-input class="flex-item" label="Name" [control]="form.controls.name"></skylight-form-question-input>
+      
+      <skylight-form-question-select class="flex-item" label="Experience" optionsEndpoint="WeatherExperience" [control]="form.controls.experience"></skylight-form-question-select>
+    </div>
     
     <div class="flex-row">
-      <skylight-form-question-date label="Start Date" [control]="form.controls.startDate"></skylight-form-question-date>
+      <skylight-form-question-select class="flex-item" label="Weather" optionsEndpoint="Weather" [control]="form.controls.weather"></skylight-form-question-select>
 
-      <skylight-form-question-date label="End Date" [control]="form.controls.endDate"></skylight-form-question-date>
+      <skylight-form-question-date class="flex-item" label="Start Date" [control]="form.controls.startDate"></skylight-form-question-date>
+
+      <skylight-form-question-date class="flex-item" label="End Date" [control]="form.controls.endDate"></skylight-form-question-date>
+    </div>
+
+    <div class="flex-row">
+      <skylight-form-question-textarea class="flex-item" label="Description" [control]="form.controls.description"></skylight-form-question-textarea>
     </div>
   </skylight-form-field-set>
 
@@ -25,6 +29,7 @@
       (itemRemoved)="removeWeatherEventAlert($event)">
       <ng-template reorderableListItem let-index="index">
         <skylight-form-question-weather-event-alert
+          class="flex-item"
           label="Alert {{index}}"
           [group]="form.controls.alerts.at(index)">
         </skylight-form-question-weather-event-alert>
@@ -40,6 +45,7 @@
       (itemRemoved)="removeLocation($event)">
       <ng-template reorderableListItem let-index="index">
         <skylight-form-question-location
+          class="flex-item"
           label="Location {{index}}"
           [group]="form.controls.locations.at(index)">
         </skylight-form-question-location>
@@ -54,7 +60,14 @@
     </skylight-form-question-weather-event-statistics>
   </skylight-form-field-set>
 
-  <div>
-    <button mat-raised-button color="accent" type="submit" [disabled]="false">Submit</button>
+  <div class="flex-row control-buttons">
+    <button mat-fab extended class="flex-item" color="warn" type="button">
+      <mat-icon>close</mat-icon>
+      Reset
+    </button>
+    <button mat-fab extended class="flex-item" color="accent" type="submit" [disabled]="false">
+      <mat-icon>done</mat-icon>   
+      Submit
+    </button>
   </div>
 </form>

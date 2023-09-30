@@ -10,7 +10,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .search-bar {
   align-items: center;
   background: theme.color('primary', 800, 0.75);
-  border: 0.125em solid theme.contrast-color('primary', 800);
+  border: 0.0625em solid theme.contrast-color('primary', 800);
   border-radius: 2em;
   display: flex;
   flex-direction: row;

@@ -1,39 +1,40 @@
 <div class="question flex-column" [formGroup]="group">
   <h3>General</h3>
   <div class="flex-row">
-    <skylight-form-question-input label="Damage Cost" [control]="group.controls.damageCost"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Damage Cost" [control]="group.controls.damageCost"></skylight-form-question-input>
 
-    <skylight-form-question-input label="Fatalities" [control]="group.controls.fatalities"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Fatalities" [control]="group.controls.fatalities"></skylight-form-question-input>
   </div>
 
   <h3>Tornado</h3>
   <div class="flex-row">
-    <skylight-form-question-select label="EF Rating" [options]="efRatingOptions" [control]="group.controls.efRating"></skylight-form-question-select>
+    <skylight-form-question-select class="flex-item" label="EF Rating" [options]="efRatingOptions" [control]="group.controls.efRating"></skylight-form-question-select>
 
-    <skylight-form-question-input label="Funnel Width" [control]="group.controls.funnelWidth"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Funnel Width" [control]="group.controls.funnelWidth"></skylight-form-question-input>
 
-    <skylight-form-question-input label="Path Distance" [control]="group.controls.pathDistance"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Path Distance" [control]="group.controls.pathDistance"></skylight-form-question-input>
   </div>
 
   <h3>Hurricane</h3>
   <div class="flex-row">
-    <skylight-form-question-select label="Saffir Simpson Rating" [options]="saffirSimpsonRatingOptions" [control]="group.controls.saffirSimpsonRating"></skylight-form-question-select>
+    <skylight-form-question-select class="flex-item" label="Saffir Simpson Rating" [options]="saffirSimpsonRatingOptions" [control]="group.controls.saffirSimpsonRating"></skylight-form-question-select>
 
-    <skylight-form-question-input label="Lowest Pressure" [control]="group.controls.lowestPressure"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Lowest Pressure" [control]="group.controls.lowestPressure"></skylight-form-question-input>
 
-    <skylight-form-question-input label="Max Wind Speed" [control]="group.controls.maxWindSpeed"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Max Wind Speed" [control]="group.controls.maxWindSpeed"></skylight-form-question-input>
   </div>
 
   <h3>Earthquake</h3>
   <div class="flex-row">
-    <skylight-form-question-input label="Richter Magnitude" [control]="group.controls.richterMagnitude"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Richter Magnitude" [control]="group.controls.richterMagnitude"></skylight-form-question-input>
     
-    <skylight-form-question-select label="Mercalli Intensity" [options]="mercalliIntensityOptions" [control]="group.controls.mercalliIntensity"></skylight-form-question-select>
+    <skylight-form-question-select class="flex-item" label="Mercalli Intensity" [options]="mercalliIntensityOptions" [control]="group.controls.mercalliIntensity"></skylight-form-question-select>
 
-    <skylight-form-question-input label="Aftershocks" [control]="group.controls.aftershocks"></skylight-form-question-input>
+    <skylight-form-question-input class="flex-item" label="Aftershocks" [control]="group.controls.aftershocks"></skylight-form-question-input>
+  </div>
+  <div class="flex-row">
+    <skylight-form-question-input class="flex-item" label="Fault" [control]="group.controls.fault"></skylight-form-question-input>
 
-    <skylight-form-question-input label="Fault" [control]="group.controls.fault"></skylight-form-question-input>
-
-    <skylight-form-question-checkbox label="Related Tsunami" [control]="group.controls.relatedTsunami"></skylight-form-question-checkbox>
+    <skylight-form-question-checkbox class="flex-item" label="Related Tsunami" [control]="group.controls.relatedTsunami"></skylight-form-question-checkbox>
   </div>
 </div>

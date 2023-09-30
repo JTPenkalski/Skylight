@@ -10,13 +10,13 @@ import {
 export interface IWeatherEventAlert extends IBaseModel {
   readonly alert: FormControl<IWeatherAlertCoreModel>;
   readonly issuanceTime: FormControl<Date>;
-  readonly modifiers: FormArray<FormControl<IWeatherAlertModifierCoreModel>>;
+  readonly modifiers: FormControl<IWeatherAlertModifierCoreModel[]>;
 }
 
 export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
   public readonly alert: FormControl<IWeatherAlertCoreModel>;
   public readonly issuanceTime: FormControl<Date>;
-  public readonly modifiers: FormArray<FormControl<IWeatherAlertModifierCoreModel>>;
+  public readonly modifiers: FormControl<IWeatherAlertModifierCoreModel[]>;
 
   constructor(formBuilder: FormBuilder, data?: IWeatherEventAlertCoreModel) {
     super();
@@ -25,6 +25,6 @@ export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
 
     this.alert = formBuilder.nonNullable.control(data.alert, Validators.required),
     this.issuanceTime = formBuilder.nonNullable.control(data.issuanceTime, Validators.required),
-    this.modifiers = formBuilder.nonNullable.array(data.modifiers.map(m => formBuilder.nonNullable.control(m, Validators.required)))
+    this.modifiers = formBuilder.nonNullable.control([...data.modifiers]);
   }
 }

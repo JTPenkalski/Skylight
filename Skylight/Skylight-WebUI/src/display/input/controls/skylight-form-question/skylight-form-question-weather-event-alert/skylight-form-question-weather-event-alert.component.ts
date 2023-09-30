@@ -15,13 +15,5 @@ import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-alert.component.scss']
 })
 export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightFormQuestionContainerComponent<IWeatherEventAlert> {  
-  public get modifiers(): FormArray<FormControl<IWeatherAlertModifier>> { return this.group.controls.modifiers; }
 
-  public addWeatherAlertModifier(): void {
-    this.modifiers.push(new FormControl<IWeatherAlertModifier>(new WeatherAlertModifier(), { nonNullable: true }));
-  }
-
-  public removeWeatherAlertModifier(modifierIndex: number): void {
-    this.modifiers.removeAt(modifierIndex);
-  }
 }
