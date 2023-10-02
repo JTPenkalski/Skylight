@@ -8,6 +8,6 @@ namespace Skylight.Forms
     /// </summary>
     public class FormGuideContext
     {
-        public required IReadOnlyDictionary<string, object> Attributes { get; set; }
+        public required IReadOnlyDictionary<FormGuideContextKey, object> Attributes { get; set; }
     }
 }

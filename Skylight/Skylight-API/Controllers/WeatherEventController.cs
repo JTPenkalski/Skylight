@@ -5,18 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Controllers.Interfaces;
-using Skylight.Forms;
+using Skylight.Forms.Directors;
 using Skylight.Services;
+using Skylight.WebModels.Forms;
+using Skylight.WebModels.Models;
 using System.Threading.Tasks;
 
 namespace Skylight.Controllers
 {
     /// <summary>
-    /// Web API Controller for manipulating <see cref="WebModels.WeatherEvent"/> models.
+    /// Web API Controller for manipulating <see cref="WeatherEvent"/> models.
     /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherEventController : BaseController<Models.WeatherEvent, WebModels.WeatherEvent>, IFormModifiable<WebModels.WeatherEvent>
+    public class WeatherEventController : BaseController<Models.WeatherEvent, WeatherEvent>, IFormModifiable<WeatherEvent, WeatherEventFormGuide>
     {
         protected readonly IWeatherEventFormDirector formDirector;
 
@@ -36,10 +38,16 @@ namespace Skylight.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Route("FormGuide")]
-        public async Task<WebModels.FormGuide> GetGuide(WebModels.WeatherEvent model, WebModels.FormGuideContext context)
+        public async Task<ActionResult<WeatherEventFormGuide>> GetFormGuide(FormGuideRequest<WeatherEvent> request)
         {
-            await Task.Yield();
-            return null!; // Ok(await formDirector.GetGuide(mapper.Map<WebModels.WeatherEvent, Models.WeatherEvent>(model)));
+            Forms.Guides.WeatherEventFormGuide result = await formDirector.GetGuideAsync(
+                mapper.Map<WeatherEvent, Models.WeatherEvent>(request.Model),
+                mapper.Map<FormGuideContext, Forms.FormGuideContext>(request.Context)
+            );
+
+            WeatherEventFormGuide apiResult = mapper.Map<Forms.Guides.WeatherEventFormGuide, WeatherEventFormGuide>(result);
+
+            return Ok(apiResult);
         }
     }
 }
