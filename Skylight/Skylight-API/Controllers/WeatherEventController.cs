@@ -22,7 +22,8 @@ namespace Skylight.Controllers
     {
         protected readonly IWeatherEventFormDirector formDirector;
 
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger, IMapper, IService{TModel})"/>
+        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger{BaseController{TModel, TWebModel}}, IMapper, IService{TModel})"/>
+        /// <param name="formDirector">Form Director service.</param>
         public WeatherEventController(
             IConfiguration config,
             ILogger<WeatherEventController> logger,

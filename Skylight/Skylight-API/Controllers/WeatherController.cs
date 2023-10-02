@@ -15,7 +15,7 @@ namespace Skylight.Controllers
     [ApiVersion(Version.VERSION)]
     public class WeatherController : BaseController<Models.Weather, Weather>
     {
-        /// <inheritdoc cref="BaseController{Models.Weather, Weather}.BaseController(IConfiguration, ILogger, IMapper, IService{Models.Weather})"/>
+        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger{BaseController{TModel, TWebModel}}, IMapper, IService{TModel})"/>
         public WeatherController(
             IConfiguration config,
             ILogger<WeatherController> logger,

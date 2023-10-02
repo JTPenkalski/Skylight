@@ -15,7 +15,7 @@ namespace Skylight.Controllers
     [ApiVersion(Version.VERSION)]
     public class LocationController : BaseController<Models.Location, Location>
     {
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger, IMapper, IService{TModel})"/>
+        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger{BaseController{TModel, TWebModel}}, IMapper, IService{TModel})"/>
         public LocationController(
             IConfiguration config,
             ILogger<LocationController> logger,

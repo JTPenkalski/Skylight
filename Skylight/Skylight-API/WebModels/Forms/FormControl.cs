@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+// TODO: Investigate creating a custom AutoMapper converter to make this non-generic and use object instead on the API.
+//       This will prevent the API schema from getting bloated with type-specific controls that the UI probably doesn't need to care about.
+
 namespace Skylight.WebModels.Forms
 {
     /// <inheritdoc cref="Skylight.Forms.FormControl{T}"/>

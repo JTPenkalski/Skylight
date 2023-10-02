@@ -1,0 +1,272 @@
+<mxfile host="app.diagrams.net" modified="2023-10-02T03:12:33.941Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="_t9F9iAnCu7Ra17Opn6k" version="22.0.0" type="device">
+  <diagram name="Page-1" id="EYTDAEa7u_j6_3P530hp">
+    <mxGraphModel dx="4090" dy="1250" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-9" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="720" y="341" width="280" height="124.8" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-1" value="&lt;i&gt;FormGuide&lt;/i&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-9">
+          <mxGeometry y="59.87909029843584" width="279.99999999999994" height="64.9214086939833" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-5" value="Base container for all metadata needed to display and control forms on the UI." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-9">
+          <mxGeometry width="279.99999999999994" height="59.87909029843584" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-11" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1160" y="495.53999999999996" width="320" height="254.8" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-12" value="FormControl&amp;lt;T&amp;gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-11">
+          <mxGeometry y="59.87897303331179" width="320" height="153.99974932925997" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-13" value="+ Validation : FormControlValidation" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-12">
+          <mxGeometry y="26" width="320" height="23.999952999236243" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-28" value="+ ReadOnly : bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-12">
+          <mxGeometry y="49.99995299923624" width="320" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-30" value="+ Hidden : bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-12">
+          <mxGeometry y="75.99990208174216" width="320" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-32" value="+ DefaultValue : T?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-12">
+          <mxGeometry y="101.9998511642481" width="320" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-31" value="+ SuppliedValues : IEnumerable&amp;lt;FormControlValue&amp;lt;T&amp;gt;&amp;gt;?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-12">
+          <mxGeometry y="127.99980024675403" width="320" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-14" value="Base container for all metadata needed to display a single control on the UI." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-11">
+          <mxGeometry width="319.99999999999994" height="59.87897303331179" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-22" value="inherits" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-15" target="UCaa5IRlUbcaSbM80Vgl-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-15" value="WeatherEventFormGuide" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="541" width="360" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-17" value="+ Name : FormControl&amp;lt;string&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-15">
+          <mxGeometry y="26" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-18" value="+ Experience : FormControl&amp;lt;WeatherExperience&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-15">
+          <mxGeometry y="52" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-20" value="+ Statistics : WeatherEventStatisticsFormGuide" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-15">
+          <mxGeometry y="78" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-19" value="+ Alerts : IEnumerable&amp;lt;FormControl&amp;lt;WeatherExperience&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-15">
+          <mxGeometry y="104" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-21" value="// More properties as needed, per control on the UI..." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-15">
+          <mxGeometry y="130" width="360" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-33" value="composed of" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-20" target="UCaa5IRlUbcaSbM80Vgl-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-48" value="composed of" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-28" target="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-66" value="inherits" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-58" target="UCaa5IRlUbcaSbM80Vgl-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1801" y="741" />
+              <mxPoint x="1801" y="741" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-58" value="StringFormControlValidation" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1622" y="821" width="358" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-61" value="+ MinLength : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-58">
+          <mxGeometry y="26" width="358" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-62" value="+ MaxLength : int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-58">
+          <mxGeometry y="52" width="358" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-63" value="// More properties as needed, for type-specific validation..." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-58">
+          <mxGeometry y="78" width="358" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-67" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="1602" y="467" width="398" height="241.87969449503555" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-35" value="FormControlValidation" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-67">
+          <mxGeometry y="59.879999999999995" width="398" height="181.99969449503558" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-38" value="+ Required : bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry y="26" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-39" value="+ Pattern : string?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry y="51.99994908250593" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-40" value="+ StringValidation : StringFormControlValidation?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry y="77.99989816501186" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-45" value="+ NumericValidation : NumericFormControlValidation?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry y="103.99984724751778" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-46" value="+ DateTimeOffsetValidation : DateTimeOffsetFormControlValidation?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry y="129.9997963300237" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-44" value="+ ArrayValidation : ArrayFormControlValidation?" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry y="155.99974541252965" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-41" value="Base validation logic for a control on the UI." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-67">
+          <mxGeometry width="397.9999999999999" height="59.87897303331179" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-68" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="2120" y="480" width="398" height="241.87969449503555" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-69" value="&lt;u&gt;FormControlValidators&lt;/u&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-68">
+          <mxGeometry y="59.879999999999995" width="398" height="155.99974541252965" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-70" value="&lt;u&gt;+ Default : FormControlValidation&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-69">
+          <mxGeometry y="26" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-78" value="&lt;u&gt;+ Required : FormControlValidation&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-69">
+          <mxGeometry y="51.99994908250593" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-79" value="&lt;u&gt;+ Integer : FormControlValidation&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-69">
+          <mxGeometry y="77.99989816501186" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-77" value="&lt;u&gt;+ Numeric : FormControlValidation&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-69">
+          <mxGeometry y="103.99984724751778" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-80" value="&lt;u&gt;+ ToRequired(this FormControlValidation) : FormControlValidation&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-69">
+          <mxGeometry y="129.9997963300237" width="398" height="25.99994908250593" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-76" value="Helper methods for creating (and reusing) commonly used FormControlValidation instances within a FormDirector." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-68">
+          <mxGeometry width="397.9999999999999" height="59.87897303331179" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-81" value="creates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-69" target="UCaa5IRlUbcaSbM80Vgl-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-99" value="implements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-82" target="UCaa5IRlUbcaSbM80Vgl-92">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-100" value="creates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-82" target="UCaa5IRlUbcaSbM80Vgl-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-82" value="WeatherEventFormDirector" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-160" y="541" width="720" height="156" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-86" value="+ GetNameFormGuide(model : WeatherEvent) : FormControl&amp;lt;string&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-82">
+          <mxGeometry y="26" width="720" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-89" value="+ GetExperienceFormGuide(model : WeatherEvent) : Task&amp;lt;FormControl&amp;lt;WeatherExperience&amp;gt;&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-82">
+          <mxGeometry y="52" width="720" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-90" value="+ GetLocationsFormGuides(model : WeatherEvent, context : FormGuideContext) : IEnumerable&amp;lt;WeatherEventLocationFormGuide&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-82">
+          <mxGeometry y="78" width="720" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-88" value="+ GetStatisticsFormGuides(model : WeatherEvent) : WeatherEventStatisticsFormGuide" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-82">
+          <mxGeometry y="104" width="720" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-87" value="// More methods as needed, per control on the UI..." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-82">
+          <mxGeometry y="130" width="720" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-91" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="60" y="341" width="280" height="124.8" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-92" value="&lt;i&gt;IWeatherEventFormDirector&lt;/i&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-91">
+          <mxGeometry y="59.87909029843584" width="279.99999999999994" height="64.9214086939833" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-93" value="Dependency Injection interface." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-91">
+          <mxGeometry width="279.99999999999994" height="59.87909029843584" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-94" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-40" y="141" width="485" height="124.8" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-95" value="&lt;i&gt;IFormDirector&amp;lt;TModel, TFormGuide&amp;gt;&lt;/i&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-94">
+          <mxGeometry y="59.87909029843584" width="484.99999999999994" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-97" value="+ GetGuideAsync(model : TModel, context : FormGuideContext) : Task&amp;lt;TFormGuide&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-95">
+          <mxGeometry y="26" width="484.99999999999994" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-96" value="Interface for classes which contain the actual business logic that dictates form validation rules by creating FormGuide instances." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-94">
+          <mxGeometry width="484.99999999999994" height="59.87909029843584" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-98" value="inherits" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-93" target="UCaa5IRlUbcaSbM80Vgl-97">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="202" y="281" />
+              <mxPoint x="202" y="281" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-128" value="implements" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-101" target="UCaa5IRlUbcaSbM80Vgl-125">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-101" value="WeatherEventController" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-811" y="579" width="530" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-102" value="// Other API methods omitted for clarity..." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-101">
+          <mxGeometry y="26" width="530" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-115" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-1325" y="840" width="410" height="109.87892603254801" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-108" value="FormGuideContext" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-115">
+          <mxGeometry y="59.87897303331178" width="410" height="49.99995299923624" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-109" value="+ Attributes : IReadOnlyDictionary&amp;lt;FormGudeContextKey, object&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-108">
+          <mxGeometry y="26" width="410" height="23.999952999236243" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-114" value="Contains an arbitrary collection of key/value pairs with data outside of the data model that may be necessary for form validation." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-115">
+          <mxGeometry width="409.99999999999994" height="59.87897303331179" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-117" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-755" y="846" width="410" height="109.87892603254801" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-118" value="&amp;lt;&amp;lt;Enumeration&amp;gt;&amp;gt;&lt;br&gt;FormGuideContextKey" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=40;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-117">
+          <mxGeometry y="59.87897303331178" width="410" height="63.99995299923624" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-119" value="// Context values TBD..." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-118">
+          <mxGeometry y="40" width="410" height="23.999952999236243" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-120" value="A strongly-typed collection of keys to use when providing context data." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-117">
+          <mxGeometry width="409.99999999999994" height="59.87897303331179" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-124" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="-806" y="357" width="520" height="124.8" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-125" value="&lt;i&gt;IFormModifiable&amp;lt;TModel, TFormGuide&amp;gt;&lt;/i&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-124">
+          <mxGeometry y="59.87909029843584" width="519.9999999999999" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-127" value="+ GetFormGuide(data : WeatherEvent, context : FormGuideContext) : WeatherEventFormGuide" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-125">
+          <mxGeometry y="26" width="519.9999999999999" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-126" value="Controller interface to indicate that the model this API controller is for can be modified through a form on the UI. This establishes a consistent interface for all implementors to follow when enabling support for Form Guides." style="rounded=0;whiteSpace=wrap;html=1;container=0;" vertex="1" parent="UCaa5IRlUbcaSbM80Vgl-124">
+          <mxGeometry width="519.9999999999999" height="59.87909029843584" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-129" value="uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-102" target="UCaa5IRlUbcaSbM80Vgl-82">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-133" value="requests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-130" target="UCaa5IRlUbcaSbM80Vgl-101">
+          <mxGeometry x="0.1483" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-980" y="619" />
+              <mxPoint x="-980" y="592" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-136" value="provides" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-130" target="UCaa5IRlUbcaSbM80Vgl-114">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-130" value="Front-end GUI modifies a form that needs validation... send an API request to the API controller for that data model." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
+          <mxGeometry x="-1200" y="519.38" width="160" height="199.23" as="geometry" />
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-134" value="responds" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-102" target="UCaa5IRlUbcaSbM80Vgl-130">
+          <mxGeometry x="0.1144" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-860" y="618" />
+              <mxPoint x="-860" y="660" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UCaa5IRlUbcaSbM80Vgl-135" value="uses" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="UCaa5IRlUbcaSbM80Vgl-109" target="UCaa5IRlUbcaSbM80Vgl-118">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

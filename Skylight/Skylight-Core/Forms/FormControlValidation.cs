@@ -1,7 +1,7 @@
 ﻿namespace Skylight.Forms
 {
     /// <summary>
-    /// Base valiation for any <see cref="FormControl"/>.
+    /// Base valiation for any <see cref="FormControl{T}"/>.
     /// </summary>
     public class FormControlValidation
     {
