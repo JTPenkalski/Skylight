@@ -7,7 +7,7 @@ import { WeatherEventService } from 'presentation/services';
 import { IWeatherEvent as IWeatherEventCoreModel, WeatherEvent as WeatherEventCoreModel } from 'presentation/models';
 import {
   IWeatherEvent, WeatherEvent,
-  ILocation, Location,
+  IWeatherEventLocation, WeatherEventLocation,
   IWeatherEventAlert, WeatherEventAlert
 } from 'display/input/models';
 
@@ -41,7 +41,7 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
   }
 
   public addLocation(): void {
-    this.form.controls.locations.push(new FormGroup<ILocation>(new Location(this.formBuilder)));
+    this.form.controls.locations.push(new FormGroup<IWeatherEventLocation>(new WeatherEventLocation(this.formBuilder)));
   }
 
   public removeLocation(index: number): void {

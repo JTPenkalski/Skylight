@@ -1,22 +1,24 @@
-import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { BaseModel, IBaseModel } from './index';
+import {
+  BaseModel, IBaseModel
+} from './index';
 import {
   WeatherEventAlert as WeatherEventAlertCoreModel, IWeatherEventAlert as IWeatherEventAlertCoreModel,
   IWeatherAlert as IWeatherAlertCoreModel,
-  IWeatherAlertModifier as IWeatherAlertModifierCoreModel
+  IWeatherEventAlertModifier as IWeatherEventAlertModifierCoreModel
 } from 'presentation/models';
 
 export interface IWeatherEventAlert extends IBaseModel {
   readonly alert: FormControl<IWeatherAlertCoreModel>;
   readonly issuanceTime: FormControl<Date>;
-  readonly modifiers: FormControl<IWeatherAlertModifierCoreModel[]>;
+  readonly modifiers: FormControl<IWeatherEventAlertModifierCoreModel[]>;
 }
 
 export class WeatherEventAlert extends BaseModel implements IWeatherEventAlert {
   public readonly alert: FormControl<IWeatherAlertCoreModel>;
   public readonly issuanceTime: FormControl<Date>;
-  public readonly modifiers: FormControl<IWeatherAlertModifierCoreModel[]>;
+  public readonly modifiers: FormControl<IWeatherEventAlertModifierCoreModel[]>;
 
   constructor(formBuilder: FormBuilder, data?: IWeatherEventAlertCoreModel) {
     super();

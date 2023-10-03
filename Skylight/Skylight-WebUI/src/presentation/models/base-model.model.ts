@@ -1,6 +1,8 @@
-import { IBaseModel as IBaseWebModel } from 'web/models';
-
-export interface IBaseModel extends IBaseWebModel {
+// Note: This interface does not inherit any web client version, since the generated clients do not have an IBaseModel to inherit from.
+//       Any changes to BaseWebModel.cs should probably end up here too.
+export interface IBaseModel {
+  id?: number | null
+  deleted: boolean;
   // Add any Presentation Layer data fields here...
 }
 
@@ -9,10 +11,12 @@ export interface IBaseModel extends IBaseWebModel {
  * It allows the Presentation Layer to have an independent interface for presentation logic that doesn't need to be exposed in the API.
  **/
 export abstract class BaseModel implements IBaseModel {
-  public id?: number;
+  public id?: number | null;
+  public deleted: boolean;
 
   constructor(data?: IBaseModel) {
     this.id = this.num(data?.id);
+    this.deleted = this.bool(data?.deleted);
   }
 
   /**

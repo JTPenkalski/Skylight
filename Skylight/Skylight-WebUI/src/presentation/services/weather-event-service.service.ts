@@ -3,7 +3,7 @@ import { Observable, map, of } from 'rxjs';
 
 import { IWeatherEventService } from 'core/services';
 import { WeatherEvent } from 'presentation/models';
-import { IWeatherEventClient, WeatherEventClient, WeatherEvent as WeatherEventWebModel } from 'web/clients';
+import { FormGuideContext, IWeatherEventClient, WeatherEventClient, WeatherEventFormGuide, WeatherEventFormGuideRequest, WeatherEvent as WeatherEventWebModel } from 'web/clients';
 import { BaseService } from './index';
 
 @Injectable({
@@ -27,6 +27,15 @@ export class WeatherEventService extends BaseService<WeatherEvent> implements IW
   public getAll(): Observable<WeatherEvent[]> {
     return this.client.weatherEventAll().pipe(
       map(results => results.map(result => new WeatherEvent(result)))
+    );
+  }
+
+  public getFormGuide(model: WeatherEvent, context: FormGuideContext) : Observable<WeatherEventFormGuide> {
+    return this.client.formGuide(
+      new WeatherEventFormGuideRequest({
+        model: new WeatherEventWebModel(model),
+        context: context
+      })
     );
   }
 
