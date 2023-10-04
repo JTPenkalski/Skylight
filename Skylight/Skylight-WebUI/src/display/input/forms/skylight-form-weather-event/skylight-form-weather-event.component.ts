@@ -10,13 +10,14 @@ import {
   IWeatherEventLocation, WeatherEventLocation,
   IWeatherEventAlert, WeatherEventAlert
 } from 'display/input/models';
+import { WeatherEventFormGuide } from 'web/models';
 
 @Component({
   selector: 'skylight-form-weather-event',
   templateUrl: './skylight-form-weather-event.component.html',
   styleUrls: ['./skylight-form-weather-event.component.scss']
 })
-export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWeatherEventCoreModel, IWeatherEvent> {
+export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWeatherEventCoreModel, IWeatherEvent, WeatherEventFormGuide> {
   constructor(
     formBuilder: FormBuilder,
     @Inject(WeatherEventService) service: IWeatherEventService,
@@ -32,6 +33,14 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
     this.service.add(new WeatherEventCoreModel(this.form.getRawValue())).subscribe();
   }
 
+  public override reset(): void {
+    this.form?.reset();
+  }
+
+  public override requestGuide(): void {
+    this.service.getFormGuide(new WeatherEventCoreModel(this.form.getRawValue())).subscribe(x => console.log(x));
+  }
+
   public addWeatherEventAlert(): void {
     this.form.controls.alerts.push(new FormGroup<IWeatherEventAlert>(new WeatherEventAlert(this.formBuilder)));
   }
@@ -40,11 +49,11 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
     this.form.controls.alerts.removeAt(index);
   }
 
-  public addLocation(): void {
+  public addWeatherEventLocation(): void {
     this.form.controls.locations.push(new FormGroup<IWeatherEventLocation>(new WeatherEventLocation(this.formBuilder)));
   }
 
-  public removeLocation(index: number): void {
+  public removeWeatherEventLocation(index: number): void {
     this.form.controls.locations.removeAt(index);
   }
 }

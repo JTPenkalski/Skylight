@@ -5,7 +5,8 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
 @Component({
   selector: 'skylight-form-question-date[control]',
   templateUrl: './skylight-form-question-date.component.html',
-  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-date.component.scss']
+  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-date.component.scss'],
+  providers: [{ provide: SkylightFormQuestionComponent, useExisting: SkylightFormQuestionDateComponent }]
 })
 export class SkylightFormQuestionDateComponent extends SkylightFormQuestionComponent {
 

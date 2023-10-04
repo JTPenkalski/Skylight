@@ -11,7 +11,7 @@ import { ISelectOption } from '../types';
   selector: 'skylight-form-question-select[control]',
   templateUrl: './skylight-form-question-select.component.html',
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-select.component.scss'],
-  providers: [SkylightServerOptionsService]
+  providers: [{ provide: SkylightFormQuestionComponent, useExisting: SkylightFormQuestionSelectComponent }, SkylightServerOptionsService]
 })
 export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionComponent implements OnInit {
   @Input() public options?: ISelectOption[];

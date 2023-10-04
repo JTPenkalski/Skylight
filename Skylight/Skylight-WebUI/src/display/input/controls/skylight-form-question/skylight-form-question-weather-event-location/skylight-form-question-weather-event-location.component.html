@@ -1,0 +1,11 @@
+<div class="question flex-column" [formGroup]="group">
+  <div class="flex-row">
+    <skylight-form-question-date class="flex-item" label="Start Time" [control]="group.controls.startTime"></skylight-form-question-date>
+
+    <skylight-form-question-date class="flex-item" label="End Time" [control]="group.controls.endTime"></skylight-form-question-date>
+  </div>
+
+  <div class="flex-row">
+    <skylight-form-question-location class="flex-item" label="Location" [group]="group.controls.location"></skylight-form-question-location>
+  </div>
+</div>

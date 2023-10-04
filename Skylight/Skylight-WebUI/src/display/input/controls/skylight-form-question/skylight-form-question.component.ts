@@ -1,7 +1,7 @@
-import { Directive, Inject, Input } from '@angular/core';
+import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
-import { ISkylightFormQuestion } from './types';
+import { ISkylightFormComponent } from './types';
 import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 import { ErrorFormatterService } from 'display/input/services';
 
@@ -10,9 +10,11 @@ import { ErrorFormatterService } from 'display/input/services';
  * @requires [control]: The FormControl this component is linked to.
  **/
 @Directive()
-export abstract class SkylightFormQuestionComponent implements ISkylightFormQuestion {
+export abstract class SkylightFormQuestionComponent implements ISkylightFormComponent {
   @Input() public label: string = '';
   @Input({ required: true }) public control!: FormControl;
+
+  @Output() public formGuideRequested: EventEmitter<undefined> = new EventEmitter<undefined>();
 
   /**
    * Indicates if this AbstractControl has the Required validator.
@@ -23,6 +25,10 @@ export abstract class SkylightFormQuestionComponent implements ISkylightFormQues
     @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,
     public readonly errorFormatter: ErrorFormatterService
   ) { }
+
+  public requestFormGuide(): void {
+    this.formGuideRequested.emit();
+  }
 
   /**
    * Prevents "mouse down" events from propagating to cdkDrag handlers when moused over controls.

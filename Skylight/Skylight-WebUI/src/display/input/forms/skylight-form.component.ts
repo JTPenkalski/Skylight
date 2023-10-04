@@ -9,14 +9,14 @@ import { IBaseModel } from '../models';
  * Base Form for all model forms.
  **/
 @Directive()
-export abstract class SkylightFormComponent<TModel extends IBaseCoreModel, TFormModel extends IBaseModel> implements OnInit {
+export abstract class SkylightFormComponent<TModel extends IBaseCoreModel, TFormModel extends IBaseModel, TFormGuide> implements OnInit {
   @Input() public model!: TModel;
 
   public form!: FormGroup<TFormModel>;
 
   constructor(
     protected readonly formBuilder: FormBuilder,
-    protected readonly service: IService<TModel>
+    protected readonly service: IService<TModel, TFormGuide>
   ) { }
 
   public abstract ngOnInit(): void;
@@ -25,4 +25,14 @@ export abstract class SkylightFormComponent<TModel extends IBaseCoreModel, TForm
    * Submits the form to the server.
    **/
   public abstract submit(): void;
+
+  /**
+   * Resets the form to its default state.
+   */
+  public abstract reset(): void;
+
+  /**
+   * Makes a request to the server to fetch Form Guide information.
+   */
+  public abstract requestGuide(): void;
 }

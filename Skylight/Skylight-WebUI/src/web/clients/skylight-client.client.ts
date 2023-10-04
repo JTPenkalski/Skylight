@@ -2878,7 +2878,6 @@ export class Location implements ILocation {
     public id?: number | null;
     public deleted!: boolean;
     public city!: string;
-    public zipCode!: string;
     public country!: string;
 
     constructor(data?: ILocation) {
@@ -2900,7 +2899,6 @@ export class Location implements ILocation {
             this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
             this.deleted = _data["deleted"] !== undefined ? _data["deleted"] : <any>null;
             this.city = _data["city"] !== undefined ? _data["city"] : <any>null;
-            this.zipCode = _data["zipCode"] !== undefined ? _data["zipCode"] : <any>null;
             this.country = _data["country"] !== undefined ? _data["country"] : <any>null;
         }
     }
@@ -2926,7 +2924,6 @@ export class Location implements ILocation {
         data["id"] = this.id !== undefined ? this.id : <any>null;
         data["deleted"] = this.deleted !== undefined ? this.deleted : <any>null;
         data["city"] = this.city !== undefined ? this.city : <any>null;
-        data["zipCode"] = this.zipCode !== undefined ? this.zipCode : <any>null;
         data["country"] = this.country !== undefined ? this.country : <any>null;
         return data;
     }
@@ -2936,7 +2933,6 @@ export interface ILocation {
     id?: number | null;
     deleted: boolean;
     city: string;
-    zipCode: string;
     country: string;
 }
 

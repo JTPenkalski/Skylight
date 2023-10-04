@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Skylight.WebModels.Models;
 
 namespace Skylight.WebModels.Forms
@@ -9,6 +10,7 @@ namespace Skylight.WebModels.Forms
     public class FormGuideRequest<T> where T : BaseWebModel
     {
         [Required]
+        [ValidateNever]
         public required T Model { get; init; }
 
         [Required]

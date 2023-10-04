@@ -2,7 +2,7 @@
   <mat-form-field [appearance]="config.appearance" [color]="config.color" (mousedown)="blockDrag($event)">
     <mat-label>{{label}}</mat-label>
 
-    <textarea matInput [formControl]="control"></textarea>
+    <textarea matInput [formControl]="control" (blur)="requestFormGuide()"></textarea>
     
     <mat-error *ngIf="required && control.invalid">{{errorFormatter.required(label)}}</mat-error>
   </mat-form-field>
