@@ -27,6 +27,7 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
 
   public override ngOnInit(): void {
     this.form = new FormGroup<IWeatherEvent>(new WeatherEvent(this.formBuilder, this.model));
+    this.requestGuide();
   }
 
   public override submit(): void {
@@ -35,10 +36,16 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
 
   public override reset(): void {
     this.form?.reset();
+    this.requestGuide();
   }
 
   public override requestGuide(): void {
-    this.service.getFormGuide(new WeatherEventCoreModel(this.form.getRawValue())).subscribe(x => console.log(x));
+    console.log('RAW:');
+    console.log(this.form.getRawValue());
+    this.service.getFormGuide(new WeatherEventCoreModel(this.form.getRawValue())).subscribe(x => {
+      console.log(x);
+      this.guide = x;
+    });
   }
 
   public addWeatherEventAlert(): void {

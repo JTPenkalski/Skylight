@@ -1,6 +1,4 @@
-﻿using Skylight.WebModels.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Skylight.WebModels.Forms
@@ -9,22 +7,22 @@ namespace Skylight.WebModels.Forms
     public class WeatherEventFormGuide : FormGuide
     {
         [Required]
-        public required FormControl<string> Name { get; init; }
+        public required FormControlGuide Name { get; init; }
         
         [Required]
-        public required FormControl<WeatherExperience> Experience { get; init; }
+        public required FormControlGuide Experience { get; init; }
         
         [Required]
-        public required FormControl<Weather> Weather { get; init; }
+        public required FormControlGuide Weather { get; init; }
         
         [Required]
-        public required FormControl<DateTimeOffset> StartDate { get; init; }
+        public required FormControlGuide StartDate { get; init; }
         
         [Required]
-        public required FormControl<DateTimeOffset> EndDate { get; init; }
+        public required FormControlGuide EndDate { get; init; }
         
         [Required]
-        public required FormControl<string> Description { get; init; }
+        public required FormControlGuide Description { get; init; }
 
         [Required]
         public required WeatherEventStatisticsFormGuide Statistics { get; init; }

@@ -1,16 +1,23 @@
 <div class="question">
-  <mat-form-field [appearance]="config.appearance" [color]="config.color" (mousedown)="blockDrag($event)">
+  <mat-form-field *ngIf="!guide?.hidden" [appearance]="config.appearance" [color]="config.color" (mousedown)="blockDrag($event)">
     <mat-label>{{label}}</mat-label>
 
-    <mat-select [formControl]="control" [multiple]="multiple" (selectionChange)="requestFormGuide()">
+    <mat-select
+      [formControl]="control"
+      [multiple]="multiple"
+      [compareWith]="compareValues"
+      (selectionChange)="requestFormGuide()">
+
       <ng-container *ngIf="options">
         <mat-option *ngFor="let option of options" [value]="option.value">{{option.name}}</mat-option>
       </ng-container>
+
       <ng-container *ngIf="optionsEndpoint">
         <ng-container *ngIf="serverOptions$ | async as serverOptions">
           <mat-option *ngFor="let option of serverOptions" [value]="option.value">{{option.name}}</mat-option>
         </ng-container>
       </ng-container>
+      
     </mat-select>
     
     <mat-error *ngIf="required && control.invalid">{{errorFormatter.required(label)}}</mat-error>

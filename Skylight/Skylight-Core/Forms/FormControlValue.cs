@@ -1,10 +1,10 @@
 ﻿namespace Skylight.Forms
 {
     /// <summary>
-    /// A name/value pair for a potential <see cref="FormControl{T}"/> value.
+    /// A name/value pair for a potential <see cref="FormControlGuide{T}"/> value.
     /// </summary>
     /// <remarks>
-    /// Helpful when a <see cref="FormControl{T}"/> may contain pre-defined values, such as an HTML select element.
+    /// Helpful when a <see cref="FormControlGuide{T}"/> may contain pre-defined values, such as an HTML select element.
     /// </remarks>
     public class FormControlValue<T>
     {

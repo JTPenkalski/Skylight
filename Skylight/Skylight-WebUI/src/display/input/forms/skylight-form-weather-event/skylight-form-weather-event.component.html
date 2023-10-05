@@ -3,21 +3,58 @@
 <form id="form-weather-event" class="flex-column" [formGroup]="form" (ngSubmit)="submit()">
   <skylight-form-field-set id="section-general" label="General Information">
     <div class="flex-row">
-      <skylight-form-question-input class="flex-item" label="Name" [control]="form.controls.name" (formGuideRequested)="requestGuide()"></skylight-form-question-input>
+      <skylight-form-question-input
+        class="flex-item"
+        label="Name"
+        [guide]="guide?.name"
+        [control]="form.controls.name"
+        (formGuideRequested)="requestGuide()">
+      </skylight-form-question-input>
       
-      <skylight-form-question-select class="flex-item" label="Experience" optionsEndpoint="WeatherExperience" [control]="form.controls.experience" (formGuideRequested)="requestGuide()"></skylight-form-question-select>
+      <skylight-form-question-select
+        class="flex-item"
+        label="Experience"
+        optionsEndpoint="WeatherExperience"
+        [guide]="guide?.experience"
+        [control]="form.controls.experience"
+        (formGuideRequested)="requestGuide()">
+      </skylight-form-question-select>
     </div>
     
     <div class="flex-row">
-      <skylight-form-question-select class="flex-item" label="Weather" optionsEndpoint="Weather" [control]="form.controls.weather" (formGuideRequested)="requestGuide()"></skylight-form-question-select>
+      <skylight-form-question-select
+        class="flex-item"
+        label="Weather"
+        optionsEndpoint="Weather"
+        [guide]="guide?.weather"
+        [control]="form.controls.weather"
+        (formGuideRequested)="requestGuide()">
+      </skylight-form-question-select>
 
-      <skylight-form-question-date class="flex-item" label="Start Date" [control]="form.controls.startDate" (formGuideRequested)="requestGuide()"></skylight-form-question-date>
+      <skylight-form-question-date
+        class="flex-item"
+        label="Start Date"
+        [guide]="guide?.startDate"
+        [control]="form.controls.startDate"
+        (formGuideRequested)="requestGuide()">
+      </skylight-form-question-date>
 
-      <skylight-form-question-date class="flex-item" label="End Date" [control]="form.controls.endDate" (formGuideRequested)="requestGuide()"></skylight-form-question-date>
+      <skylight-form-question-date
+        class="flex-item"
+        label="End Date"
+        [guide]="guide?.endDate"
+        [control]="form.controls.endDate"
+        (formGuideRequested)="requestGuide()">
+      </skylight-form-question-date>
     </div>
 
     <div class="flex-row">
-      <skylight-form-question-textarea class="flex-item" label="Description" [control]="form.controls.description"></skylight-form-question-textarea>
+      <skylight-form-question-textarea
+        class="flex-item"
+        label="Description"
+        [control]="form.controls.description"
+        [guide]="guide?.description">
+      </skylight-form-question-textarea>
     </div>
   </skylight-form-field-set>
 
@@ -31,6 +68,7 @@
         <skylight-form-question-weather-event-alert
           class="flex-item"
           label="Alert {{index + 1}}"
+          [guide]="guide?.alerts?.at(index)"
           [group]="form.controls.alerts.at(index)"
           (formGuideRequested)="requestGuide()">
         </skylight-form-question-weather-event-alert>
@@ -48,6 +86,7 @@
         <skylight-form-question-weather-event-location
           class="flex-item"
           label="Weather Event Location {{index + 1}}"
+          [guide]="guide?.locations?.at(index)"
           [group]="form.controls.locations.at(index)">
         </skylight-form-question-weather-event-location>
       </ng-template>
@@ -57,6 +96,7 @@
   <skylight-form-field-set id="section-statistics" label="Statistics">
     <skylight-form-question-weather-event-statistics
       label="Weather Event Statistics"
+      [guide]="guide?.statistics"
       [group]="form.controls.statistics">
     </skylight-form-question-weather-event-statistics>
   </skylight-form-field-set>

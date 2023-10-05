@@ -2249,238 +2249,6 @@ export interface IArrayFormControlValidation {
     maxElements?: number;
 }
 
-export class BooleanFormControl implements IBooleanFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: boolean;
-    public suppliedValues!: BooleanFormControlValue[];
-
-    constructor(data?: IBooleanFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new BooleanFormControlValue(item) : <BooleanFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new BooleanFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new BooleanFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] !== undefined ? _data["defaultValue"] : <any>null;
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(BooleanFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this BooleanFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new BooleanFormControl.
-    * @returns A deserialized BooleanFormControl.
-    **/
-    public static fromJS(data: any): BooleanFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new BooleanFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this BooleanFormControl.
-    * @returns A serialized BooleanFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IBooleanFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: boolean;
-    suppliedValues: IBooleanFormControlValue[];
-}
-
-export class BooleanFormControlValue implements IBooleanFormControlValue {
-    public name!: string;
-    public value!: boolean;
-
-    constructor(data?: IBooleanFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    /**
-    * Initializes a new BooleanFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new BooleanFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this BooleanFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new BooleanFormControlValue.
-    * @returns A deserialized BooleanFormControlValue.
-    **/
-    public static fromJS(data: any): BooleanFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new BooleanFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this BooleanFormControlValue.
-    * @returns A serialized BooleanFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
-    }
-}
-
-export interface IBooleanFormControlValue {
-    name: string;
-    value: boolean;
-}
-
-export class DateTimeOffsetFormControl implements IDateTimeOffsetFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: Date;
-    public suppliedValues!: DateTimeOffsetFormControlValue[];
-
-    constructor(data?: IDateTimeOffsetFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new DateTimeOffsetFormControlValue(item) : <DateTimeOffsetFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new DateTimeOffsetFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new DateTimeOffsetFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] ? new Date(_data["defaultValue"].toString()) : <any>null;
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(DateTimeOffsetFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this DateTimeOffsetFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new DateTimeOffsetFormControl.
-    * @returns A deserialized DateTimeOffsetFormControl.
-    **/
-    public static fromJS(data: any): DateTimeOffsetFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new DateTimeOffsetFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this DateTimeOffsetFormControl.
-    * @returns A serialized DateTimeOffsetFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue ? this.defaultValue.toISOString() : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IDateTimeOffsetFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: Date;
-    suppliedValues: IDateTimeOffsetFormControlValue[];
-}
-
 export class DateTimeOffsetFormControlValidation implements IDateTimeOffsetFormControlValidation {
     public minValue?: Date;
     public maxValue?: Date;
@@ -2535,58 +2303,93 @@ export interface IDateTimeOffsetFormControlValidation {
     maxValue?: Date;
 }
 
-export class DateTimeOffsetFormControlValue implements IDateTimeOffsetFormControlValue {
-    public name!: string;
-    public value!: Date;
+export class FormControlGuide implements IFormControlGuide {
+    public validation!: FormControlValidation;
+    public readOnly!: boolean;
+    public hidden!: boolean;
+    public defaultValue!: any;
+    public suppliedValues!: FormControlValue[];
 
-    constructor(data?: IDateTimeOffsetFormControlValue) {
+    constructor(data?: IFormControlGuide) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
+            if (data.suppliedValues) {
+                this.suppliedValues = [];
+                for (let i = 0; i < data.suppliedValues.length; i++) {
+                    let item = data.suppliedValues[i];
+                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new FormControlValue(item) : <FormControlValue>item;
+                }
+            }
+        }
+        if (!data) {
+            this.validation = new FormControlValidation();
+            this.suppliedValues = [];
         }
     }
 
     /**
-    * Initializes a new DateTimeOffsetFormControlValue instance from the specified data.
+    * Initializes a new FormControlGuide instance from the specified data.
     * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new DateTimeOffsetFormControlValue.
+    * @param _data Any object that holds the necessary properties to initialize a new FormControlGuide.
     **/
     protected init(_data?: any) {
         if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] ? new Date(_data["value"].toString()) : <any>null;
+            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
+            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
+            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
+            this.defaultValue = _data["defaultValue"] !== undefined ? _data["defaultValue"] : <any>null;
+            if (Array.isArray(_data["suppliedValues"])) {
+                this.suppliedValues = [] as any;
+                for (let item of _data["suppliedValues"])
+                    this.suppliedValues!.push(FormControlValue.fromJS(item));
+            }
+            else {
+                this.suppliedValues = <any>null;
+            }
         }
     }
 
     /**
-    * Deserializes a JSON representation of this DateTimeOffsetFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new DateTimeOffsetFormControlValue.
-    * @returns A deserialized DateTimeOffsetFormControlValue.
+    * Deserializes a JSON representation of this FormControlGuide.
+    * @param data Any object that holds the necessary properties to initialize a new FormControlGuide.
+    * @returns A deserialized FormControlGuide.
     **/
-    public static fromJS(data: any): DateTimeOffsetFormControlValue {
+    public static fromJS(data: any): FormControlGuide {
         data = typeof data === 'object' ? data : {};
-        let result = new DateTimeOffsetFormControlValue();
+        let result = new FormControlGuide();
         result.init(data);
         return result;
     }
 
     /**
-    * Serializes a JSON representation of this DateTimeOffsetFormControlValue.
-    * @returns A serialized DateTimeOffsetFormControlValue.
+    * Serializes a JSON representation of this FormControlGuide.
+    * @returns A serialized FormControlGuide.
     **/
     public toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value ? this.value.toISOString() : <any>null;
+        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
+        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
+        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
+        data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
+        if (Array.isArray(this.suppliedValues)) {
+            data["suppliedValues"] = [];
+            for (let item of this.suppliedValues)
+                data["suppliedValues"].push(item.toJSON());
+        }
         return data;
     }
 }
 
-export interface IDateTimeOffsetFormControlValue {
-    name: string;
-    value: Date;
+export interface IFormControlGuide {
+    validation: IFormControlValidation;
+    readOnly: boolean;
+    hidden: boolean;
+    defaultValue: any;
+    suppliedValues: IFormControlValue[];
 }
 
 export class FormControlValidation implements IFormControlValidation {
@@ -2663,6 +2466,60 @@ export interface IFormControlValidation {
     arrayValidation?: IArrayFormControlValidation;
 }
 
+export class FormControlValue implements IFormControlValue {
+    public name!: string;
+    public value!: any;
+
+    constructor(data?: IFormControlValue) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    /**
+    * Initializes a new FormControlValue instance from the specified data.
+    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
+    * @param _data Any object that holds the necessary properties to initialize a new FormControlValue.
+    **/
+    protected init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
+            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
+        }
+    }
+
+    /**
+    * Deserializes a JSON representation of this FormControlValue.
+    * @param data Any object that holds the necessary properties to initialize a new FormControlValue.
+    * @returns A deserialized FormControlValue.
+    **/
+    public static fromJS(data: any): FormControlValue {
+        data = typeof data === 'object' ? data : {};
+        let result = new FormControlValue();
+        result.init(data);
+        return result;
+    }
+
+    /**
+    * Serializes a JSON representation of this FormControlValue.
+    * @returns A serialized FormControlValue.
+    **/
+    public toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name !== undefined ? this.name : <any>null;
+        data["value"] = this.value !== undefined ? this.value : <any>null;
+        return data;
+    }
+}
+
+export interface IFormControlValue {
+    name: string;
+    value: any;
+}
+
 export class FormGuideContext implements IFormGuideContext {
     public attributes!: { [key: string]: any; };
 
@@ -2731,149 +2588,6 @@ export interface IFormGuideContext {
     attributes: { [key: string]: any; };
 }
 
-export class Int32FormControl implements IInt32FormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: number;
-    public suppliedValues!: Int32FormControlValue[];
-
-    constructor(data?: IInt32FormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new Int32FormControlValue(item) : <Int32FormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new Int32FormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new Int32FormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] !== undefined ? _data["defaultValue"] : <any>null;
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(Int32FormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this Int32FormControl.
-    * @param data Any object that holds the necessary properties to initialize a new Int32FormControl.
-    * @returns A deserialized Int32FormControl.
-    **/
-    public static fromJS(data: any): Int32FormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new Int32FormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this Int32FormControl.
-    * @returns A serialized Int32FormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IInt32FormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: number;
-    suppliedValues: IInt32FormControlValue[];
-}
-
-export class Int32FormControlValue implements IInt32FormControlValue {
-    public name!: string;
-    public value!: number;
-
-    constructor(data?: IInt32FormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    /**
-    * Initializes a new Int32FormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new Int32FormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this Int32FormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new Int32FormControlValue.
-    * @returns A deserialized Int32FormControlValue.
-    **/
-    public static fromJS(data: any): Int32FormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new Int32FormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this Int32FormControlValue.
-    * @returns A serialized Int32FormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
-    }
-}
-
-export interface IInt32FormControlValue {
-    name: string;
-    value: number;
-}
-
 export class Location implements ILocation {
     public id?: number | null;
     public deleted!: boolean;
@@ -2937,6 +2651,8 @@ export interface ILocation {
 }
 
 export class LocationFormGuide implements ILocationFormGuide {
+    public city!: FormControlGuide;
+    public country!: FormControlGuide;
 
     constructor(data?: ILocationFormGuide) {
         if (data) {
@@ -2944,6 +2660,12 @@ export class LocationFormGuide implements ILocationFormGuide {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
+            this.city = data.city && !(<any>data.city).toJSON ? new FormControlGuide(data.city) : <FormControlGuide>this.city;
+            this.country = data.country && !(<any>data.country).toJSON ? new FormControlGuide(data.country) : <FormControlGuide>this.country;
+        }
+        if (!data) {
+            this.city = new FormControlGuide();
+            this.country = new FormControlGuide();
         }
     }
 
@@ -2953,6 +2675,10 @@ export class LocationFormGuide implements ILocationFormGuide {
     * @param _data Any object that holds the necessary properties to initialize a new LocationFormGuide.
     **/
     protected init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"] ? FormControlGuide.fromJS(_data["city"]) : new FormControlGuide();
+            this.country = _data["country"] ? FormControlGuide.fromJS(_data["country"]) : new FormControlGuide();
+        }
     }
 
     /**
@@ -2973,11 +2699,15 @@ export class LocationFormGuide implements ILocationFormGuide {
     **/
     public toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["city"] = this.city ? this.city.toJSON() : <any>null;
+        data["country"] = this.country ? this.country.toJSON() : <any>null;
         return data;
     }
 }
 
 export interface ILocationFormGuide {
+    city: IFormControlGuide;
+    country: IFormControlGuide;
 }
 
 export class NumericFormControlValidation implements INumericFormControlValidation {
@@ -3112,238 +2842,6 @@ export interface IProblemDetails {
     [key: string]: any;
 }
 
-export class SingleFormControl implements ISingleFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: number;
-    public suppliedValues!: SingleFormControlValue[];
-
-    constructor(data?: ISingleFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new SingleFormControlValue(item) : <SingleFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new SingleFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new SingleFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] !== undefined ? _data["defaultValue"] : <any>null;
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(SingleFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this SingleFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new SingleFormControl.
-    * @returns A deserialized SingleFormControl.
-    **/
-    public static fromJS(data: any): SingleFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new SingleFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this SingleFormControl.
-    * @returns A serialized SingleFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface ISingleFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: number;
-    suppliedValues: ISingleFormControlValue[];
-}
-
-export class SingleFormControlValue implements ISingleFormControlValue {
-    public name!: string;
-    public value!: number;
-
-    constructor(data?: ISingleFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    /**
-    * Initializes a new SingleFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new SingleFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this SingleFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new SingleFormControlValue.
-    * @returns A deserialized SingleFormControlValue.
-    **/
-    public static fromJS(data: any): SingleFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new SingleFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this SingleFormControlValue.
-    * @returns A serialized SingleFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
-    }
-}
-
-export interface ISingleFormControlValue {
-    name: string;
-    value: number;
-}
-
-export class StringFormControl implements IStringFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: string;
-    public suppliedValues!: StringFormControlValue[];
-
-    constructor(data?: IStringFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new StringFormControlValue(item) : <StringFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new StringFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new StringFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] !== undefined ? _data["defaultValue"] : <any>null;
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(StringFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this StringFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new StringFormControl.
-    * @returns A deserialized StringFormControl.
-    **/
-    public static fromJS(data: any): StringFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new StringFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this StringFormControl.
-    * @returns A serialized StringFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue !== undefined ? this.defaultValue : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IStringFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: string;
-    suppliedValues: IStringFormControlValue[];
-}
-
 export class StringFormControlValidation implements IStringFormControlValidation {
     public minLength?: number;
     public maxLength?: number;
@@ -3396,60 +2894,6 @@ export class StringFormControlValidation implements IStringFormControlValidation
 export interface IStringFormControlValidation {
     minLength?: number;
     maxLength?: number;
-}
-
-export class StringFormControlValue implements IStringFormControlValue {
-    public name!: string;
-    public value!: string;
-
-    constructor(data?: IStringFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    /**
-    * Initializes a new StringFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new StringFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] !== undefined ? _data["value"] : <any>null;
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this StringFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new StringFormControlValue.
-    * @returns A deserialized StringFormControlValue.
-    **/
-    public static fromJS(data: any): StringFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new StringFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this StringFormControlValue.
-    * @returns A serialized StringFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value !== undefined ? this.value : <any>null;
-        return data;
-    }
-}
-
-export interface IStringFormControlValue {
-    name: string;
-    value: string;
 }
 
 export class Weather implements IWeather {
@@ -3584,155 +3028,6 @@ export interface IWeatherAlert {
     isThirdParty: boolean;
 }
 
-export class WeatherAlertFormControl implements IWeatherAlertFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: WeatherAlert;
-    public suppliedValues!: WeatherAlertFormControlValue[];
-
-    constructor(data?: IWeatherAlertFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            this.defaultValue = data.defaultValue && !(<any>data.defaultValue).toJSON ? new WeatherAlert(data.defaultValue) : <WeatherAlert>this.defaultValue;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new WeatherAlertFormControlValue(item) : <WeatherAlertFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.defaultValue = new WeatherAlert();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new WeatherAlertFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherAlertFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] ? WeatherAlert.fromJS(_data["defaultValue"]) : new WeatherAlert();
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(WeatherAlertFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherAlertFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherAlertFormControl.
-    * @returns A deserialized WeatherAlertFormControl.
-    **/
-    public static fromJS(data: any): WeatherAlertFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherAlertFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherAlertFormControl.
-    * @returns A serialized WeatherAlertFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue ? this.defaultValue.toJSON() : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IWeatherAlertFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: IWeatherAlert;
-    suppliedValues: IWeatherAlertFormControlValue[];
-}
-
-export class WeatherAlertFormControlValue implements IWeatherAlertFormControlValue {
-    public name!: string;
-    public value!: WeatherAlert;
-
-    constructor(data?: IWeatherAlertFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.value = data.value && !(<any>data.value).toJSON ? new WeatherAlert(data.value) : <WeatherAlert>this.value;
-        }
-        if (!data) {
-            this.value = new WeatherAlert();
-        }
-    }
-
-    /**
-    * Initializes a new WeatherAlertFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherAlertFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] ? WeatherAlert.fromJS(_data["value"]) : new WeatherAlert();
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherAlertFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherAlertFormControlValue.
-    * @returns A deserialized WeatherAlertFormControlValue.
-    **/
-    public static fromJS(data: any): WeatherAlertFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherAlertFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherAlertFormControlValue.
-    * @returns A serialized WeatherAlertFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value ? this.value.toJSON() : <any>null;
-        return data;
-    }
-}
-
-export interface IWeatherAlertFormControlValue {
-    name: string;
-    value: IWeatherAlert;
-}
-
 export class WeatherAlertModifier implements IWeatherAlertModifier {
     public id?: number | null;
     public deleted!: boolean;
@@ -3801,155 +3096,6 @@ export interface IWeatherAlertModifier {
     description: string;
     bonus: number;
     operation: WeatherAlertModifierOperation;
-}
-
-export class WeatherAlertModifierFormControl implements IWeatherAlertModifierFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: WeatherAlertModifier;
-    public suppliedValues!: WeatherAlertModifierFormControlValue[];
-
-    constructor(data?: IWeatherAlertModifierFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            this.defaultValue = data.defaultValue && !(<any>data.defaultValue).toJSON ? new WeatherAlertModifier(data.defaultValue) : <WeatherAlertModifier>this.defaultValue;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new WeatherAlertModifierFormControlValue(item) : <WeatherAlertModifierFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.defaultValue = new WeatherAlertModifier();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new WeatherAlertModifierFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherAlertModifierFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] ? WeatherAlertModifier.fromJS(_data["defaultValue"]) : new WeatherAlertModifier();
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(WeatherAlertModifierFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherAlertModifierFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherAlertModifierFormControl.
-    * @returns A deserialized WeatherAlertModifierFormControl.
-    **/
-    public static fromJS(data: any): WeatherAlertModifierFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherAlertModifierFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherAlertModifierFormControl.
-    * @returns A serialized WeatherAlertModifierFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue ? this.defaultValue.toJSON() : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IWeatherAlertModifierFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: IWeatherAlertModifier;
-    suppliedValues: IWeatherAlertModifierFormControlValue[];
-}
-
-export class WeatherAlertModifierFormControlValue implements IWeatherAlertModifierFormControlValue {
-    public name!: string;
-    public value!: WeatherAlertModifier;
-
-    constructor(data?: IWeatherAlertModifierFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.value = data.value && !(<any>data.value).toJSON ? new WeatherAlertModifier(data.value) : <WeatherAlertModifier>this.value;
-        }
-        if (!data) {
-            this.value = new WeatherAlertModifier();
-        }
-    }
-
-    /**
-    * Initializes a new WeatherAlertModifierFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherAlertModifierFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] ? WeatherAlertModifier.fromJS(_data["value"]) : new WeatherAlertModifier();
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherAlertModifierFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherAlertModifierFormControlValue.
-    * @returns A deserialized WeatherAlertModifierFormControlValue.
-    **/
-    public static fromJS(data: any): WeatherAlertModifierFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherAlertModifierFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherAlertModifierFormControlValue.
-    * @returns A serialized WeatherAlertModifierFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value ? this.value.toJSON() : <any>null;
-        return data;
-    }
-}
-
-export interface IWeatherAlertModifierFormControlValue {
-    name: string;
-    value: IWeatherAlertModifier;
 }
 
 export enum WeatherAlertModifierOperation {
@@ -4184,9 +3330,9 @@ export interface IWeatherEventAlert {
 }
 
 export class WeatherEventAlertFormGuide implements IWeatherEventAlertFormGuide {
-    public alert!: WeatherAlertFormControl;
-    public issuanceTime!: DateTimeOffsetFormControl;
-    public modifiers!: WeatherAlertModifierFormControl[];
+    public alert!: FormControlGuide;
+    public issuanceTime!: FormControlGuide;
+    public modifiers!: FormControlGuide[];
 
     constructor(data?: IWeatherEventAlertFormGuide) {
         if (data) {
@@ -4194,19 +3340,19 @@ export class WeatherEventAlertFormGuide implements IWeatherEventAlertFormGuide {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.alert = data.alert && !(<any>data.alert).toJSON ? new WeatherAlertFormControl(data.alert) : <WeatherAlertFormControl>this.alert;
-            this.issuanceTime = data.issuanceTime && !(<any>data.issuanceTime).toJSON ? new DateTimeOffsetFormControl(data.issuanceTime) : <DateTimeOffsetFormControl>this.issuanceTime;
+            this.alert = data.alert && !(<any>data.alert).toJSON ? new FormControlGuide(data.alert) : <FormControlGuide>this.alert;
+            this.issuanceTime = data.issuanceTime && !(<any>data.issuanceTime).toJSON ? new FormControlGuide(data.issuanceTime) : <FormControlGuide>this.issuanceTime;
             if (data.modifiers) {
                 this.modifiers = [];
                 for (let i = 0; i < data.modifiers.length; i++) {
                     let item = data.modifiers[i];
-                    this.modifiers[i] = item && !(<any>item).toJSON ? new WeatherAlertModifierFormControl(item) : <WeatherAlertModifierFormControl>item;
+                    this.modifiers[i] = item && !(<any>item).toJSON ? new FormControlGuide(item) : <FormControlGuide>item;
                 }
             }
         }
         if (!data) {
-            this.alert = new WeatherAlertFormControl();
-            this.issuanceTime = new DateTimeOffsetFormControl();
+            this.alert = new FormControlGuide();
+            this.issuanceTime = new FormControlGuide();
             this.modifiers = [];
         }
     }
@@ -4218,12 +3364,12 @@ export class WeatherEventAlertFormGuide implements IWeatherEventAlertFormGuide {
     **/
     protected init(_data?: any) {
         if (_data) {
-            this.alert = _data["alert"] ? WeatherAlertFormControl.fromJS(_data["alert"]) : new WeatherAlertFormControl();
-            this.issuanceTime = _data["issuanceTime"] ? DateTimeOffsetFormControl.fromJS(_data["issuanceTime"]) : new DateTimeOffsetFormControl();
+            this.alert = _data["alert"] ? FormControlGuide.fromJS(_data["alert"]) : new FormControlGuide();
+            this.issuanceTime = _data["issuanceTime"] ? FormControlGuide.fromJS(_data["issuanceTime"]) : new FormControlGuide();
             if (Array.isArray(_data["modifiers"])) {
                 this.modifiers = [] as any;
                 for (let item of _data["modifiers"])
-                    this.modifiers!.push(WeatherAlertModifierFormControl.fromJS(item));
+                    this.modifiers!.push(FormControlGuide.fromJS(item));
             }
             else {
                 this.modifiers = <any>null;
@@ -4261,9 +3407,9 @@ export class WeatherEventAlertFormGuide implements IWeatherEventAlertFormGuide {
 }
 
 export interface IWeatherEventAlertFormGuide {
-    alert: IWeatherAlertFormControl;
-    issuanceTime: IDateTimeOffsetFormControl;
-    modifiers: IWeatherAlertModifierFormControl[];
+    alert: IFormControlGuide;
+    issuanceTime: IFormControlGuide;
+    modifiers: IFormControlGuide[];
 }
 
 export class WeatherEventAlertModifier implements IWeatherEventAlertModifier {
@@ -4329,12 +3475,12 @@ export interface IWeatherEventAlertModifier {
 }
 
 export class WeatherEventFormGuide implements IWeatherEventFormGuide {
-    public name!: StringFormControl;
-    public experience!: WeatherExperienceFormControl;
-    public weather!: WeatherFormControl;
-    public startDate!: DateTimeOffsetFormControl;
-    public endDate!: DateTimeOffsetFormControl;
-    public description!: StringFormControl;
+    public name!: FormControlGuide;
+    public experience!: FormControlGuide;
+    public weather!: FormControlGuide;
+    public startDate!: FormControlGuide;
+    public endDate!: FormControlGuide;
+    public description!: FormControlGuide;
     public statistics!: WeatherEventStatisticsFormGuide;
     public locations!: WeatherEventLocationFormGuide[];
     public alerts!: WeatherEventAlertFormGuide[];
@@ -4345,12 +3491,12 @@ export class WeatherEventFormGuide implements IWeatherEventFormGuide {
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.name = data.name && !(<any>data.name).toJSON ? new StringFormControl(data.name) : <StringFormControl>this.name;
-            this.experience = data.experience && !(<any>data.experience).toJSON ? new WeatherExperienceFormControl(data.experience) : <WeatherExperienceFormControl>this.experience;
-            this.weather = data.weather && !(<any>data.weather).toJSON ? new WeatherFormControl(data.weather) : <WeatherFormControl>this.weather;
-            this.startDate = data.startDate && !(<any>data.startDate).toJSON ? new DateTimeOffsetFormControl(data.startDate) : <DateTimeOffsetFormControl>this.startDate;
-            this.endDate = data.endDate && !(<any>data.endDate).toJSON ? new DateTimeOffsetFormControl(data.endDate) : <DateTimeOffsetFormControl>this.endDate;
-            this.description = data.description && !(<any>data.description).toJSON ? new StringFormControl(data.description) : <StringFormControl>this.description;
+            this.name = data.name && !(<any>data.name).toJSON ? new FormControlGuide(data.name) : <FormControlGuide>this.name;
+            this.experience = data.experience && !(<any>data.experience).toJSON ? new FormControlGuide(data.experience) : <FormControlGuide>this.experience;
+            this.weather = data.weather && !(<any>data.weather).toJSON ? new FormControlGuide(data.weather) : <FormControlGuide>this.weather;
+            this.startDate = data.startDate && !(<any>data.startDate).toJSON ? new FormControlGuide(data.startDate) : <FormControlGuide>this.startDate;
+            this.endDate = data.endDate && !(<any>data.endDate).toJSON ? new FormControlGuide(data.endDate) : <FormControlGuide>this.endDate;
+            this.description = data.description && !(<any>data.description).toJSON ? new FormControlGuide(data.description) : <FormControlGuide>this.description;
             this.statistics = data.statistics && !(<any>data.statistics).toJSON ? new WeatherEventStatisticsFormGuide(data.statistics) : <WeatherEventStatisticsFormGuide>this.statistics;
             if (data.locations) {
                 this.locations = [];
@@ -4368,12 +3514,12 @@ export class WeatherEventFormGuide implements IWeatherEventFormGuide {
             }
         }
         if (!data) {
-            this.name = new StringFormControl();
-            this.experience = new WeatherExperienceFormControl();
-            this.weather = new WeatherFormControl();
-            this.startDate = new DateTimeOffsetFormControl();
-            this.endDate = new DateTimeOffsetFormControl();
-            this.description = new StringFormControl();
+            this.name = new FormControlGuide();
+            this.experience = new FormControlGuide();
+            this.weather = new FormControlGuide();
+            this.startDate = new FormControlGuide();
+            this.endDate = new FormControlGuide();
+            this.description = new FormControlGuide();
             this.statistics = new WeatherEventStatisticsFormGuide();
             this.locations = [];
             this.alerts = [];
@@ -4387,12 +3533,12 @@ export class WeatherEventFormGuide implements IWeatherEventFormGuide {
     **/
     protected init(_data?: any) {
         if (_data) {
-            this.name = _data["name"] ? StringFormControl.fromJS(_data["name"]) : new StringFormControl();
-            this.experience = _data["experience"] ? WeatherExperienceFormControl.fromJS(_data["experience"]) : new WeatherExperienceFormControl();
-            this.weather = _data["weather"] ? WeatherFormControl.fromJS(_data["weather"]) : new WeatherFormControl();
-            this.startDate = _data["startDate"] ? DateTimeOffsetFormControl.fromJS(_data["startDate"]) : new DateTimeOffsetFormControl();
-            this.endDate = _data["endDate"] ? DateTimeOffsetFormControl.fromJS(_data["endDate"]) : new DateTimeOffsetFormControl();
-            this.description = _data["description"] ? StringFormControl.fromJS(_data["description"]) : new StringFormControl();
+            this.name = _data["name"] ? FormControlGuide.fromJS(_data["name"]) : new FormControlGuide();
+            this.experience = _data["experience"] ? FormControlGuide.fromJS(_data["experience"]) : new FormControlGuide();
+            this.weather = _data["weather"] ? FormControlGuide.fromJS(_data["weather"]) : new FormControlGuide();
+            this.startDate = _data["startDate"] ? FormControlGuide.fromJS(_data["startDate"]) : new FormControlGuide();
+            this.endDate = _data["endDate"] ? FormControlGuide.fromJS(_data["endDate"]) : new FormControlGuide();
+            this.description = _data["description"] ? FormControlGuide.fromJS(_data["description"]) : new FormControlGuide();
             this.statistics = _data["statistics"] ? WeatherEventStatisticsFormGuide.fromJS(_data["statistics"]) : new WeatherEventStatisticsFormGuide();
             if (Array.isArray(_data["locations"])) {
                 this.locations = [] as any;
@@ -4453,12 +3599,12 @@ export class WeatherEventFormGuide implements IWeatherEventFormGuide {
 }
 
 export interface IWeatherEventFormGuide {
-    name: IStringFormControl;
-    experience: IWeatherExperienceFormControl;
-    weather: IWeatherFormControl;
-    startDate: IDateTimeOffsetFormControl;
-    endDate: IDateTimeOffsetFormControl;
-    description: IStringFormControl;
+    name: IFormControlGuide;
+    experience: IFormControlGuide;
+    weather: IFormControlGuide;
+    startDate: IFormControlGuide;
+    endDate: IFormControlGuide;
+    description: IFormControlGuide;
     statistics: IWeatherEventStatisticsFormGuide;
     locations: IWeatherEventLocationFormGuide[];
     alerts: IWeatherEventAlertFormGuide[];
@@ -4595,8 +3741,8 @@ export interface IWeatherEventLocation {
 }
 
 export class WeatherEventLocationFormGuide implements IWeatherEventLocationFormGuide {
-    public startTime!: DateTimeOffsetFormControl;
-    public endTime!: DateTimeOffsetFormControl;
+    public startTime!: FormControlGuide;
+    public endTime!: FormControlGuide;
     public location!: LocationFormGuide;
 
     constructor(data?: IWeatherEventLocationFormGuide) {
@@ -4605,13 +3751,13 @@ export class WeatherEventLocationFormGuide implements IWeatherEventLocationFormG
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.startTime = data.startTime && !(<any>data.startTime).toJSON ? new DateTimeOffsetFormControl(data.startTime) : <DateTimeOffsetFormControl>this.startTime;
-            this.endTime = data.endTime && !(<any>data.endTime).toJSON ? new DateTimeOffsetFormControl(data.endTime) : <DateTimeOffsetFormControl>this.endTime;
+            this.startTime = data.startTime && !(<any>data.startTime).toJSON ? new FormControlGuide(data.startTime) : <FormControlGuide>this.startTime;
+            this.endTime = data.endTime && !(<any>data.endTime).toJSON ? new FormControlGuide(data.endTime) : <FormControlGuide>this.endTime;
             this.location = data.location && !(<any>data.location).toJSON ? new LocationFormGuide(data.location) : <LocationFormGuide>this.location;
         }
         if (!data) {
-            this.startTime = new DateTimeOffsetFormControl();
-            this.endTime = new DateTimeOffsetFormControl();
+            this.startTime = new FormControlGuide();
+            this.endTime = new FormControlGuide();
             this.location = new LocationFormGuide();
         }
     }
@@ -4623,8 +3769,8 @@ export class WeatherEventLocationFormGuide implements IWeatherEventLocationFormG
     **/
     protected init(_data?: any) {
         if (_data) {
-            this.startTime = _data["startTime"] ? DateTimeOffsetFormControl.fromJS(_data["startTime"]) : new DateTimeOffsetFormControl();
-            this.endTime = _data["endTime"] ? DateTimeOffsetFormControl.fromJS(_data["endTime"]) : new DateTimeOffsetFormControl();
+            this.startTime = _data["startTime"] ? FormControlGuide.fromJS(_data["startTime"]) : new FormControlGuide();
+            this.endTime = _data["endTime"] ? FormControlGuide.fromJS(_data["endTime"]) : new FormControlGuide();
             this.location = _data["location"] ? LocationFormGuide.fromJS(_data["location"]) : new LocationFormGuide();
         }
     }
@@ -4655,8 +3801,8 @@ export class WeatherEventLocationFormGuide implements IWeatherEventLocationFormG
 }
 
 export interface IWeatherEventLocationFormGuide {
-    startTime: IDateTimeOffsetFormControl;
-    endTime: IDateTimeOffsetFormControl;
+    startTime: IFormControlGuide;
+    endTime: IFormControlGuide;
     location: ILocationFormGuide;
 }
 
@@ -4767,19 +3913,19 @@ export interface IWeatherEventStatistics {
 }
 
 export class WeatherEventStatisticsFormGuide implements IWeatherEventStatisticsFormGuide {
-    public damageCost!: Int32FormControl;
-    public fatalities!: Int32FormControl;
-    public efRating!: Int32FormControl;
-    public pathDistance!: Int32FormControl;
-    public funnelWidth!: Int32FormControl;
-    public saffirSimpsonRating!: Int32FormControl;
-    public lowestPressure!: Int32FormControl;
-    public maxWindSpeed!: Int32FormControl;
-    public richterMagnitude!: SingleFormControl;
-    public mercalliIntensity!: Int32FormControl;
-    public aftershocks!: Int32FormControl;
-    public fault!: StringFormControl;
-    public relatedTsunami!: BooleanFormControl;
+    public damageCost!: FormControlGuide;
+    public fatalities!: FormControlGuide;
+    public efRating!: FormControlGuide;
+    public pathDistance!: FormControlGuide;
+    public funnelWidth!: FormControlGuide;
+    public saffirSimpsonRating!: FormControlGuide;
+    public lowestPressure!: FormControlGuide;
+    public maxWindSpeed!: FormControlGuide;
+    public richterMagnitude!: FormControlGuide;
+    public mercalliIntensity!: FormControlGuide;
+    public aftershocks!: FormControlGuide;
+    public fault!: FormControlGuide;
+    public relatedTsunami!: FormControlGuide;
 
     constructor(data?: IWeatherEventStatisticsFormGuide) {
         if (data) {
@@ -4787,34 +3933,34 @@ export class WeatherEventStatisticsFormGuide implements IWeatherEventStatisticsF
                 if (data.hasOwnProperty(property))
                     (<any>this)[property] = (<any>data)[property];
             }
-            this.damageCost = data.damageCost && !(<any>data.damageCost).toJSON ? new Int32FormControl(data.damageCost) : <Int32FormControl>this.damageCost;
-            this.fatalities = data.fatalities && !(<any>data.fatalities).toJSON ? new Int32FormControl(data.fatalities) : <Int32FormControl>this.fatalities;
-            this.efRating = data.efRating && !(<any>data.efRating).toJSON ? new Int32FormControl(data.efRating) : <Int32FormControl>this.efRating;
-            this.pathDistance = data.pathDistance && !(<any>data.pathDistance).toJSON ? new Int32FormControl(data.pathDistance) : <Int32FormControl>this.pathDistance;
-            this.funnelWidth = data.funnelWidth && !(<any>data.funnelWidth).toJSON ? new Int32FormControl(data.funnelWidth) : <Int32FormControl>this.funnelWidth;
-            this.saffirSimpsonRating = data.saffirSimpsonRating && !(<any>data.saffirSimpsonRating).toJSON ? new Int32FormControl(data.saffirSimpsonRating) : <Int32FormControl>this.saffirSimpsonRating;
-            this.lowestPressure = data.lowestPressure && !(<any>data.lowestPressure).toJSON ? new Int32FormControl(data.lowestPressure) : <Int32FormControl>this.lowestPressure;
-            this.maxWindSpeed = data.maxWindSpeed && !(<any>data.maxWindSpeed).toJSON ? new Int32FormControl(data.maxWindSpeed) : <Int32FormControl>this.maxWindSpeed;
-            this.richterMagnitude = data.richterMagnitude && !(<any>data.richterMagnitude).toJSON ? new SingleFormControl(data.richterMagnitude) : <SingleFormControl>this.richterMagnitude;
-            this.mercalliIntensity = data.mercalliIntensity && !(<any>data.mercalliIntensity).toJSON ? new Int32FormControl(data.mercalliIntensity) : <Int32FormControl>this.mercalliIntensity;
-            this.aftershocks = data.aftershocks && !(<any>data.aftershocks).toJSON ? new Int32FormControl(data.aftershocks) : <Int32FormControl>this.aftershocks;
-            this.fault = data.fault && !(<any>data.fault).toJSON ? new StringFormControl(data.fault) : <StringFormControl>this.fault;
-            this.relatedTsunami = data.relatedTsunami && !(<any>data.relatedTsunami).toJSON ? new BooleanFormControl(data.relatedTsunami) : <BooleanFormControl>this.relatedTsunami;
+            this.damageCost = data.damageCost && !(<any>data.damageCost).toJSON ? new FormControlGuide(data.damageCost) : <FormControlGuide>this.damageCost;
+            this.fatalities = data.fatalities && !(<any>data.fatalities).toJSON ? new FormControlGuide(data.fatalities) : <FormControlGuide>this.fatalities;
+            this.efRating = data.efRating && !(<any>data.efRating).toJSON ? new FormControlGuide(data.efRating) : <FormControlGuide>this.efRating;
+            this.pathDistance = data.pathDistance && !(<any>data.pathDistance).toJSON ? new FormControlGuide(data.pathDistance) : <FormControlGuide>this.pathDistance;
+            this.funnelWidth = data.funnelWidth && !(<any>data.funnelWidth).toJSON ? new FormControlGuide(data.funnelWidth) : <FormControlGuide>this.funnelWidth;
+            this.saffirSimpsonRating = data.saffirSimpsonRating && !(<any>data.saffirSimpsonRating).toJSON ? new FormControlGuide(data.saffirSimpsonRating) : <FormControlGuide>this.saffirSimpsonRating;
+            this.lowestPressure = data.lowestPressure && !(<any>data.lowestPressure).toJSON ? new FormControlGuide(data.lowestPressure) : <FormControlGuide>this.lowestPressure;
+            this.maxWindSpeed = data.maxWindSpeed && !(<any>data.maxWindSpeed).toJSON ? new FormControlGuide(data.maxWindSpeed) : <FormControlGuide>this.maxWindSpeed;
+            this.richterMagnitude = data.richterMagnitude && !(<any>data.richterMagnitude).toJSON ? new FormControlGuide(data.richterMagnitude) : <FormControlGuide>this.richterMagnitude;
+            this.mercalliIntensity = data.mercalliIntensity && !(<any>data.mercalliIntensity).toJSON ? new FormControlGuide(data.mercalliIntensity) : <FormControlGuide>this.mercalliIntensity;
+            this.aftershocks = data.aftershocks && !(<any>data.aftershocks).toJSON ? new FormControlGuide(data.aftershocks) : <FormControlGuide>this.aftershocks;
+            this.fault = data.fault && !(<any>data.fault).toJSON ? new FormControlGuide(data.fault) : <FormControlGuide>this.fault;
+            this.relatedTsunami = data.relatedTsunami && !(<any>data.relatedTsunami).toJSON ? new FormControlGuide(data.relatedTsunami) : <FormControlGuide>this.relatedTsunami;
         }
         if (!data) {
-            this.damageCost = new Int32FormControl();
-            this.fatalities = new Int32FormControl();
-            this.efRating = new Int32FormControl();
-            this.pathDistance = new Int32FormControl();
-            this.funnelWidth = new Int32FormControl();
-            this.saffirSimpsonRating = new Int32FormControl();
-            this.lowestPressure = new Int32FormControl();
-            this.maxWindSpeed = new Int32FormControl();
-            this.richterMagnitude = new SingleFormControl();
-            this.mercalliIntensity = new Int32FormControl();
-            this.aftershocks = new Int32FormControl();
-            this.fault = new StringFormControl();
-            this.relatedTsunami = new BooleanFormControl();
+            this.damageCost = new FormControlGuide();
+            this.fatalities = new FormControlGuide();
+            this.efRating = new FormControlGuide();
+            this.pathDistance = new FormControlGuide();
+            this.funnelWidth = new FormControlGuide();
+            this.saffirSimpsonRating = new FormControlGuide();
+            this.lowestPressure = new FormControlGuide();
+            this.maxWindSpeed = new FormControlGuide();
+            this.richterMagnitude = new FormControlGuide();
+            this.mercalliIntensity = new FormControlGuide();
+            this.aftershocks = new FormControlGuide();
+            this.fault = new FormControlGuide();
+            this.relatedTsunami = new FormControlGuide();
         }
     }
 
@@ -4825,19 +3971,19 @@ export class WeatherEventStatisticsFormGuide implements IWeatherEventStatisticsF
     **/
     protected init(_data?: any) {
         if (_data) {
-            this.damageCost = _data["damageCost"] ? Int32FormControl.fromJS(_data["damageCost"]) : new Int32FormControl();
-            this.fatalities = _data["fatalities"] ? Int32FormControl.fromJS(_data["fatalities"]) : new Int32FormControl();
-            this.efRating = _data["efRating"] ? Int32FormControl.fromJS(_data["efRating"]) : new Int32FormControl();
-            this.pathDistance = _data["pathDistance"] ? Int32FormControl.fromJS(_data["pathDistance"]) : new Int32FormControl();
-            this.funnelWidth = _data["funnelWidth"] ? Int32FormControl.fromJS(_data["funnelWidth"]) : new Int32FormControl();
-            this.saffirSimpsonRating = _data["saffirSimpsonRating"] ? Int32FormControl.fromJS(_data["saffirSimpsonRating"]) : new Int32FormControl();
-            this.lowestPressure = _data["lowestPressure"] ? Int32FormControl.fromJS(_data["lowestPressure"]) : new Int32FormControl();
-            this.maxWindSpeed = _data["maxWindSpeed"] ? Int32FormControl.fromJS(_data["maxWindSpeed"]) : new Int32FormControl();
-            this.richterMagnitude = _data["richterMagnitude"] ? SingleFormControl.fromJS(_data["richterMagnitude"]) : new SingleFormControl();
-            this.mercalliIntensity = _data["mercalliIntensity"] ? Int32FormControl.fromJS(_data["mercalliIntensity"]) : new Int32FormControl();
-            this.aftershocks = _data["aftershocks"] ? Int32FormControl.fromJS(_data["aftershocks"]) : new Int32FormControl();
-            this.fault = _data["fault"] ? StringFormControl.fromJS(_data["fault"]) : new StringFormControl();
-            this.relatedTsunami = _data["relatedTsunami"] ? BooleanFormControl.fromJS(_data["relatedTsunami"]) : new BooleanFormControl();
+            this.damageCost = _data["damageCost"] ? FormControlGuide.fromJS(_data["damageCost"]) : new FormControlGuide();
+            this.fatalities = _data["fatalities"] ? FormControlGuide.fromJS(_data["fatalities"]) : new FormControlGuide();
+            this.efRating = _data["efRating"] ? FormControlGuide.fromJS(_data["efRating"]) : new FormControlGuide();
+            this.pathDistance = _data["pathDistance"] ? FormControlGuide.fromJS(_data["pathDistance"]) : new FormControlGuide();
+            this.funnelWidth = _data["funnelWidth"] ? FormControlGuide.fromJS(_data["funnelWidth"]) : new FormControlGuide();
+            this.saffirSimpsonRating = _data["saffirSimpsonRating"] ? FormControlGuide.fromJS(_data["saffirSimpsonRating"]) : new FormControlGuide();
+            this.lowestPressure = _data["lowestPressure"] ? FormControlGuide.fromJS(_data["lowestPressure"]) : new FormControlGuide();
+            this.maxWindSpeed = _data["maxWindSpeed"] ? FormControlGuide.fromJS(_data["maxWindSpeed"]) : new FormControlGuide();
+            this.richterMagnitude = _data["richterMagnitude"] ? FormControlGuide.fromJS(_data["richterMagnitude"]) : new FormControlGuide();
+            this.mercalliIntensity = _data["mercalliIntensity"] ? FormControlGuide.fromJS(_data["mercalliIntensity"]) : new FormControlGuide();
+            this.aftershocks = _data["aftershocks"] ? FormControlGuide.fromJS(_data["aftershocks"]) : new FormControlGuide();
+            this.fault = _data["fault"] ? FormControlGuide.fromJS(_data["fault"]) : new FormControlGuide();
+            this.relatedTsunami = _data["relatedTsunami"] ? FormControlGuide.fromJS(_data["relatedTsunami"]) : new FormControlGuide();
         }
     }
 
@@ -4877,19 +4023,19 @@ export class WeatherEventStatisticsFormGuide implements IWeatherEventStatisticsF
 }
 
 export interface IWeatherEventStatisticsFormGuide {
-    damageCost: IInt32FormControl;
-    fatalities: IInt32FormControl;
-    efRating: IInt32FormControl;
-    pathDistance: IInt32FormControl;
-    funnelWidth: IInt32FormControl;
-    saffirSimpsonRating: IInt32FormControl;
-    lowestPressure: IInt32FormControl;
-    maxWindSpeed: IInt32FormControl;
-    richterMagnitude: ISingleFormControl;
-    mercalliIntensity: IInt32FormControl;
-    aftershocks: IInt32FormControl;
-    fault: IStringFormControl;
-    relatedTsunami: IBooleanFormControl;
+    damageCost: IFormControlGuide;
+    fatalities: IFormControlGuide;
+    efRating: IFormControlGuide;
+    pathDistance: IFormControlGuide;
+    funnelWidth: IFormControlGuide;
+    saffirSimpsonRating: IFormControlGuide;
+    lowestPressure: IFormControlGuide;
+    maxWindSpeed: IFormControlGuide;
+    richterMagnitude: IFormControlGuide;
+    mercalliIntensity: IFormControlGuide;
+    aftershocks: IFormControlGuide;
+    fault: IFormControlGuide;
+    relatedTsunami: IFormControlGuide;
 }
 
 export class WeatherExperience implements IWeatherExperience {
@@ -4960,304 +4106,6 @@ export interface IWeatherExperience {
     description: string;
     startTime: Date;
     endTime?: Date | null;
-}
-
-export class WeatherExperienceFormControl implements IWeatherExperienceFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: WeatherExperience;
-    public suppliedValues!: WeatherExperienceFormControlValue[];
-
-    constructor(data?: IWeatherExperienceFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            this.defaultValue = data.defaultValue && !(<any>data.defaultValue).toJSON ? new WeatherExperience(data.defaultValue) : <WeatherExperience>this.defaultValue;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new WeatherExperienceFormControlValue(item) : <WeatherExperienceFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.defaultValue = new WeatherExperience();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new WeatherExperienceFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherExperienceFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] ? WeatherExperience.fromJS(_data["defaultValue"]) : new WeatherExperience();
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(WeatherExperienceFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherExperienceFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherExperienceFormControl.
-    * @returns A deserialized WeatherExperienceFormControl.
-    **/
-    public static fromJS(data: any): WeatherExperienceFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherExperienceFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherExperienceFormControl.
-    * @returns A serialized WeatherExperienceFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue ? this.defaultValue.toJSON() : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IWeatherExperienceFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: IWeatherExperience;
-    suppliedValues: IWeatherExperienceFormControlValue[];
-}
-
-export class WeatherExperienceFormControlValue implements IWeatherExperienceFormControlValue {
-    public name!: string;
-    public value!: WeatherExperience;
-
-    constructor(data?: IWeatherExperienceFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.value = data.value && !(<any>data.value).toJSON ? new WeatherExperience(data.value) : <WeatherExperience>this.value;
-        }
-        if (!data) {
-            this.value = new WeatherExperience();
-        }
-    }
-
-    /**
-    * Initializes a new WeatherExperienceFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherExperienceFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] ? WeatherExperience.fromJS(_data["value"]) : new WeatherExperience();
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherExperienceFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherExperienceFormControlValue.
-    * @returns A deserialized WeatherExperienceFormControlValue.
-    **/
-    public static fromJS(data: any): WeatherExperienceFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherExperienceFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherExperienceFormControlValue.
-    * @returns A serialized WeatherExperienceFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value ? this.value.toJSON() : <any>null;
-        return data;
-    }
-}
-
-export interface IWeatherExperienceFormControlValue {
-    name: string;
-    value: IWeatherExperience;
-}
-
-export class WeatherFormControl implements IWeatherFormControl {
-    public validation!: FormControlValidation;
-    public readOnly!: boolean;
-    public hidden!: boolean;
-    public defaultValue!: Weather;
-    public suppliedValues!: WeatherFormControlValue[];
-
-    constructor(data?: IWeatherFormControl) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.validation = data.validation && !(<any>data.validation).toJSON ? new FormControlValidation(data.validation) : <FormControlValidation>this.validation;
-            this.defaultValue = data.defaultValue && !(<any>data.defaultValue).toJSON ? new Weather(data.defaultValue) : <Weather>this.defaultValue;
-            if (data.suppliedValues) {
-                this.suppliedValues = [];
-                for (let i = 0; i < data.suppliedValues.length; i++) {
-                    let item = data.suppliedValues[i];
-                    this.suppliedValues[i] = item && !(<any>item).toJSON ? new WeatherFormControlValue(item) : <WeatherFormControlValue>item;
-                }
-            }
-        }
-        if (!data) {
-            this.validation = new FormControlValidation();
-            this.defaultValue = new Weather();
-            this.suppliedValues = [];
-        }
-    }
-
-    /**
-    * Initializes a new WeatherFormControl instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherFormControl.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.validation = _data["validation"] ? FormControlValidation.fromJS(_data["validation"]) : new FormControlValidation();
-            this.readOnly = _data["readOnly"] !== undefined ? _data["readOnly"] : <any>null;
-            this.hidden = _data["hidden"] !== undefined ? _data["hidden"] : <any>null;
-            this.defaultValue = _data["defaultValue"] ? Weather.fromJS(_data["defaultValue"]) : new Weather();
-            if (Array.isArray(_data["suppliedValues"])) {
-                this.suppliedValues = [] as any;
-                for (let item of _data["suppliedValues"])
-                    this.suppliedValues!.push(WeatherFormControlValue.fromJS(item));
-            }
-            else {
-                this.suppliedValues = <any>null;
-            }
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherFormControl.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherFormControl.
-    * @returns A deserialized WeatherFormControl.
-    **/
-    public static fromJS(data: any): WeatherFormControl {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherFormControl();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherFormControl.
-    * @returns A serialized WeatherFormControl.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["validation"] = this.validation ? this.validation.toJSON() : <any>null;
-        data["readOnly"] = this.readOnly !== undefined ? this.readOnly : <any>null;
-        data["hidden"] = this.hidden !== undefined ? this.hidden : <any>null;
-        data["defaultValue"] = this.defaultValue ? this.defaultValue.toJSON() : <any>null;
-        if (Array.isArray(this.suppliedValues)) {
-            data["suppliedValues"] = [];
-            for (let item of this.suppliedValues)
-                data["suppliedValues"].push(item.toJSON());
-        }
-        return data;
-    }
-}
-
-export interface IWeatherFormControl {
-    validation: IFormControlValidation;
-    readOnly: boolean;
-    hidden: boolean;
-    defaultValue: IWeather;
-    suppliedValues: IWeatherFormControlValue[];
-}
-
-export class WeatherFormControlValue implements IWeatherFormControlValue {
-    public name!: string;
-    public value!: Weather;
-
-    constructor(data?: IWeatherFormControlValue) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-            this.value = data.value && !(<any>data.value).toJSON ? new Weather(data.value) : <Weather>this.value;
-        }
-        if (!data) {
-            this.value = new Weather();
-        }
-    }
-
-    /**
-    * Initializes a new WeatherFormControlValue instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new WeatherFormControlValue.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.name = _data["name"] !== undefined ? _data["name"] : <any>null;
-            this.value = _data["value"] ? Weather.fromJS(_data["value"]) : new Weather();
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this WeatherFormControlValue.
-    * @param data Any object that holds the necessary properties to initialize a new WeatherFormControlValue.
-    * @returns A deserialized WeatherFormControlValue.
-    **/
-    public static fromJS(data: any): WeatherFormControlValue {
-        data = typeof data === 'object' ? data : {};
-        let result = new WeatherFormControlValue();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this WeatherFormControlValue.
-    * @returns A serialized WeatherFormControlValue.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name !== undefined ? this.name : <any>null;
-        data["value"] = this.value ? this.value.toJSON() : <any>null;
-        return data;
-    }
-}
-
-export interface IWeatherFormControlValue {
-    name: string;
-    value: IWeather;
 }
 
 export class SkylightApiException extends Error {

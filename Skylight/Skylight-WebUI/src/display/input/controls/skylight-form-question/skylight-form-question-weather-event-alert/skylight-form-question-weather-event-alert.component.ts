@@ -4,6 +4,7 @@ import { FormArray, FormControl } from '@angular/forms';
 import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { IWeatherEventAlert } from 'display/input/models';
 import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models';
+import { WeatherEventAlertFormGuide } from 'web/models';
 
 /**
  * Form Field group for the Weather Event Alert model.
@@ -14,6 +15,6 @@ import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models
   templateUrl: './skylight-form-question-weather-event-alert.component.html',
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-alert.component.scss']
 })
-export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightFormQuestionContainerComponent<IWeatherEventAlert> {  
+export class SkylightFormQuestionWeatherEventAlertComponent extends SkylightFormQuestionContainerComponent<IWeatherEventAlert, WeatherEventAlertFormGuide> {  
 
 }

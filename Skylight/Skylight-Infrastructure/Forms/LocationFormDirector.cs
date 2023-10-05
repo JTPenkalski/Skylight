@@ -23,13 +23,13 @@ namespace Skylight.Forms
                 }
             );
 
-        protected virtual FormControl<string> GetCityFormGuide(Location model) =>
+        protected virtual FormControlGuide<string> GetCityFormGuide(Location model) =>
             new()
             {
                 Validation = FormControlValidators.Required
             };
 
-        protected virtual FormControl<string> GetCountryFormGuide(Location model) =>
+        protected virtual FormControlGuide<string> GetCountryFormGuide(Location model) =>
             new()
             {
                 Validation = FormControlValidators.Required

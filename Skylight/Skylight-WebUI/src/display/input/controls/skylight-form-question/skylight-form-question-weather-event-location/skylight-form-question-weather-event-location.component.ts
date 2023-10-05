@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { IWeatherEventLocation } from 'display/input/models';
+import { WeatherEventLocationFormGuide } from 'web/models';
 
 /**
  * Form Field group for the Location model.
@@ -12,6 +13,6 @@ import { IWeatherEventLocation } from 'display/input/models';
   templateUrl: './skylight-form-question-weather-event-location.component.html',
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-weather-event-location.component.scss']
 })
-export class SkylightFormQuestionWeatherEventLocationComponent extends SkylightFormQuestionContainerComponent<IWeatherEventLocation> {
+export class SkylightFormQuestionWeatherEventLocationComponent extends SkylightFormQuestionContainerComponent<IWeatherEventLocation, WeatherEventLocationFormGuide> {
 
 }

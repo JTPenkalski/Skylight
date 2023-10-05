@@ -8,8 +8,8 @@ namespace Skylight.Forms
     public enum FormGuideContextKey
     {
         /// <summary>
-        /// Indicates that an <see cref="IEnumerable{T}"/> of <see cref="FormControl{T}"/> instances
-        /// is only represented by a single <see cref="FormControl{T}"/> on the UI, for simplicity.
+        /// Indicates that an <see cref="IEnumerable{T}"/> of <see cref="FormControlGuide{T}"/> instances
+        /// is only represented by a single <see cref="FormControlGuide{T}"/> on the UI, for simplicity.
         /// For example, an HTML select element with multi-select enabled.
         /// </summary>
         /// <remarks>

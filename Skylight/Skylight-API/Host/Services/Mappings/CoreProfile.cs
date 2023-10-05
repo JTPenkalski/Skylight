@@ -30,6 +30,10 @@ namespace Skylight.Host.Mappings
             {
                 CreateMap(typeMapping.Web, typeMapping.Core);
                 CreateMap(typeMapping.Core, typeMapping.Web);
+
+                // When converting Core model properties to object properties within a Web model,
+                // convert them to Web models and store them in the object properties
+                CreateMap(typeMapping.Core, typeof(object)).As(typeMapping.Web);
             }
         }
 
@@ -39,7 +43,7 @@ namespace Skylight.Host.Mappings
         /// <remarks>
         /// Does not map <see cref="Forms.FormControlValidation"/> or its components, since those are already designed to be exposed on the API.
         /// <br/>
-        /// <see cref="Forms.FormGuide"/> and <see cref="Forms.FormControl{T}"/> types are still mapped, since they use internal data models.
+        /// <see cref="Forms.FormGuide"/> and <see cref="Forms.FormControlGuide{T}"/> types are still mapped, since they use internal data models.
         /// </remarks>
         private void MapFormModels()
         {
@@ -53,9 +57,12 @@ namespace Skylight.Host.Mappings
                 CreateMap(typeMapping.Core, typeMapping.Web);
             }
 
+            // Context: Web -> Core
             CreateMap<FormGuideContext, Forms.FormGuideContext>();
-            CreateMap(typeof(FormControl<>), typeof(Forms.FormControl<>));
-            CreateMap(typeof(FormControlValue<>), typeof(Forms.FormControlValue<>));
+
+            // Control Guides: Core -> Web
+            CreateMap(typeof(Forms.FormControlGuide<>), typeof(FormControlGuide));
+            CreateMap(typeof(Forms.FormControlValue<>), typeof(FormControlValue));
         }
     }
 }

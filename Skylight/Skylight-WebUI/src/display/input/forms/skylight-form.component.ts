@@ -13,6 +13,7 @@ export abstract class SkylightFormComponent<TModel extends IBaseCoreModel, TForm
   @Input() public model!: TModel;
 
   public form!: FormGroup<TFormModel>;
+  public guide?: TFormGuide;
 
   constructor(
     protected readonly formBuilder: FormBuilder,

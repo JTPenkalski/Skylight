@@ -6,42 +6,42 @@ namespace Skylight.WebModels.Forms
     public class WeatherEventStatisticsFormGuide : FormGuide
     {
         [Required]
-        public required FormControl<int> DamageCost { get; init; }
+        public required FormControlGuide DamageCost { get; init; }
         
         [Required]
-        public required FormControl<int> Fatalities { get; init; }
+        public required FormControlGuide Fatalities { get; init; }
         
         [Required]
-        public required FormControl<int> EFRating { get; init; }
+        public required FormControlGuide EFRating { get; init; }
         
         [Required]
-        public required FormControl<int> PathDistance { get; init; }
+        public required FormControlGuide PathDistance { get; init; }
         
         [Required]
-        public required FormControl<int> FunnelWidth { get; init; }
+        public required FormControlGuide FunnelWidth { get; init; }
         
         [Required]
-        public required FormControl<int> SaffirSimpsonRating { get; init; }
+        public required FormControlGuide SaffirSimpsonRating { get; init; }
         
         [Required]
-        public required FormControl<int> LowestPressure { get; init; }
+        public required FormControlGuide LowestPressure { get; init; }
         
         [Required]
-        public required FormControl<int> MaxWindSpeed { get; init; }
+        public required FormControlGuide MaxWindSpeed { get; init; }
         
         [Required]
-        public required FormControl<float> RichterMagnitude { get; init; }
+        public required FormControlGuide RichterMagnitude { get; init; }
         
         [Required]
-        public required FormControl<int> MercalliIntensity { get; init; }
+        public required FormControlGuide MercalliIntensity { get; init; }
         
         [Required]
-        public required FormControl<int> Aftershocks { get; init; }
+        public required FormControlGuide Aftershocks { get; init; }
         
         [Required]
-        public required FormControl<string> Fault { get; init; }
+        public required FormControlGuide Fault { get; init; }
         
         [Required]
-        public required FormControl<bool> RelatedTsunami { get; init; }
+        public required FormControlGuide RelatedTsunami { get; init; }
     }
 }

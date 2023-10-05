@@ -1,7 +1,17 @@
 <div class="question flex-column" [formGroup]="group">
   <div class="flex-row">
-    <skylight-form-question-input class="flex-item" label="City" [control]="group.controls.city"></skylight-form-question-input>
+    <skylight-form-question-input
+      class="flex-item"
+      label="City"
+      [guide]="guide?.city"
+      [control]="group.controls.city">
+    </skylight-form-question-input>
 
-    <skylight-form-question-input class="flex-item" label="Country" [control]="group.controls.country"></skylight-form-question-input>
+    <skylight-form-question-input
+      class="flex-item"
+      label="Country"
+      [guide]="guide?.country"
+      [control]="group.controls.country">
+    </skylight-form-question-input>
   </div>
 </div>

@@ -37,36 +37,37 @@ namespace Skylight.Forms.Directors
                 Statistics = await GetWeatherEventStatisticsGuides(model)
             };
 
-        protected virtual FormControl<string> GetNameFormGuide(WeatherEvent model) =>
+        protected virtual FormControlGuide<string> GetNameFormGuide(WeatherEvent model) =>
             new()
             {
                 Validation = FormControlValidators.Required
             };
 
-        protected virtual async Task<FormControl<WeatherExperience>> GetExperienceFormGuide(WeatherEvent model) =>
+        protected virtual async Task<FormControlGuide<WeatherExperience>> GetExperienceFormGuide(WeatherEvent model) =>
             new()
             {
                 Validation = FormControlValidators.Required,
                 SuppliedValues = await GetValuesFromRepository(unitOfWork.WeatherExperiences, x => x.Name) // new List<SelectFormControlData.Option> { new("Test", 1) } 
             };
 
-        protected virtual async Task<FormControl<Weather>> GetWeatherFormGuide(WeatherEvent model) =>
+        protected virtual async Task<FormControlGuide<Weather>> GetWeatherFormGuide(WeatherEvent model) =>
             new()
             {
                 Validation = FormControlValidators.Required,
                 SuppliedValues = await GetValuesFromRepository(unitOfWork.Weather, x => x.Name)
             };
 
-        protected virtual FormControl<DateTimeOffset> GetStartDateFormGuide(WeatherEvent model) =>
+        protected virtual FormControlGuide<DateTimeOffset> GetStartDateFormGuide(WeatherEvent model) =>
             new()
             {
+                DefaultValue = DateTimeOffset.UtcNow,
                 Validation = FormControlValidators.Required
             };
 
-        protected virtual FormControl<DateTimeOffset> GetEndDateFormGuide(WeatherEvent model) =>
+        protected virtual FormControlGuide<DateTimeOffset?> GetEndDateFormGuide(WeatherEvent model) =>
             new()
             {
-                Validation = new FormControlValidation
+                Validation = new()
                 {
                     DateTimeValidation = new()
                     {
@@ -75,7 +76,7 @@ namespace Skylight.Forms.Directors
                 }
             };
 
-        protected virtual FormControl<string> GetDescriptionFormGuide(WeatherEvent model) =>
+        protected virtual FormControlGuide<string?> GetDescriptionFormGuide(WeatherEvent model) =>
             new()
             {
                 Validation = FormControlValidators.Default
@@ -90,7 +91,7 @@ namespace Skylight.Forms.Directors
                 },
                 EndTime = new()
                 {
-                    Validation = new FormControlValidation
+                    Validation = new()
                     {
                         DateTimeValidation = new()
                         {
@@ -119,7 +120,7 @@ namespace Skylight.Forms.Directors
                 {
                     Validation = FormControlValidators.Required
                 },
-                Modifiers = alert.Modifiers.Select(modifier => new FormControl<WeatherAlertModifier>()
+                Modifiers = alert.Modifiers.Select(modifier => new FormControlGuide<WeatherAlertModifier>()
                 {
                     Validation = FormControlValidators.Required,
                     SuppliedValues = alertModifierOptions
@@ -127,8 +128,13 @@ namespace Skylight.Forms.Directors
             });
         }
 
-        protected virtual async Task<WeatherEventStatisticsFormGuide> GetWeatherEventStatisticsGuides(WeatherEvent model) =>
-            new WeatherEventStatisticsFormGuide
+        protected virtual async Task<WeatherEventStatisticsFormGuide> GetWeatherEventStatisticsGuides(WeatherEvent model)
+        {
+            bool isTornado = model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Tornado"));
+            bool isHurricane = model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Hurricane"));
+            bool isEarthquake = model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Earthquake"));
+
+            return new WeatherEventStatisticsFormGuide
             {
                 DamageCost = new()
                 {
@@ -140,9 +146,10 @@ namespace Skylight.Forms.Directors
                 },
                 EFRating = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Tornado")),
+                    ReadOnly = !isTornado,
+                    Hidden = !isTornado,
                     Validation = FormControlValidators.Default,
-                    SuppliedValues = new List<FormControlValue<int>>
+                    SuppliedValues = new List<FormControlValue<int?>>
                     {
                         new("EF-U", -1),
                         new("EF-0", 0),
@@ -155,19 +162,22 @@ namespace Skylight.Forms.Directors
                 },
                 PathDistance = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Tornado")),
+                    ReadOnly = !isTornado,
+                    Hidden = !isTornado,
                     Validation = FormControlValidators.Integer
                 },
                 FunnelWidth = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Tornado")),
+                    ReadOnly = !isTornado,
+                    Hidden = !isTornado,
                     Validation = FormControlValidators.Integer
                 },
                 SaffirSimpsonRating = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Hurricane")),
+                    ReadOnly = !isHurricane,
+                    Hidden = !isHurricane,
                     Validation = FormControlValidators.Default,
-                    SuppliedValues = new List<FormControlValue<int>>
+                    SuppliedValues = new List<FormControlValue<int?>>
                     {
                         new("Category 1", 1),
                         new("Category 2", 2),
@@ -178,29 +188,34 @@ namespace Skylight.Forms.Directors
                 },
                 LowestPressure = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Hurricane")),
+                    ReadOnly = !isHurricane,
+                    Hidden = !isHurricane,
                     Validation = FormControlValidators.Numeric
                 },
                 MaxWindSpeed = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Hurricane")),
+                    ReadOnly = !isHurricane,
+                    Hidden = !isHurricane,
                     Validation = FormControlValidators.Integer
                 },
                 RichterMagnitude = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Hurricane")),
+                    ReadOnly = !isEarthquake,
+                    Hidden = !isEarthquake,
                     Validation = FormControlValidators.Numeric
                 },
                 MercalliIntensity = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Earthquake")),
+                    ReadOnly = !isEarthquake,
+                    Hidden = !isEarthquake,
                     Validation = FormControlValidators.Numeric
                 },
                 Aftershocks = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Earthquake")),
+                    ReadOnly = !isEarthquake,
+                    Hidden = !isEarthquake,
                     Validation = FormControlValidators.Default,
-                    SuppliedValues = new List<FormControlValue<int>>
+                    SuppliedValues = new List<FormControlValue<int?>>
                     {
                         new("I - Not Felt", 1),
                         new("II - Weak", 2),
@@ -216,14 +231,17 @@ namespace Skylight.Forms.Directors
                 },
                 Fault = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Earthquake")),
+                    ReadOnly = !isEarthquake,
+                    Hidden = !isEarthquake,
                     Validation = FormControlValidators.Integer
                 },
                 RelatedTsunami = new()
                 {
-                    ReadOnly = !model.Weather.Id.OneOf(await unitOfWork.Weather.GetWeatherIdByName("Earthquake")),
+                    ReadOnly = !isEarthquake,
+                    Hidden = !isEarthquake,
                     Validation = FormControlValidators.Default
                 }
             };
+        }
     }
 }

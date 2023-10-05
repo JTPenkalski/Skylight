@@ -3,12 +3,12 @@
 namespace Skylight.WebModels.Forms
 {
     /// <inheritdoc cref="Skylight.Forms.FormControlValue{T}"/>
-    public class FormControlValue<T>
+    public class FormControlValue
     {
         [Required]
         public required string Name { get; init; }
 
         [Required]
-        public required T Value { get; init; }
+        public required object Value { get; init; }
     }
 }

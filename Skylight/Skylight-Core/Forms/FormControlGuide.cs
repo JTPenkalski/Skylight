@@ -6,7 +6,7 @@ namespace Skylight.Forms
     /// Base container for metadata that dictates how a specific UI control should function.
     /// Used within a <see cref="FormGuide"/>.
     /// </summary>
-    public class FormControl<T>
+    public class FormControlGuide<T>
     {
         /// <summary>
         /// The necessary validators to use when submitting a form request.

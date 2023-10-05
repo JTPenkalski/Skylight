@@ -1,3 +1,8 @@
 <div class="question">
-  <mat-checkbox [formControl]="control" (change)="requestFormGuide()">{{label}}</mat-checkbox>
+  <mat-checkbox
+    *ngIf="!guide?.hidden"
+    [formControl]="control"
+    (change)="requestFormGuide()">
+    {{label}}
+  </mat-checkbox>
 </div>

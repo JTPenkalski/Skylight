@@ -33,7 +33,7 @@ namespace Skylight.Forms.Directors
         public abstract Task<TFormGuide> GetGuideAsync(TModel model, FormGuideContext context);
 
         /// <summary>
-        /// Reads all values from an <see cref="IRepository{T}"/> to use for <see cref="FormControl{T}.SuppliedValues"/>.
+        /// Reads all values from an <see cref="IRepository{T}"/> to use for <see cref="FormControlGuide{T}.SuppliedValues"/>.
         /// </summary>
         /// <param name="repository">The <see cref="IRepository{T}"/> to query.</param>
         /// <param name="nameFunc">The function to use when determining each <see cref="FormControlValue{T}.Name"/>.</param>
