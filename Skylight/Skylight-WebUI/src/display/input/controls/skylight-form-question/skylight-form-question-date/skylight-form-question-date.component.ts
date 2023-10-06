@@ -9,5 +9,9 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
   providers: [{ provide: SkylightFormQuestionComponent, useExisting: SkylightFormQuestionDateComponent }]
 })
 export class SkylightFormQuestionDateComponent extends SkylightFormQuestionComponent {
-
+  protected override implementGuide(): void {
+    if (this.guide?.defaultValue) {
+      this.control.setValue(new Date(this.guide?.defaultValue));
+    }
+  }
 }

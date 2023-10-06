@@ -14,11 +14,8 @@ import { BehaviorSubject } from 'rxjs';
 @Directive()
 export abstract class SkylightFormQuestionComponent implements OnInit, ISkylightFormComponent {
   @Input() public label: string = '';
+  @Input() public guide?: FormControlGuide;
   @Input({ required: true }) public control!: FormControl;
-
-  @Input() public set guide(value: FormControlGuide | undefined) { this.guideBehavior?.next(value); }
-  public get guide(): FormControlGuide | undefined { return this.guideBehavior?.getValue(); }
-  protected readonly guideBehavior: BehaviorSubject<FormControlGuide | undefined> = new BehaviorSubject<FormControlGuide | undefined>(undefined);
 
   @Output() public formGuideRequested: EventEmitter<undefined> = new EventEmitter<undefined>();
 
@@ -33,7 +30,7 @@ export abstract class SkylightFormQuestionComponent implements OnInit, ISkylight
   ) { }
 
   public ngOnInit(): void {
-    this.guideBehavior.subscribe(newGuide => this.implementGuide(newGuide));
+    this.implementGuide();
   }
 
   public requestFormGuide(): void {
@@ -41,7 +38,7 @@ export abstract class SkylightFormQuestionComponent implements OnInit, ISkylight
   }
 
   /**
-   * Prevents "mouse down" events from propagating to cdkDrag handlers when moused over controls.
+   * Prevents 'mouse down' events from propagating to cdkDrag handlers when moused over controls.
    * @param event The DOM event triggered for this element.
    */
   public blockDrag(event: Event): void {
@@ -52,9 +49,14 @@ export abstract class SkylightFormQuestionComponent implements OnInit, ISkylight
    * This function is executed when a new guide value is detected, as set up in ngOnInit().
    * Override this in subclasses to extend its behavior.
    * Remember to call this version to get all base features, if overriding.
-   * @param guide The guide to set up this control with.
    */
-  protected implementGuide(guide?: FormControlGuide): void {
-    this.control.setValue(guide?.defaultValue)
+  protected implementGuide(): void {
+    if (this.guide?.defaultValue) {
+      this.control.setValue(this.guide?.defaultValue);
+    }
+
+    if (this.guide?.readOnly) {
+      this.control.disable();
+    }
   }
 }

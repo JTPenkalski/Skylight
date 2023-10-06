@@ -37,11 +37,11 @@ export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionCom
     }
   }
 
-  protected override implementGuide(guide?: FormControlGuide): void {
-    super.implementGuide(guide);
+  protected override implementGuide(): void {
+    super.implementGuide();
 
-    if (guide?.readOnly) {
-      this.control.disable();
+    if (this.guide?.suppliedValues) {
+      this.options = this.guide.suppliedValues;
     }
   }
 

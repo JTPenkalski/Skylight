@@ -1,26 +1,28 @@
-<div class="question flex-column" [formGroup]="group">
-  <div class="flex-row">
-    <skylight-form-question-date 
-      class="flex-item" 
-      label="Start Time"
-      [guide]="guide?.startTime" 
-      [control]="group.controls.startTime">
-    </skylight-form-question-date>
-
-    <skylight-form-question-date 
-      class="flex-item"
-      label="End Time"
-      [guide]="guide?.endTime" 
-      [control]="group.controls.endTime">
-    </skylight-form-question-date>
+<ng-container *ngIf="guide">
+  <div class="question flex-column" [formGroup]="group">
+    <div class="flex-row">
+      <skylight-form-question-date 
+        class="flex-item" 
+        label="Start Time"
+        [guide]="guide.startTime" 
+        [control]="group.controls.startTime">
+      </skylight-form-question-date>
+  
+      <skylight-form-question-date 
+        class="flex-item"
+        label="End Time"
+        [guide]="guide.endTime" 
+        [control]="group.controls.endTime">
+      </skylight-form-question-date>
+    </div>
+  
+    <div class="flex-row">
+      <skylight-form-question-location 
+        class="flex-item" 
+        label="Location"
+        [guide]="guide.location" 
+        [group]="group.controls.location">
+      </skylight-form-question-location>
+    </div>
   </div>
-
-  <div class="flex-row">
-    <skylight-form-question-location 
-      class="flex-item" 
-      label="Location"
-      [guide]="guide?.location" 
-      [group]="group.controls.location">
-    </skylight-form-question-location>
-  </div>
-</div>
+</ng-container>

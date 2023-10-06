@@ -40,27 +40,29 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
   }
 
   public override requestGuide(): void {
-    console.log('RAW:');
-    console.log(this.form.getRawValue());
-    this.service.getFormGuide(new WeatherEventCoreModel(this.form.getRawValue())).subscribe(x => {
-      console.log(x);
-      this.guide = x;
+    this.service.getFormGuide(new WeatherEventCoreModel(this.form.getRawValue())).subscribe(guide => {
+      this.guide = guide;
+      console.log(guide);
     });
   }
 
   public addWeatherEventAlert(): void {
     this.form.controls.alerts.push(new FormGroup<IWeatherEventAlert>(new WeatherEventAlert(this.formBuilder)));
+    this.requestGuide();
   }
 
   public removeWeatherEventAlert(index: number): void {
     this.form.controls.alerts.removeAt(index);
+    this.requestGuide();
   }
 
   public addWeatherEventLocation(): void {
     this.form.controls.locations.push(new FormGroup<IWeatherEventLocation>(new WeatherEventLocation(this.formBuilder)));
+    this.requestGuide();
   }
 
   public removeWeatherEventLocation(index: number): void {
     this.form.controls.locations.removeAt(index);
+    this.requestGuide();
   }
 }

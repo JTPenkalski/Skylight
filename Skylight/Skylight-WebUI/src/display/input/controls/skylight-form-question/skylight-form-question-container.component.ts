@@ -6,20 +6,17 @@ import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentat
 import { ErrorFormatterService } from 'display/input/services';
 import { IBaseModel } from 'display/input/models';
 import { SkylightFormQuestionComponent } from './skylight-form-question.component';
-import { BehaviorSubject } from 'rxjs';
 
 /**
  * Base Form Group for multiple Form Question controls.
  * @requires [group]: The FormGroup this component is linked to.
+ * @requires [guide]: The FormGuide this component validates from.
  **/
 @Directive()
 export abstract class SkylightFormQuestionContainerComponent<TFormModel extends IBaseModel, TFormGuide> implements ISkylightFormComponent, AfterViewInit {
   @Input() public label: string = '';
+  @Input({ required: true }) public guide!: TFormGuide;
   @Input({ required: true }) public group!: FormGroup<TFormModel>;
-
-  @Input() public set guide(value: TFormGuide | undefined) { this.guideBehavior?.next(value); }
-  public get guide(): TFormGuide | undefined { return this.guideBehavior?.getValue(); }
-  protected readonly guideBehavior: BehaviorSubject<TFormGuide | undefined> = new BehaviorSubject<TFormGuide | undefined>(undefined);
 
   @Output() public formGuideRequested: EventEmitter<undefined> = new EventEmitter<undefined>();
   

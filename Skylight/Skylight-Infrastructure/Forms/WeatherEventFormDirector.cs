@@ -40,6 +40,7 @@ namespace Skylight.Forms.Directors
         protected virtual FormControlGuide<string> GetNameFormGuide(WeatherEvent model) =>
             new()
             {
+                DefaultValue = "My Event",
                 Validation = FormControlValidators.Required
             };
 
@@ -87,10 +88,12 @@ namespace Skylight.Forms.Directors
             {
                 StartTime = new()
                 {
+                    DefaultValue = DateTimeOffset.UtcNow,
                     Validation = FormControlValidators.Required
                 },
                 EndTime = new()
                 {
+                    DefaultValue = DateTimeOffset.UtcNow,
                     Validation = new()
                     {
                         DateTimeValidation = new()
@@ -118,6 +121,7 @@ namespace Skylight.Forms.Directors
                 },
                 IssuanceTime = new()
                 {
+                    DefaultValue = DateTimeOffset.UtcNow,
                     Validation = FormControlValidators.Required
                 },
                 Modifiers = alert.Modifiers.Select(modifier => new FormControlGuide<WeatherAlertModifier>()
@@ -125,7 +129,7 @@ namespace Skylight.Forms.Directors
                     Validation = FormControlValidators.Required,
                     SuppliedValues = alertModifierOptions
                 })
-            });
+            }).ToList();
         }
 
         protected virtual async Task<WeatherEventStatisticsFormGuide> GetWeatherEventStatisticsGuides(WeatherEvent model)
