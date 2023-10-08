@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Skylight.Contexts.Initializers;
 using Skylight.Controllers;
-using Skylight.Contexts;
 using Skylight.Host.Services.ConfigureOptions;
 using System.Text.Json.Serialization;
 using System.Reflection;
@@ -26,7 +25,7 @@ namespace Skylight
         {
             // Create the Web Application Builder
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-            System.Console.WriteLine(System.AppDomain.CurrentDomain.GetAssemblies());
+
             // Add Logging
             builder.Logging
                 .ClearProviders()
@@ -41,9 +40,8 @@ namespace Skylight
 
             // Add Configuration
             builder.Services
-                .AddOptions<DatabaseOptions>()
-                .Bind(builder.Configuration.GetSection(DatabaseOptions.RootKey))
-                .ValidateDataAnnotations();
+                .AddOptions()
+                .Configure<DatabaseOptions>(builder.Configuration.GetSection(DatabaseOptions.RootKey));
 
             // Add MVC Services
             builder.Services
@@ -75,7 +73,7 @@ namespace Skylight
                 .AddAutoMapper(Assembly.GetEntryAssembly())
                 .AddInfrastructureServices()
                 .AddDataServices()
-                .AddDatabase(builder.Configuration.GetConnectionString("SQL_Server"));
+                .AddDatabase(builder.Configuration.GetConnectionString("Default"));
 
             // Configure Services
             builder.Services
@@ -115,7 +113,7 @@ namespace Skylight
                     }
                 });
 
-                if (app.Configuration.Get<DatabaseOptions>()?.UseCreateAndDropMigrations ?? false)
+                if (app.Configuration.GetSection(DatabaseOptions.RootKey).Get<DatabaseOptions>()?.UseCreateAndDropMigrations ?? false)
                 {
                     using (IServiceScope scope = app.Services.CreateScope())
                     {

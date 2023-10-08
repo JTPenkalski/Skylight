@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { ILocation } from 'display/input/models';
+import { LocationFormGuide } from 'web/models';
 
 /**
  * Form Field group for the Location model.
@@ -12,6 +13,6 @@ import { ILocation } from 'display/input/models';
   templateUrl: './skylight-form-question-location.component.html',
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-location.component.scss']
 })
-export class SkylightFormQuestionLocationComponent extends SkylightFormQuestionContainerComponent<ILocation> {
+export class SkylightFormQuestionLocationComponent extends SkylightFormQuestionContainerComponent<ILocation, LocationFormGuide> {
 
 }

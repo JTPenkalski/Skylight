@@ -58,8 +58,8 @@
 	list-style: none;
 
   a {
-    font-size: max(min(3vw, 20pt), 14pt);
-    padding: 8px 16px;
+    font-size: theme.$h3-size;
+    padding: 1.5rem 0;
     text-align: left;
     width: 100%;
   }

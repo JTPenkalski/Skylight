@@ -1,16 +1,19 @@
 import { Observable } from 'rxjs';
+import { FormGuideContext } from 'web/models';
 
 /**
  * Base service for interacting with Web API Clients.
  **/
-export interface IService<T> {
-  add(model: T): Observable<T | null>;
+export interface IService<TModel, TFormGuide = undefined> {
+  add(model: TModel): Observable<TModel | null>;
 
-  get(id: number): Observable<T>;
+  get(id: number): Observable<TModel>;
 
-  getAll(): Observable<T[]>;
+  getAll(): Observable<TModel[]>;
 
-  modify(id: number, model: T): Observable<boolean>;
+  getFormGuide(model: TModel, context?: FormGuideContext) : Observable<TFormGuide>;
+
+  modify(id: number, model: TModel): Observable<boolean>;
 
   remove(id: number): Observable<boolean>;
 }

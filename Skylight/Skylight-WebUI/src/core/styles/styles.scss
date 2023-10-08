@@ -25,11 +25,10 @@ body {
   display: flex;
   gap: 8px;
   flex-direction: row;
+}
 
-  & > * {
-    flex-grow: 1;
-    width: 100%;
-  }
+.flex-item {
+  flex: 1 1 100% !important;
 }
 
 .no-gap {
@@ -37,25 +36,25 @@ body {
 }
 
 .horizontal-spacer {
-  flex: 1 1 auto;
+  flex: 1 1 100%;
 }
 
 // Headings
 h1 {
   color: theme.color('accent', 800);
-  font-size: max(min(5vw, 36pt), 20pt) !important;
-  font-weight: bold !important;
+  font-size: theme.$h1-size !important;
 }
 
 h2 {
   color: theme.color('accent', 800);
-  font-size: max(min(4vw, 28pt), 18pt) !important;
+  font-size: theme.$h2-size !important;
 }
 
 h3 {
   color: theme.color('accent', 800);
-  font-size: max(min(3vw, 20pt), 14pt) !important;
-  text-decoration: underline !important;
+  font-size: theme.$h3-size !important;
+  font-variant: small-caps;
+  margin: 0px !important;
 }
 
 // Icons/Icon Buttons

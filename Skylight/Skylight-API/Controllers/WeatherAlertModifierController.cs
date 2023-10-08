@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Services;
+using Skylight.WebModels.Models;
 
 namespace Skylight.Controllers
 {
@@ -12,9 +13,9 @@ namespace Skylight.Controllers
     /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherAlertModifierController : BaseController<Models.WeatherAlertModifier, WebModels.WeatherAlertModifier>
+    public class WeatherAlertModifierController : BaseController<Models.WeatherAlertModifier, WeatherAlertModifier>
     {
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger, IMapper, IService{TModel})"/>
+        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger{BaseController{TModel, TWebModel}}, IMapper, IService{TModel})"/>
         public WeatherAlertModifierController(
             IConfiguration config,
             ILogger<WeatherAlertModifierController> logger,

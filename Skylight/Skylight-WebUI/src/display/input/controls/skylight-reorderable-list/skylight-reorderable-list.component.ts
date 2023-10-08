@@ -16,7 +16,7 @@ import { SkylightReorderableListItemDirective } from './skylight-reorderable-lis
   styleUrls: ['./skylight-reorderable-list.component.scss']
 })
 export class SkylightReorderableListComponent {
-  @Input() public array!: FormArray;
+  @Input({ required: true }) public array!: FormArray;
 
   @Output() public itemAdded: EventEmitter<undefined> = new EventEmitter<undefined>();
   @Output() public itemRemoved: EventEmitter<number> = new EventEmitter<number>();
