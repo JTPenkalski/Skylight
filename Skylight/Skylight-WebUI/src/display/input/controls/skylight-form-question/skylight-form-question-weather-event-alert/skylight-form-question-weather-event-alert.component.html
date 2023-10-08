@@ -1,21 +1,29 @@
-<div class="question flex-column" [formGroup]="group">
-  <div class="flex-row">
-    <skylight-form-question-select label="Alert" optionsEndpoint="WeatherAlert" [control]="group.controls.alert"></skylight-form-question-select>
-
-    <skylight-form-question-date label="Issuance Time" [control]="group.controls.issuanceTime"></skylight-form-question-date>
-  </div>
-
-  <skylight-reorderable-list
-    formArrayName="modifiers"
-    [array]="group.controls.modifiers"
-    (itemAdded)="addWeatherAlertModifier()"
-    (itemRemoved)="removeWeatherAlertModifier($event)">
-    <ng-template reorderableListItem let-item="item" let-index="index">
+<ng-container *ngIf="guide">
+  <div class="question flex-column" [formGroup]="group">
+    <div class="flex-row">
       <skylight-form-question-select
-        label="Modifier {{index}}"
-        optionsEndpoint="WeatherAlertModifier"
-        [control]="modifiers.at(index)">
+        class="flex-item"
+        label="Alert"
+        [guide]="guide.alert"
+        [control]="group.controls.alert">
       </skylight-form-question-select>
-    </ng-template>
-  </skylight-reorderable-list>
-</div>
+  
+      <skylight-form-question-date
+        class="flex-item"
+        label="Issuance Time"
+        [guide]="guide.issuanceTime"
+        [control]="group.controls.issuanceTime">
+      </skylight-form-question-date>
+    </div>
+  
+    <div class="flex-row">
+      <skylight-form-question-select
+        class="flex-item"
+        label="Modifiers"
+        [multiple]="true"
+        [guide]="guide.modifiers[0]"
+        [control]="group.controls.modifiers">
+      </skylight-form-question-select>
+    </div>
+  </div>
+</ng-container>

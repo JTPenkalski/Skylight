@@ -4,11 +4,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 export type FormQuestionConfiguration = {
   appearance: MatFormFieldAppearance,
-  color: ThemePalette,
-  validation: {
-    required: string,
-    zipCode: string
-  }
+  color: ThemePalette
 };
 
 // TOKEN
@@ -17,11 +13,7 @@ export const FORM_QUESTION_CONFIG_TOKEN = new InjectionToken<FormQuestionConfigu
 // SERVICE
 export const FORM_QUESTION_CONFIG: FormQuestionConfiguration = {
   appearance: 'fill',
-  color: 'accent',
-  validation: {
-    required: '{name} is a required field.',
-    zipCode: '{name} must be a zip code with exactly 5 digits.'
-  }
+  color: 'accent'
 }
 
 // PROVIDER

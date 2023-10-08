@@ -7,14 +7,12 @@ export interface ILocation extends ILocationWebModel, IBaseModel {
 
 export class Location extends BaseModel implements ILocation {
   public city: string;
-  public zipCode: string;
   public country: string;
 
   constructor(data?: ILocation) {
     super(data);
     
     this.city = this.str(data?.city);
-    this.zipCode = this.str(data?.zipCode);
     this.country = this.str(data?.country);
   }
 }

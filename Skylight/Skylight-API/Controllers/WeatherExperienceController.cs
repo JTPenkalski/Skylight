@@ -4,17 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Services;
+using Skylight.WebModels.Models;
 
 namespace Skylight.Controllers
 {
     /// <summary>
-    /// Web API Controller for manipulating <see cref="WebModels.WeatherExperience"/> models.
+    /// Web API Controller for manipulating <see cref="WebModels.Models.WeatherExperience"/> models.
     /// </summary>
     [ApiController]
     [ApiVersion(Version.VERSION)]
-    public class WeatherExperienceController : BaseController<Models.WeatherExperience, WebModels.WeatherExperience>
+    public class WeatherExperienceController : BaseController<Models.WeatherExperience, WeatherExperience>
     {
-        /// <inheritdoc cref="BaseController{Models.WeatherExperience, WebModels.WeatherExperience}.BaseController(IConfiguration, ILogger, IMapper, IService{Models.WeatherExperience})"/>
+        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger{BaseController{TModel, TWebModel}}, IMapper, IService{TModel})"/>
         public WeatherExperienceController(
             IConfiguration config,
             ILogger<WeatherExperienceController> logger,

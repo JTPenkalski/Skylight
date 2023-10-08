@@ -18,7 +18,7 @@ namespace Skylight.Contexts.Initializers
         public WeatherExperienceContextInitializer(IUnitOfWork unitOfWork, WeatherExperienceContext context)
         {
             this.unitOfWork = unitOfWork;
-            this.context = context; // TODO: Replace with repositories once they are set up.
+            this.context = context;
         }
 
         /// <inheritdoc cref="IWeatherExperienceContextInitializer.Initialize"/>
@@ -40,7 +40,7 @@ namespace Skylight.Contexts.Initializers
                     "A violently rotating column of air that is in contact with both the surface of the Earth and a cumulonimbus cloud or, in rare cases, the base of a cumulus cloud with rotating debris and dust beneath it."
                 ),
                 new(
-                    "Hurriance",
+                    "Hurricane",
                     "A rapidly rotating storm system characterized by a low-pressure center, a closed low-level atmospheric circulation, strong winds, and a spiral arrangement of thunderstorms that produce heavy rain and squalls. Depending on its location and strength, a tropical cyclone is referred to by different names, including hurricane, typhoon, tropical storm, cyclonic storm, tropical depression, or simply cyclone."
                 )
             };

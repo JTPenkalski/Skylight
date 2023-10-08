@@ -8,7 +8,6 @@ namespace Skylight.Models
     public class Location : BaseIdentifiableModel
     {
         public string City { get; set; }
-        public string ZipCode { get; set; }
         public string Country { get; set; }
 
         public virtual ICollection<WeatherEventLocation> Events { get; set; } = new List<WeatherEventLocation>();
@@ -17,12 +16,10 @@ namespace Skylight.Models
         /// Constructs a new <see cref="Location"/> instance.
         /// </summary>
         /// <param name="city">The name of the city.</param>
-        /// <param name="zipCode">The postal code of the city.</param>
         /// <param name="country">The country the city is located in.</param>
-        public Location(string city, string zipCode, string country = "United States")
+        public Location(string city, string country = "United States")
         {
             City = city;
-            ZipCode = zipCode;
             Country = country;
         }
     }

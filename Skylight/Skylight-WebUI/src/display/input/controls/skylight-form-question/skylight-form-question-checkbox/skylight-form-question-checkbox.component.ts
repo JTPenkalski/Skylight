@@ -5,7 +5,8 @@ import { SkylightFormQuestionComponent } from '../skylight-form-question.compone
 @Component({
   selector: 'skylight-form-question-checkbox[control]',
   templateUrl: './skylight-form-question-checkbox.component.html',
-  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-checkbox.component.scss']
+  styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-checkbox.component.scss'],
+  providers: [{ provide: SkylightFormQuestionComponent, useExisting: SkylightFormQuestionCheckboxComponent }]
 })
 export class SkylightFormQuestionCheckboxComponent extends SkylightFormQuestionComponent {
 

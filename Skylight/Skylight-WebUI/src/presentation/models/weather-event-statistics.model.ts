@@ -23,18 +23,18 @@ export class WeatherEventStatistics extends BaseModel implements IWeatherEventSt
   constructor(data?: IWeatherEventStatistics) {
     super(data);
 
-    this.damageCost = data?.damageCost;
-    this.fatalities = data?.fatalities;
-    this.efRating = data?.efRating;
-    this.pathDistance = data?.pathDistance;
-    this.funnelWidth = data?.funnelWidth;
-    this.saffirSimpsonRating = data?.saffirSimpsonRating;
-    this.lowestPressure = data?.lowestPressure;
-    this.maxWindSpeed = data?.maxWindSpeed;
-    this.richterMagnitude = data?.richterMagnitude;
-    this.mercalliIntensity = data?.mercalliIntensity;
-    this.aftershocks = data?.aftershocks;
-    this.fault = data?.fault;
-    this.relatedTsunami = data?.relatedTsunami;
+    this.damageCost = this.nullable(data?.damageCost);
+    this.fatalities = this.nullable(data?.fatalities);
+    this.efRating = this.nullable(data?.efRating);
+    this.pathDistance = this.nullable(data?.pathDistance);
+    this.funnelWidth = this.nullable(data?.funnelWidth);
+    this.saffirSimpsonRating = this.nullable(data?.saffirSimpsonRating);
+    this.lowestPressure = this.nullable(data?.lowestPressure);
+    this.maxWindSpeed = this.nullable(data?.maxWindSpeed);
+    this.richterMagnitude = this.nullable(data?.richterMagnitude);
+    this.mercalliIntensity = this.nullable(data?.mercalliIntensity);
+    this.aftershocks = this.nullable(data?.aftershocks);
+    this.fault = this.nullable(data?.fault);
+    this.relatedTsunami = this.nullable(data?.relatedTsunami);
   }
 }

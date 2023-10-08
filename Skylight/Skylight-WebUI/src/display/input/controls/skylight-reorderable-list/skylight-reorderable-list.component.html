@@ -5,12 +5,12 @@
       
       <ng-container [ngTemplateOutlet]="content.template" [ngTemplateOutletContext]="context(index)"></ng-container>
 
-      <button mat-icon-button aria-label="Delete Modifier" matTooltip="Delete" type="button" (click)="onItemRemoved(index)">
+      <button mat-icon-button aria-label="Remove" matTooltip="Remove" type="button" (click)="onItemRemoved(index)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
 
-    <button mat-stroked-button type="button" (click)="onItemAdded()"><mat-icon>add</mat-icon></button>
+    <button mat-stroked-button aria-label="Add" matTooltip="Add" type="button" (click)="onItemAdded()"><mat-icon>add</mat-icon></button>
   </div>
 </ng-container>
 

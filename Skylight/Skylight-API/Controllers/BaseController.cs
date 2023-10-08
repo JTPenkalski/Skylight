@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Models;
 using Skylight.Services;
-using Skylight.WebModels;
+using Skylight.WebModels.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

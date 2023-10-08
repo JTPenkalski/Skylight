@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
@@ -6,16 +6,18 @@ import { ErrorFormatterService } from 'display/input/services';
 import { SkylightFormQuestionComponent } from '../skylight-form-question.component';
 import { SkylightServerOptionsService } from './skylight-server-options.service';
 import { ISelectOption } from '../types';
+import { FormControlGuide } from 'web/models';
 
 @Component({
   selector: 'skylight-form-question-select[control]',
   templateUrl: './skylight-form-question-select.component.html',
   styleUrls: ['../skylight-form-question.component.scss', './skylight-form-question-select.component.scss'],
-  providers: [SkylightServerOptionsService]
+  providers: [{ provide: SkylightFormQuestionComponent, useExisting: SkylightFormQuestionSelectComponent }, SkylightServerOptionsService]
 })
-export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionComponent implements OnInit {
+export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionComponent {
   @Input() public options?: ISelectOption[];
   @Input() public optionsEndpoint?: string;
+  @Input() public multiple : boolean = false;
 
   public serverOptions$: Observable<ISelectOption[]> = of([]);
 
@@ -27,9 +29,29 @@ export class SkylightFormQuestionSelectComponent extends SkylightFormQuestionCom
     super(config, errorFormatter);
   }
 
-  public ngOnInit(): void {
+  public override ngOnInit(): void {
+    super.ngOnInit();
+
     if (this.optionsEndpoint) {
       this.serverOptions$ = this.serverOptionsService.getOptions(this.optionsEndpoint);
     }
+  }
+
+  protected override implementGuide(): void {
+    super.implementGuide();
+
+    if (this.guide?.suppliedValues) {
+      this.options = this.guide.suppliedValues;
+    }
+  }
+
+  /**
+   * Determines if 2 options' values should be considered equal.
+   * @param first The first value.
+   * @param second The second value.
+   * @returns True if the values match, false otherwise.
+   */
+  protected compareValues(first: any, second: any): boolean {
+    return first && second && first.id === second.id;
   }
 }

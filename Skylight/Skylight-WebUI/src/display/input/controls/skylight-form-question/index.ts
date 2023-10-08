@@ -5,4 +5,5 @@ export * from './skylight-form-question-select/skylight-form-question-select.com
 export * from './skylight-form-question-textarea/skylight-form-question-textarea.component';
 export * from './skylight-form-question-location/skylight-form-question-location.component';
 export * from './skylight-form-question-weather-event-alert/skylight-form-question-weather-event-alert.component';
+export * from './skylight-form-question-weather-event-location/skylight-form-question-weather-event-location.component';
 export * from './skylight-form-question-weather-event-statistics/skylight-form-question-weather-event-statistics.component'
