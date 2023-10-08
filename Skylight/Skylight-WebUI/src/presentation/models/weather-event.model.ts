@@ -33,7 +33,7 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
     this.experience = new WeatherExperience(data?.experience);
     this.locations = this.arr<WeatherEventLocation>(data?.locations as WeatherEventLocation[]);
     this.alerts = this.arr<WeatherEventAlert>(data?.alerts as WeatherEventAlert[]);
-    this.description = data?.description;
-    this.endDate = data?.endDate;
+    this.description = this.nullable(data?.description);
+    this.endDate = this.nullable(data?.endDate);
   }
 }

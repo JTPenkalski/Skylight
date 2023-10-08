@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SkylightFormComponent } from '../skylight-form.component';
@@ -19,11 +19,10 @@ import { WeatherEventFormGuide } from 'web/models';
 })
 export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWeatherEventCoreModel, IWeatherEvent, WeatherEventFormGuide> {
   constructor(
+    changeDetector: ChangeDetectorRef,
     formBuilder: FormBuilder,
-    @Inject(WeatherEventService) service: IWeatherEventService,
-  ) {
-    super(formBuilder, service);
-  }
+    @Inject(WeatherEventService) service: IWeatherEventService
+  ) { super(changeDetector, formBuilder, service); }
 
   public override ngOnInit(): void {
     this.form = new FormGroup<IWeatherEvent>(new WeatherEvent(this.formBuilder, this.model));
@@ -43,6 +42,8 @@ export class SkylightFormWeatherEventComponent extends SkylightFormComponent<IWe
     this.service.getFormGuide(new WeatherEventCoreModel(this.form.getRawValue())).subscribe(guide => {
       this.guide = guide;
       console.log(guide);
+      // Received new guide, so update children
+      this.changeDetector.detectChanges();
     });
   }
 

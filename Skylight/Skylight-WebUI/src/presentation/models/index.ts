@@ -1,3 +1,5 @@
+export * from './form-guide.model';
+
 export * from './base-model.model';
 
 export * from './location.model';

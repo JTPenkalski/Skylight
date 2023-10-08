@@ -15,6 +15,76 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IFormGuideClient {
+    /**
+     * @return Success
+     */
+    formGuideGET(): Observable<FormControlValidationMessages>;
+}
+
+@Injectable()
+export class FormGuideClient implements IFormGuideClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    formGuideGET(): Observable<FormControlValidationMessages> {
+        let url_ = this.baseUrl + "/api/v1/FormGuide";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFormGuideGET(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFormGuideGET(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FormControlValidationMessages>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FormControlValidationMessages>;
+        }));
+    }
+
+    protected processFormGuideGET(response: HttpResponseBase): Observable<FormControlValidationMessages> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = FormControlValidationMessages.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
 export interface ILocationClient {
     /**
      * @param body (optional) 
@@ -1428,7 +1498,7 @@ export interface IWeatherEventClient {
      * @param body (optional) 
      * @return Success
      */
-    formGuide(body: WeatherEventFormGuideRequest | undefined): Observable<WeatherEventFormGuide>;
+    formGuidePOST(body: WeatherEventFormGuideRequest | undefined): Observable<WeatherEventFormGuide>;
     /**
      * @param body (optional) 
      * @return Created
@@ -1468,7 +1538,7 @@ export class WeatherEventClient implements IWeatherEventClient {
      * @param body (optional) 
      * @return Success
      */
-    formGuide(body: WeatherEventFormGuideRequest | undefined): Observable<WeatherEventFormGuide> {
+    formGuidePOST(body: WeatherEventFormGuideRequest | undefined): Observable<WeatherEventFormGuide> {
         let url_ = this.baseUrl + "/api/v1/WeatherEvent/FormGuide";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1485,11 +1555,11 @@ export class WeatherEventClient implements IWeatherEventClient {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processFormGuide(response_);
+            return this.processFormGuidePOST(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processFormGuide(response_ as any);
+                    return this.processFormGuidePOST(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<WeatherEventFormGuide>;
                 }
@@ -1498,7 +1568,7 @@ export class WeatherEventClient implements IWeatherEventClient {
         }));
     }
 
-    protected processFormGuide(response: HttpResponseBase): Observable<WeatherEventFormGuide> {
+    protected processFormGuidePOST(response: HttpResponseBase): Observable<WeatherEventFormGuide> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2195,60 +2265,6 @@ export class WeatherExperienceClient implements IWeatherExperienceClient {
     }
 }
 
-export class ArrayFormControlValidation implements IArrayFormControlValidation {
-    public minElements?: number;
-    public maxElements?: number;
-
-    constructor(data?: IArrayFormControlValidation) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    /**
-    * Initializes a new ArrayFormControlValidation instance from the specified data.
-    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
-    * @param _data Any object that holds the necessary properties to initialize a new ArrayFormControlValidation.
-    **/
-    protected init(_data?: any) {
-        if (_data) {
-            this.minElements = _data["minElements"] !== undefined ? _data["minElements"] : <any>null;
-            this.maxElements = _data["maxElements"] !== undefined ? _data["maxElements"] : <any>null;
-        }
-    }
-
-    /**
-    * Deserializes a JSON representation of this ArrayFormControlValidation.
-    * @param data Any object that holds the necessary properties to initialize a new ArrayFormControlValidation.
-    * @returns A deserialized ArrayFormControlValidation.
-    **/
-    public static fromJS(data: any): ArrayFormControlValidation {
-        data = typeof data === 'object' ? data : {};
-        let result = new ArrayFormControlValidation();
-        result.init(data);
-        return result;
-    }
-
-    /**
-    * Serializes a JSON representation of this ArrayFormControlValidation.
-    * @returns A serialized ArrayFormControlValidation.
-    **/
-    public toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["minElements"] = this.minElements !== undefined ? this.minElements : <any>null;
-        data["maxElements"] = this.maxElements !== undefined ? this.maxElements : <any>null;
-        return data;
-    }
-}
-
-export interface IArrayFormControlValidation {
-    minElements?: number;
-    maxElements?: number;
-}
-
 export class DateTimeOffsetFormControlValidation implements IDateTimeOffsetFormControlValidation {
     public minValue?: Date;
     public maxValue?: Date;
@@ -2398,7 +2414,6 @@ export class FormControlValidation implements IFormControlValidation {
     public stringValidation?: StringFormControlValidation;
     public numericValidation?: NumericFormControlValidation;
     public dateTimeValidation?: DateTimeOffsetFormControlValidation;
-    public arrayValidation?: ArrayFormControlValidation;
 
     constructor(data?: IFormControlValidation) {
         if (data) {
@@ -2409,7 +2424,6 @@ export class FormControlValidation implements IFormControlValidation {
             this.stringValidation = data.stringValidation && !(<any>data.stringValidation).toJSON ? new StringFormControlValidation(data.stringValidation) : <StringFormControlValidation>this.stringValidation;
             this.numericValidation = data.numericValidation && !(<any>data.numericValidation).toJSON ? new NumericFormControlValidation(data.numericValidation) : <NumericFormControlValidation>this.numericValidation;
             this.dateTimeValidation = data.dateTimeValidation && !(<any>data.dateTimeValidation).toJSON ? new DateTimeOffsetFormControlValidation(data.dateTimeValidation) : <DateTimeOffsetFormControlValidation>this.dateTimeValidation;
-            this.arrayValidation = data.arrayValidation && !(<any>data.arrayValidation).toJSON ? new ArrayFormControlValidation(data.arrayValidation) : <ArrayFormControlValidation>this.arrayValidation;
         }
     }
 
@@ -2425,7 +2439,6 @@ export class FormControlValidation implements IFormControlValidation {
             this.stringValidation = _data["stringValidation"] ? StringFormControlValidation.fromJS(_data["stringValidation"]) : <any>null;
             this.numericValidation = _data["numericValidation"] ? NumericFormControlValidation.fromJS(_data["numericValidation"]) : <any>null;
             this.dateTimeValidation = _data["dateTimeValidation"] ? DateTimeOffsetFormControlValidation.fromJS(_data["dateTimeValidation"]) : <any>null;
-            this.arrayValidation = _data["arrayValidation"] ? ArrayFormControlValidation.fromJS(_data["arrayValidation"]) : <any>null;
         }
     }
 
@@ -2452,7 +2465,6 @@ export class FormControlValidation implements IFormControlValidation {
         data["stringValidation"] = this.stringValidation ? this.stringValidation.toJSON() : <any>null;
         data["numericValidation"] = this.numericValidation ? this.numericValidation.toJSON() : <any>null;
         data["dateTimeValidation"] = this.dateTimeValidation ? this.dateTimeValidation.toJSON() : <any>null;
-        data["arrayValidation"] = this.arrayValidation ? this.arrayValidation.toJSON() : <any>null;
         return data;
     }
 }
@@ -2463,7 +2475,96 @@ export interface IFormControlValidation {
     stringValidation?: IStringFormControlValidation;
     numericValidation?: INumericFormControlValidation;
     dateTimeValidation?: IDateTimeOffsetFormControlValidation;
-    arrayValidation?: IArrayFormControlValidation;
+}
+
+export class FormControlValidationMessages implements IFormControlValidationMessages {
+    public readonly errorMaxDate!: string;
+    public readonly errorMaxLength!: string;
+    public readonly errorMaxValue!: string;
+    public readonly errorMinDate!: string;
+    public readonly errorMinLength!: string;
+    public readonly errorMinValue!: string;
+    public readonly errorPattern!: string;
+    public readonly errorRangeDate!: string;
+    public readonly errorRangeLength!: string;
+    public readonly errorRangeValue!: string;
+    public readonly errorRequired!: string;
+
+    constructor(data?: IFormControlValidationMessages) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    /**
+    * Initializes a new FormControlValidationMessages instance from the specified data.
+    * This method is used in the serialization/deserialization process and allows for overriding in subclasses. 
+    * @param _data Any object that holds the necessary properties to initialize a new FormControlValidationMessages.
+    **/
+    protected init(_data?: any) {
+        if (_data) {
+            (<any>this).errorMaxDate = _data["errorMaxDate"] !== undefined ? _data["errorMaxDate"] : <any>null;
+            (<any>this).errorMaxLength = _data["errorMaxLength"] !== undefined ? _data["errorMaxLength"] : <any>null;
+            (<any>this).errorMaxValue = _data["errorMaxValue"] !== undefined ? _data["errorMaxValue"] : <any>null;
+            (<any>this).errorMinDate = _data["errorMinDate"] !== undefined ? _data["errorMinDate"] : <any>null;
+            (<any>this).errorMinLength = _data["errorMinLength"] !== undefined ? _data["errorMinLength"] : <any>null;
+            (<any>this).errorMinValue = _data["errorMinValue"] !== undefined ? _data["errorMinValue"] : <any>null;
+            (<any>this).errorPattern = _data["errorPattern"] !== undefined ? _data["errorPattern"] : <any>null;
+            (<any>this).errorRangeDate = _data["errorRangeDate"] !== undefined ? _data["errorRangeDate"] : <any>null;
+            (<any>this).errorRangeLength = _data["errorRangeLength"] !== undefined ? _data["errorRangeLength"] : <any>null;
+            (<any>this).errorRangeValue = _data["errorRangeValue"] !== undefined ? _data["errorRangeValue"] : <any>null;
+            (<any>this).errorRequired = _data["errorRequired"] !== undefined ? _data["errorRequired"] : <any>null;
+        }
+    }
+
+    /**
+    * Deserializes a JSON representation of this FormControlValidationMessages.
+    * @param data Any object that holds the necessary properties to initialize a new FormControlValidationMessages.
+    * @returns A deserialized FormControlValidationMessages.
+    **/
+    public static fromJS(data: any): FormControlValidationMessages {
+        data = typeof data === 'object' ? data : {};
+        let result = new FormControlValidationMessages();
+        result.init(data);
+        return result;
+    }
+
+    /**
+    * Serializes a JSON representation of this FormControlValidationMessages.
+    * @returns A serialized FormControlValidationMessages.
+    **/
+    public toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["errorMaxDate"] = this.errorMaxDate !== undefined ? this.errorMaxDate : <any>null;
+        data["errorMaxLength"] = this.errorMaxLength !== undefined ? this.errorMaxLength : <any>null;
+        data["errorMaxValue"] = this.errorMaxValue !== undefined ? this.errorMaxValue : <any>null;
+        data["errorMinDate"] = this.errorMinDate !== undefined ? this.errorMinDate : <any>null;
+        data["errorMinLength"] = this.errorMinLength !== undefined ? this.errorMinLength : <any>null;
+        data["errorMinValue"] = this.errorMinValue !== undefined ? this.errorMinValue : <any>null;
+        data["errorPattern"] = this.errorPattern !== undefined ? this.errorPattern : <any>null;
+        data["errorRangeDate"] = this.errorRangeDate !== undefined ? this.errorRangeDate : <any>null;
+        data["errorRangeLength"] = this.errorRangeLength !== undefined ? this.errorRangeLength : <any>null;
+        data["errorRangeValue"] = this.errorRangeValue !== undefined ? this.errorRangeValue : <any>null;
+        data["errorRequired"] = this.errorRequired !== undefined ? this.errorRequired : <any>null;
+        return data;
+    }
+}
+
+export interface IFormControlValidationMessages {
+    errorMaxDate: string;
+    errorMaxLength: string;
+    errorMaxValue: string;
+    errorMinDate: string;
+    errorMinLength: string;
+    errorMinValue: string;
+    errorPattern: string;
+    errorRangeDate: string;
+    errorRangeLength: string;
+    errorRangeValue: string;
+    errorRequired: string;
 }
 
 export class FormControlValue implements IFormControlValue {

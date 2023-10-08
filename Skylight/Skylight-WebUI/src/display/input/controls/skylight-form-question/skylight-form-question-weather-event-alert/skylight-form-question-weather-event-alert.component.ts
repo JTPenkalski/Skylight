@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
 
 import { SkylightFormQuestionContainerComponent } from '../skylight-form-question-container.component';
 import { IWeatherEventAlert } from 'display/input/models';
-import { IWeatherAlertModifier, WeatherAlertModifier } from 'presentation/models';
 import { WeatherEventAlertFormGuide } from 'web/models';
 
 /**

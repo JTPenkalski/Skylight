@@ -10,7 +10,7 @@ import { BaseService } from './index';
   providedIn: 'root'
 })
 export class WeatherEventService extends BaseService<WeatherEvent, WeatherEventFormGuide> implements IWeatherEventService {
-  constructor(@Inject(WeatherEventClient) protected client: IWeatherEventClient) { super(); }
+  constructor(@Inject(WeatherEventClient) protected readonly client: IWeatherEventClient) { super(); }
 
   public override add(model: WeatherEvent): Observable<WeatherEvent | null> {
     return this.client.weatherEventPOST(new WeatherEventWebModel(model)).pipe(
@@ -31,7 +31,7 @@ export class WeatherEventService extends BaseService<WeatherEvent, WeatherEventF
   }
 
   public override getFormGuide(model: WeatherEvent, context?: FormGuideContext) : Observable<WeatherEventFormGuide> {
-    return this.client.formGuide(
+    return this.client.formGuidePOST(
       new WeatherEventFormGuideRequest({
         model: new WeatherEventWebModel(model),
         context: context ?? new FormGuideContext()

@@ -1,15 +1,20 @@
 <div class="question">
-  <mat-form-field *ngIf="!guide?.hidden" [appearance]="config.appearance" [color]="config.color" (mousedown)="blockDrag($event)">
+  <mat-form-field
+    *ngIf="!guide?.hidden"
+    [appearance]="config.appearance"
+    [color]="config.color"
+    (mousedown)="blockDrag($event)">
     <mat-label>{{label}}</mat-label>
 
     <input
       matInput
       type="text"
       [formControl]="control"
-      [required]="guide?.validation?.required ?? false"
-      [readonly]="guide?.readOnly"
+      [placeholder]="example ?? ''"
       (blur)="requestFormGuide()">
 
-    <mat-error *ngIf="required && control.invalid">{{errorFormatter.required(label)}}</mat-error>
+    <mat-hint align="end">{{hint}}</mat-hint>
+
+    <mat-error *ngIf="control.invalid">{{errorMessage}}</mat-error>
   </mat-form-field>
 </div>

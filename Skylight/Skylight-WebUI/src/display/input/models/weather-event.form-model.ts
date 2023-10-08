@@ -40,14 +40,14 @@ export class WeatherEvent extends BaseModel implements IWeatherEvent {
 
     data ??= new WeatherEventCoreModel();
 
-    this.name = formBuilder.nonNullable.control(data.name, Validators.required);
-    this.weather = formBuilder.nonNullable.control(data.weather, Validators.required);
-    this.startDate = formBuilder.nonNullable.control(data.startDate, Validators.required);
-    this.experience = formBuilder.nonNullable.control(data.experience, Validators.required);
+    this.name = formBuilder.nonNullable.control(data.name);
+    this.weather = formBuilder.nonNullable.control(data.weather);
+    this.startDate = formBuilder.nonNullable.control(data.startDate);
+    this.experience = formBuilder.nonNullable.control(data.experience);
     this.locations = formBuilder.nonNullable.array(data.locations.map(l => formBuilder.group(new WeatherEventLocation(formBuilder, l))));
     this.alerts = formBuilder.nonNullable.array(data.alerts.map(a => formBuilder.group(new WeatherEventAlert(formBuilder, a))));
     this.statistics = formBuilder.nonNullable.group(new WeatherEventStatistics(formBuilder, data.statistics));
-    this.description = formBuilder.nonNullable.control(data.description ?? null);
+    this.description = formBuilder.control(data.description ?? null);
     this.endDate = formBuilder.control(data.endDate ?? null);
   }
 }

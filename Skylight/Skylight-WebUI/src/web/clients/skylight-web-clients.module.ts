@@ -16,6 +16,7 @@ import * as Clients from './index';
   providers: [
     { provide: Clients.API_BASE_URL, useValue: environment.apiUrl },
 
+    Clients.FormGuideClient,
     Clients.LocationClient,
     Clients.WeatherClient,
     Clients.WeatherAlertClient,

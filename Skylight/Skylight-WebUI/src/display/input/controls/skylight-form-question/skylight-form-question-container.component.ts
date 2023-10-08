@@ -5,6 +5,7 @@ import { ISkylightFormComponent } from './types';
 import { FORM_QUESTION_CONFIG_TOKEN, FormQuestionConfiguration } from 'presentation/injection';
 import { ErrorFormatterService } from 'display/input/services';
 import { IBaseModel } from 'display/input/models';
+import { IFormGuide } from 'presentation/models';
 import { SkylightFormQuestionComponent } from './skylight-form-question.component';
 
 /**
@@ -13,19 +14,14 @@ import { SkylightFormQuestionComponent } from './skylight-form-question.componen
  * @requires [guide]: The FormGuide this component validates from.
  **/
 @Directive()
-export abstract class SkylightFormQuestionContainerComponent<TFormModel extends IBaseModel, TFormGuide> implements ISkylightFormComponent, AfterViewInit {
+export abstract class SkylightFormQuestionContainerComponent<TFormModel extends IBaseModel, TFormGuide extends IFormGuide> implements ISkylightFormComponent, AfterViewInit {
   @Input() public label: string = '';
-  @Input({ required: true }) public guide!: TFormGuide;
+  @Input({ required: true }) public guide?: TFormGuide;
   @Input({ required: true }) public group!: FormGroup<TFormModel>;
 
   @Output() public formGuideRequested: EventEmitter<undefined> = new EventEmitter<undefined>();
   
   @ViewChildren(SkylightFormQuestionComponent) private children!: QueryList<SkylightFormQuestionComponent>;
-
-  /**
-   * Indicates if this AbstractControl has the Required validator.
-   **/
-  public get required(): boolean { return this.group.hasValidator(Validators.required); }
 
   constructor(
     @Inject(FORM_QUESTION_CONFIG_TOKEN) public readonly config: FormQuestionConfiguration,

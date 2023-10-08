@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 
 import { IService } from 'core/services';
-import { BaseModel } from 'presentation/models';
+import { BaseModel, IFormGuide } from 'presentation/models';
 import { FormGuideContext } from 'web/models';
 
-export abstract class BaseService<TPresentationModel extends BaseModel, TFormGuide = undefined> implements IService<TPresentationModel, TFormGuide> {
+export abstract class BaseService<TPresentationModel extends BaseModel, TFormGuide extends IFormGuide | undefined = undefined> implements IService<TPresentationModel, TFormGuide> {
   public abstract add(model: TPresentationModel): Observable<TPresentationModel | null>;
 
   public abstract get(id: number): Observable<TPresentationModel>;

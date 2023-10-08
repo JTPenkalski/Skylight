@@ -20,6 +20,18 @@ export abstract class BaseModel implements IBaseModel {
   }
 
   /**
+   * Converts a property that may not exist to a true 'null' value.
+   * This is mainly used on optional, non-string controls, because they can sometimes be an empty string
+   * if the user enters and deletes their value.
+   * @param property The property that either has a value or is undefined.
+   **/
+  protected nullable<T>(property: T): T | null {
+    return property && property != ''
+      ? property
+      : null;
+  }
+  
+  /**
    * Parses a boolean property from the input data. If no value is provided, the default value is used.
    * @param property The property that either has a value or is undefined.
    * @param defaultValue The default value to use if the property is undefined on the input. It is false by default.

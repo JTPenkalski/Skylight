@@ -29,10 +29,5 @@
         /// Extra validations to use if this control expects a DateTime value.
         /// </summary>
         public DateTimeOffsetFormControlValidation? DateTimeValidation { get; set; } = null;
-
-        /// <summary>
-        /// Extra validations to use if this control expects an array value.
-        /// </summary>
-        public ArrayFormControlValidation? ArrayValidation { get; set; } = null;
     }
 }

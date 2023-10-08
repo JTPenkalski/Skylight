@@ -1,6 +1,6 @@
-<div *ngIf="guide">
+<ng-container *ngIf="guide">
   <h1>New Weather Event</h1>
-  
+
   <form id="form-weather-event" class="flex-column" [formGroup]="form" (ngSubmit)="submit()">
     <skylight-form-field-set id="section-general" label="General Information">
       <div class="flex-row">
@@ -29,7 +29,7 @@
           [control]="form.controls.weather"
           (formGuideRequested)="requestGuide()">
         </skylight-form-question-select>
-  
+
         <skylight-form-question-date
           class="flex-item"
           label="Start Date"
@@ -37,7 +37,7 @@
           [control]="form.controls.startDate"
           (formGuideRequested)="requestGuide()">
         </skylight-form-question-date>
-  
+
         <skylight-form-question-date
           class="flex-item"
           label="End Date"
@@ -46,7 +46,7 @@
           (formGuideRequested)="requestGuide()">
         </skylight-form-question-date>
       </div>
-  
+
       <div class="flex-row">
         <skylight-form-question-textarea
           class="flex-item"
@@ -56,7 +56,7 @@
         </skylight-form-question-textarea>
       </div>
     </skylight-form-field-set>
-  
+
     <skylight-form-field-set id="section-alerts" label="Alerts">
       <skylight-reorderable-list
         formArrayName="alerts"
@@ -74,7 +74,7 @@
         </ng-template>
       </skylight-reorderable-list>
     </skylight-form-field-set>
-  
+
     <skylight-form-field-set id="section-locations" label="Locations">
       <skylight-reorderable-list
         formArrayName="locations"
@@ -91,7 +91,7 @@
         </ng-template>
       </skylight-reorderable-list>
     </skylight-form-field-set>
-  
+
     <skylight-form-field-set id="section-statistics" label="Statistics">
       <skylight-form-question-weather-event-statistics
         label="Weather Event Statistics"
@@ -99,7 +99,7 @@
         [group]="form.controls.statistics">
       </skylight-form-question-weather-event-statistics>
     </skylight-form-field-set>
-  
+
     <div class="flex-row control-buttons">
       <button mat-fab extended class="flex-item" color="warn" type="button" (click)="reset()">
         <mat-icon>close</mat-icon>
@@ -111,4 +111,4 @@
       </button>
     </div>
   </form>  
-</div>
+</ng-container>
