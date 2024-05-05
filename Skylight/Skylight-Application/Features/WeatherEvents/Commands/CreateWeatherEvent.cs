@@ -26,7 +26,7 @@ public class CreateWeatherEventCommandHandler(ISkylightContext context)
         };
 
         await context.WeatherEvents.AddAsync(weatherEvent, cancellationToken);
-        await context.CommitAsync();
+        await context.CommitAsync(cancellationToken);
 
         return Result.Ok(weatherEvent);
     }

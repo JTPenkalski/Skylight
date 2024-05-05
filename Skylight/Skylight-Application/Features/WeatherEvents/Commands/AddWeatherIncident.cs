@@ -32,7 +32,7 @@ public class AddWeatherIncidentCommandHandler(ISkylightContext context)
 
             weatherEvent.Incidents.Add(weatherIncident);
 
-            await context.CommitAsync();
+            await context.CommitAsync(cancellationToken);
         }        
 
         return Result.FailIf(weatherEvent is null, $"{nameof(WeatherEvent)} was not found.");

@@ -21,7 +21,7 @@ public class CompleteWeatherIncidentCommandHandler(
         {
             weatherIncident.EndDate = timeProvider.GetUtcNow();
 
-            await context.CommitAsync();
+            await context.CommitAsync(cancellationToken);
         }
 
         return Result.FailIf(weatherIncident is null, $"{nameof(WeatherIncident)} was not found.");

@@ -7,6 +7,7 @@ using Skylight.Application.Interfaces.Data;
 using Skylight.Controllers;
 using Skylight.Data;
 using Skylight.Host.Services.ConfigureOptions;
+using Skylight.Infrastructure;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -68,6 +69,7 @@ namespace Skylight
                 .AddSwaggerGen()
                 .AddAutoMapper(Assembly.GetEntryAssembly())
                 .AddApplication()
+                .AddInfrastructure()
                 .AddData(builder.Configuration.GetConnectionString("Default"));
 
             // Configure Services
