@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Skylight.Models;
-using Skylight.Services;
 using Skylight.WebModels.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,7 +26,6 @@ namespace Skylight.Controllers
         protected readonly IConfiguration config;
         protected readonly ILogger logger;
         protected readonly IMapper mapper;
-        protected readonly IService<TModel> service;
 
         /// <summary>
         /// Constructs a new controller instance.
@@ -39,8 +37,7 @@ namespace Skylight.Controllers
         public BaseController(
             IConfiguration config,
             ILogger<BaseController<TModel, TWebModel>> logger,
-            IMapper mapper,
-            IService<TModel> service
+            IMapper mapper
         )
         {
             this.config = config;

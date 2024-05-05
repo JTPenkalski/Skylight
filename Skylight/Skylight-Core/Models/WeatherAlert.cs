@@ -3,7 +3,7 @@
 namespace Skylight.Models
 {
     /// <summary>
-    /// Represents a type of notification used to inform people about impending weather with varying degrees of severity.
+    /// A notification used to inform people about impending weather with varying degrees of severity.
     /// </summary>
     public class WeatherAlert : BaseIdentifiableModel
     {

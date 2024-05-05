@@ -29,7 +29,6 @@ namespace Skylight.Controllers
             IConfiguration config,
             ILogger<WeatherEventController> logger,
             IMapper mapper,
-            IWeatherEventService service,
             IWeatherEventFormDirector formDirector
         ) : base(config, logger, mapper, service)
         {
