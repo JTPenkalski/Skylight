@@ -5,22 +5,6 @@ namespace Skylight.Tests.Architecture.Application;
 public class NamingTests(ITestOutputHelper outputHelper)
 {
     [Fact]
-    public void Commands_Should_HaveCommandSuffix()
-    {
-        TestResult result = Types
-            .InAssembly(Assemblies.Application)
-            .That()
-            .ImplementInterface(typeof(ICommand))
-            .Should()
-            .HaveNameEndingWith("Command")
-            .GetResult();
-
-        TestOutputHelpers.PrintFailingTypes(outputHelper, result);
-
-        Assert.True(result.IsSuccessful);
-    }
-
-    [Fact]
     public void CommandHandlers_Should_HaveCommandHandlerSuffix()
     {
         TestResult result = Types
@@ -29,6 +13,22 @@ public class NamingTests(ITestOutputHelper outputHelper)
             .ImplementInterface(typeof(ICommandHandler<>))
             .Should()
             .HaveNameEndingWith("CommandHandler")
+            .GetResult();
+
+        TestOutputHelpers.PrintFailingTypes(outputHelper, result);
+
+        Assert.True(result.IsSuccessful);
+    }
+
+    [Fact]
+    public void Commands_Should_HaveCommandSuffix()
+    {
+        TestResult result = Types
+            .InAssembly(Assemblies.Application)
+            .That()
+            .ImplementInterface(typeof(ICommand))
+            .Should()
+            .HaveNameEndingWith("Command")
             .GetResult();
 
         TestOutputHelpers.PrintFailingTypes(outputHelper, result);
