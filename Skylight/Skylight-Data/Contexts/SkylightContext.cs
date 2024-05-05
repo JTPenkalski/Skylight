@@ -31,17 +31,19 @@ internal class SkylightContext(
 
     public DbSet<WeatherAlert> WeatherAlerts => Set<WeatherAlert>();
 
+    public DbSet<WeatherAlertModifier> WeatherAlertModifiers => Set<WeatherAlertModifier>();
+
     public DbSet<WeatherEvent> WeatherEvents => Set<WeatherEvent>();
 
     public DbSet<WeatherIncident> WeatherIncidents => Set<WeatherIncident>();
 
-    public async Task<bool> CommitAsync()
+    public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
     {
         bool success = true;
 
         try
         {
-            await SaveChangesAsync();
+            await SaveChangesAsync(cancellationToken);
         }
         catch (Exception ex)
         {
@@ -52,9 +54,15 @@ internal class SkylightContext(
         return success;
     }
 
-    public async Task RollbackAsync()
+    public async Task RollbackAsync(CancellationToken cancellationToken = default)
     {
         await DisposeAsync();
+    }
+
+    public async Task ResetAsync(CancellationToken cancellationToken = default)
+    {
+        await Database.EnsureDeletedAsync(cancellationToken);
+        await Database.EnsureCreatedAsync(cancellationToken);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

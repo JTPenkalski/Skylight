@@ -1,18 +1,14 @@
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Skylight.Contexts.Initializers;
+using Skylight.Application;
+using Skylight.Application.Configuration;
+using Skylight.Application.Interfaces.Data;
 using Skylight.Controllers;
+using Skylight.Data;
 using Skylight.Host.Services.ConfigureOptions;
-using System.Text.Json.Serialization;
 using System.Reflection;
-using Skylight.Configuration.Options;
-using Skylight.Host.Services.DependencyInjection;
+using System.Text.Json.Serialization;
 
 namespace Skylight
 {
@@ -56,7 +52,7 @@ namespace Skylight
                 {
                     options.AssumeDefaultVersionWhenUnspecified = true;
                     options.ReportApiVersions = true;
-                    options.DefaultApiVersion = new ApiVersion(Version.MAJOR, Version.MINOR);
+                    options.DefaultApiVersion = new ApiVersion(SkylightApiVersion.MAJOR, SkylightApiVersion.MINOR);
                     options.ApiVersionReader = new UrlSegmentApiVersionReader();
                 })
                 .AddMvc()
@@ -71,9 +67,8 @@ namespace Skylight
             builder.Services
                 .AddSwaggerGen()
                 .AddAutoMapper(Assembly.GetEntryAssembly())
-                .AddInfrastructureServices()
-                .AddDataServices()
-                .AddDatabase(builder.Configuration.GetConnectionString("Default"));
+                .AddApplication()
+                .AddData(builder.Configuration.GetConnectionString("Default"));
 
             // Configure Services
             builder.Services
@@ -115,12 +110,13 @@ namespace Skylight
 
                 if (app.Configuration.GetSection(DatabaseOptions.RootKey).Get<DatabaseOptions>()?.UseCreateAndDropMigrations ?? false)
                 {
-                    using (IServiceScope scope = app.Services.CreateScope())
-                    {
-                        scope.ServiceProvider
-                            .GetRequiredService<IWeatherExperienceContextInitializer>()
-                            .Initialize();
-                    }
+                    using IServiceScope scope = app.Services.CreateScope();
+
+                     scope.ServiceProvider
+                        .GetRequiredService<ISkylightContextInitializer>()
+                        .InitializeAsync()
+                        .GetAwaiter()
+                        .GetResult();
                 }
             }
 

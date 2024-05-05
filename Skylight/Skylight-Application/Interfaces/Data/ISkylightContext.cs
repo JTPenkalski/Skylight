@@ -3,6 +3,9 @@ using Skylight.Domain.Entities;
 
 namespace Skylight.Application.Interfaces.Data;
 
+/// <summary>
+/// Represents the core database entities persisted in the application.
+/// </summary>
 public interface ISkylightContext
 {
     string ChangeTrackingStatus { get; }
@@ -15,6 +18,8 @@ public interface ISkylightContext
 
     DbSet<WeatherAlert> WeatherAlerts { get; }
 
+    DbSet<WeatherAlertModifier> WeatherAlertModifiers { get; }
+
     DbSet<WeatherEvent> WeatherEvents { get; }
 
     DbSet<WeatherIncident> WeatherIncidents { get; }
@@ -23,10 +28,15 @@ public interface ISkylightContext
     /// Saves all changes in the current transaction.
     /// </summary>
     /// <returns>True if the operation was successful, false otherwise.</returns>
-    Task<bool> CommitAsync();
+    Task<bool> CommitAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels all changes in the current transaction.
     /// </summary>
-    Task RollbackAsync();
+    Task RollbackAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Resets all data in the database.
+    /// </summary>
+    Task ResetAsync(CancellationToken cancellationToken = default);
 }

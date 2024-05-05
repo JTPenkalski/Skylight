@@ -11,8 +11,6 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Skylight-Database-Local", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Infrastructure", "Skylight-Infrastructure\Skylight-Infrastructure.csproj", "{16D0D05D-BA1D-4514-B253-603103862FB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Core", "Skylight-Core\Skylight-Core.csproj", "{A976BAAF-19D0-44F4-8844-796698310674}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Data", "Skylight-Data\Skylight-Data.csproj", "{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Domain", "Skylight-Domain\Skylight-Domain.csproj", "{441B8821-6351-46FF-A93E-1AC08782F032}"
@@ -20,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Application", "Skylight-Application\Skylight-Application.csproj", "{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{23C67D78-50AC-4052-A099-F14C154BE780}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight-Architecture-Test", "Skylight-Architecture-Test\Skylight-Architecture-Test.csproj", "{CC67A3AC-39D3-4644-B774-69E82EAD95CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +49,6 @@ Global
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +61,10 @@ Global
 		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +75,7 @@ Global
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
 		{441B8821-6351-46FF-A93E-1AC08782F032} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
 		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD} = {23C67D78-50AC-4052-A099-F14C154BE780}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DE45755-26C2-4DC8-954A-E9AD957F29FD}

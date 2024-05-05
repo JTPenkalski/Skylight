@@ -11,7 +11,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>disable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Skylight</RootNamespace>
     <StartupObject></StartupObject>
     <UserSecretsId>01046877-58bc-4f75-bde3-16805bf1ad35</UserSecretsId>
@@ -21,6 +21,7 @@
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="FluentResults.Extensions.AspNetCore" Version="0.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -33,6 +34,10 @@
     <ProjectReference Include="..\Skylight-Data\Skylight-Data.csproj" />
     <ProjectReference Include="..\Skylight-Domain\Skylight-Domain.csproj" />
     <ProjectReference Include="..\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.AspNetCore.Mvc" />
   </ItemGroup>
 
 </Project>

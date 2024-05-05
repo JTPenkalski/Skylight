@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Skylight.Contexts;
-using System;
+using Skylight.Data.Contexts;
 using System.Reflection;
 
 namespace Skylight.Data;
@@ -22,7 +21,7 @@ public static class DependencyInjection
         ArgumentNullException.ThrowIfNull(connectionString);
 
         // Currently configured to set up Entity Framework Core
-        services.AddDbContext<WeatherExperienceContext>(options =>
+        services.AddDbContext<SkylightContext>(options =>
         {
             options.UseLazyLoadingProxies();
             options.UseSqlServer(connectionString);

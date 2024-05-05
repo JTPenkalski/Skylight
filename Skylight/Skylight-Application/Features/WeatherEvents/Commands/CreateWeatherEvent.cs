@@ -10,12 +10,12 @@ public sealed record CreateWeatherEventCommand(
     string Description,
     DateTimeOffset StartDate,
     DateTimeOffset? EndDate = null)
-    : ICommand<Guid>;
+    : ICommand<WeatherEvent>;
 
 public class CreateWeatherEventCommandHandler(ISkylightContext context)
-    : ICommandHandler<CreateWeatherEventCommand, Guid>
+    : ICommandHandler<CreateWeatherEventCommand, WeatherEvent>
 {
-    public async Task<Result<Guid>> Handle(CreateWeatherEventCommand request, CancellationToken cancellationToken)
+    public async Task<Result<WeatherEvent>> Handle(CreateWeatherEventCommand request, CancellationToken cancellationToken)
     {
         var weatherEvent = new WeatherEvent
         {
@@ -28,6 +28,6 @@ public class CreateWeatherEventCommandHandler(ISkylightContext context)
         await context.WeatherEvents.AddAsync(weatherEvent, cancellationToken);
         await context.CommitAsync();
 
-        return Result.Ok(weatherEvent.Id);
+        return Result.Ok(weatherEvent);
     }
 }
