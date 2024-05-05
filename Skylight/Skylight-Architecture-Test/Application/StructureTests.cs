@@ -2,7 +2,7 @@
 
 namespace Skylight.Tests.Architecture.Application;
 
-public class StructureConventionTests(ITestOutputHelper outputHelper)
+public class StructureTests(ITestOutputHelper outputHelper)
 {
     [Fact]
     public void CommandsAndQueries_Should_BeSealed()

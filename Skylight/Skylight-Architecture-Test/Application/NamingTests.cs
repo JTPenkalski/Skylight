@@ -2,7 +2,7 @@
 
 namespace Skylight.Tests.Architecture.Application;
 
-public class NamingConventionTests(ITestOutputHelper outputHelper)
+public class NamingTests(ITestOutputHelper outputHelper)
 {
     [Fact]
     public void Commands_Should_HaveCommandSuffix()

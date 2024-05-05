@@ -2,7 +2,7 @@
 
 namespace Skylight.Tests.Architecture.Domain;
 
-public class NamingConventionTests(ITestOutputHelper outputHelper)
+public class NamingTests(ITestOutputHelper outputHelper)
 {
     [Fact]
     public void DomainEvents_Should_HaveDomainEventSuffix()

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Skylight.Tests.Architecture.Domain;
 
-public class StructureConventionTests(ITestOutputHelper outputHelper)
+public class StructureTests(ITestOutputHelper outputHelper)
 {
     [Fact]
     public void Entities_ShouldNot_HaveNonVirtualCollectionProperties()
