@@ -9,12 +9,16 @@ public record WeatherEvent : BaseModel
     public required string Name { get; init; }
 
     [Required]
-    public required DateTime StartDate { get; init; }
+    public required string Description { get; init; }
+
+    [Required]
+    public required DateTimeOffset StartDate { get; init; }
 
     [Required]
     public required Weather Weather { get; init; }
 
-    public string? Description { get; init; }
+    [Required]
+    public required IEnumerable<WeatherIncident> Incidents { get; init; }
 
-    public DateTime? EndDate { get; init; }
+    public DateTimeOffset? EndDate { get; init; }
 }

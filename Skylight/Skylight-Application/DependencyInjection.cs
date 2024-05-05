@@ -16,6 +16,7 @@ public static class DependencyInjection
     {
         Assembly assembly = typeof(DependencyInjection).Assembly;
 
+        // Add Application Services
         services
             .AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
 

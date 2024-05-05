@@ -12,7 +12,7 @@ public record StormTracker : BaseModel
     public required string LastName { get; init; }
 
     [Required]
-    public required DateTime StartDate { get; init; }
+    public required DateTimeOffset StartDate { get; init; }
 
     public string? Biography { get; init; }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Reflection;
 
 namespace Skylight.Infrastructure;
@@ -15,6 +16,9 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         Assembly assembly = typeof(DependencyInjection).Assembly;
+
+        // Add Time Provider
+        services.AddSingleton(TimeProvider.System);
 
         return services;
     }
