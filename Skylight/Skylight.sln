@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{23C67D78
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Architecture-Test", "Skylight-Architecture-Test\Skylight-Architecture-Test.csproj", "{CC67A3AC-39D3-4644-B774-69E82EAD95CD}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Skylight-WebUI", "Skylight-WebUI\Skylight-WebUI.esproj", "{87810C35-5199-4A8F-B681-7CA9055D5E66}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,12 +57,6 @@ Global
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87810C35-5199-4A8F-B681-7CA9055D5E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87810C35-5199-4A8F-B681-7CA9055D5E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87810C35-5199-4A8F-B681-7CA9055D5E66}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{87810C35-5199-4A8F-B681-7CA9055D5E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87810C35-5199-4A8F-B681-7CA9055D5E66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87810C35-5199-4A8F-B681-7CA9055D5E66}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,7 +68,6 @@ Global
 		{441B8821-6351-46FF-A93E-1AC08782F032} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
 		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD} = {23C67D78-50AC-4052-A099-F14C154BE780}
-		{87810C35-5199-4A8F-B681-7CA9055D5E66} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DE45755-26C2-4DC8-954A-E9AD957F29FD}
