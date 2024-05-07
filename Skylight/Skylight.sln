@@ -3,19 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Skylight-WebUI", "Skylight-WebUI\Skylight-WebUI.esproj", "{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-API", "Skylight-API\Skylight-API.csproj", "{8D4DC780-CAA4-4C45-AFC8-5AB8879E693D}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Skylight-Database-Local", "Skylight-Database-Local\Skylight-Database-Local.sqlproj", "{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Infrastructure", "Skylight-Infrastructure\Skylight-Infrastructure.csproj", "{16D0D05D-BA1D-4514-B253-603103862FB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Core", "Skylight-Core\Skylight-Core.csproj", "{A976BAAF-19D0-44F4-8844-796698310674}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Data", "Skylight-Data\Skylight-Data.csproj", "{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight-DependencyInjection", "Skylight-DependencyInjection\Skylight-DependencyInjection.csproj", "{5F031194-C9F8-482E-8973-341859C7BC63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Domain", "Skylight-Domain\Skylight-Domain.csproj", "{441B8821-6351-46FF-A93E-1AC08782F032}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Application", "Skylight-Application\Skylight-Application.csproj", "{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{23C67D78-50AC-4052-A099-F14C154BE780}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Architecture-Test", "Skylight-Architecture-Test\Skylight-Architecture-Test.csproj", "{CC67A3AC-39D3-4644-B774-69E82EAD95CD}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Skylight-WebUI", "Skylight-WebUI\Skylight-WebUI.esproj", "{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CB9C77C0-AC51-4C8A-841D-B33156CF3E74}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{8D4DC780-CAA4-4C45-AFC8-5AB8879E693D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D4DC780-CAA4-4C45-AFC8-5AB8879E693D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D4DC780-CAA4-4C45-AFC8-5AB8879E693D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,21 +43,39 @@ Global
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A976BAAF-19D0-44F4-8844-796698310674}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F031194-C9F8-482E-8973-341859C7BC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F031194-C9F8-482E-8973-341859C7BC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F031194-C9F8-482E-8973-341859C7BC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F031194-C9F8-482E-8973-341859C7BC63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{441B8821-6351-46FF-A93E-1AC08782F032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{441B8821-6351-46FF-A93E-1AC08782F032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{441B8821-6351-46FF-A93E-1AC08782F032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{441B8821-6351-46FF-A93E-1AC08782F032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8D4DC780-CAA4-4C45-AFC8-5AB8879E693D} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
+		{16D0D05D-BA1D-4514-B253-603103862FB4} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
+		{F52084A2-1D41-4AD7-AF0F-4C54BFCE9DAF} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
+		{441B8821-6351-46FF-A93E-1AC08782F032} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
+		{4E2C31A3-E57B-4379-8E56-0253C6D12A3E} = {164CB5BB-0C13-4D26-AB16-7DCD9DCA5181}
+		{CC67A3AC-39D3-4644-B774-69E82EAD95CD} = {23C67D78-50AC-4052-A099-F14C154BE780}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DE45755-26C2-4DC8-954A-E9AD957F29FD}
