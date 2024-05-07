@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{23C67D78
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Architecture-Test", "Skylight-Architecture-Test\Skylight-Architecture-Test.csproj", "{CC67A3AC-39D3-4644-B774-69E82EAD95CD}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Skylight-WebUI", "Skylight-WebUI\Skylight-WebUI.esproj", "{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,12 @@ Global
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC67A3AC-39D3-4644-B774-69E82EAD95CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E7CC6D7-3F80-4B6B-81D1-7805E42BF74E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
