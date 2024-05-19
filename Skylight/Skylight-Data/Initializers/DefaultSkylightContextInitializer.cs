@@ -2,7 +2,7 @@
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
 
-namespace Skylight.Data.Contexts.Initializers;
+namespace Skylight.Data.Initializers;
 
 public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkylightContextInitializer
 {

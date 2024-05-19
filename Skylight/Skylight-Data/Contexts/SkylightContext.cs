@@ -1,18 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Skylight.Application.Configuration;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
 
 namespace Skylight.Data.Contexts;
 
-internal class SkylightContext(
+public class SkylightContext(
     ILogger<SkylightContext> logger,
-    IOptions<DatabaseOptions> config,
-    DbContextOptions<SkylightContext> contextOptions
-) : DbContext(contextOptions), ISkylightContext
+    DbContextOptions<SkylightContext> contextOptions)
+    : DbContext(contextOptions), ISkylightContext
 {
     public string ChangeTrackingStatus
     {
@@ -34,8 +31,6 @@ internal class SkylightContext(
     public DbSet<WeatherAlertModifier> WeatherAlertModifiers => Set<WeatherAlertModifier>();
 
     public DbSet<WeatherEvent> WeatherEvents => Set<WeatherEvent>();
-
-    public DbSet<WeatherIncident> WeatherIncidents => Set<WeatherIncident>();
 
     public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
     {
@@ -63,14 +58,6 @@ internal class SkylightContext(
     {
         await Database.EnsureDeletedAsync(cancellationToken);
         await Database.EnsureCreatedAsync(cancellationToken);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (config.Value.EnableSensitiveDataLogging)
-        {
-            optionsBuilder.EnableSensitiveDataLogging();
-        }
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

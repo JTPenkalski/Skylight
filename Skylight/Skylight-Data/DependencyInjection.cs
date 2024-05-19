@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Configuration;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Data.Contexts;
-using Skylight.Data.Contexts.Initializers;
+using Skylight.Data.Initializers;
 using Skylight.Domain.Exceptions;
 using System.Reflection;
 
@@ -29,16 +30,28 @@ public static class DependencyInjection
 
         InvalidConnectionStringException.ThrowIfNullOrWhiteSpace(connectionString, ConnectionName);
 
+        services
+            .AddScoped<ISkylightContextInitializer, DefaultSkylightContextInitializer>()
+            .Scan(scan => scan
+                .FromAssemblies(assembly)
+                    .AddClasses()
+                    .AsMatchingInterface()
+                    .WithScopedLifetime()
+            .FromAssemblies(assembly)
+                .AddClasses()
+                .AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IInterceptor)))
+                .WithScopedLifetime());
+
         // Add EF Core Database
-        services.AddDbContext<SkylightContext>(options =>
+        services.AddDbContext<SkylightContext>((provider, options) =>
         {
             options
                 .UseLazyLoadingProxies()
+                .AddInterceptors(provider.GetServices<IInterceptor>())
                 .UseSqlServer(connectionString);
-        });
 
-        services.AddScoped<ISkylightContext, SkylightContext>();
-        services.AddScoped<ISkylightContextInitializer, DefaultSkylightContextInitializer>();
+            options.EnableSensitiveDataLogging(GetDatabaseOptions(configuration).EnableSensitiveDataLogging);
+        });
         
         return services;
     }
@@ -50,7 +63,7 @@ public static class DependencyInjection
     public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app, IConfiguration configuration)
     {
         // Use EF Core Context Initializer
-        if (configuration.GetSection(DatabaseOptions.RootKey).Get<DatabaseOptions>()?.UseCreateAndDropMigrations ?? false)
+        if (GetDatabaseOptions(configuration).UseCreateAndDropMigrations)
         {
             using IServiceScope scope = app.ApplicationServices.CreateScope();
 
@@ -63,4 +76,7 @@ public static class DependencyInjection
 
         return app;
     }
+
+    private static DatabaseOptions GetDatabaseOptions(IConfiguration configuration) =>
+        configuration.GetSection(DatabaseOptions.RootKey).Get<DatabaseOptions>() ?? throw new InvalidOperationException($"Configuration for {DatabaseOptions.RootKey} did not exist!");
 }

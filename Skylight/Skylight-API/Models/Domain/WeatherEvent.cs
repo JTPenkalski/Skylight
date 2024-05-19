@@ -17,8 +17,5 @@ public record WeatherEvent : BaseModel
     [Required]
     public required Weather Weather { get; init; }
 
-    [Required]
-    public required IEnumerable<WeatherIncident> Incidents { get; init; }
-
     public DateTimeOffset? EndDate { get; init; }
 }

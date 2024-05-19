@@ -3,7 +3,7 @@ using AutoMapper;
 using FluentResults;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
-using Skylight.Application.Features.WeatherEvents;
+using Skylight.Application.UseCases.WeatherEvents;
 using Skylight.Web.Models;
 using Core = Skylight.Domain.Entities;
 

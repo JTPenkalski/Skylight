@@ -13,23 +13,24 @@ public abstract class BaseEntity
 {
     public Guid Id { get; set; }
 
-    private readonly List<DomainEvent> domainEvents = [];
+    [NotMapped]
+    public IReadOnlyCollection<DomainEvent> AllEvents => allEvents;
 
     [NotMapped]
-    public IReadOnlyCollection<DomainEvent> DomainEvents => domainEvents.AsReadOnly();
+    public IReadOnlyCollection<DomainEvent> NewEvents => newEvents;
 
-    public void AddDomainEvent(DomainEvent domainEvent)
+    private readonly List<DomainEvent> allEvents = [];
+    private readonly List<DomainEvent> newEvents = [];
+
+    protected void RaiseEvent(DomainEvent domainEvent)
     {
-        domainEvents.Add(domainEvent);
+        newEvents.Add(domainEvent);
+        allEvents.Add(domainEvent);
     }
 
-    public void RemoveDomainEvent(DomainEvent domainEvent)
+    public void HandleNewEvents()
     {
-        domainEvents.Remove(domainEvent);
-    }
-
-    public void ClearDomainEvents()
-    {
-        domainEvents.Clear();
+        newEvents.CopyTo([..allEvents]);
+        newEvents.Clear();
     }
 }

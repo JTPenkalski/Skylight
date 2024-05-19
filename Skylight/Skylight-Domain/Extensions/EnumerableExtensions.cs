@@ -1,4 +1,4 @@
-﻿namespace Skylight.Utilities.Extensions;
+﻿namespace Skylight.Domain.Extensions;
 
 /// <summary>
 /// Extension methods for any type of collection.
@@ -14,7 +14,7 @@ public static class EnumerableExtensions
     public static bool OneOf<T>(this T target, params T[] values) => values.Any(x => values.Contains(target));
 
     /// <inheritdoc cref="OneOf{T}(T, T[])"/>
-    public static bool OneOf<T>(this T target, IEnumerable<T> values) => OneOf(target, values.ToArray());
+    public static bool OneOf<T>(this T target, IEnumerable<T> values) => target.OneOf(values.ToArray());
 
     /// <summary>
     /// Adds additional enumerables to a base collection.

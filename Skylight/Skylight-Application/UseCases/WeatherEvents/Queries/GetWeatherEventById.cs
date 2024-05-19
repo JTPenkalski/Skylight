@@ -3,7 +3,7 @@ using Skylight.Application.Interfaces.Application;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Entities;
 
-namespace Skylight.Application.Features.WeatherEvents;
+namespace Skylight.Application.UseCases.WeatherEvents;
 
 public sealed record GetWeatherEventByIdQuery(Guid Id)
     : IQuery<WeatherEvent?>;
