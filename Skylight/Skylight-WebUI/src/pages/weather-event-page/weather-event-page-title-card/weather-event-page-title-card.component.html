@@ -1,0 +1,39 @@
+<nb-card accent="info">
+  <nb-card-header>
+    <nb-badge position="top start" status="danger" text="Live"></nb-badge>
+      <h1 class="title">{{title}}</h1>  
+      <span class="hero-buttons">
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
+
+        @if (isActive) {
+          <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
+        }
+      </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="info-cards">
+      <skylight-icon-card icon="clock" nbTooltip="Duration">
+        <span>
+          {{startDate | date:'long'}}
+
+          @if (!isActive) {
+            - {{endDate | date:'long'}}
+          }
+        </span>
+      </skylight-icon-card>
+      <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
+        <span>{{damageCost}}</span>
+      </skylight-icon-card>
+      <skylight-icon-card icon="person" nbTooltip="Affected People">
+        <span>{{affectedPeople}}</span>
+      </skylight-icon-card>
+    </div>
+    
+    
+    <p>{{description}}</p>
+  </nb-card-body>
+  <nb-card-footer>
+    <skylight-tab-container></skylight-tab-container>
+  </nb-card-footer>
+</nb-card>

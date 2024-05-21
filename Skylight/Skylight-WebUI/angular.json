@@ -5,10 +5,14 @@
   "projects": {
     "Skylight-WebUI": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "skylight",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -25,10 +29,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "node_modules/@nebular/theme/styles/prebuilt/default.css",
               "node_modules/@nebular/theme/styles/prebuilt/dark.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -86,7 +95,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss",
+              "node_modules/@nebular/theme/styles/prebuilt/default.css",
+              "node_modules/@nebular/theme/styles/prebuilt/dark.css"
             ],
             "scripts": [],
             "karmaConfig": "karma.conf.js"

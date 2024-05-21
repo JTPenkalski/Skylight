@@ -12,6 +12,6 @@ import { NbButtonModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme'
     RouterOutlet
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent { }

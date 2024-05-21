@@ -9,8 +9,15 @@ namespace Skylight.Domain.Entities;
 /// <remarks>
 /// Consider using <see cref="BaseAuditableEntity"/> to track auditable data as well.
 /// </remarks>
-public abstract class BaseEntity
+public abstract class BaseEntity : IEquatable<BaseEntity>
 {
+    private readonly List<DomainEvent> allEvents = [];
+    private readonly List<DomainEvent> newEvents = [];
+
+    public static bool operator ==(BaseEntity left, BaseEntity right) => left.Equals(right);
+
+    public static bool operator !=(BaseEntity left, BaseEntity right) => !(left == right);
+
     public Guid Id { get; set; }
 
     [NotMapped]
@@ -19,18 +26,21 @@ public abstract class BaseEntity
     [NotMapped]
     public IReadOnlyCollection<DomainEvent> NewEvents => newEvents;
 
-    private readonly List<DomainEvent> allEvents = [];
-    private readonly List<DomainEvent> newEvents = [];
+    public override bool Equals(object? obj) => Equals(obj as BaseEntity);
+
+    public override int GetHashCode() => Id.GetHashCode();
+
+    public bool Equals(BaseEntity? other) => other is not null && other.Id == Id;
+
+    public void HandleNewEvents()
+    {
+        newEvents.CopyTo([.. allEvents]);
+        newEvents.Clear();
+    }
 
     protected void RaiseEvent(DomainEvent domainEvent)
     {
         newEvents.Add(domainEvent);
         allEvents.Add(domainEvent);
-    }
-
-    public void HandleNewEvents()
-    {
-        newEvents.CopyTo([..allEvents]);
-        newEvents.Clear();
     }
 }

@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
+import { WeatherEventPageTitleCardComponent } from './';
 
 @Component({
-  selector: 'app-weather-event-page',
+  selector: 'skylight-weather-event-page',
   standalone: true,
-  imports: [],
+  imports: [
+    WeatherEventPageTitleCardComponent
+  ],
   templateUrl: './weather-event-page.component.html',
-  styleUrl: './weather-event-page.component.css'
+  styleUrl: './weather-event-page.component.scss'
 })
 export class WeatherEventPageComponent {
-
+  
 }
