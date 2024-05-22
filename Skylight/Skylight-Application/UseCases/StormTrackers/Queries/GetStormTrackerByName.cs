@@ -18,7 +18,7 @@ public sealed record GetStormTrackerByNameResponse(
     DateTimeOffset? StartDate = null)
     : IResponse;
 
-public class GetStormTrackerByNameHandler(ISkylightContext context)
+public class GetStormTrackerByNameQueryHandler(ISkylightContext context)
     : IQueryHandler<GetStormTrackerByNameQuery, GetStormTrackerByNameResponse>
 {
     public async Task<Result<GetStormTrackerByNameResponse>> Handle(GetStormTrackerByNameQuery request, CancellationToken cancellationToken)

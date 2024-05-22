@@ -31,7 +31,7 @@ public class EntityNotFoundExceptionHandlerTests
         var exception = new EntityNotFoundException("MESSAGE");
         var state = new RequestExceptionHandlerState<Result>();
 
-        var handler = new EntityNotFoundExceptionHandler<TestCommand>();
+        var handler = new EntityNotFoundExceptionHandler();
 
         // Act
         await handler.Handle(command, exception, state, CancellationToken.None);
@@ -90,7 +90,7 @@ public class EntityNotFoundExceptionHandlerTests
     public static IMediator GetMediator()
     {
         IServiceProvider serviceProvider = new ServiceCollection()
-            .AddScoped<IRequestExceptionHandler<TestCommand, Result, EntityNotFoundException>, EntityNotFoundExceptionHandler<TestCommand>>()
+            .AddScoped<IRequestExceptionHandler<TestCommand, Result, EntityNotFoundException>, EntityNotFoundExceptionHandler>()
             .AddMediatR(config => config
                 .RegisterServicesFromAssemblyContaining<TestCommandHandler>())
             .BuildServiceProvider();
