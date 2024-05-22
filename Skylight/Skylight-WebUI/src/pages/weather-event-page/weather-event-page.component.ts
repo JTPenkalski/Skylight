@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { WeatherEventPageTitleCardComponent } from './';
+import { WeatherEventPageTitleCardComponent } from './components';
+import { WeatherEventService } from './services';
 
 @Component({
   selector: 'skylight-weather-event-page',
@@ -11,5 +12,5 @@ import { WeatherEventPageTitleCardComponent } from './';
   styleUrl: './weather-event-page.component.scss'
 })
 export class WeatherEventPageComponent {
-  
+  constructor(private readonly service: WeatherEventService) { }
 }

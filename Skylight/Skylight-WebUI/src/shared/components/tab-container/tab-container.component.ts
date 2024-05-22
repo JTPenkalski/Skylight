@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbButtonModule, NbCardModule, NbIconModule, NbTagModule } from '@nebular/theme';
-import { NoSelectDirective } from 'directives';
+import { NoSelectDirective } from 'shared/directives';
 
 @Component({
   selector: 'skylight-tab-container',

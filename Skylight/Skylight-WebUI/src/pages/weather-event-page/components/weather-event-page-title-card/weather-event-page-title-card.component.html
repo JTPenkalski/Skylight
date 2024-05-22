@@ -1,15 +1,11 @@
 <nb-card accent="info">
   <nb-card-header>
-    <nb-badge position="top start" status="danger" text="Live"></nb-badge>
-      <h1 class="title">{{title}}</h1>  
-      <span class="hero-buttons">
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
-
-        @if (isActive) {
-          <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
-        }
-      </span>
+    <h1 class="title">{{title}}</h1>  
+    <span class="hero-buttons">
+      <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+      <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
+      <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
+    </span>
   </nb-card-header>
   <nb-card-body>
     <div class="info-cards">
@@ -18,7 +14,7 @@
           {{startDate | date:'long'}}
 
           @if (!isActive) {
-            - {{endDate | date:'long'}}
+            to {{endDate | date:'long'}}
           }
         </span>
       </skylight-icon-card>

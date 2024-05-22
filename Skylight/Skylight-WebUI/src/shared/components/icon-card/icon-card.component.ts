@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbCardModule, NbIconModule } from '@nebular/theme';
-import { DarkenDirective } from 'directives';
+import { DarkenDirective } from 'shared/directives';
 
 @Component({
   selector: 'skylight-icon-card',
