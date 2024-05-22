@@ -6,16 +6,37 @@ using Skylight.Domain.Entities;
 namespace Skylight.Application.UseCases.WeatherEvents;
 
 public sealed record GetWeatherEventByIdQuery(Guid Id)
-    : IQuery<WeatherEvent?>;
+    : IQuery<GetWeatherEventByIdResponse>;
+
+public sealed record GetWeatherEventByIdResponse(
+    string Name,
+    string Description,
+    DateTimeOffset StartDate,
+    DateTimeOffset? EndDate = null,
+    long? DamageCost = null,
+    int? AffectedPeople = null);
 
 public class GetWeatherEventByIdQueryHandler(ISkylightContext context)
-    : IQueryHandler<GetWeatherEventByIdQuery, WeatherEvent?>
+    : IQueryHandler<GetWeatherEventByIdQuery, GetWeatherEventByIdResponse>
 {
-    public async Task<Result<WeatherEvent?>> Handle(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetWeatherEventByIdResponse>> Handle(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
     {
         WeatherEvent? weatherEvent = await context.WeatherEvents
             .FindAsync([request.Id], cancellationToken);
 
-        return Result.FailIf(weatherEvent is null, $"{nameof(WeatherEvent)} was not found.").ToResult(weatherEvent);
+        if (weatherEvent is null)
+        {
+            return Result.Fail($"{nameof(WeatherEvent)} was not found.");
+        }
+
+        var response = new GetWeatherEventByIdResponse(
+            Name: weatherEvent.Name,
+            Description: weatherEvent.Description,
+            StartDate: weatherEvent.StartDate,
+            EndDate: weatherEvent.EndDate,
+            DamageCost: 123456789,
+            AffectedPeople: 1234);
+
+        return Result.Ok(response);
     }
 }

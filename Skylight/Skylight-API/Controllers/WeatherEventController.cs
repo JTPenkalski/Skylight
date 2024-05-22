@@ -1,11 +1,9 @@
 ﻿using Asp.Versioning;
-using AutoMapper;
 using FluentResults;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Skylight.Application.UseCases.WeatherEvents;
-using Skylight.Web.Models;
-using Core = Skylight.Domain.Entities;
+using Skylight.Domain.Entities;
 
 namespace Skylight.Controllers
 {
@@ -15,22 +13,39 @@ namespace Skylight.Controllers
     [ApiController]
     [ApiVersion(SkylightApiVersion.VERSION)]
     public class WeatherEventController(
-        IMapper mapper,
         IMediator mediator)
-        : BaseController<Core.WeatherEvent, WeatherEvent>
+        : BaseController
     {
         /// <summary>
         /// Creates a new <see cref="WeatherEvent"/>.
         /// </summary>
         /// <param name="request">Data to create the entity.</param>
+        /// <returns>A <see cref="CreateWeatherEventResponse"/>.</returns>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public virtual async Task<ActionResult<WeatherEvent>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
+        [Route(nameof(CreateWeatherEvent))]
+        public virtual async Task<ActionResult<CreateWeatherEventResponse>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
         {
-            Result<Core.WeatherEvent> result = await mediator.Send(request, cancellationToken);
+            Result<CreateWeatherEventResponse> result = await mediator.Send(request, cancellationToken);
 
-            return result.Map(mapper.Map<Core.WeatherEvent, WeatherEvent>).ToActionResult();
+            return result.ToActionResult();
+        }
+
+        /// <summary>
+        /// Gets a <see cref="WeatherEvent"/> by its ID.
+        /// </summary>
+        /// <param name="request">Data to find the entity.</param>
+        /// <returns>A <see cref="GetWeatherEventByIdResponse"/>.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        [Route(nameof(GetWeatherEventById))]
+        public virtual async Task<ActionResult<GetWeatherEventByIdResponse>> GetWeatherEventById(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
+        {
+            Result<GetWeatherEventByIdResponse> result = await mediator.Send(request, cancellationToken);
+
+            return result.ToActionResult();
         }
     }
 }
