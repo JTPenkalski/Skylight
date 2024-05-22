@@ -6,36 +6,39 @@ using Skylight.Domain.Entities;
 
 namespace Skylight.Application.UseCases.StormTrackers;
 
-public sealed record GetStormTrackerByNameQuery(
+public sealed record GetStormTrackersByNameQuery(
     string? FirstName = null,
     string? LastName = null)
-    : IQuery<GetStormTrackerByNameResponse>;
+    : IQuery<GetStormTrackersByNameResponse>;
 
-public sealed record GetStormTrackerByNameResponse(
-    string FirstName,
-    string LastName,
-    string? Biography = null,
-    DateTimeOffset? StartDate = null)
-    : IResponse;
-
-public class GetStormTrackerByNameQueryHandler(ISkylightContext context)
-    : IQueryHandler<GetStormTrackerByNameQuery, GetStormTrackerByNameResponse>
+public sealed record GetStormTrackersByNameResponse : IResponse
 {
-    public async Task<Result<GetStormTrackerByNameResponse>> Handle(GetStormTrackerByNameQuery request, CancellationToken cancellationToken)
+    public required IEnumerable<StormTrackerByName> StormTrackers { get; init; } = [];
+
+    public sealed record StormTrackerByName(
+        string FirstName,
+        string LastName,
+        string? Biography = null,
+        DateTimeOffset? StartDate = null);
+};
+
+public class GetStormTrackersByNameQueryHandler(ISkylightContext context)
+    : IQueryHandler<GetStormTrackersByNameQuery, GetStormTrackersByNameResponse>
+{
+    public async Task<Result<GetStormTrackersByNameResponse>> Handle(GetStormTrackersByNameQuery request, CancellationToken cancellationToken)
     {
-        StormTracker? stormTracker = await context.StormTrackers
-            .FirstOrDefaultAsync(x => FirstAndLastNameMatch(x, request.FirstName, request.LastName), cancellationToken);
+        IEnumerable<StormTracker> stormTrackers = await context.StormTrackers
+            .Where(x => FirstAndLastNameMatch(x, request.FirstName, request.LastName))
+            .ToListAsync(cancellationToken);
 
-        if (stormTracker is null)
+        var response = new GetStormTrackersByNameResponse
         {
-            return Result.Fail($"{nameof(StormTracker)} was not found.");
-        }
-
-        var response = new GetStormTrackerByNameResponse(
-            FirstName: stormTracker.FirstName,
-            LastName: stormTracker.LastName,
-            Biography: stormTracker.Biography,
-            StartDate: stormTracker.StartDate);
+            StormTrackers = stormTrackers.Select(x => new GetStormTrackersByNameResponse.StormTrackerByName(
+                FirstName: x.FirstName,
+                LastName: x.LastName,
+                Biography: x.Biography,
+                StartDate: x.StartDate))
+        };
 
         return Result.Ok(response);
     }

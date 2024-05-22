@@ -17,16 +17,16 @@ namespace Skylight.Controllers
         : BaseController
     {
         /// <summary>
-        /// Gets a <see cref="StormTracker"/> by their name.
+        /// Gets all <see cref="StormTracker"/>s with the specified name.
         /// </summary>
         /// <param name="request">Data to find the entity.</param>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        [Route(nameof(GetStormTrackerByName))]
-        public virtual async Task<ActionResult<GetStormTrackerByNameResponse>> GetStormTrackerByName(GetStormTrackerByNameQuery request, CancellationToken cancellationToken)
+        [Route(nameof(GetStormTrackersByName))]
+        public virtual async Task<ActionResult<GetStormTrackersByNameResponse>> GetStormTrackersByName(GetStormTrackersByNameQuery request, CancellationToken cancellationToken)
         {
-            Result<GetStormTrackerByNameResponse> result = await mediator.Send(request, cancellationToken);
+            Result<GetStormTrackersByNameResponse> result = await mediator.Send(request, cancellationToken);
 
             return result.ToActionResult();
         }
