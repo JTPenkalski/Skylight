@@ -13,6 +13,10 @@ public class WeatherEvent : BaseAuditableEntity
 
     public DateTimeOffset? EndDate { get; set; }
 
+    public long? DamageCost { get; set; }
+
+    public int? AffectedPeople { get; set; }
+
     public virtual IList<WeatherEventAlert> Alerts { get; set; } = new List<WeatherEventAlert>();
 
     public virtual IList<WeatherEventParticipant> Participants { get; set; } = new List<WeatherEventParticipant>();

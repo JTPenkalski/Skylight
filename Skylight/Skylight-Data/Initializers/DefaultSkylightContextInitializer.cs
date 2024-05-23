@@ -96,6 +96,23 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 
         await context.WeatherAlerts.AddRangeAsync(weatherAlerts);
 
+        // Weather Events
+        var weatherEvents = new WeatherEvent[]
+        {
+            new()
+            {
+                Id = Guid.Parse("8513237d-1a5a-45bd-9d63-1b83d633ea11"),
+                Name = "Tornado Outbreak of April 26-28, 2024",
+                Description = "From April 26-28, 2024, a very large, deadly and destructive tornado outbreak occurred across the Midwestern, Southern, and High Plains regions of the United States, primarily on April 26 and 27. The Storm Prediction Center (SPC) first issued an enhanced risk for the Plains on April 26, as a broad upper-trough moved eastwards, with tornadic activity erupted in the states of Iowa and Kansas that evening. A moderate risk was issued by the SPC on April 27 for areas further south in Oklahoma, where a deadly nocturnal event unfolded with many supercell thunderstorms and tornadoes tracking over towns several times. Millions were put under a particularly dangerous situation (PDS) tornado watch on April 27, and several PDS tornado warnings were issued that night as numerous strong tornadoes touched down. The outbreak served as the beginning of a broader 16-day period of constant severe weather and tornado activity across the United States that would continue until May 10.",
+                StartDate = new DateTimeOffset(2024, 4, 26, 20, 0, 0, TimeSpan.Zero),
+                EndDate = new DateTimeOffset(2024, 4, 28, 10, 0, 0, TimeSpan.Zero),
+                DamageCost = 1_800_000_000,
+                AffectedPeople = 8
+            }
+        };
+
+        await context.WeatherEvents.AddRangeAsync(weatherEvents);
+
         // Commit Changes
         await context.CommitAsync();
     }

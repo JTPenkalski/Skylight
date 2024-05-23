@@ -63,8 +63,12 @@ public static class DependencyInjection
     {
         // Add CORS
         services.AddCors(options => options.AddPolicy(
-            "SkylightOrigins",
-            policy => policy.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
+            SkylightOrigins.LocalHostPolicy,
+            builder => builder
+                .WithOrigins("https://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
         ));
 
         return services;

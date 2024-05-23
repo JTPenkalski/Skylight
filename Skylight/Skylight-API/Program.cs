@@ -1,5 +1,6 @@
 using Skylight.Application;
 using Skylight.Application.Configuration;
+using Skylight.Controllers;
 using Skylight.Data;
 using Skylight.Infrastructure;
 using Skylight.Web;
@@ -52,8 +53,9 @@ public class Program
         
         // Add Middleware
         app.UseHttpsRedirection();
+        app.UseCors(SkylightOrigins.LocalHostPolicy);
         app.UseAuthorization();
-        app.UseCors("SkylightOrigins");
+        
         app.MapControllers();
         
         // Add Development Middleware

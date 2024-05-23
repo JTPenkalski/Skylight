@@ -1,1 +1,1 @@
-export * from './weather-event';
+export * from './weather-event-summary';

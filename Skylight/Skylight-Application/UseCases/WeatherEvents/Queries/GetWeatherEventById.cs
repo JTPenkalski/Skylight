@@ -12,9 +12,9 @@ public sealed record GetWeatherEventByIdResponse(
     string Name,
     string Description,
     DateTimeOffset StartDate,
-    DateTimeOffset? EndDate = null,
-    long? DamageCost = null,
-    int? AffectedPeople = null);
+    DateTimeOffset? EndDate,
+    long? DamageCost,
+    int? AffectedPeople);
 
 public class GetWeatherEventByIdQueryHandler(ISkylightContext context)
     : IQueryHandler<GetWeatherEventByIdQuery, GetWeatherEventByIdResponse>
@@ -34,8 +34,8 @@ public class GetWeatherEventByIdQueryHandler(ISkylightContext context)
             Description: weatherEvent.Description,
             StartDate: weatherEvent.StartDate,
             EndDate: weatherEvent.EndDate,
-            DamageCost: 123456789,
-            AffectedPeople: 1234);
+            DamageCost: weatherEvent.DamageCost,
+            AffectedPeople: weatherEvent.AffectedPeople);
 
         return Result.Ok(response);
     }

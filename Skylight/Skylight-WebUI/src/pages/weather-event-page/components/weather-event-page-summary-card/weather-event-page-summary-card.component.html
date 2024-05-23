@@ -1,0 +1,42 @@
+@if (!!summary) {
+  <nb-card accent="info">
+    <nb-card-header>
+      <h1 class="title">{{summary.name}}</h1>  
+      <span class="hero-buttons">
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
+      </span>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="info-cards">
+        <skylight-icon-card icon="clock" nbTooltip="Duration">
+          <span>
+            {{summary.startDate | date:'long'}}
+  
+            @if (!isActive) {
+              to {{summary.endDate | date:'long'}}
+            }
+          </span>
+        </skylight-icon-card>
+        <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
+          <span>{{summary.damageCost}}</span>
+        </skylight-icon-card>
+        <skylight-icon-card icon="person" nbTooltip="Affected People">
+          <span>{{summary.affectedPeople}}</span>
+        </skylight-icon-card>
+      </div>
+      
+      <p>{{summary.description}}</p>
+    </nb-card-body>
+    <nb-card-footer>
+      <skylight-tab-container></skylight-tab-container>
+    </nb-card-footer>
+  </nb-card>
+} @else {
+  <nb-card [nbSpinner]="true" nbSpinnerStatus="info" nbSpinnerSize="giant">
+    <nb-card-body>
+      Loading...
+    </nb-card-body>
+  </nb-card>
+}
