@@ -1,100 +1,43 @@
 ﻿using FluentResults;
 using MediatR;
-using MediatR.Pipeline;
-using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Interfaces.Application;
 using Skylight.Application.PipelineBehaviors;
-using Skylight.Domain.Entities;
 using Skylight.Domain.Exceptions;
 
 namespace Skylight.Tests.Application.PipelineBehaviors;
 
 public class EntityNotFoundExceptionHandlerTests
 {
-    public sealed record TestCommand(Action Action) : ICommand;
+    private record TestRequest() : ICommand;
+    private record TestResponse() : IResponse;
 
-    public class TestCommandHandler : ICommandHandler<TestCommand>
-    {
-        public Task<Result> Handle(TestCommand request, CancellationToken cancellationToken)
-        {
-            request.Action();
-
-            return Task.FromResult(Result.Ok());
-        }
-    }
+    private EntityNotFoundExceptionHandler<TestRequest, Result<TestResponse>> EntityNotFoundExceptionHandler { get; } = new();
 
     [Fact]
-    public async Task Handle_Should_Set_Handled()
+    public async Task Handle_Should_ReturnFailedResultOnEntityNotFoundException()
     {
         // Arrange
-        var command = new TestCommand(() => { });
-        var exception = new EntityNotFoundException("MESSAGE");
-        var state = new RequestExceptionHandlerState<Result>();
-
-        var handler = new EntityNotFoundExceptionHandler();
+        var request = new TestRequest();
+        RequestHandlerDelegate<Result<TestResponse>> next = () => throw new EntityNotFoundException();
 
         // Act
-        await handler.Handle(command, exception, state, CancellationToken.None);
-
-        // Assert
-        Assert.True(state.Handled);
-        Assert.True(state.Response!.IsFailed);
-        Assert.Contains(state.Response!.Errors, x => x.Message.Contains(exception.Message));
-    }
-
-    [Fact]
-    public async Task Handle_Should_Return_Sucess_Result()
-    {
-        // Arrange
-        var command = new TestCommand(() => { });
-
-        IMediator mediator = GetMediator();
-
-        // Act
-        Result result = await mediator.Send(command);
-
-        // Assert
-        Assert.True(result.IsSuccess);
-    }
-
-    public static TheoryData<Guid?> Handle_Should_Return_Failed_Result_Data =>
-        new()
-        {
-            null,
-            Guid.Empty,
-            Guid.NewGuid(),
-        };
-
-    [Theory]
-    [MemberData(nameof(Handle_Should_Return_Failed_Result_Data))]
-    public async Task Handle_Should_Return_Failed_Result(Guid? id)
-    {
-        // Arrange
-        var command = new TestCommand(() => EntityNotFoundException.ThrowIfNullOrDeleted<BaseAuditableEntity>(null, id));
-
-        IMediator mediator = GetMediator();
-
-        // Act
-        Result result = await mediator.Send(command);
+        Result<TestResponse> result = await EntityNotFoundExceptionHandler.Handle(request, next, CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);
-
-        if (id.HasValue)
-        {
-            Assert.Contains(result.Errors, x => x.Message.Contains(id.Value.ToString()));
-        }
     }
 
-    // TODO: Move this to an Integration Test suite?
-    public static IMediator GetMediator()
+    [Fact]
+    public async Task Handle_Should_IgnoreOtherException()
     {
-        IServiceProvider serviceProvider = new ServiceCollection()
-            .AddScoped<IRequestExceptionHandler<TestCommand, Result, EntityNotFoundException>, EntityNotFoundExceptionHandler>()
-            .AddMediatR(config => config
-                .RegisterServicesFromAssemblyContaining<TestCommandHandler>())
-            .BuildServiceProvider();
+        // Arrange
+        var request = new TestRequest();
+        RequestHandlerDelegate<Result<TestResponse>> next = () => throw new Exception();
 
-        return serviceProvider.GetRequiredService<IMediator>();
+        // Act
+        Task<Result<TestResponse>> resultTask = EntityNotFoundExceptionHandler.Handle(request, next, CancellationToken.None);
+
+        // Assert
+        await Assert.ThrowsAsync<Exception>(() => resultTask);
     }
 }

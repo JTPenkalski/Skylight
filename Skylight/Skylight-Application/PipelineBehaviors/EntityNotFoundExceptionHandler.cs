@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 using MediatR;
-using MediatR.Pipeline;
+using Skylight.Application.Attributes;
 using Skylight.Domain.Exceptions;
 
 namespace Skylight.Application.PipelineBehaviors;
@@ -8,12 +8,23 @@ namespace Skylight.Application.PipelineBehaviors;
 /// <summary>
 /// Catches any <see cref="EntityNotFoundException"/> and returns a failed <see cref="Result"/> to the sender.
 /// </summary>
-public class EntityNotFoundExceptionHandler : IRequestExceptionHandler<IRequest<Result>, Result, EntityNotFoundException>
+[ServiceBehavior]
+public class EntityNotFoundExceptionHandler<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IBaseRequest
+    where TResponse : ResultBase, new()
 {
-    public Task Handle(IRequest<Result> request, EntityNotFoundException exception, RequestExceptionHandlerState<Result> state, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        state.SetHandled(Result.Fail(exception.Message));
-        
-        return Task.CompletedTask;
+        try
+        {
+            return await next();
+        }
+        catch (EntityNotFoundException ex)
+        {
+            var result = new TResponse();
+            result.Reasons.Add(new Error(ex.Message));
+
+            return result;
+        }
     }
 }

@@ -67,4 +67,20 @@ public class NamingTests(ITestOutputHelper outputHelper)
 
         Assert.True(result.IsSuccessful);
     }
+
+    [Fact]
+    public void Responses_Should_HaveResponseSuffix()
+    {
+        TestResult result = Types
+            .InAssembly(Assemblies.Application)
+            .That()
+            .ImplementInterface(typeof(IResponse))
+            .Should()
+            .HaveNameEndingWith("Response")
+            .GetResult();
+
+        TestOutputHelpers.PrintFailingTypes(outputHelper, result);
+
+        Assert.True(result.IsSuccessful);
+    }
 }
