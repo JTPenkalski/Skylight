@@ -3,7 +3,11 @@
     <nb-card-header>
       <h1 class="title">{{summary.name}}</h1>  
       <span class="hero-buttons">
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+        @if (isTracking) {
+          <button nbButton hero (click)="toggleTracking()" shape="semi-round" size="medium" status="primary"><nb-icon icon="eye-off"></nb-icon>UNTRACK</button>
+        } @else {
+          <button nbButton hero (click)="toggleTracking()" shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+        }
         <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
         <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
       </span>

@@ -1,5 +1,6 @@
-import { ApplicationConfig, EnvironmentProviders, InjectionToken, importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
+import { ApplicationConfig, EnvironmentProviders, importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSidebarModule, NbThemeModule } from '@nebular/theme';
@@ -14,6 +15,7 @@ import { credentialsInterceptor } from 'web/middleware';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideSkylightApiUrl(),
+    provideAnimations(),
     provideHttpClient(
       withFetch(),
       withInterceptors([credentialsInterceptor])

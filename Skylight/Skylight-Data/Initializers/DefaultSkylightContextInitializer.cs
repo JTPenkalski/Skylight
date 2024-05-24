@@ -113,6 +113,21 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 
         await context.WeatherEvents.AddRangeAsync(weatherEvents);
 
+        // Storm Trackers
+        var stormTrackers = new StormTracker[]
+        {
+            new()
+            {
+                Id = Guid.Parse("472e9768-f238-49d5-8948-b1bca50e7bb9"),
+                FirstName = "Reed",
+                LastName = "Timmer",
+                Biography = "An American meteorologist and storm chaser. Born in Grand Rapids, Michigan, he took an interest in science, including weather, at a young age, before experiencing severe weather, including a hailstorm at age 13. After presenting weather forecasts at his high school, he began studying meteorology at the University of Oklahoma, completing his PhD in 2015.",
+                StartDate = new DateTimeOffset(2015, 3, 17, 19, 8, 0, TimeSpan.Zero)
+            }
+        };
+
+        await context.StormTrackers.AddRangeAsync(stormTrackers);
+
         // Commit Changes
         await context.CommitAsync();
     }

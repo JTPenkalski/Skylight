@@ -25,4 +25,9 @@ public class WeatherEvent : BaseAuditableEntity
     {
         Participants.Add(participant);
     }
+
+    public void RemoveParticipant(WeatherEventParticipant participant)
+    {
+        Participants.Remove(participant);
+    }
 }

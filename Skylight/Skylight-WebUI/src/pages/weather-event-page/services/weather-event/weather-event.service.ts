@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { GetWeatherEventByIdQuery, SkylightClient } from 'web/clients';
+import { AddWeatherEventParticipantCommand, GetWeatherEventByIdQuery, ParticipationMethod, SkylightClient } from 'web/clients';
 import { WeatherEventSummary } from '../../models';
 
 @Injectable({
@@ -26,5 +26,15 @@ export class WeatherEventService {
         );
       })
     );
+  }
+
+  public trackWeatherEvent(weatherEventId: string, stormTrackerId: string): Observable<void> {
+    const request: AddWeatherEventParticipantCommand = {
+      weatherEventId: weatherEventId,
+      stormTrackerId: stormTrackerId,
+      participationMethod: ParticipationMethod.Tracked
+    };
+
+    return this.client.addWeatherEventParticipant(request);
   }
 }

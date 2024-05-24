@@ -33,6 +33,21 @@ namespace Skylight.Controllers
         }
 
         /// <summary>
+        /// Adds a <see cref="StormTracker"/> to a <see cref="WeatherEvent"/>.
+        /// </summary>
+        /// <param name="request">Data to create the entity.</param>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        [Route(nameof(AddWeatherEventParticipant))]
+        public virtual async Task<ActionResult> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
+        {
+            Result result = await mediator.Send(request, cancellationToken);
+
+            return result.ToActionResult();
+        }
+
+        /// <summary>
         /// Gets a <see cref="WeatherEvent"/> by its ID.
         /// </summary>
         /// <param name="request">Data to find the entity.</param>
