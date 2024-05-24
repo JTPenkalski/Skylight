@@ -1,13 +1,31 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig, EnvironmentProviders, importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbSidebarModule, NbThemeModule } from '@nebular/theme';
 
 import { routes } from './app.routes';
-import { NbButtonModule, NbLayoutModule, NbSidebarModule, NbThemeModule } from '@nebular/theme';
+
+import { environment } from 'environments/environment';
+
+import { SKYLIGHT_BASE_API_URL } from 'web/clients';
+import { credentialsInterceptor } from 'web/middleware';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideSkylightApiUrl(),
+    provideAnimations(),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([credentialsInterceptor])
+    ),
+    provideRouter(
+      routes,
+      withComponentInputBinding()
+    ),
     importProvidersFrom(
+      NbEvaIconsModule,
       NbThemeModule.forRoot({
         name: 'dark'
       }),
@@ -15,3 +33,12 @@ export const appConfig: ApplicationConfig = {
     )
   ]
 };
+
+function provideSkylightApiUrl(): EnvironmentProviders {
+  return makeEnvironmentProviders([
+    {
+      provide: SKYLIGHT_BASE_API_URL,
+      useValue: environment.skylightApiUrl
+    }
+  ]);
+}

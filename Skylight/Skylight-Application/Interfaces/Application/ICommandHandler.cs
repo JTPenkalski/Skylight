@@ -13,4 +13,5 @@ public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result>
 /// Denotes a service that handles a <typeparamref name="TCommand"/> command and returns a <typeparamref name="TResponse"/>.
 /// </summary>
 public interface ICommandHandler<TCommand, TResponse> : IRequestHandler<TCommand, Result<TResponse>>
-    where TCommand : ICommand<TResponse> { }
+    where TCommand : ICommand<TResponse>
+    where TResponse : IResponse { }

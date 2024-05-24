@@ -1,0 +1,1 @@
+export * from './weather-event-page-summary-card/weather-event-page-summary-card.component';

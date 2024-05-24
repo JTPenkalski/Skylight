@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR.Pipeline;
+using Microsoft.Extensions.DependencyInjection;
+using Skylight.Application.Attributes;
 using System.Reflection;
 
 namespace Skylight.Application;
@@ -18,8 +20,28 @@ public static class DependencyInjection
 
         // Add Application Services
         services
-            .AddMediatR(config => config.RegisterServicesFromAssembly(assembly));
+            .AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssembly(assembly);
 
-        return services;
+                IEnumerable<Type> pipelineBehaviorTypes = assembly.GetTypes()
+                    .Where(t => t.GetCustomAttribute<ServiceBehaviorAttribute>() is not null);
+
+                foreach (Type type in pipelineBehaviorTypes)
+                {
+                    config.AddOpenBehavior(type);
+                }
+            })
+            .Scan(scan => scan
+                .FromAssemblies(assembly)
+                    .AddClasses()
+                    .AsMatchingInterface()
+                    .WithScopedLifetime()
+                .FromAssemblies(assembly)
+                    .AddClasses()
+                    .AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IRequestExceptionHandler<,,>)))
+                    .WithScopedLifetime());
+
+            return services;
     }
 }

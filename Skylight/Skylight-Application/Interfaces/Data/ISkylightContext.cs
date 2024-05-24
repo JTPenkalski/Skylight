@@ -22,8 +22,6 @@ public interface ISkylightContext
 
     DbSet<WeatherEvent> WeatherEvents { get; }
 
-    DbSet<WeatherIncident> WeatherIncidents { get; }
-
     /// <summary>
     /// Saves all changes in the current transaction.
     /// </summary>

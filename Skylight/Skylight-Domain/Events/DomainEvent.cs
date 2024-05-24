@@ -1,6 +1,5 @@
-﻿namespace Skylight.Domain.Events;
+﻿using MediatR;
 
-public abstract class DomainEvent
-{
+namespace Skylight.Domain.Events;
 
-}
+public abstract record DomainEvent(Guid Id) : INotification;
