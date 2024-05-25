@@ -243,7 +243,7 @@
        transform="translate(-8.00294,64)" /><text
        xml:space="preserve"
        id="text1"
-       style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:202.667px;font-family:Sans;-inkscape-font-specification:'Sans, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect2);fill:#f9f9f9;fill-opacity:1"
+       style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:202.667px;font-family:Sans;-inkscape-font-specification:'Sans, Bold Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect2);display:inline;fill:#f9f9f9;fill-opacity:1"
        transform="translate(-148.69271,560.67627)"><tspan
          x="468"
          y="-359.10074"
