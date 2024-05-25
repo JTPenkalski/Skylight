@@ -3,6 +3,7 @@ using Skylight.Application.Configuration;
 using Skylight.Controllers;
 using Skylight.Data;
 using Skylight.Infrastructure;
+using Skylight.Infrastructure.Configuration;
 using Skylight.Web;
 
 namespace Skylight;
@@ -31,14 +32,13 @@ public class Program
 
         // Add Configuration
         builder.Services
-            .AddOptions()
-            .Configure<DatabaseOptions>(builder.Configuration.GetSection(DatabaseOptions.RootKey));
+            .AddOptions();
         
         // Add Application Services
         builder.Services
-            .AddApplication()
-            .AddInfrastructure()
-            .AddData(builder.Configuration)
+            .AddApplication(builder.Configuration)
+            .AddInfrastructure(builder.Configuration)
+            .AddData(builder.Configuration, builder.Environment.IsProduction())
             .AddWeb();
 
         // Add Development Services
@@ -62,7 +62,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseDevelopmentWeb();
-            app.UseDevelopmentData(app.Configuration);
+            app.UseDevelopmentData();
         }
 
         // Start the Web Application

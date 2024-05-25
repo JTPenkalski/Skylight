@@ -3,6 +3,7 @@ using FluentResults;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Skylight.Application.UseCases.WeatherEvents;
+using Skylight.Application.UseCases.WeatherEvents.Commands;
 using Skylight.Domain.Entities;
 
 namespace Skylight.Controllers
@@ -19,7 +20,6 @@ namespace Skylight.Controllers
         /// <summary>
         /// Creates a new <see cref="WeatherEvent"/>.
         /// </summary>
-        /// <param name="request">Data to create the entity.</param>
         /// <returns>A <see cref="CreateWeatherEventResponse"/>.</returns>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -35,7 +35,6 @@ namespace Skylight.Controllers
         /// <summary>
         /// Adds a <see cref="StormTracker"/> to a <see cref="WeatherEvent"/>.
         /// </summary>
-        /// <param name="request">Data to create the entity.</param>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
@@ -48,9 +47,22 @@ namespace Skylight.Controllers
         }
 
         /// <summary>
+        /// Adds all new <see cref="WeatherAlert"/>s to a <see cref="WeatherEvent"/>.
+        /// </summary>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        [Route(nameof(UpdateWeatherEventAlerts))]
+        public virtual async Task<ActionResult> UpdateWeatherEventAlerts(UpdateWeatherEventAlertsCommand request, CancellationToken cancellationToken)
+        {
+            Result result = await mediator.Send(request, cancellationToken);
+
+            return result.ToActionResult();
+        }
+
+        /// <summary>
         /// Gets a <see cref="WeatherEvent"/> by its ID.
         /// </summary>
-        /// <param name="request">Data to find the entity.</param>
         /// <returns>A <see cref="GetWeatherEventByIdResponse"/>.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

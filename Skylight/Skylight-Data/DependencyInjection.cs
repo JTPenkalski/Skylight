@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Skylight.Application.Configuration;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Data.Contexts;
@@ -23,7 +24,7 @@ public static class DependencyInjection
     /// Adds required services for the <see cref="Data"/> layer.
     /// </summary>
     /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration, bool isProduction)
     {
         Assembly assembly = typeof(DependencyInjection).Assembly;
         string? connectionString = configuration.GetConnectionString(ConnectionName);
@@ -50,7 +51,7 @@ public static class DependencyInjection
                 .AddInterceptors(provider.GetServices<IInterceptor>())
                 .UseSqlServer(connectionString);
 
-            options.EnableSensitiveDataLogging(GetDatabaseOptions(configuration).EnableSensitiveDataLogging);
+            options.EnableSensitiveDataLogging(!isProduction);
         });
         
         return services;
@@ -60,13 +61,14 @@ public static class DependencyInjection
     /// Adds development-only middleware for the <see cref="Data"/> layer.
     /// </summary>
     /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app, IConfiguration configuration)
+    public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app)
     {
         // Use EF Core Context Initializer
-        if (GetDatabaseOptions(configuration).UseCreateAndDropMigrations)
-        {
-            using IServiceScope scope = app.ApplicationServices.CreateScope();
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        DatabaseOptions options = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
+        if (options.UseCreateAndDropMigrations)
+        {
             scope.ServiceProvider
                .GetRequiredService<ISkylightContextInitializer>()
                .InitializeAsync()
@@ -76,7 +78,4 @@ public static class DependencyInjection
 
         return app;
     }
-
-    private static DatabaseOptions GetDatabaseOptions(IConfiguration configuration) =>
-        configuration.GetSection(DatabaseOptions.RootKey).Get<DatabaseOptions>() ?? throw new InvalidOperationException($"Configuration for {DatabaseOptions.RootKey} did not exist!");
 }

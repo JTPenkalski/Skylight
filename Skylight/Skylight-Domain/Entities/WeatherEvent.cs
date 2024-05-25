@@ -30,4 +30,16 @@ public class WeatherEvent : BaseAuditableEntity
     {
         Participants.Remove(participant);
     }
+
+    public void AddAlert(WeatherEventAlert alert)
+    {
+        if (Alerts.Contains(alert)) return;
+
+        Alerts.Add(alert);
+    }
+
+    public void RemoveAlert(WeatherEventAlert alert)
+    {
+        Alerts.Remove(alert);
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skylight.Domain.Entities;
+using Skylight.Domain.Exceptions;
 
 namespace Skylight.Application.Interfaces.Data;
 
@@ -22,6 +23,14 @@ public interface ISkylightContext
 
     DbSet<WeatherEvent> WeatherEvents { get; }
 
+    /// <summary>
+    /// Finds a <typeparamref name="T"/> in the database, throwing an <see cref="EntityNotFoundException"/> if not found.
+    /// </summary>
+    /// <param name="id">The <see cref="BaseEntity.Id"/> to query for.</param>
+    /// <returns>The tracked <typeparamref name="T"/> instance.</returns>
+    /// <exception cref="EntityNotFoundException"/>
+    Task<T> FindAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity;
+    
     /// <summary>
     /// Saves all changes in the current transaction.
     /// </summary>

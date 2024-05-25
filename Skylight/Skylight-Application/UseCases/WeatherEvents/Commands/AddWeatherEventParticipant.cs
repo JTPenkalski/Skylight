@@ -3,7 +3,6 @@ using Skylight.Application.Interfaces.Application;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
-using Skylight.Domain.Exceptions;
 
 namespace Skylight.Application.UseCases.WeatherEvents;
 
@@ -18,11 +17,8 @@ public class AddWeatherEventParticipantCommandHandler(ISkylightContext context)
 {
     public async Task<Result> Handle(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
     {
-        WeatherEvent? weatherEvent = await context.WeatherEvents.FindAsync([request.WeatherEventId], cancellationToken);
-        StormTracker? stormTracker = await context.StormTrackers.FindAsync([request.StormTrackerId], cancellationToken);
-
-        EntityNotFoundException.ThrowIfNullOrDeleted(weatherEvent, request.WeatherEventId);
-        EntityNotFoundException.ThrowIfNullOrDeleted(stormTracker, request.StormTrackerId);
+        WeatherEvent weatherEvent = await context.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
+        StormTracker stormTracker = await context.FindAsync<StormTracker>(request.StormTrackerId, cancellationToken);
 
         var participant = new WeatherEventParticipant
         {

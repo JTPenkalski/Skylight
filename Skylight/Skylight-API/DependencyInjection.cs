@@ -45,8 +45,7 @@ public static class DependencyInjection
 
         // Add Application Services
         services
-            .AddSwaggerGen()
-            .AddAutoMapper(assembly);
+            .AddSwaggerGen();
 
         // Configure Services
         services

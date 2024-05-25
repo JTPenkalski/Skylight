@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Skylight.Tests.Application</RootNamespace>
+    <RootNamespace>Skylight.Tests.Infrastructure</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Skylight-Application\Skylight-Application.csproj" />
     <ProjectReference Include="..\Skylight-Domain\Skylight-Domain.csproj" />
+    <ProjectReference Include="..\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
