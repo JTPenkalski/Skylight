@@ -26,10 +26,7 @@ public class GetWeatherEventByIdQueryHandler(ISkylightContext context)
         WeatherEvent? weatherEvent = await context.WeatherEvents
             .FindAsync([request.Id], cancellationToken);
 
-        if (weatherEvent is null)
-        {
-            EntityNotFoundException.ThrowIfNullOrDeleted(weatherEvent, request.Id);
-        }
+        EntityNotFoundException.ThrowIfNullOrDeleted(weatherEvent, request.Id);
 
         var response = new GetWeatherEventByIdResponse(
             Name: weatherEvent.Name,
