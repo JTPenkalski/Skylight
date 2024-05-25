@@ -1,1 +1,1 @@
-export * from './skylight-client.client';
+export * from './skylight/skylight.client';

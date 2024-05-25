@@ -1,29 +1,13 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.26-alpha">
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>cb9c77c0-ac51-4c8a-841d-b33156cf3e74</ProjectGuid>
-  </PropertyGroup>
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.126-alpha">
   <PropertyGroup>
     <StartupCommand>npm start</StartupCommand>
+    <JavaScriptTestFramework>Jasmine</JavaScriptTestFramework>
+    <!-- Allows the build (or compile) script located on package.json to run on Build -->
+    <ShouldRunBuildScript>false</ShouldRunBuildScript>
+    <!-- Folder where production build objects will be placed -->
+    <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\Skylight-WebUI\</PublishAssetsDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptConfiguration Remove="src\forms\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="src\forms\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptConfiguration Remove="src\components\forms\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="src\components\forms\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptConfiguration Remove="src\models\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="src\models\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="nswag\extensions\" />
+    <Folder Include="src\pages\" />
   </ItemGroup>
 </Project>

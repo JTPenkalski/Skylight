@@ -1,16 +1,9 @@
 ﻿using Asp.Versioning;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Skylight.Controllers.Interfaces;
-using Skylight.Forms.Directors;
-using Skylight.Services;
-using Skylight.WebModels.Forms;
-using Skylight.WebModels.Models;
-using System.Threading.Tasks;
+using FluentResults;
+using FluentResults.Extensions.AspNetCore;
+using MediatR;
+using Skylight.Application.UseCases.WeatherEvents;
+using Skylight.Domain.Entities;
 
 namespace Skylight.Controllers
 {
@@ -18,38 +11,56 @@ namespace Skylight.Controllers
     /// Web API Controller for manipulating <see cref="WeatherEvent"/> models.
     /// </summary>
     [ApiController]
-    [ApiVersion(Version.VERSION)]
-    public class WeatherEventController : BaseController<Models.WeatherEvent, WeatherEvent>, IFormModifiable<WeatherEvent, WeatherEventFormGuide>
+    [ApiVersion(SkylightApiVersion.VERSION)]
+    public class WeatherEventController(
+        IMediator mediator)
+        : BaseController
     {
-        protected readonly IWeatherEventFormDirector formDirector;
-
-        /// <inheritdoc cref="BaseController{TModel, TWebModel}.BaseController(IConfiguration, ILogger{BaseController{TModel, TWebModel}}, IMapper, IService{TModel})"/>
-        /// <param name="formDirector">Form Director service.</param>
-        public WeatherEventController(
-            IConfiguration config,
-            ILogger<WeatherEventController> logger,
-            IMapper mapper,
-            IWeatherEventService service,
-            IWeatherEventFormDirector formDirector
-        ) : base(config, logger, mapper, service)
+        /// <summary>
+        /// Creates a new <see cref="WeatherEvent"/>.
+        /// </summary>
+        /// <param name="request">Data to create the entity.</param>
+        /// <returns>A <see cref="CreateWeatherEventResponse"/>.</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        [Route(nameof(CreateWeatherEvent))]
+        public virtual async Task<ActionResult<CreateWeatherEventResponse>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
         {
-            this.formDirector = formDirector;
+            Result<CreateWeatherEventResponse> result = await mediator.Send(request, cancellationToken);
+
+            return result.ToActionResult();
         }
 
+        /// <summary>
+        /// Adds a <see cref="StormTracker"/> to a <see cref="WeatherEvent"/>.
+        /// </summary>
+        /// <param name="request">Data to create the entity.</param>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost]
+        [Route(nameof(AddWeatherEventParticipant))]
+        public virtual async Task<ActionResult> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
+        {
+            Result result = await mediator.Send(request, cancellationToken);
+
+            return result.ToActionResult();
+        }
+
+        /// <summary>
+        /// Gets a <see cref="WeatherEvent"/> by its ID.
+        /// </summary>
+        /// <param name="request">Data to find the entity.</param>
+        /// <returns>A <see cref="GetWeatherEventByIdResponse"/>.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        [Route("FormGuide")]
-        public async Task<ActionResult<WeatherEventFormGuide>> GetFormGuide(FormGuideRequest<WeatherEvent> request)
+        [Route(nameof(GetWeatherEventById))]
+        public virtual async Task<ActionResult<GetWeatherEventByIdResponse>> GetWeatherEventById(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
         {
-            Forms.Guides.WeatherEventFormGuide result = await formDirector.GetGuideAsync(
-                mapper.Map<WeatherEvent, Models.WeatherEvent>(request.Model),
-                mapper.Map<FormGuideContext, Forms.FormGuideContext>(request.Context)
-            );
+            Result<GetWeatherEventByIdResponse> result = await mediator.Send(request, cancellationToken);
 
-            WeatherEventFormGuide apiResult = mapper.Map<Forms.Guides.WeatherEventFormGuide, WeatherEventFormGuide>(result);
-
-            return Ok(apiResult);
+            return result.ToActionResult();
         }
     }
 }

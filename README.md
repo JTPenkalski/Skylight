@@ -1,14 +1,20 @@
 # Skylight
 
-Skylight is a web application for viewing, tracking, and cataloging weather events.
+Skylight is a web application for monitoring, tracking, and viewing weather events.
+
+- Participate in an event in real-time by receiving critical alerts and information regarding immediate weather threats.
+- Share alerts with others to keep everyone informed during a weather event.
+- Review statistics, measurements, and other data about historical weather occurrences.
 
 ## Getting Started
-### Prerequisites
-- Visual Studio 2022 with .NET 7.0+
-- Node.js v16.16.0+
-- Angular CLI v14.0.6+
+### Tools
+Skylight is developed with the following tools:
+- Docker
+- Visual Studio
+- Node.js
+- Angular CLI
 
-### Project Setup
+### Project Configuration
 1) Right-click on the Skylight-API project and select `Manage User Secrets...` to add a local configuration that is not checked into version control. Add the following string, configured to be your local connection string for SQL Server.
 ```
 "ConnectionStrings": {
