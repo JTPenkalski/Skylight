@@ -36,11 +36,19 @@ internal static class ClientAsserts
     internal static void DoesNotContainQuery(string request, string queryName, string queryValue = "") =>
         Assert.DoesNotContain($"{queryName}={queryValue}", request);
 
-    /// <summary>
-    /// Asserts that <paramref name="request"/> ends with <c>/<paramref name="route"/></c>,
-    /// and contains no query parameters.
-    /// </summary>
-    /// <inheritdoc cref="ContainsRoute(string, string)"/>
-    internal static void EndsWithRoute(string request, string route) =>
+	/// <summary>
+	/// Ensures none of the <paramref name="queryNames"/> are present in <paramref name="request"/>.
+	/// </summary>
+	/// <param name="queryNames">The expected query names to search for.</param>
+	/// <inheritdoc cref="DoesNotContainQuery(string, string, string)"/>
+	internal static void DoesNotContainQueries(string request, params string[] queryNames) =>
+		Assert.All(queryNames, x => DoesNotContainQuery(request, x));
+
+	/// <summary>
+	/// Asserts that <paramref name="request"/> ends with <c>/<paramref name="route"/></c>,
+	/// and contains no query parameters.
+	/// </summary>
+	/// <inheritdoc cref="ContainsRoute(string, string)"/>
+	internal static void EndsWithRoute(string request, string route) =>
         Assert.EndsWith($"/{route}", request);
 }

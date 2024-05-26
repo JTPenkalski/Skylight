@@ -2,7 +2,8 @@
 using Flurl.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using Skylight.Application.Interfaces.Infrastructure.Clients.NationalWeatherService;
+using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
+using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 using Skylight.Infrastructure.Configuration;
 using System.Text.Json;
 
@@ -29,15 +30,16 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
             .AppendPathSegment("active")
             .SetQueryParams(new
             {
-                status = request.Status?.ToString()!.ToLowerInvariant(),
-                message_type = request.MessageType?.ToString()!.ToLowerInvariant(),
+                status = request.Status?.ToString().ToLowerInvariant(),
+                message_type = request.MessageType?.ToString().ToLowerInvariant(),
                 @event = request.EventName,
                 code = request.EventCode,
-                urgency = request.Urgency?.ToString()!,
-                severity = request.Severity?.ToString()!,
-                certainty = request.Certainty?.ToString()!,
+                urgency = request.Urgency?.ToString(),
+                severity = request.Severity?.ToString(),
+                certainty = request.Certainty?.ToString(),
                 limit = request.Limit,
-            });
+            })
+			.AppendQueryParam(request.Location?.QueryName, request.Location?.QueryValue);
     }
 
     internal virtual GetActiveAlertsResponse PrepareGetActiveAlertsResponse(string response)

@@ -1,7 +1,7 @@
-﻿using Flurl.Http;
-using Microsoft.Net.Http.Headers;
-using Skylight.Application.Interfaces.Infrastructure.Clients.NationalWeatherService;
+﻿using Microsoft.Net.Http.Headers;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
+using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
+using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 using Skylight.Infrastructure.Configuration;
 using Skylight.Tests.Infrastructure.Utilities;
 
@@ -38,18 +38,23 @@ public class NationalWeatherServiceClientTests
 
         // Assert
         ClientAsserts.ContainsRoute(clientRequest, "alerts/active");
-        ClientAsserts.DoesNotContainQuery(clientRequest, "status");
-        ClientAsserts.DoesNotContainQuery(clientRequest, "message_type");
-        ClientAsserts.DoesNotContainQuery(clientRequest, "event", "Event");
-        ClientAsserts.DoesNotContainQuery(clientRequest, "code");
-        // TODO: Area
-        ClientAsserts.DoesNotContainQuery(clientRequest, "urgency");
-        ClientAsserts.DoesNotContainQuery(clientRequest, "severity");
-        ClientAsserts.DoesNotContainQuery(clientRequest, "certainty");
+        ClientAsserts.DoesNotContainQueries(clientRequest,
+			"status",
+			"message_type",
+			"event",
+			"code",
+			"area",
+			"point",
+			"region",
+			"region_type",
+			"zone",
+			"urgency",
+			"severity",
+			"certainty");
         ClientAsserts.ContainsQuery(clientRequest, "limit", request.Limit.ToString());
     }
 
-    [Fact]
+	[Fact]
     public void PrepareGetActiveAlertsRequest_Should_CreateUrlWithFullQuery()
     {
         // Arrange
@@ -58,7 +63,7 @@ public class NationalWeatherServiceClientTests
             MessageType: AlertMessageType.Alert,
             EventName: "Event",
             EventCode: "Code",
-            Location: new AreaAlertLocation(StateTerritoryCode.WI),
+            Location: null, //input.Location,
             Urgency: AlertUrgency.Immediate,
             Severity: AlertSeverity.Extreme,
             Certainty: AlertCertainty.Observed,
@@ -73,18 +78,66 @@ public class NationalWeatherServiceClientTests
         ClientAsserts.ContainsQuery(clientRequest, "message_type", "alert");
         ClientAsserts.ContainsQuery(clientRequest, "event", "Event");
         ClientAsserts.ContainsQuery(clientRequest, "code", "Code");
-        // TODO: Area
         ClientAsserts.ContainsQuery(clientRequest, "urgency", "Immediate");
         ClientAsserts.ContainsQuery(clientRequest, "severity", "Extreme");
         ClientAsserts.ContainsQuery(clientRequest, "certainty", "Observed");
         ClientAsserts.ContainsQuery(clientRequest, "limit", "200");
     }
 
-    #endregion
+	public static TheoryData<AlertLocation, string, string> PrepareGetActiveAlertsRequest_Should_CreateUrlWithFullQuery_TestData =>
+		new()
+		{
+			{
+				new AreaAlertLocation(StateCode: StateTerritoryCode.WI),
+				"area",
+				"WI"
+			},
+			{
+				new AreaAlertLocation(MarineCode: MarineAreaCode.LM),
+				"area",
+				"LM"
+			},
+			{
+				new PointAlertLocation("39.7456", "-97.0892"),
+				"point",
+				"39.7456%2C-97.0892"
+			},
+			{
+				new RegionAlertLocation(MarineRegionCode.GL),
+				"region",
+				"GL"
+			},
+			{
+				new RegionTypeAlertLocation(RegionType.Land),
+				"region_type",
+				"land"
+			},
+			{
+				new ZoneAlertLocation("ARC133"),
+				"zone",
+				"ARC133"
+			},
+		};
 
-    #region PrepareGetActiveAlertsResponse
+	[Theory]
+	[MemberData(nameof(PrepareGetActiveAlertsRequest_Should_CreateUrlWithFullQuery_TestData))]
+	public void PrepareGetActiveAlertsRequest_Should_CreateUrlWithLocation(AlertLocation location, string expectedQueryName, string expectedQueryValue)
+	{
+		// Arrange
+		var request = new GetActiveAlertsRequest(Location: location);
 
-    private const string PrepareGetActiveAlertsResponse_Should_ParseJson_TestData = """
+		// Act
+		string clientRequest = client.PrepareGetActiveAlertsRequest(request).Url;
+
+		// Assert
+		ClientAsserts.ContainsQuery(clientRequest, expectedQueryName, expectedQueryValue);
+	}
+
+	#endregion
+
+	#region PrepareGetActiveAlertsResponse
+
+	private const string PrepareGetActiveAlertsResponse_Should_ParseJson_TestData = """
         {
           "@context": [
               "https://geojson.org/geojson-ld/geojson-context.jsonld",

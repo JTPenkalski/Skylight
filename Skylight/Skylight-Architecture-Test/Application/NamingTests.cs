@@ -85,12 +85,12 @@ public class NamingTests(ITestOutputHelper outputHelper)
     }
 
     [Fact]
-    public void Clients_Should_HaveActionsWithAsyncSuffix()
+    public void Interfaces_Should_HaveActionsWithAsyncSuffix()
     {
         TestResult result = Types
             .InAssembly(Assemblies.Application)
             .That()
-            .ResideInNamespaceContaining(nameof(Skylight.Application.Interfaces.Infrastructure.Clients))
+            .ResideInNamespaceContaining(nameof(Skylight.Application.Interfaces))
             .And()
             .AreInterfaces()
             .Should()
