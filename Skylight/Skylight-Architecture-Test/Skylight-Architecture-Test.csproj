@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <Using Include="NetArchTest.Rules" />
+    <Using Include="Skylight.Tests.Architecture.CustomRules" />
     <Using Include="Skylight.Tests.Architecture.Utilities" />
     <Using Include="Xunit" />
     <Using Include="Xunit.Abstractions" />

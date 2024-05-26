@@ -5,7 +5,15 @@
 /// </summary>
 public class WeatherEventAlert : BaseAuditableEntity
 {
-    public required DateTimeOffset IssuanceTime { get; set; }
+    public required DateTimeOffset Sent { get; set; }
+    
+    public required DateTimeOffset Effective { get; set; }
+    
+    public required DateTimeOffset Onset { get; set; }
+    
+    public required DateTimeOffset Expires { get; set; }
+    
+    public required DateTimeOffset Ends { get; set; }
 
     public required virtual WeatherAlert Alert { get; set; }
 

@@ -14,7 +14,7 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
     internal IFlurlRequest BaseRequest => options.Value.BaseUrl
         .WithHeader(HeaderNames.UserAgent, options.Value.UserAgent);
 
-    public async Task<GetActiveAlertsResponse> GetActiveAlerts(GetActiveAlertsRequest request, CancellationToken cancellationToken)
+    public async Task<GetActiveAlertsResponse> GetActiveAlertsAsync(GetActiveAlertsRequest request, CancellationToken cancellationToken)
     {
         string rawResponse = await PrepareGetActiveAlertsRequest(request)
             .GetStringAsync(cancellationToken: cancellationToken);

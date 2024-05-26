@@ -1,10 +1,89 @@
-﻿using Skylight.Application.Interfaces.Infrastructure.Clients.NationalWeatherService;
+﻿using Flurl.Http;
+using Microsoft.Net.Http.Headers;
+using Skylight.Application.Interfaces.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
+using Skylight.Infrastructure.Configuration;
+using Skylight.Tests.Infrastructure.Utilities;
 
 namespace Skylight.Tests.Infrastructure.Clients;
 
 public class NationalWeatherServiceClientTests
 {
+    private readonly NationalWeatherServiceClient client = new(new NationalWeatherServiceClientOptions() { BaseUrl = "Foo", UserAgent = "Bar" });
+
+    #region BaseRequest
+
+    [Fact]
+    public void BaseRequest_Should_HaveUserAgentHeader()
+    {
+        // Arrange / Act
+        IEnumerable<string> headers = client.BaseRequest.Headers.Select(x => x.Name).ToList();
+        
+        // Assert
+        Assert.Contains(HeaderNames.UserAgent, headers);
+    }
+
+    #endregion
+
+    #region PrepareGetActiveAlertsRequest
+
+    [Fact]
+    public void PrepareGetActiveAlertsRequest_Should_CreateUrlWithDefaultQuery()
+    {
+        // Arrange
+        var request = new GetActiveAlertsRequest();
+
+        // Act
+        string clientRequest = client.PrepareGetActiveAlertsRequest(request).Url;
+
+        // Assert
+        ClientAsserts.ContainsRoute(clientRequest, "alerts/active");
+        ClientAsserts.DoesNotContainQuery(clientRequest, "status");
+        ClientAsserts.DoesNotContainQuery(clientRequest, "message_type");
+        ClientAsserts.DoesNotContainQuery(clientRequest, "event", "Event");
+        ClientAsserts.DoesNotContainQuery(clientRequest, "code");
+        // TODO: Area
+        ClientAsserts.DoesNotContainQuery(clientRequest, "urgency");
+        ClientAsserts.DoesNotContainQuery(clientRequest, "severity");
+        ClientAsserts.DoesNotContainQuery(clientRequest, "certainty");
+        ClientAsserts.ContainsQuery(clientRequest, "limit", request.Limit.ToString());
+    }
+
+    [Fact]
+    public void PrepareGetActiveAlertsRequest_Should_CreateUrlWithFullQuery()
+    {
+        // Arrange
+        var request = new GetActiveAlertsRequest(
+            Status: AlertStatus.Actual,
+            MessageType: AlertMessageType.Alert,
+            EventName: "Event",
+            EventCode: "Code",
+            Location: new AreaAlertLocation(StateTerritoryCode.WI),
+            Urgency: AlertUrgency.Immediate,
+            Severity: AlertSeverity.Extreme,
+            Certainty: AlertCertainty.Observed,
+            Limit: 200);
+
+        // Act
+        string clientRequest = client.PrepareGetActiveAlertsRequest(request).Url;
+
+        // Assert
+        ClientAsserts.ContainsRoute(clientRequest, "alerts/active");
+        ClientAsserts.ContainsQuery(clientRequest, "status", "actual");
+        ClientAsserts.ContainsQuery(clientRequest, "message_type", "alert");
+        ClientAsserts.ContainsQuery(clientRequest, "event", "Event");
+        ClientAsserts.ContainsQuery(clientRequest, "code", "Code");
+        // TODO: Area
+        ClientAsserts.ContainsQuery(clientRequest, "urgency", "Immediate");
+        ClientAsserts.ContainsQuery(clientRequest, "severity", "Extreme");
+        ClientAsserts.ContainsQuery(clientRequest, "certainty", "Observed");
+        ClientAsserts.ContainsQuery(clientRequest, "limit", "200");
+    }
+
+    #endregion
+
+    #region PrepareGetActiveAlertsResponse
+
     private const string PrepareGetActiveAlertsResponse_Should_ParseJson_TestData = """
         {
           "@context": [
@@ -250,13 +329,14 @@ public class NationalWeatherServiceClientTests
         }
         """;
 
-    private readonly NationalWeatherServiceClient client = new(null!);
-
     [Fact]
     public void PrepareGetActiveAlertsResponse_Should_ParseJson()
     {
-        // Arrange / Act
-        GetActiveAlertsResponse response = client.PrepareGetActiveAlertsResponse(PrepareGetActiveAlertsResponse_Should_ParseJson_TestData);
+        // Arrange
+        string clientResponse = PrepareGetActiveAlertsResponse_Should_ParseJson_TestData;
+
+        // Act
+        GetActiveAlertsResponse response = client.PrepareGetActiveAlertsResponse(clientResponse);
 
         // Assert
         Assert.Equal(2, response.AlertCollection.Alerts.Count);
@@ -310,4 +390,6 @@ public class NationalWeatherServiceClientTests
         Assert.Equal("For your protection move to an interior room on the lowest floor of a\nbuilding.", alert2.Instruction);
         Assert.Equal(AlertResponse.Shelter, alert2.Response);
     }
+
+    #endregion
 }

@@ -37,7 +37,7 @@ public class UpdateWeatherEventAlertsCommandHandler(
             Status: AlertStatus.Actual,
             Urgency: AlertUrgency.Immediate);
 
-        GetActiveAlertsResponse clientResponse = await nwsClient.GetActiveAlerts(clientRequest, cancellationToken);
+        GetActiveAlertsResponse clientResponse = await nwsClient.GetActiveAlertsAsync(clientRequest, cancellationToken);
 
         foreach (Alert alert in clientResponse.AlertCollection.Alerts)
         {
@@ -48,7 +48,11 @@ public class UpdateWeatherEventAlertsCommandHandler(
             {
                 var weatherEventAlert = new WeatherEventAlert
                 {
-                    IssuanceTime = alert.Sent,
+                    Sent = alert.Sent,
+                    Effective = alert.Effective,
+                    Onset = alert.Onset,
+                    Expires = alert.Expires,
+                    Ends = alert.Ends,
                     Event = weatherEvent,
                     Alert = weatherAlert,
                 };

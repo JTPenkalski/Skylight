@@ -5,5 +5,5 @@
 /// </summary>
 public interface INationalWeatherServiceClient
 {
-    Task<GetActiveAlertsResponse> GetActiveAlerts(GetActiveAlertsRequest request, CancellationToken cancellationToken);
+    Task<GetActiveAlertsResponse> GetActiveAlertsAsync(GetActiveAlertsRequest request, CancellationToken cancellationToken);
 }
