@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Skylight.Application.Configuration;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Data.Contexts;
 using Skylight.Data.Initializers;
 using Skylight.Domain.Exceptions;
+using Skylight.Infrastructure.Contexts;
 using System.Reflection;
 
 namespace Skylight.Data;
@@ -31,7 +31,12 @@ public static class DependencyInjection
 
         InvalidConnectionStringException.ThrowIfNullOrWhiteSpace(connectionString, ConnectionName);
 
-        services
+		// Add Configuration
+		services
+			.Configure<SkylightContextOptions>(configuration.GetSection(SkylightContextOptions.RootKey));
+
+		// Add Data Services
+		services
             .AddScoped<ISkylightContextInitializer, DefaultSkylightContextInitializer>()
             .Scan(scan => scan
                 .FromAssemblies(assembly)
@@ -57,16 +62,16 @@ public static class DependencyInjection
         return services;
     }
 
-    /// <summary>
-    /// Adds development-only middleware for the <see cref="Data"/> layer.
-    /// </summary>
-    /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app)
+	/// <summary>
+	/// Adds development-only middleware for the <see cref="Data"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
+	public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app)
     {
         // Use EF Core Context Initializer
         using IServiceScope scope = app.ApplicationServices.CreateScope();
-        DatabaseOptions options = scope.ServiceProvider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-
+        SkylightContextOptions options = scope.ServiceProvider.GetRequiredService<IOptions<SkylightContextOptions>>().Value;
+		
         if (options.UseCreateAndDropMigrations)
         {
             scope.ServiceProvider

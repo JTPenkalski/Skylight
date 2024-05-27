@@ -7,7 +7,6 @@ using Microsoft.Net.Http.Headers;
 using Skylight.Domain.Extensions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
-using Skylight.Infrastructure.Configuration;
 using System.Text.Json;
 
 namespace Skylight.Infrastructure.Clients.NationalWeatherService;

@@ -2,7 +2,6 @@
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
-using Skylight.Infrastructure.Configuration;
 using Skylight.Tests.Infrastructure.Utilities;
 
 namespace Skylight.Tests.Infrastructure.Clients;

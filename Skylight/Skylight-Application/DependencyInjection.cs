@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
 using MediatR.Pipeline;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Attributes;
-using Skylight.Application.Configuration;
 using System.Reflection;
 
 namespace Skylight.Application;
@@ -17,13 +15,9 @@ public static class DependencyInjection
     /// Adds required services for the <see cref="Application"/> layer.
     /// </summary>
     /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         Assembly assembly = typeof(DependencyInjection).Assembly;
-
-        // Add Configuration
-        services
-            .Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.RootKey));
 
         // Add Application Services
         services
