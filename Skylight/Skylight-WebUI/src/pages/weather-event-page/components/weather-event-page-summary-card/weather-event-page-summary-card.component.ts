@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { IconCardComponent, TabContainerComponent } from 'shared/components';
 import { WeatherEventSummary } from 'pages/weather-event-page/models';
 
@@ -17,6 +17,7 @@ import { WeatherEventSummary } from 'pages/weather-event-page/models';
     NbTooltipModule,
     TabContainerComponent,
     IconCardComponent,
+    CurrencyPipe,
     DatePipe,
   ],
   templateUrl: './weather-event-page-summary-card.component.html',

@@ -1,7 +1,9 @@
 ﻿using Flurl;
 using Flurl.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using Skylight.Domain.Extensions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 using Skylight.Infrastructure.Configuration;
@@ -9,7 +11,9 @@ using System.Text.Json;
 
 namespace Skylight.Infrastructure.Clients.NationalWeatherService;
 
-public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientOptions> options)
+public class NationalWeatherServiceClient(
+	ILogger<NationalWeatherServiceClient> logger,
+	IOptions<NationalWeatherServiceClientOptions> options)
     : BaseClient, INationalWeatherServiceClient
 {
     internal IFlurlRequest BaseRequest => options.Value.BaseUrl
@@ -17,10 +21,13 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
 
     public async Task<GetActiveAlertsResponse> GetActiveAlertsAsync(GetActiveAlertsRequest request, CancellationToken cancellationToken)
     {
-        string rawResponse = await PrepareGetActiveAlertsRequest(request)
-            .GetStringAsync(cancellationToken: cancellationToken);
+		IFlurlRequest clientRequest = PrepareGetActiveAlertsRequest(request);
 
-        return PrepareGetActiveAlertsResponse(rawResponse);
+		logger.LogInformation("Sending HTTP request to {url}.", clientRequest.Url);
+		
+		string clientResponse = await clientRequest.GetStringAsync(cancellationToken: cancellationToken);
+
+        return PrepareGetActiveAlertsResponse(clientResponse);
     }
 
     internal virtual IFlurlRequest PrepareGetActiveAlertsRequest(GetActiveAlertsRequest request)
@@ -30,13 +37,13 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
             .AppendPathSegment("active")
             .SetQueryParams(new
             {
-                status = request.Status?.ToString().ToLowerInvariant(),
-                message_type = request.MessageType?.ToString().ToLowerInvariant(),
-                @event = request.EventName,
-                code = request.EventCode,
-                urgency = request.Urgency?.ToString(),
-                severity = request.Severity?.ToString(),
-                certainty = request.Certainty?.ToString(),
+                status = ToLower(request.Statuses),
+                message_type = ToLower(request.MessageTypes),
+                @event = request.EventNames,
+                code = request.EventCodes,
+                urgency = request.Urgencies,
+                severity = request.Severities,
+                certainty = request.Certainties,
                 limit = request.Limit,
             })
 			.AppendQueryParam(request.Location?.QueryName, request.Location?.QueryValue);
@@ -48,7 +55,7 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
         JsonElement root = json.RootElement;
         IReadOnlyDictionary<string, JsonElement> properties = GetGeoJsonProperties(root);
 
-        return new GetActiveAlertsResponse(
+		return new GetActiveAlertsResponse(
             AlertCollection: new(
                 Title: root.GetProperty("title").GetString()!,
                 Updated: root.GetProperty("updated").GetDateTimeOffset(),
@@ -58,9 +65,9 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
                     ZoneIds: x.GetProperty("geocode").GetProperty("UGC").EnumerateArray().Select(x => x.GetString()!).ToArray(),
                     Sent: x.GetProperty("sent").GetDateTimeOffset(),
                     Effective: x.GetProperty("effective").GetDateTimeOffset(),
-                    Onset: x.GetProperty("onset").GetDateTimeOffset(),
+                    Onset: x.GetOptionalProperty("onset")?.GetDateTimeOffset(),
                     Expires: x.GetProperty("expires").GetDateTimeOffset(),
-                    Ends: x.GetProperty("ends").GetDateTimeOffset(),
+                    Ends: x.GetOptionalProperty("ends")?.GetDateTimeOffset(),
                     Status: Enum.Parse<AlertStatus>(x.GetProperty("status").GetString()!),
                     MessageType: Enum.Parse<AlertMessageType>(x.GetProperty("messageType").GetString()!),
                     Severity: Enum.Parse<AlertSeverity>(x.GetProperty("severity").GetString()!),
@@ -69,9 +76,11 @@ public class NationalWeatherServiceClient(IOptions<NationalWeatherServiceClientO
                     Certainty: Enum.Parse<AlertCertainty>(x.GetProperty("certainty").GetString()!),
                     Event: x.GetProperty("event").GetString()!,
                     SenderName: x.GetProperty("senderName").GetString()!,
-                    Headline: x.GetProperty("headline").GetString()!,
+                    Headline: x.GetOptionalProperty("headline")?.GetString()!,
                     Description: x.GetProperty("description").GetString()!,
-                    Instruction: x.GetProperty("instruction").GetString()!,
-                    Response: Enum.Parse<AlertResponse>(x.GetProperty("response").GetString()!))).ToList()));
+                    Instruction: x.GetOptionalProperty("instruction")?.GetString()!,
+                    Response: Enum.Parse<AlertResponse>(x.GetProperty("response").GetString()!)))
+				.OrderByDescending(x => x.Effective)
+				.ToList()));
     }
 }

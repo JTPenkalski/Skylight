@@ -22,11 +22,11 @@ public abstract record AlertLocation()
 /// <remarks>
 /// Only one of the two may be used. If both, or none, are specified, an exception will be thrown.
 /// </remarks>
-public sealed record AreaAlertLocation(StateTerritoryCode? StateCode = null, MarineAreaCode? MarineCode = null) : AlertLocation()
+public sealed record AreaAlertLocation(StateTerritoryCode[]? StateCodes = null, MarineAreaCode[]? MarineCodes = null) : AlertLocation()
 {
 	public override string QueryName => "area";
 
-	public override object? QueryValue => StateCode?.ToString() ?? MarineCode?.ToString();
+	public override object? QueryValue => StateCodes is not null ? StateCodes : MarineCodes;
 }
 
 /// <summary>
@@ -42,11 +42,11 @@ public sealed record PointAlertLocation(string Latitude, string Longitude) : Ale
 /// <summary>
 /// Filter alerts by <see cref="MarineRegionCode"/>.
 /// </summary>
-public sealed record RegionAlertLocation(MarineRegionCode Code) : AlertLocation()
+public sealed record RegionAlertLocation(MarineRegionCode[] Codes) : AlertLocation()
 {
 	public override string QueryName => "region";
 
-	public override object? QueryValue => Code.ToString();
+	public override object? QueryValue => Codes;
 }
 
 /// <summary>
@@ -65,10 +65,10 @@ public sealed record RegionTypeAlertLocation(RegionType Type) : AlertLocation()
 /// <remarks>
 /// <paramref name="ZoneId"/> must match the pattern: ^(A[KLMNRSZ]|C[AOT]|D[CE]|F[LM]|G[AMU]|I[ADLN]|K[SY]|L[ACEHMOS]|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[AHKMRSWZ]|S[CDL]|T[NX]|UT|V[AIT]|W[AIVY]|[HR]I)[CZ]\d{3}$
 /// </remarks>
-public sealed record ZoneAlertLocation(string ZoneId) : AlertLocation()
+public sealed record ZoneAlertLocation(string[] ZoneIds) : AlertLocation()
 {
 	public override string QueryName => "zone";
 
-	public override object? QueryValue => ZoneId;
+	public override object? QueryValue => ZoneIds;
 }
 

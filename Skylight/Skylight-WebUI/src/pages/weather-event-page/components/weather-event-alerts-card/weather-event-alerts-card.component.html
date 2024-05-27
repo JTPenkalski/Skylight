@@ -1,0 +1,18 @@
+<nb-card size="large">
+  <nb-card-header>
+      <div class="card-header">
+        <h4>Alerts ({{alertCount}})</h4>
+        <nb-actions class="float-right" size="small">
+          <nb-action icon="refresh" (click)="fetchAlerts()"></nb-action>
+          <nb-action icon="more-vertical"  nbContextMenuTrigger="hover" [nbContextMenu]="moreMenuItems" [nbContextMenuTag]="moreMenuTag"></nb-action>
+        </nb-actions>
+      </div>
+  </nb-card-header>
+  <nb-card-body class="alerts-container" nbSpinnerSize="giant" [nbSpinner]="loading">
+    @for (alert of alerts; track $index) {
+      @if (canDisplayAlert(alert)) {
+        <skylight-weather-event-alert-button [alert]="alert" (click)="onClick(alert)"></skylight-weather-event-alert-button>
+      }
+    }
+  </nb-card-body>
+</nb-card>

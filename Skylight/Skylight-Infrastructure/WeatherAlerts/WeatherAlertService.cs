@@ -18,20 +18,25 @@ public class WeatherAlertService(
 		var eventAlerts = new List<WeatherEventAlert>();
 
 		var clientRequest = new GetActiveAlertsRequest(
-			Status: AlertStatus.Actual,
-			Urgency: AlertUrgency.Immediate);
+			Statuses: [AlertStatus.Actual],
+			MessageTypes: [AlertMessageType.Alert]);
 
 		GetActiveAlertsResponse clientResponse = await nwsClient.GetActiveAlertsAsync(clientRequest, cancellationToken);
+		HashSet<string> alertNames = clientResponse.AlertCollection.Alerts.Select(x => x.Event).ToHashSet();
+		Dictionary<string, WeatherAlert> weatherAlerts = await context.WeatherAlerts
+			.Where(x => alertNames.Contains(x.Name))
+			.ToDictionaryAsync(x => x.Name, cancellationToken);
 
 		foreach (Alert alert in clientResponse.AlertCollection.Alerts)
 		{
-			WeatherAlert? weatherAlert = await context.WeatherAlerts
-				.FirstOrDefaultAsync(x => x.Name == alert.Event, cancellationToken);
-
-			if (weatherAlert is not null)
+			if (weatherAlerts.TryGetValue(alert.Event, out WeatherAlert? weatherAlert))
 			{
 				var weatherEventAlert = new WeatherEventAlert
 				{
+					Sender = alert.SenderName,
+					Headline = alert.Headline ?? string.Empty,
+					Instruction = alert.Instruction ?? string.Empty,
+					Description = alert.Description,
 					Sent = alert.Sent,
 					Effective = alert.Effective,
 					Onset = alert.Onset,

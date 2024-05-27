@@ -3,14 +3,14 @@
 namespace Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 
 public sealed record GetActiveAlertsRequest(
-	AlertStatus? Status = null,
-	AlertMessageType? MessageType = null,
-	string? EventName = null,
-	string? EventCode = null,
+	AlertStatus[]? Statuses = null,
+	AlertMessageType[]? MessageTypes = null,
+	string[]? EventNames = null,
+	string[]? EventCodes = null,
 	AlertLocation? Location = null,
-	AlertUrgency? Urgency = null,
-	AlertSeverity? Severity = null,
-	AlertCertainty? Certainty = null,
+	AlertUrgency[]? Urgencies = null,
+	AlertSeverity[]? Severities = null,
+	AlertCertainty[]? Certainties = null,
 	int Limit = 100)
 	: IClientRequest;
 

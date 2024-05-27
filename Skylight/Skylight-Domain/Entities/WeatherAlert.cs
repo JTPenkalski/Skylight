@@ -11,5 +11,7 @@ public class WeatherAlert : BaseAuditableEntity
 
     public required string Source { get; set; }
 
-    public required float Severity { get; set; }
+	public WeatherAlertLevel Level { get; set; }
+
+    public string? Code { get; set; }
 }

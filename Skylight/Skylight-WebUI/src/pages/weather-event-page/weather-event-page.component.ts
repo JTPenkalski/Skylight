@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherEventPageSummaryCardComponent } from './components';
+import { WeatherEventPageCardContainerComponent, WeatherEventPageSummaryCardComponent } from './components';
 import { WeatherEventSummary } from './models';
 import { WeatherEventService } from './services';
 import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
@@ -10,6 +10,7 @@ import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
   imports: [
     NbCardModule,
     NbSpinnerModule,
+    WeatherEventPageCardContainerComponent,
     WeatherEventPageSummaryCardComponent
   ],
   templateUrl: './weather-event-page.component.html',

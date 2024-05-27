@@ -1,0 +1,26 @@
+<div>
+  <div class="card-row">
+    <div class="card-col">
+      <skylight-weather-event-alerts-card (alertSelected)="onAlertSelected($event)"></skylight-weather-event-alerts-card>
+    </div>
+    <div class="card-col">
+      <nb-card size="large">
+        <nb-card-header><h4>Locations</h4></nb-card-header>
+      </nb-card>
+    </div>
+    <div class="card-col">
+      <nb-card size="small">
+        <nb-card-header><h4>Participants</h4></nb-card-header>
+      </nb-card>
+      <nb-card size="tiny">
+        <nb-card-header><h4>Links</h4></nb-card-header>
+        <nb-card-body nbSpinnerSize="giant" [nbSpinner]="false">
+          Example link...
+        </nb-card-body>
+      </nb-card>
+  </div>
+</div>
+
+<ng-template #alertWindow let-data>
+  <skylight-weather-event-alert-window [alert]="data"></skylight-weather-event-alert-window>
+</ng-template>

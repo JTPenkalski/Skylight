@@ -1,11 +1,15 @@
 .title {
-  padding: 0px 0px 8px 0px;
+  padding-bottom: 1rem;
 }
 
 .hero-buttons {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+.hero-button {
+  text-transform: uppercase;
 }
 
 .info-cards {

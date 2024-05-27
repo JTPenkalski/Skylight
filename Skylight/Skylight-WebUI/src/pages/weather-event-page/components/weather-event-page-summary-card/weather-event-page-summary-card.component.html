@@ -4,12 +4,12 @@
       <h1 class="title">{{summary.name}}</h1>  
       <span class="hero-buttons">
         @if (isTracking) {
-          <button nbButton hero (click)="toggleTracking()" shape="semi-round" size="medium" status="primary"><nb-icon icon="eye-off"></nb-icon>UNTRACK</button>
+          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye-off"></nb-icon>Untrack</button>
         } @else {
-          <button nbButton hero (click)="toggleTracking()" shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye"></nb-icon>Track</button>
         }
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>Share</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>Report</button>
       </span>
     </nb-card-header>
     <nb-card-body>
@@ -24,7 +24,7 @@
           </span>
         </skylight-icon-card>
         <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
-          <span>{{summary.damageCost}}</span>
+          <span>{{summary.damageCost | currency:'USD':'symbol'}}</span>
         </skylight-icon-card>
         <skylight-icon-card icon="person" nbTooltip="Affected People">
           <span>{{summary.affectedPeople}}</span>

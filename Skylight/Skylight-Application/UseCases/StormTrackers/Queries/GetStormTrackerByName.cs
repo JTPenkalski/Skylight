@@ -13,7 +13,7 @@ public sealed record GetStormTrackersByNameQuery(
 
 public sealed record GetStormTrackersByNameResponse : IResponse
 {
-    public required IEnumerable<StormTrackerByName> StormTrackers { get; init; } = [];
+    public required IEnumerable<StormTrackerByName> StormTrackers { get; init; }
 
     public sealed record StormTrackerByName(
         string FirstName,
