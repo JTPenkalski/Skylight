@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Infrastructure.Configuration;
 using System.Reflection;
@@ -27,7 +28,8 @@ public static class DependencyInjection
 
         // Add Infrastructure Services
         services
-            .Scan(scan => scan
+			.AddValidatorsFromAssembly(assembly)
+			.Scan(scan => scan
                 .FromAssemblies(assembly)
                     .AddClasses()
                     .AsMatchingInterface()

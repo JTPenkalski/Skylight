@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
+﻿using Microsoft.Net.Http.Headers;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
@@ -10,17 +9,32 @@ namespace Skylight.Tests.Infrastructure.Clients;
 
 public class NationalWeatherServiceClientTests
 {
-    private readonly NationalWeatherServiceClient client = new(
-		Mock.Of<ILogger<NationalWeatherServiceClient>>(),
-		new NationalWeatherServiceClientOptions() { BaseUrl = "Foo", UserAgent = "Bar" });
+	private readonly Mock<ILogger<NationalWeatherServiceClient>> logger = new();
+	private readonly Mock<IOptions<NationalWeatherServiceClientOptions>> options = new();
+	private readonly Mock<IValidator<GetActiveAlertsRequest>> getActiveAlertsValidator = new();
 
-    #region BaseRequest
+	private NationalWeatherServiceClient Client
+	{
+		get
+		{
+			options
+				.SetupGet(x => x.Value)
+				.Returns(new NationalWeatherServiceClientOptions() { BaseUrl = "BaseUrl", UserAgent = "UserAgent" });
 
-    [Fact]
+			return new(
+				logger.Object,
+				options.Object,
+				getActiveAlertsValidator.Object);
+		}
+	}
+
+	#region BaseRequest
+
+	[Fact]
     public void BaseRequest_Should_HaveUserAgentHeader()
     {
         // Arrange / Act
-        IEnumerable<string> headers = client.BaseRequest.Headers.Select(x => x.Name).ToList();
+        IEnumerable<string> headers = Client.BaseRequest.Headers.Select(x => x.Name).ToList();
         
         // Assert
         Assert.Contains(HeaderNames.UserAgent, headers);
@@ -37,7 +51,7 @@ public class NationalWeatherServiceClientTests
         var request = new GetActiveAlertsRequest();
 
         // Act
-        string clientRequest = client.PrepareGetActiveAlertsRequest(request).Url;
+        string clientRequest = Client.PrepareGetActiveAlertsRequest(request).Url;
 
         // Assert
         ClientAsserts.ContainsRoute(clientRequest, "alerts/active");
@@ -72,7 +86,7 @@ public class NationalWeatherServiceClientTests
             Limit: 200);
 
         // Act
-        string clientRequest = client.PrepareGetActiveAlertsRequest(request).Url;
+        string clientRequest = Client.PrepareGetActiveAlertsRequest(request).Url;
 
         // Assert
         ClientAsserts.ContainsRoute(clientRequest, "alerts/active");
@@ -136,7 +150,7 @@ public class NationalWeatherServiceClientTests
 		var request = new GetActiveAlertsRequest(Location: location);
 
 		// Act
-		string clientRequest = client.PrepareGetActiveAlertsRequest(request).Url;
+		string clientRequest = Client.PrepareGetActiveAlertsRequest(request).Url;
 
 		// Assert
 		ClientAsserts.ContainsQuery(clientRequest, expectedQueryName, expectedQueryValue);
@@ -398,7 +412,7 @@ public class NationalWeatherServiceClientTests
 		string clientResponse = PrepareGetActiveAlertsResponse_Should_ParseJson_TestData;
 
 		// Act
-		GetActiveAlertsResponse response = client.PrepareGetActiveAlertsResponse(clientResponse);
+		GetActiveAlertsResponse response = Client.PrepareGetActiveAlertsResponse(clientResponse);
 
         // Assert
         Assert.Equal(2, response.AlertCollection.Alerts.Count);
@@ -562,7 +576,7 @@ public class NationalWeatherServiceClientTests
 		string clientResponse = PrepareGetActiveAlertsResponse_Should_ParseJsonWithNulls_TestData;
 
 		// Act
-		GetActiveAlertsResponse response = client.PrepareGetActiveAlertsResponse(clientResponse);
+		GetActiveAlertsResponse response = Client.PrepareGetActiveAlertsResponse(clientResponse);
 
 		// Assert
 		Assert.Single(response.AlertCollection.Alerts);

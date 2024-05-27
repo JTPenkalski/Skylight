@@ -1,4 +1,5 @@
-﻿using Flurl;
+﻿using FluentValidation;
+using Flurl;
 using Flurl.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -13,7 +14,8 @@ namespace Skylight.Infrastructure.Clients.NationalWeatherService;
 
 public class NationalWeatherServiceClient(
 	ILogger<NationalWeatherServiceClient> logger,
-	IOptions<NationalWeatherServiceClientOptions> options)
+	IOptions<NationalWeatherServiceClientOptions> options,
+	IValidator<GetActiveAlertsRequest> getActiveAlertsValidator)
     : BaseClient, INationalWeatherServiceClient
 {
     internal IFlurlRequest BaseRequest => options.Value.BaseUrl
@@ -21,6 +23,8 @@ public class NationalWeatherServiceClient(
 
     public async Task<GetActiveAlertsResponse> GetActiveAlertsAsync(GetActiveAlertsRequest request, CancellationToken cancellationToken)
     {
+		getActiveAlertsValidator.ValidateAndThrow(request);
+
 		IFlurlRequest clientRequest = PrepareGetActiveAlertsRequest(request);
 
 		logger.LogInformation("Sending HTTP request to {url}.", clientRequest.Url);

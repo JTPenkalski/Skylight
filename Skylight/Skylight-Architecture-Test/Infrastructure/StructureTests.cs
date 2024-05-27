@@ -15,6 +15,8 @@ public class StructureTests(ITestOutputHelper outputHelper)
 			.ResideInNamespaceEndingWith("Models")
 			.And()
 			.AreNotAbstract()
+			.And()
+			.DoNotHaveNameEndingWith("Validator")
 			.Should()
 			.BeSealed()
 			.GetResult();

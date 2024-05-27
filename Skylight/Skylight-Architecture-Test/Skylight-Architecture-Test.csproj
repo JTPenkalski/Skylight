@@ -30,10 +30,12 @@
     <ProjectReference Include="..\Skylight-Data\Skylight-Data.csproj" />
     <ProjectReference Include="..\Skylight-Domain\Skylight-Domain.csproj" />
     <ProjectReference Include="..\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
+    <ProjectReference Include="..\Skylight-Shared-Test\Skylight-Shared-Test.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="NetArchTest.Rules" />
+    <Using Include="Skylight.Test.Shared" />
     <Using Include="Skylight.Tests.Architecture.CustomRules" />
     <Using Include="Skylight.Tests.Architecture.Utilities" />
     <Using Include="Xunit" />

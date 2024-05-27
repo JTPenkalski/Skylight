@@ -1,4 +1,6 @@
-﻿namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
+﻿using FluentValidation;
+
+namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 
 /// <summary>
 /// Filter used when querying active alerts to specify a location.
@@ -27,6 +29,20 @@ public sealed record AreaAlertLocation(StateTerritoryCode[]? StateCodes = null, 
 	public override string QueryName => "area";
 
 	public override object? QueryValue => StateCodes is not null ? StateCodes : MarineCodes;
+}
+
+public class AreaAlertLocationValidator : AbstractValidator<AreaAlertLocation>
+{
+	public AreaAlertLocationValidator()
+	{
+		RuleFor(x => x.StateCodes)
+			.Empty()
+			.When(x => x.MarineCodes is not null);
+
+		RuleFor(x => x.MarineCodes)
+			.Empty()
+			.When(x => x.StateCodes is not null);
+	}
 }
 
 /// <summary>
@@ -62,9 +78,6 @@ public sealed record RegionTypeAlertLocation(RegionType Type) : AlertLocation()
 /// <summary>
 /// Filter alerts by Zone.
 /// </summary>
-/// <remarks>
-/// <paramref name="ZoneId"/> must match the pattern: ^(A[KLMNRSZ]|C[AOT]|D[CE]|F[LM]|G[AMU]|I[ADLN]|K[SY]|L[ACEHMOS]|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[AHKMRSWZ]|S[CDL]|T[NX]|UT|V[AIT]|W[AIVY]|[HR]I)[CZ]\d{3}$
-/// </remarks>
 public sealed record ZoneAlertLocation(string[] ZoneIds) : AlertLocation()
 {
 	public override string QueryName => "zone";
@@ -72,3 +85,11 @@ public sealed record ZoneAlertLocation(string[] ZoneIds) : AlertLocation()
 	public override object? QueryValue => ZoneIds;
 }
 
+public class ZoneAlertLocationValidator : AbstractValidator<ZoneAlertLocation>
+{
+	public ZoneAlertLocationValidator()
+	{
+		RuleForEach(x => x.ZoneIds)
+			.Matches(@"^(A[KLMNRSZ]|C[AOT]|D[CE]|F[LM]|G[AMU]|I[ADLN]|K[SY]|L[ACEHMOS]|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[AHKMRSWZ]|S[CDL]|T[NX]|UT|V[AIT]|W[AIVY]|[HR]I)[CZ]\d{3}$");
+	}
+}

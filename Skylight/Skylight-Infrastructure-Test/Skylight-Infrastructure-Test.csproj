@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-    <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="xunit" Version="2.8.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,10 +27,16 @@
     <ProjectReference Include="..\Skylight-Application\Skylight-Application.csproj" />
     <ProjectReference Include="..\Skylight-Domain\Skylight-Domain.csproj" />
     <ProjectReference Include="..\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
+    <ProjectReference Include="..\Skylight-Shared-Test\Skylight-Shared-Test.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="FluentValidation" />
+    <Using Include="FluentValidation.TestHelper" />
+    <Using Include="Microsoft.Extensions.Logging" />
+    <Using Include="Microsoft.Extensions.Options" />
     <Using Include="Moq" />
+    <Using Include="Skylight.Test.Shared" />
     <Using Include="Xunit" />
     <Using Include="Xunit.Abstractions" />
   </ItemGroup>
