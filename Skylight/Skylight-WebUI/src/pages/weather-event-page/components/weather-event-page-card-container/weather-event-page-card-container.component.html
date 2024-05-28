@@ -1,7 +1,7 @@
 <div>
   <div class="card-row">
     <div class="card-col">
-      <skylight-weather-event-alerts-card (alertSelected)="onAlertSelected($event)"></skylight-weather-event-alerts-card>
+      <skylight-weather-event-alerts-card [weatherEventId]="weatherEventId" (alertSelected)="onAlertSelected($event)"></skylight-weather-event-alerts-card>
     </div>
     <div class="card-col">
       <nb-card size="large">

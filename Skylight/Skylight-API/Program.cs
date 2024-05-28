@@ -2,7 +2,6 @@ using Skylight.Application;
 using Skylight.Controllers;
 using Skylight.Data;
 using Skylight.Infrastructure;
-using Skylight.Infrastructure.Jobs;
 using Skylight.Web;
 
 namespace Skylight;

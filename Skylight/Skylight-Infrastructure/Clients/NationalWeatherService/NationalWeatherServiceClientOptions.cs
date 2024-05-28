@@ -4,7 +4,7 @@ namespace Skylight.Infrastructure.Clients.NationalWeatherService;
 
 public class NationalWeatherServiceClientOptions : IOptions<NationalWeatherServiceClientOptions>
 {
-	public const string RootKey = "NationalWeatherServiceClient";
+	public const string RootKey = "Clients:NationalWeatherServiceClient";
 
 	public NationalWeatherServiceClientOptions Value => this;
 

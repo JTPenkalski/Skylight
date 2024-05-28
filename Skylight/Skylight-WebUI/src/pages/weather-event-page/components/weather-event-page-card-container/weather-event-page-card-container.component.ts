@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbWindowService } from '@nebular/theme';
 import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
@@ -26,6 +26,7 @@ import { ParenthesesWrapPipe } from 'shared/pipes';
   styleUrl: './weather-event-page-card-container.component.scss'
 })
 export class WeatherEventPageCardContainerComponent {
+  @Input({ required: true }) public weatherEventId!: string;
   @ViewChild('alertWindow') private alertWindow!: TemplateRef<any>;
 
   constructor(

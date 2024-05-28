@@ -9,10 +9,14 @@
       </div>
   </nb-card-header>
   <nb-card-body class="alerts-container" nbSpinnerSize="giant" [nbSpinner]="loading">
-    @for (alert of alerts; track $index) {
-      @if (canDisplayAlert(alert)) {
-        <skylight-weather-event-alert-button [alert]="alert" (click)="onClick(alert)"></skylight-weather-event-alert-button>
+    @if (alerts.length > 0) {
+      @for (alert of alerts; track $index) {
+        @if (canDisplayAlert(alert)) {
+          <skylight-weather-event-alert-button [alert]="alert" (click)="onClick(alert)"></skylight-weather-event-alert-button>
+        }
       }
+    } @else if (!loading) {
+      No Weather Alerts found.
     }
   </nb-card-body>
 </nb-card>

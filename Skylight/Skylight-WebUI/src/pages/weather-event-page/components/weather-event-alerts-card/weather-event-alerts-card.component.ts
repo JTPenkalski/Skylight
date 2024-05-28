@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NbActionsModule, NbCardModule, NbContextMenuModule, NbMenuItem, NbMenuService, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
 import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
@@ -21,6 +21,7 @@ import { filter, map } from 'rxjs/operators';
   styleUrl: './weather-event-alerts-card.component.scss'
 })
 export class WeatherEventAlertsCardComponent implements OnInit {
+  @Input({ required: true }) public weatherEventId!: string;
   @Output() public alertSelected: EventEmitter<NewWeatherEventAlert> = new EventEmitter<NewWeatherEventAlert>();
 
   public readonly moreMenuTag: string = 'skylight-weather-event-alerts-card-more';
@@ -70,10 +71,16 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     this.loading = true;
 
     this.service
-      .fetchWeatherAlerts('8513237d-1a5a-45bd-9d63-1b83d633ea11')
-      .subscribe(result => {
-        this.alerts = result;
-        this.loading = false;
+      .fetchWeatherAlerts(this.weatherEventId)
+      .subscribe({
+        next: result => {
+          this.alerts = result;
+          this.loading = false;
+        },
+        error: () => {
+          console.error(`Failed to fetch Weather Alerts for Weather Event ID ${this.weatherEventId}`);
+          this.loading = false
+        }
       });
   }
 

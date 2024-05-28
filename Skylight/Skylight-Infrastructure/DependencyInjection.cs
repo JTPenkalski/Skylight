@@ -24,7 +24,8 @@ public static class DependencyInjection
 
         // Add Configuration
         services
-            .Configure<NationalWeatherServiceClientOptions>(configuration.GetSection(NationalWeatherServiceClientOptions.RootKey));
+            .Configure<NationalWeatherServiceClientOptions>(configuration.GetSection(NationalWeatherServiceClientOptions.RootKey))
+            .Configure<FetchActiveWeatherAlertsJobOptions>(configuration.GetSection(FetchActiveWeatherAlertsJobOptions.RootKey));
 
         // Add Time Provider
         services.AddSingleton(TimeProvider.System);

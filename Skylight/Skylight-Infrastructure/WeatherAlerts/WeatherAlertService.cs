@@ -42,6 +42,7 @@ public class WeatherAlertService(
 					Onset = alert.Onset,
 					Expires = alert.Expires,
 					Ends = alert.Ends,
+					ExternalId = alert.Id,
 					Event = weatherEvent,
 					Alert = weatherAlert,
 				};

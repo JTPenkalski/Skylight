@@ -33,7 +33,7 @@ public class WeatherEvent : BaseAuditableEntity
 
     public void AddAlert(WeatherEventAlert alert)
     {
-        if (Alerts.Contains(alert)) return;
+        if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return;
 
         Alerts.Add(alert);
     }

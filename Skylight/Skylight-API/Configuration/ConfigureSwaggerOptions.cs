@@ -25,7 +25,7 @@ public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider apiVersionDe
 		OpenApiInfo info = new()
 		{
 			Title = $"{nameof(Skylight)} API",
-			Description = "API for Skylight, a web application for viewing, tracking, and cataloging weather events.",
+			Description = "API for Skylight, a web application for monitoring, tracking, and viewing weather events.",
 			Version = description.ApiVersion.ToString()
 		};
 

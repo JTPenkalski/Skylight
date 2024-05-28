@@ -23,6 +23,8 @@ public class WeatherEventAlert : BaseAuditableEntity
     
     public DateTimeOffset? Ends { get; set; }
 
+	public string? ExternalId { get; set; }
+
     public required virtual WeatherAlert Alert { get; set; }
 
     public required virtual WeatherEvent Event { get; set; }

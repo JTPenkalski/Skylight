@@ -1,4 +1,4 @@
-@if (!!summary) {
+@if (summary) {
   <nb-card accent="info">
     <nb-card-header>
       <h1 class="title">{{summary.name}}</h1>  
@@ -23,12 +23,18 @@
             }
           </span>
         </skylight-icon-card>
-        <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
-          <span>{{summary.damageCost | currency:'USD':'symbol'}}</span>
-        </skylight-icon-card>
-        <skylight-icon-card icon="person" nbTooltip="Affected People">
-          <span>{{summary.affectedPeople}}</span>
-        </skylight-icon-card>
+
+        @if (summary.damageCost) {
+          <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
+            <span>{{summary.damageCost | currency:'USD':'symbol'}}</span>
+          </skylight-icon-card>
+        }
+
+        @if (summary.affectedPeople) {
+          <skylight-icon-card icon="person" nbTooltip="Affected People">
+            <span>{{summary.affectedPeople}}</span>
+          </skylight-icon-card>
+        }
       </div>
       
       <p>{{summary.description}}</p>
@@ -38,9 +44,11 @@
     </nb-card-footer>
   </nb-card>
 } @else {
-  <nb-card [nbSpinner]="true" nbSpinnerStatus="info" nbSpinnerSize="giant">
+  <nb-card nbSpinnerStatus="info" nbSpinnerSize="giant" [nbSpinner]="loading">
     <nb-card-body>
-      
+      @if (!loading) {
+        Error getting Weather Event {{weatherEventId}}.
+      }
     </nb-card-body>
   </nb-card>
 }

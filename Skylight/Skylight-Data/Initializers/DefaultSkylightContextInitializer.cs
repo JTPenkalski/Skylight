@@ -185,6 +185,16 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 				EndDate = new DateTimeOffset(2024, 4, 28, 10, 0, 0, TimeSpan.Zero),
 				DamageCost = 1_800_000_000,
 				AffectedPeople = 8
+			},
+			new()
+			{
+				Id = Guid.Parse("92d65b0d-250c-410e-b50e-b1a501a13d0f"),
+				Name = "Tornado Outbreak of May 19-26, 2024",
+				Description = "A multi-day period of significant tornado activity is currently unfolding across the Midwestern United States and the Mississippi Valley. Tornadoes have been reported across large portions of the Central United States, including several strong tornadoes. Multiple Particularly Dangerous Situation (PDS) watches were issued across the sequence, including Severe Thunderstorm Watch 260 on the 19th,[8] Tornado Watch 277 on the 21st, Tornado Watch 308 on the 25th, and Tornado Watch 320 on the 26th. Five fatalities have been confirmed with a large, violent EF4 tornado that went through Greenfield, Iowa on the 21st. Tornadic activity continued over the next several days, including a nocturnal outbreak that occurred during the overnight hours of May 25 into May 26. Seven fatalities were confirmed from a destructive tornado that struck Valley View, Texas while two more fatalities were confirmed from an EF3+ tornado that struck Claremore and Pryor, Oklahoma. Another fatality was confirmed from a tornado in Olvey, Arkansas and an additional tornadic death also occurred in Arkansas. Many other tornadoes occurred on the afternoon and evening of the 26th, including a very destructive, intense tornado, which prompted the issuance of 4 tornado emergencies across western Kentucky.",
+				StartDate = new DateTimeOffset(2024, 4, 26, 20, 0, 0, TimeSpan.Zero),
+				EndDate = null,
+				DamageCost = null,
+				AffectedPeople = 117
 			}
 		};
 
