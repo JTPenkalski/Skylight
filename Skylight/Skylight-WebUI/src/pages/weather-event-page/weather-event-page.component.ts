@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { WeatherEventPageCardContainerComponent, WeatherEventPageSummaryCardComponent } from './components';
-import { WeatherEventService } from './services';
+import { Component, Input, OnInit } from '@angular/core';
 import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { WeatherEventHubConnectionService } from 'web/connections';
+import { WeatherEventPageCardContainerComponent, WeatherEventPageSummaryCardComponent } from './components';
 
 @Component({
   selector: 'skylight-weather-event-page',
@@ -15,16 +15,12 @@ import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
   templateUrl: './weather-event-page.component.html',
   styleUrl: './weather-event-page.component.scss'
 })
-export class WeatherEventPageComponent {
+export class WeatherEventPageComponent implements OnInit {
   @Input() public id!: string;
 
-  constructor(private readonly service: WeatherEventService) { }
+  constructor(private readonly weatherEventHubConnection: WeatherEventHubConnectionService) { }
 
-  public requestTrack(track: boolean): void {
-    if (track) {
-      this.service
-        .trackWeatherEvent(this.id, '472e9768-f238-49d5-8948-b1bca50e7bb9')
-        .subscribe();
-    }
+  public ngOnInit(): void {
+    this.weatherEventHubConnection.connect();
   }
 }

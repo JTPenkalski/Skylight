@@ -2,6 +2,7 @@
 using Asp.Versioning.ApiExplorer;
 using Skylight.API.Configuration;
 using Skylight.Controllers;
+using Skylight.Infrastructure.Hubs;
 using Skylight.Infrastructure.Jobs;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -85,6 +86,18 @@ public static class DependencyInjection
 		{
 			jobScheduler.Schedule(app, app.Configuration);
 		}
+
+		return app;
+	}
+
+	/// <summary>
+	/// Maps SignalR hubs for the <see cref="Web"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="WebApplication"/>.</returns>
+	public static WebApplication MapHubs(this WebApplication app)
+	{
+		// Add Hubs
+		app.MapHub<WeatherEventHub>("/hub/weather-event");
 
 		return app;
 	}

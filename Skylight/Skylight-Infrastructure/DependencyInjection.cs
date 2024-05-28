@@ -35,11 +35,12 @@ public static class DependencyInjection
             config.UseSqlServerStorage(configuration.GetConnectionString("Default")))
             .AddHangfireServer();
 
+		// Add SignalR
+		services.AddSignalR();
+
         // Add Infrastructure Services
         services
 			.AddValidatorsFromAssembly(assembly)
-            .AddHangfire(config =>
-                config.UseSqlServerStorage(configuration.GetConnectionString("Default")))
 			.Scan(scan => scan
                 .FromAssemblies(assembly)
                     .AddClasses()

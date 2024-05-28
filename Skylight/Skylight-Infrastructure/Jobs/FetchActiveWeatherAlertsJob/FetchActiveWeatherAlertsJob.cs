@@ -1,11 +1,13 @@
 ﻿using FluentResults;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Application.UseCases.WeatherEvents.Commands;
 using Skylight.Domain.Entities;
+using Skylight.Infrastructure.Hubs;
 
 namespace Skylight.Infrastructure.Jobs;
 
@@ -16,6 +18,7 @@ public class FetchActiveWeatherAlertsJob(
 	ILogger<FetchActiveWeatherAlertsJob> logger,
 	IOptions<FetchActiveWeatherAlertsJobOptions> options,
 	ISkylightContext context,
+	IHubContext<WeatherEventHub, IWeatherEventReceiver> hubContext,
 	IMediator mediator) : IJob
 {
 	public async Task ProcessAsync(CancellationToken cancellationToken)
@@ -39,6 +42,8 @@ public class FetchActiveWeatherAlertsJob(
 					activeEvent.Name,
 					result.IsSuccess);
 			}
+
+			await hubContext.Clients.All.ReceiveNewWeatherAlerts("Hello Client!");
 		}
 		else
 		{

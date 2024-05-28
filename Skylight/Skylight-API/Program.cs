@@ -62,6 +62,9 @@ public class Program
 		// Add Jobs
 		app.UseBackgroundJobs();
 
+		// Add Hubs
+		app.MapHubs();
+
         // Start the Web Application
         app.Run();
     }
