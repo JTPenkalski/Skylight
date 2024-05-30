@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { WeatherEventPageSummaryCardComponent } from './components';
-import { WeatherEventSummary } from './models';
-import { WeatherEventService } from './services';
+import { Component, Input, OnInit } from '@angular/core';
 import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
+import { WeatherEventHubConnectionService } from 'web/connections';
+import { WeatherEventPageCardContainerComponent, WeatherEventPageSummaryCardComponent } from './components';
 
 @Component({
   selector: 'skylight-weather-event-page',
@@ -10,27 +9,22 @@ import { NbCardModule, NbSpinnerModule } from '@nebular/theme';
   imports: [
     NbCardModule,
     NbSpinnerModule,
+    WeatherEventPageCardContainerComponent,
     WeatherEventPageSummaryCardComponent
   ],
   templateUrl: './weather-event-page.component.html',
   styleUrl: './weather-event-page.component.scss'
 })
 export class WeatherEventPageComponent implements OnInit {
-  public summary!: WeatherEventSummary;
+  @Input() public id?: string;
 
-  constructor(private readonly service: WeatherEventService) { }
+  constructor(
+    private readonly weatherEventHubConnection: WeatherEventHubConnectionService
+  ) { }
 
   public ngOnInit(): void {
-    this.service
-      .getWeatherEventSummary('8513237d-1a5a-45bd-9d63-1b83d633ea11')
-      .subscribe(result => this.summary = result);
-  }
-
-  public requestTrack(track: boolean): void {
-    if (track) {
-      this.service
-        .trackWeatherEvent('8513237d-1a5a-45bd-9d63-1b83d633ea11', '472e9768-f238-49d5-8948-b1bca50e7bb9')
-        .subscribe();
+    if (this.id) {
+      this.weatherEventHubConnection.connect();
     }
   }
 }

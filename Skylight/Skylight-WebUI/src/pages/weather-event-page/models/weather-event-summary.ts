@@ -1,3 +1,5 @@
+import { GetWeatherEventByIdResponse } from 'web/clients';
+
 export class WeatherEventSummary {
   constructor(
     public name: string,
@@ -7,4 +9,15 @@ export class WeatherEventSummary {
     public damageCost?: number,
     public affectedPeople?: number
   ) { }
+
+  public static fromApi(data: GetWeatherEventByIdResponse): WeatherEventSummary {
+    return new WeatherEventSummary(
+      data.name!,
+      data.description!,
+      data.startDate!,
+      data.endDate,
+      data.damageCost,
+      data.affectedPeople
+    )
+  }
 }

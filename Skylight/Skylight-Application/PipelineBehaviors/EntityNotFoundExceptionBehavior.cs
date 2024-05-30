@@ -9,7 +9,7 @@ namespace Skylight.Application.PipelineBehaviors;
 /// Catches any <see cref="EntityNotFoundException"/> and returns a failed <see cref="Result"/> to the sender.
 /// </summary>
 [ServiceBehavior]
-public class EntityNotFoundExceptionHandler<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class EntityNotFoundExceptionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IBaseRequest
     where TResponse : ResultBase, new()
 {

@@ -9,3 +9,12 @@
 .darken {
   background-color: nb-theme(background-basic-color-3) !important;
 }
+
+.float-right {
+  margin-left: auto;
+}
+
+.preformatted {
+  font-family: monospace;
+  white-space: pre;
+}

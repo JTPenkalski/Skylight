@@ -1,1 +1,6 @@
-<skylight-weather-event-page-summary-card [summary]="summary" (tracked)="requestTrack($event)"></skylight-weather-event-page-summary-card>
+@if (id) {
+  <skylight-weather-event-page-summary-card [weatherEventId]="id"></skylight-weather-event-page-summary-card>
+  <skylight-weather-event-page-card-container [weatherEventId]="id"></skylight-weather-event-page-card-container>
+} @else {
+  <p>Weather Event not found.</p>
+}

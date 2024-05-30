@@ -30,4 +30,16 @@ public class WeatherEvent : BaseAuditableEntity
     {
         Participants.Remove(participant);
     }
+
+    public void AddAlert(WeatherEventAlert alert)
+    {
+        if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return;
+
+        Alerts.Add(alert);
+    }
+
+    public void RemoveAlert(WeatherEventAlert alert)
+    {
+        Alerts.Remove(alert);
+    }
 }

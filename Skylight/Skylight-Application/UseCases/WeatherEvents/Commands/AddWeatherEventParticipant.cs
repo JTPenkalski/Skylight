@@ -3,7 +3,6 @@ using Skylight.Application.Interfaces.Application;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
-using Skylight.Domain.Exceptions;
 
 namespace Skylight.Application.UseCases.WeatherEvents;
 
@@ -13,16 +12,13 @@ public sealed record AddWeatherEventParticipantCommand(
     ParticipationMethod ParticipationMethod)
     : ICommand;
 
-public class AddWeatherEventParticipantCommandHandler(ISkylightContext context)
+public class AddWeatherEventParticipantCommandHandler(ISkylightContext dbContext)
     : ICommandHandler<AddWeatherEventParticipantCommand>
 {
     public async Task<Result> Handle(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
     {
-        WeatherEvent? weatherEvent = await context.WeatherEvents.FindAsync([request.WeatherEventId], cancellationToken);
-        StormTracker? stormTracker = await context.StormTrackers.FindAsync([request.StormTrackerId], cancellationToken);
-
-        EntityNotFoundException.ThrowIfNullOrDeleted(weatherEvent, request.WeatherEventId);
-        EntityNotFoundException.ThrowIfNullOrDeleted(stormTracker, request.StormTrackerId);
+        WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
+        StormTracker stormTracker = await dbContext.FindAsync<StormTracker>(request.StormTrackerId, cancellationToken);
 
         var participant = new WeatherEventParticipant
         {
@@ -33,7 +29,7 @@ public class AddWeatherEventParticipantCommandHandler(ISkylightContext context)
 
         weatherEvent.AddParticipant(participant);
 
-        await context.CommitAsync(cancellationToken);
+        await dbContext.CommitAsync(cancellationToken);
 
         return Result.Ok();
     }

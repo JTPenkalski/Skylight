@@ -2,7 +2,6 @@
 using Skylight.Application.Interfaces.Application;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Entities;
-using Skylight.Domain.Exceptions;
 
 namespace Skylight.Application.UseCases.WeatherEvents;
 
@@ -18,19 +17,13 @@ public sealed record GetWeatherEventByIdResponse(
     int? AffectedPeople)
     : IResponse;
 
-public class GetWeatherEventByIdQueryHandler(ISkylightContext context)
+public class GetWeatherEventByIdQueryHandler(ISkylightContext dbContext)
     : IQueryHandler<GetWeatherEventByIdQuery, GetWeatherEventByIdResponse>
 {
     public async Task<Result<GetWeatherEventByIdResponse>> Handle(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
     {
-        WeatherEvent? weatherEvent = await context.WeatherEvents
-            .FindAsync([request.Id], cancellationToken);
-
-        if (weatherEvent is null)
-        {
-            EntityNotFoundException.ThrowIfNullOrDeleted(weatherEvent, request.Id);
-        }
-
+        WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.Id, cancellationToken);
+        
         var response = new GetWeatherEventByIdResponse(
             Name: weatherEvent.Name,
             Description: weatherEvent.Description,

@@ -11,7 +11,7 @@ public class EntityNotFoundExceptionHandlerTests
     private record TestRequest() : ICommand;
     private record TestResponse() : IResponse;
 
-    private EntityNotFoundExceptionHandler<TestRequest, Result<TestResponse>> EntityNotFoundExceptionHandler { get; } = new();
+    private EntityNotFoundExceptionBehavior<TestRequest, Result<TestResponse>> EntityNotFoundExceptionHandler { get; } = new();
 
     [Fact]
     public async Task Handle_Should_ReturnFailedResultOnEntityNotFoundException()

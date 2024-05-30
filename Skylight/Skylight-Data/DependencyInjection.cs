@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Skylight.Application.Configuration;
+using Microsoft.Extensions.Options;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Data.Contexts;
 using Skylight.Data.Initializers;
 using Skylight.Domain.Exceptions;
+using Skylight.Infrastructure.Contexts;
 using System.Reflection;
 
 namespace Skylight.Data;
@@ -23,14 +24,19 @@ public static class DependencyInjection
     /// Adds required services for the <see cref="Data"/> layer.
     /// </summary>
     /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration, bool isProduction)
     {
         Assembly assembly = typeof(DependencyInjection).Assembly;
         string? connectionString = configuration.GetConnectionString(ConnectionName);
 
         InvalidConnectionStringException.ThrowIfNullOrWhiteSpace(connectionString, ConnectionName);
 
-        services
+		// Add Configuration
+		services
+			.Configure<SkylightContextOptions>(configuration.GetSection(SkylightContextOptions.RootKey));
+
+		// Add Data Services
+		services
             .AddScoped<ISkylightContextInitializer, DefaultSkylightContextInitializer>()
             .Scan(scan => scan
                 .FromAssemblies(assembly)
@@ -50,23 +56,24 @@ public static class DependencyInjection
                 .AddInterceptors(provider.GetServices<IInterceptor>())
                 .UseSqlServer(connectionString);
 
-            options.EnableSensitiveDataLogging(GetDatabaseOptions(configuration).EnableSensitiveDataLogging);
+            options.EnableSensitiveDataLogging(!isProduction);
         });
         
         return services;
     }
 
-    /// <summary>
-    /// Adds development-only middleware for the <see cref="Data"/> layer.
-    /// </summary>
-    /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app, IConfiguration configuration)
+	/// <summary>
+	/// Adds development-only middleware for the <see cref="Data"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
+	public static IApplicationBuilder UseDevelopmentData(this IApplicationBuilder app)
     {
         // Use EF Core Context Initializer
-        if (GetDatabaseOptions(configuration).UseCreateAndDropMigrations)
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        SkylightContextOptions options = scope.ServiceProvider.GetRequiredService<IOptions<SkylightContextOptions>>().Value;
+		
+        if (options.UseCreateAndDropMigrations)
         {
-            using IServiceScope scope = app.ApplicationServices.CreateScope();
-
             scope.ServiceProvider
                .GetRequiredService<ISkylightContextInitializer>()
                .InitializeAsync()
@@ -76,7 +83,4 @@ public static class DependencyInjection
 
         return app;
     }
-
-    private static DatabaseOptions GetDatabaseOptions(IConfiguration configuration) =>
-        configuration.GetSection(DatabaseOptions.RootKey).Get<DatabaseOptions>() ?? throw new InvalidOperationException($"Configuration for {DatabaseOptions.RootKey} did not exist!");
 }

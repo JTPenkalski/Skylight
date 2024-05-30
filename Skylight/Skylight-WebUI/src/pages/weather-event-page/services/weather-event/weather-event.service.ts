@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { AddWeatherEventParticipantCommand, GetWeatherEventByIdQuery, ParticipationMethod, SkylightClient } from 'web/clients';
-import { WeatherEventSummary } from '../../models';
+import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherEventByIdQuery, ParticipationMethod, SkylightClient } from 'web/clients';
+import { NewWeatherEventAlert, WeatherEventSummary } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +15,7 @@ export class WeatherEventService {
     };
 
     return this.client.getWeatherEventById(request).pipe(
-      map(result => {
-        return new WeatherEventSummary(
-          result.name!,
-          result.description!,
-          result.startDate!,
-          result.endDate,
-          result.damageCost,
-          result.affectedPeople
-        );
-      })
+      map(result => WeatherEventSummary.fromApi(result))
     );
   }
 
@@ -36,5 +27,19 @@ export class WeatherEventService {
     };
 
     return this.client.addWeatherEventParticipant(request);
+  }
+
+  public fetchWeatherAlerts(weatherEventId: string): Observable<NewWeatherEventAlert[]> {
+    const request: FetchWeatherAlertsCommand = {
+      weatherEventId: weatherEventId
+    };
+
+    return this.client.fetchWeatherAlerts(request).pipe(
+      map(result =>
+        result.newWeatherEventAlerts?.map(x =>
+          NewWeatherEventAlert.fromApi(x)
+        ) ?? []
+      )
+    );
   }
 }

@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using Skylight.Configuration.ConfigureOptions;
+using Skylight.API.Configuration;
 using Skylight.Controllers;
+using Skylight.Infrastructure.Hubs.WeatherEvent;
+using Skylight.Infrastructure.Jobs;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -16,7 +18,7 @@ public static class DependencyInjection
     /// Adds required services for the <see cref="Web"/> layer.
     /// </summary>
     /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddWeb(this IServiceCollection services)
+    public static IServiceCollection AddWeb(this IServiceCollection services, bool isProduction)
     {
         Assembly assembly = typeof(DependencyInjection).Assembly;
 
@@ -43,42 +45,68 @@ public static class DependencyInjection
                 options.SubstituteApiVersionInUrl = true;
             });
 
-        // Add Application Services
+        // Add Web Services
         services
             .AddSwaggerGen()
-            .AddAutoMapper(assembly);
+			.Scan(scan => scan
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobScheduler)))
+					.WithSingletonLifetime());
 
         // Configure Services
         services
             .ConfigureOptions<ConfigureSwaggerOptions>();
         
-        return services;
-    }
-
-    /// <summary>
-    /// Adds development-only services for the <see cref="Web"/> layer.
-    /// </summary>
-    /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static IServiceCollection AddDevelopmentWeb(this IServiceCollection services)
-    {
-        // Add CORS
-        services.AddCors(options => options.AddPolicy(
-            SkylightOrigins.LocalHostPolicy,
-            builder => builder
-                .WithOrigins("https://localhost:4200")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-        ));
+		// Add Development Services
+		if (!isProduction)
+		{
+			// Add CORS
+			services.AddCors(options => options.AddPolicy(
+				SkylightOrigins.LocalHostPolicy,
+				builder => builder
+					.WithOrigins("https://localhost:4200")
+					.AllowAnyHeader()
+					.AllowAnyMethod()
+					.AllowCredentials()));
+		}
 
         return services;
     }
 
-    /// <summary>
-    /// Adds development-only middleware for the <see cref="Web"/> layer.
-    /// </summary>
-    /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-    public static WebApplication UseDevelopmentWeb(this WebApplication app)
+	/// <summary>
+	/// Adds background jobs for the <see cref="Web"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="WebApplication"/>.</returns>
+	public static WebApplication UseBackgroundJobs(this WebApplication app)
+	{
+		// Add Jobs
+		IEnumerable<IJobScheduler> jobSchedulers = app.Services.GetServices<IJobScheduler>();
+		foreach (IJobScheduler jobScheduler in jobSchedulers)
+		{
+			jobScheduler.Schedule(app, app.Configuration);
+		}
+
+		return app;
+	}
+
+	/// <summary>
+	/// Maps SignalR hubs for the <see cref="Web"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="WebApplication"/>.</returns>
+	public static WebApplication MapHubs(this WebApplication app)
+	{
+		// Add Hubs
+		app.MapHub<WeatherEventHub>("/hub/weather-event");
+
+		return app;
+	}
+
+	/// <summary>
+	/// Adds development-only middleware for the <see cref="Web"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="WebApplication"/>.</returns>
+	public static WebApplication UseDevelopmentWeb(this WebApplication app)
     {
         // Use Swagger UI
         app.UseSwagger();

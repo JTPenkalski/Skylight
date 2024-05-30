@@ -1,0 +1,20 @@
+<div class="container">
+  <nb-user size="large" [name]="alert.sender" [picture]="senderPicture" [title]="alert.source"></nb-user>
+
+  <div class="time-container">
+    <skylight-icon-card class="time-item" icon="play-circle" nbTooltip="Effective">{{alert.effective | date:'medium'}}</skylight-icon-card>
+    <skylight-icon-card class="time-item" icon="stop-circle" nbTooltip="Expires">{{alert.expires | date:'medium'}}</skylight-icon-card>
+    <skylight-icon-card class="time-item" icon="clock" nbTooltip="Issued">{{alert.sent | date:'medium'}}</skylight-icon-card>
+  </div>
+
+  <nb-card>
+    @if (!!alert.instruction) {
+      <nb-card-header>
+        <p class="subtitle">{{alert.instruction}}</p>
+      </nb-card-header>
+    }
+    <nb-card-body class="alert-description">
+      <div class="preformatted">{{alert.description}}</div>
+    </nb-card-body>
+  </nb-card>
+</div>

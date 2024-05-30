@@ -1,5 +1,4 @@
 using Skylight.Application;
-using Skylight.Application.Configuration;
 using Skylight.Controllers;
 using Skylight.Data;
 using Skylight.Infrastructure;
@@ -31,22 +30,16 @@ public class Program
 
         // Add Configuration
         builder.Services
-            .AddOptions()
-            .Configure<DatabaseOptions>(builder.Configuration.GetSection(DatabaseOptions.RootKey));
-        
-        // Add Application Services
-        builder.Services
-            .AddApplication()
-            .AddInfrastructure()
-            .AddData(builder.Configuration)
-            .AddWeb();
+            .AddOptions();
 
-        // Add Development Services
-        if (builder.Environment.IsDevelopment())
-        {
-            builder.Services
-                .AddDevelopmentWeb();
-        }
+		// Add Application Services
+		bool isProduction = builder.Environment.IsProduction();
+
+		builder.Services
+            .AddApplication()
+            .AddInfrastructure(builder.Configuration)
+            .AddData(builder.Configuration, isProduction)
+            .AddWeb(isProduction);
         
         // Build the Web Application
         WebApplication app = builder.Build();
@@ -62,8 +55,15 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.UseDevelopmentWeb();
-            app.UseDevelopmentData(app.Configuration);
+            app.UseDevelopmentData();
+			app.UseDevelopmentInfrastructure();
         }
+
+		// Add Jobs
+		app.UseBackgroundJobs();
+
+		// Add Hubs
+		app.MapHubs();
 
         // Start the Web Application
         app.Run();

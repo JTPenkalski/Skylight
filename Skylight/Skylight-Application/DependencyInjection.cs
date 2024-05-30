@@ -1,4 +1,5 @@
-﻿using MediatR.Pipeline;
+﻿using FluentValidation;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Attributes;
 using System.Reflection;
@@ -20,6 +21,7 @@ public static class DependencyInjection
 
         // Add Application Services
         services
+			.AddValidatorsFromAssembly(assembly)
             .AddMediatR(config =>
             {
                 config.RegisterServicesFromAssembly(assembly);

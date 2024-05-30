@@ -19,7 +19,7 @@ namespace Skylight.Controllers
         /// <summary>
         /// Gets all <see cref="StormTracker"/>s with the specified name.
         /// </summary>
-        /// <param name="request">Data to find the entity.</param>
+        /// <returns>A <see cref="GetStormTrackersByNameResponse"/> data object.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]

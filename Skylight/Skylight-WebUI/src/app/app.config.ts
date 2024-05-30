@@ -3,7 +3,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbSidebarModule, NbThemeModule } from '@nebular/theme';
+import { NbMenuModule, NbSidebarModule, NbThemeModule, NbWindowModule } from '@nebular/theme';
 
 import { routes } from './app.routes';
 
@@ -20,19 +20,25 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([credentialsInterceptor])
     ),
+    provideNebular(),
     provideRouter(
       routes,
       withComponentInputBinding()
     ),
-    importProvidersFrom(
-      NbEvaIconsModule,
-      NbThemeModule.forRoot({
-        name: 'dark'
-      }),
-      NbSidebarModule.forRoot()
-    )
   ]
 };
+
+function provideNebular(): EnvironmentProviders {
+  return importProvidersFrom(
+    NbEvaIconsModule,
+    NbMenuModule.forRoot(),
+    NbThemeModule.forRoot({
+      name: 'dark'
+    }),
+    NbSidebarModule.forRoot(),
+    NbWindowModule.forRoot()
+  );
+}
 
 function provideSkylightApiUrl(): EnvironmentProviders {
   return makeEnvironmentProviders([

@@ -83,4 +83,22 @@ public class NamingTests(ITestOutputHelper outputHelper)
 
         Assert.True(result.IsSuccessful);
     }
+
+    [Fact]
+    public void Interfaces_Should_HaveActionsWithAsyncSuffix()
+    {
+        TestResult result = Types
+            .InAssembly(Assemblies.Application)
+            .That()
+            .ResideInNamespaceContaining(nameof(Skylight.Application.Interfaces))
+            .And()
+            .AreInterfaces()
+            .Should()
+            .MeetCustomRule(Rules.AsyncMethodsHaveAsyncSuffix)
+            .GetResult();
+
+        TestOutputHelpers.PrintFailingTypes(outputHelper, result);
+
+        Assert.True(result.IsSuccessful);
+    }
 }

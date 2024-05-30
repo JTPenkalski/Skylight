@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
+using Skylight.Domain.Exceptions;
 
 namespace Skylight.Data.Contexts;
 
@@ -31,6 +32,23 @@ public class SkylightContext(
     public DbSet<WeatherAlertModifier> WeatherAlertModifiers => Set<WeatherAlertModifier>();
 
     public DbSet<WeatherEvent> WeatherEvents => Set<WeatherEvent>();
+
+    public async Task<T> FindAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity
+    {
+        T? entity = await Set<T>()
+            .FindAsync([id], cancellationToken);
+
+        if (entity is BaseAuditableEntity auditableEntity)
+        {
+            EntityNotFoundException.ThrowIfNullOrDeleted(auditableEntity, id);
+        }
+        else
+        {
+            EntityNotFoundException.ThrowIfNull(entity, id);
+        }
+
+        return entity;
+    }
 
     public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
     {

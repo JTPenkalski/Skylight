@@ -1,15 +1,15 @@
-@if (!!summary) {
+@if (summary) {
   <nb-card accent="info">
     <nb-card-header>
       <h1 class="title">{{summary.name}}</h1>  
       <span class="hero-buttons">
         @if (isTracking) {
-          <button nbButton hero (click)="toggleTracking()" shape="semi-round" size="medium" status="primary"><nb-icon icon="eye-off"></nb-icon>UNTRACK</button>
+          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye-off"></nb-icon>Untrack</button>
         } @else {
-          <button nbButton hero (click)="toggleTracking()" shape="semi-round" size="medium" status="primary"><nb-icon icon="eye"></nb-icon>TRACK</button>
+          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye"></nb-icon>Track</button>
         }
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>SHARE</button>
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>REPORT</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>Share</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>Report</button>
       </span>
     </nb-card-header>
     <nb-card-body>
@@ -23,12 +23,18 @@
             }
           </span>
         </skylight-icon-card>
-        <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
-          <span>{{summary.damageCost}}</span>
-        </skylight-icon-card>
-        <skylight-icon-card icon="person" nbTooltip="Affected People">
-          <span>{{summary.affectedPeople}}</span>
-        </skylight-icon-card>
+
+        @if (summary.damageCost) {
+          <skylight-icon-card icon="pricetags" nbTooltip="Damage Cost">
+            <span>{{summary.damageCost | currency:'USD':'symbol'}}</span>
+          </skylight-icon-card>
+        }
+
+        @if (summary.affectedPeople) {
+          <skylight-icon-card icon="person" nbTooltip="Affected People">
+            <span>{{summary.affectedPeople}}</span>
+          </skylight-icon-card>
+        }
       </div>
       
       <p>{{summary.description}}</p>
@@ -38,9 +44,11 @@
     </nb-card-footer>
   </nb-card>
 } @else {
-  <nb-card [nbSpinner]="true" nbSpinnerStatus="info" nbSpinnerSize="giant">
+  <nb-card nbSpinnerStatus="info" nbSpinnerSize="giant" [nbSpinner]="loading">
     <nb-card-body>
-      Loading...
+      @if (!loading) {
+        Error getting Weather Event {{weatherEventId}}.
+      }
     </nb-card-body>
   </nb-card>
 }
