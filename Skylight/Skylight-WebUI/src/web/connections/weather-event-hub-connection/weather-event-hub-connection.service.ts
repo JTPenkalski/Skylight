@@ -1,6 +1,8 @@
 import * as SignalR from "@microsoft/signalr"
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
+import { ReceiveNewWeatherAlertsRequest, ReceiveNewWeatherAlertsRequestName } from './requests';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Connection hub between client/server for Weather Event events.
@@ -10,9 +12,13 @@ import { environment } from 'environments/environment';
   providedIn: 'root'
 })
 export class WeatherEventHubConnectionService {
-  private readonly ReceivePrefix: string = 'Receive';
-
   private hubConnection?: SignalR.HubConnection;
+
+  private newWeatherAlertsSubject: BehaviorSubject<ReceiveNewWeatherAlertsRequest> = new BehaviorSubject<ReceiveNewWeatherAlertsRequest>({
+    newWeatherEventAlerts: []
+  });
+
+  public get newWeatherAlerts(): Observable<ReceiveNewWeatherAlertsRequest> { return this.newWeatherAlertsSubject.asObservable(); }
 
   /**
    * Opens a connection to the SignalR Hub.
@@ -47,8 +53,6 @@ export class WeatherEventHubConnectionService {
   protected addClose(): WeatherEventHubConnectionService {
     this.hubConnection?.onclose(error => {
       console.error(`Weather Event Hub closing. Potential error: ${error}`);
-
-      // TODO: Emit signal?
     });
 
     return this;
@@ -57,17 +61,14 @@ export class WeatherEventHubConnectionService {
   protected addReconnecting(): WeatherEventHubConnectionService {
     this.hubConnection?.onreconnecting(error => {
       console.error(`Weather Event Hub reconnecting from error: ${error}`);
-
-      // TODO: Emit signal?
     });
 
     return this;
   }
 
   protected addNewWeatherAlerts(): WeatherEventHubConnectionService {
-    this.hubConnection?.on(`${this.ReceivePrefix}NewWeatherAlerts`, (data: string) => {
-      console.log('Received message from server: ' + data);
-      // TODO: Emit signal?
+    this.hubConnection?.on(ReceiveNewWeatherAlertsRequestName, (data: ReceiveNewWeatherAlertsRequest) => {
+      this.newWeatherAlertsSubject.next(data);
     });
 
     return this;

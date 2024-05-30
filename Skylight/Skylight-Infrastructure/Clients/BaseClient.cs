@@ -37,7 +37,7 @@ public abstract class BaseClient
 	/// <param name="root">The root JSON object.</param>
 	/// <returns>The GeoJson properties root.</returns>
 	protected static IReadOnlyDictionary<string, JsonElement> GetGeoJsonProperties(JsonElement root) =>
-                root.GetProperty(GeoJson.FeaturesKey)
+		root.GetProperty(GeoJson.FeaturesKey)
             .EnumerateArray()
             .ToDictionary(
                 x => x.GetProperty(GeoJson.IdKey).GetString()!,

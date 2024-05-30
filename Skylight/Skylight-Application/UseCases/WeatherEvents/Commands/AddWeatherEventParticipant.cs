@@ -12,13 +12,13 @@ public sealed record AddWeatherEventParticipantCommand(
     ParticipationMethod ParticipationMethod)
     : ICommand;
 
-public class AddWeatherEventParticipantCommandHandler(ISkylightContext context)
+public class AddWeatherEventParticipantCommandHandler(ISkylightContext dbContext)
     : ICommandHandler<AddWeatherEventParticipantCommand>
 {
     public async Task<Result> Handle(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
     {
-        WeatherEvent weatherEvent = await context.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
-        StormTracker stormTracker = await context.FindAsync<StormTracker>(request.StormTrackerId, cancellationToken);
+        WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
+        StormTracker stormTracker = await dbContext.FindAsync<StormTracker>(request.StormTrackerId, cancellationToken);
 
         var participant = new WeatherEventParticipant
         {
@@ -29,7 +29,7 @@ public class AddWeatherEventParticipantCommandHandler(ISkylightContext context)
 
         weatherEvent.AddParticipant(participant);
 
-        await context.CommitAsync(cancellationToken);
+        await dbContext.CommitAsync(cancellationToken);
 
         return Result.Ok();
     }

@@ -9,7 +9,7 @@ using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 namespace Skylight.Infrastructure.WeatherAlerts;
 
 public class WeatherAlertService(
-	ISkylightContext context,
+	ISkylightContext dbContext,
 	INationalWeatherServiceClient nwsClient)
 	: IWeatherAlertService
 {
@@ -22,8 +22,11 @@ public class WeatherAlertService(
 			MessageTypes: [AlertMessageType.Alert]);
 
 		GetActiveAlertsResponse clientResponse = await nwsClient.GetActiveAlertsAsync(clientRequest, cancellationToken);
-		HashSet<string> alertNames = clientResponse.AlertCollection.Alerts.Select(x => x.Event).ToHashSet();
-		Dictionary<string, WeatherAlert> weatherAlerts = await context.WeatherAlerts
+
+		HashSet<string> alertNames = clientResponse.AlertCollection.Alerts
+			.Select(x => x.Event)
+			.ToHashSet();
+		Dictionary<string, WeatherAlert> weatherAlerts = await dbContext.WeatherAlerts
 			.Where(x => alertNames.Contains(x.Name))
 			.ToDictionaryAsync(x => x.Name, cancellationToken);
 

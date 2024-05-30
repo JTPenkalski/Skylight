@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Jobs;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace Skylight.Infrastructure;
 
@@ -36,7 +37,11 @@ public static class DependencyInjection
             .AddHangfireServer();
 
 		// Add SignalR
-		services.AddSignalR();
+		services.AddSignalR()
+			.AddJsonProtocol(options =>
+			{
+				options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			});
 
         // Add Infrastructure Services
         services

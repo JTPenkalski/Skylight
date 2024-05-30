@@ -4,11 +4,11 @@ using Skylight.Domain.Entities;
 
 namespace Skylight.Data.Initializers;
 
-public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkylightContextInitializer
+public class DefaultSkylightContextInitializer(ISkylightContext dbContext) : ISkylightContextInitializer
 {
     public async Task InitializeAsync()
 	{
-		await context.ResetAsync();
+		await dbContext.ResetAsync();
 
 		await AddWeatherAsync();
 		await AddWeatherAlertModifiersAsync();
@@ -16,7 +16,7 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 		await AddWeatherEventsAsync();
 		await AddStormTrackersAsync();
 
-		await context.CommitAsync();
+		await dbContext.CommitAsync();
 	}
 
 	private async Task AddWeatherAsync()
@@ -40,7 +40,7 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 			}
 		};
 
-		await context.Weather.AddRangeAsync(weather);
+		await dbContext.Weather.AddRangeAsync(weather);
 	}
 
 	private async Task AddWeatherAlertModifiersAsync()
@@ -63,7 +63,7 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 			}
 		};
 
-		await context.WeatherAlertModifiers.AddRangeAsync(weatherAlertModifiers);
+		await dbContext.WeatherAlertModifiers.AddRangeAsync(weatherAlertModifiers);
 	}
 
 	private async Task AddWeatherAlertsAsync()
@@ -169,7 +169,7 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 			},
 		};
 
-		await context.WeatherAlerts.AddRangeAsync(weatherAlerts);
+		await dbContext.WeatherAlerts.AddRangeAsync(weatherAlerts);
 	}
 
 	private async Task AddWeatherEventsAsync()
@@ -198,7 +198,7 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 			}
 		};
 
-		await context.WeatherEvents.AddRangeAsync(weatherEvents);
+		await dbContext.WeatherEvents.AddRangeAsync(weatherEvents);
 	}
 
 	private async Task AddStormTrackersAsync()
@@ -215,6 +215,6 @@ public class DefaultSkylightContextInitializer(ISkylightContext context) : ISkyl
 			}
 		};
 
-		await context.StormTrackers.AddRangeAsync(stormTrackers);
+		await dbContext.StormTrackers.AddRangeAsync(stormTrackers);
 	}
 }

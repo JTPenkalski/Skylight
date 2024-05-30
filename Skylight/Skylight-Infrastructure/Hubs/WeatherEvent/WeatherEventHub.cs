@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace Skylight.Infrastructure.Hubs;
+namespace Skylight.Infrastructure.Hubs.WeatherEvent;
 
 /// <summary>
 /// Connection hub between client/server for <see cref="Domain.Entities.WeatherEvent"/> events.

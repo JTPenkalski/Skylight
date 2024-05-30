@@ -3,51 +3,79 @@ using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Application.UseCases.WeatherEvents.Commands;
 using Skylight.Domain.Entities;
-using Skylight.Infrastructure.Hubs;
+using Skylight.Infrastructure.Hubs.WeatherEvent;
+using Skylight.Infrastructure.Hubs.WeatherEvent.Requests;
 
 namespace Skylight.Infrastructure.Jobs;
 
 /// <summary>
 /// Retrieves all Weather Alerts from the NWS for all active <see cref="WeatherEvent"/> instances.
 /// </summary>
-public class FetchActiveWeatherAlertsJob(
+public sealed class FetchActiveWeatherAlertsJob(
 	ILogger<FetchActiveWeatherAlertsJob> logger,
-	IOptions<FetchActiveWeatherAlertsJobOptions> options,
-	ISkylightContext context,
+	ISkylightContext dbContext,
 	IHubContext<WeatherEventHub, IWeatherEventReceiver> hubContext,
 	IMediator mediator) : IJob
 {
 	public async Task ProcessAsync(CancellationToken cancellationToken)
 	{
-		if (!options.Value.Enabled) return;
-
-		IEnumerable<WeatherEvent> activeEvents = await context.WeatherEvents
+		IEnumerable<WeatherEvent> activeEvents = await dbContext.WeatherEvents
 			.Where(x => !x.EndDate.HasValue)
 			.ToListAsync(cancellationToken);
 
 		if (activeEvents.Any())
 		{
+			var newAlerts = new List<ReceiveNewWeatherAlertsRequest.NewWeatherEventAlert>();
+
 			foreach (WeatherEvent activeEvent in activeEvents)
 			{
-				var request = new FetchWeatherAlertsCommand(activeEvent.Id);
+				var newAlertsForEvent = await GetActiveAlertsForEventAsync(activeEvent, cancellationToken);
 
-				Result<FetchWeatherAlertsResponse> result = await mediator.Send(request, cancellationToken);
-
-				logger.LogInformation("Retrieved {Count} Weather Alerts for the {Name} Weather Event. IsSuccess = {Result}!",
-					result.Value.NewWeatherEventAlerts.Count(),
-					activeEvent.Name,
-					result.IsSuccess);
+				newAlerts.AddRange(newAlertsForEvent);
 			}
 
-			await hubContext.Clients.All.ReceiveNewWeatherAlerts("Hello Client!");
+			var request = new ReceiveNewWeatherAlertsRequest
+			{
+				NewWeatherEventAlerts = newAlerts
+			};
+
+			await hubContext.Clients.All.ReceiveNewWeatherAlerts(request);
 		}
 		else
 		{
 			logger.LogInformation("Found 0 active Weather Events to retrieve Weather Alerts for. IsSuccess = true!");
 		}		
+	}
+
+	private async Task<IEnumerable<ReceiveNewWeatherAlertsRequest.NewWeatherEventAlert>> GetActiveAlertsForEventAsync(WeatherEvent activeEvent, CancellationToken cancellationToken)
+	{
+		var command = new FetchWeatherAlertsCommand(activeEvent.Id);
+
+		Result<FetchWeatherAlertsResponse> result = await mediator.Send(command, cancellationToken);
+
+		var newAlertsForEvent = result.Value.NewWeatherEventAlerts
+			.Select(x => new ReceiveNewWeatherAlertsRequest.NewWeatherEventAlert(
+				x.Sender,
+				x.Headline,
+				x.Instruction,
+				x.Description,
+				x.Sent,
+				x.Effective,
+				x.Expires,
+				x.Name,
+				x.Source,
+				x.Level,
+				x.Code))
+			.ToList();
+
+		logger.LogInformation("Retrieved {Count} Weather Alerts for the {Name} Weather Event. IsSuccess = {Result}!",
+			newAlertsForEvent.Count,
+			activeEvent.Name,
+			result.IsSuccess);
+
+		return newAlertsForEvent;
 	}
 }

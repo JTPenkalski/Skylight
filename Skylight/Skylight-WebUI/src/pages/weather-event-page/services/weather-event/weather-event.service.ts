@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherEventByIdQuery, ParticipationMethod, SkylightClient, WeatherAlertLevel as WebWeatherAlertLevel } from 'web/clients';
-import { NewWeatherEventAlert, WeatherAlertLevel, WeatherEventSummary } from '../../models';
+import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherEventByIdQuery, ParticipationMethod, SkylightClient } from 'web/clients';
+import { NewWeatherEventAlert, WeatherEventSummary } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +15,7 @@ export class WeatherEventService {
     };
 
     return this.client.getWeatherEventById(request).pipe(
-      map(result => {
-        return new WeatherEventSummary(
-          result.name!,
-          result.description!,
-          result.startDate!,
-          result.endDate,
-          result.damageCost,
-          result.affectedPeople
-        );
-      })
+      map(result => WeatherEventSummary.fromApi(result))
     );
   }
 
@@ -44,28 +35,11 @@ export class WeatherEventService {
     };
 
     return this.client.fetchWeatherAlerts(request).pipe(
-      map(result => result.newWeatherEventAlerts?.map(x => new NewWeatherEventAlert(
-        x.sender!,
-        x.headline!,
-        x.instruction!,
-        x.description!,
-        x.sent!,
-        x.effective!,
-        x.expires!,
-        x.name!,
-        x.source!,
-        this.mapWeatherAlertLevel(x.level),
-        x.code
-      )) ?? [])
+      map(result =>
+        result.newWeatherEventAlerts?.map(x =>
+          NewWeatherEventAlert.fromApi(x)
+        ) ?? []
+      )
     );
-  }
-
-  private mapWeatherAlertLevel(webWeatherAlertLevel?: WebWeatherAlertLevel): WeatherAlertLevel {
-    switch (webWeatherAlertLevel) {
-      case WebWeatherAlertLevel.Warning: return WeatherAlertLevel.Warning;
-      case WebWeatherAlertLevel.Watch: return WeatherAlertLevel.Watch;
-      case WebWeatherAlertLevel.Advisory: return WeatherAlertLevel.Advisory;
-      default: return WeatherAlertLevel.None;
-    }
   }
 }

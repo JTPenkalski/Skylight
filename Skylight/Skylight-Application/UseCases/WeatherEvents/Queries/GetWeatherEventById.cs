@@ -17,12 +17,12 @@ public sealed record GetWeatherEventByIdResponse(
     int? AffectedPeople)
     : IResponse;
 
-public class GetWeatherEventByIdQueryHandler(ISkylightContext context)
+public class GetWeatherEventByIdQueryHandler(ISkylightContext dbContext)
     : IQueryHandler<GetWeatherEventByIdQuery, GetWeatherEventByIdResponse>
 {
     public async Task<Result<GetWeatherEventByIdResponse>> Handle(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
     {
-        WeatherEvent weatherEvent = await context.FindAsync<WeatherEvent>(request.Id, cancellationToken);
+        WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.Id, cancellationToken);
         
         var response = new GetWeatherEventByIdResponse(
             Name: weatherEvent.Name,

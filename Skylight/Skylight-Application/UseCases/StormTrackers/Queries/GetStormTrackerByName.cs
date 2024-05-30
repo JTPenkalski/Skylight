@@ -22,12 +22,12 @@ public sealed record GetStormTrackersByNameResponse : IResponse
         DateTimeOffset? StartDate = null);
 };
 
-public class GetStormTrackersByNameQueryHandler(ISkylightContext context)
+public class GetStormTrackersByNameQueryHandler(ISkylightContext dbContext)
     : IQueryHandler<GetStormTrackersByNameQuery, GetStormTrackersByNameResponse>
 {
     public async Task<Result<GetStormTrackersByNameResponse>> Handle(GetStormTrackersByNameQuery request, CancellationToken cancellationToken)
     {
-        IEnumerable<StormTracker> stormTrackers = await context.StormTrackers
+        IEnumerable<StormTracker> stormTrackers = await dbContext.StormTrackers
             .Where(x => FirstAndLastNameMatch(x, request.FirstName, request.LastName))
             .ToListAsync(cancellationToken);
 

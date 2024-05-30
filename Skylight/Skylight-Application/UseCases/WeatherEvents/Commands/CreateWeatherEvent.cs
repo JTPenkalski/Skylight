@@ -16,7 +16,7 @@ public sealed record CreateWeatherEventResponse(
     Guid Id)
     : IResponse;
 
-public class CreateWeatherEventCommandHandler(ISkylightContext context)
+public class CreateWeatherEventCommandHandler(ISkylightContext dbContext)
     : ICommandHandler<CreateWeatherEventCommand, CreateWeatherEventResponse>
 {
     public async Task<Result<CreateWeatherEventResponse>> Handle(CreateWeatherEventCommand request, CancellationToken cancellationToken)
@@ -29,8 +29,8 @@ public class CreateWeatherEventCommandHandler(ISkylightContext context)
             EndDate = request.EndDate,
         };
 
-        await context.WeatherEvents.AddAsync(weatherEvent, cancellationToken);
-        await context.CommitAsync(cancellationToken);
+        await dbContext.WeatherEvents.AddAsync(weatherEvent, cancellationToken);
+        await dbContext.CommitAsync(cancellationToken);
 
         var response = new CreateWeatherEventResponse(weatherEvent.Id);
 

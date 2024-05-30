@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NbActionsModule, NbCardModule, NbContextMenuModule, NbMenuItem, NbMenuService, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
+import { filter } from 'rxjs/operators';
+import { WeatherEventHubConnectionService } from 'web/connections';
+import { environment } from 'environments/environment';
 import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
 import { WeatherEventAlertButtonComponent } from '..';
-import { environment } from 'environments/environment';
-import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'skylight-weather-event-alerts-card',
@@ -36,6 +37,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
 
   constructor(
     private readonly service: WeatherEventService,
+    private readonly weatherEventHub: WeatherEventHubConnectionService,
     private readonly menuService: NbMenuService
   ) { }
 
@@ -52,6 +54,10 @@ export class WeatherEventAlertsCardComponent implements OnInit {
       this.loading = false;
       console.log('Call to fetch Weather Alerts blocked by environment configuration.');
     }
+
+    this.weatherEventHub.newWeatherAlerts.subscribe(x => {
+      this.alerts = x.newWeatherEventAlerts.map(a => NewWeatherEventAlert.fromHub(a));
+    });
 
     this.menuService.onItemClick()
       .pipe(

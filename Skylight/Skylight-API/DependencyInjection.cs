@@ -2,7 +2,7 @@
 using Asp.Versioning.ApiExplorer;
 using Skylight.API.Configuration;
 using Skylight.Controllers;
-using Skylight.Infrastructure.Hubs;
+using Skylight.Infrastructure.Hubs.WeatherEvent;
 using Skylight.Infrastructure.Jobs;
 using System.Reflection;
 using System.Text.Json.Serialization;

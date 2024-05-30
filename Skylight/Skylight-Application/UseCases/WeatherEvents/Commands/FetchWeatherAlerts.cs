@@ -27,15 +27,15 @@ public sealed record FetchWeatherAlertsResponse : IResponse
 }
 
 public class FetchWeatherAlertsCommandHandler(
-    ISkylightContext context,
+    ISkylightContext dbContext,
     IWeatherAlertService alertService)
     : ICommandHandler<FetchWeatherAlertsCommand, FetchWeatherAlertsResponse>
 {
     public async Task<Result<FetchWeatherAlertsResponse>> Handle(FetchWeatherAlertsCommand request, CancellationToken cancellationToken)
     {
-		var newWeatherEventAlerts = new List<FetchWeatherAlertsResponse.NewWeatherEventAlert>();
+		var newAlerts = new List<FetchWeatherAlertsResponse.NewWeatherEventAlert>();
 
-		WeatherEvent weatherEvent = await context.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
+		WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
 		IEnumerable<WeatherEventAlert> alerts = await alertService.GetActiveAlertsForEventAsync(weatherEvent, cancellationToken);
 
         foreach (WeatherEventAlert alert in alerts)
@@ -55,14 +55,14 @@ public class FetchWeatherAlertsCommandHandler(
 				alert.Alert.Level,
 				alert.Alert.Code);
 
-			newWeatherEventAlerts.Add(newWeatherEventAlert);
+			newAlerts.Add(newWeatherEventAlert);
 		}
 
-        await context.CommitAsync(cancellationToken);
+        await dbContext.CommitAsync(cancellationToken);
 
 		var response = new FetchWeatherAlertsResponse
 		{
-			NewWeatherEventAlerts = newWeatherEventAlerts
+			NewWeatherEventAlerts = newAlerts
 		};
 
 		return Result.Ok(response);
