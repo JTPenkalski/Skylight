@@ -16,11 +16,15 @@ import { WeatherEventPageCardContainerComponent, WeatherEventPageSummaryCardComp
   styleUrl: './weather-event-page.component.scss'
 })
 export class WeatherEventPageComponent implements OnInit {
-  @Input() public id!: string;
+  @Input() public id?: string;
 
-  constructor(private readonly weatherEventHubConnection: WeatherEventHubConnectionService) { }
+  constructor(
+    private readonly weatherEventHubConnection: WeatherEventHubConnectionService
+  ) { }
 
   public ngOnInit(): void {
-    this.weatherEventHubConnection.connect();
+    if (this.id) {
+      this.weatherEventHubConnection.connect();
+    }
   }
 }

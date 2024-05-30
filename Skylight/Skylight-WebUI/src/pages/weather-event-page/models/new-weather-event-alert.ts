@@ -18,8 +18,6 @@ export class NewWeatherEventAlert {
   ) { }
 
   public static fromApi(data: WebNewWeatherEventAlert): NewWeatherEventAlert {
-    console.log(`Mapping ${data.level} to ${this.mapWeatherAlertLevel(data.level)}`);
-
     return new NewWeatherEventAlert(
       data.sender!,
       data.headline!,
@@ -36,8 +34,6 @@ export class NewWeatherEventAlert {
   }
   
   public static fromHub(data: HubNewWeatherEventAlert): NewWeatherEventAlert {
-    console.log(`Mapping ${data.level} to ${this.mapWeatherAlertLevel(data.level)}`);
-
     return new NewWeatherEventAlert(
       data.sender,
       data.headline,
@@ -55,7 +51,7 @@ export class NewWeatherEventAlert {
 
   private static mapWeatherAlertLevel(webWeatherAlertLevel?: WebWeatherAlertLevel): WeatherAlertLevel {
     switch (webWeatherAlertLevel) {
-      case WebWeatherAlertLevel.Warning || 0: return WeatherAlertLevel.Warning;
+      case WebWeatherAlertLevel.Warning: return WeatherAlertLevel.Warning;
       case WebWeatherAlertLevel.Watch || 1: return WeatherAlertLevel.Watch;
       case WebWeatherAlertLevel.Advisory || 2: return WeatherAlertLevel.Advisory;
       default: return WeatherAlertLevel.None;
