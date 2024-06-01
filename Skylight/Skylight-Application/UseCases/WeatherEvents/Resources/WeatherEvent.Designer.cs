@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Skylight.Application.Resources {
+namespace Skylight.Application.UseCases.WeatherEvents.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Skylight.Application.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Skylight.Application.Resources.WeatherEvent", typeof(WeatherEvent).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Skylight.Application.UseCases.WeatherEvents.Resources.WeatherEvent", typeof(WeatherEvent).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

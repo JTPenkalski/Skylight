@@ -1,8 +1,11 @@
 ﻿using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using Microsoft.AspNetCore.Identity;
 using Skylight.API.Configuration;
 using Skylight.Controllers;
+using Skylight.Data.Contexts;
 using Skylight.Infrastructure.Hubs.WeatherEvent;
+using Skylight.Infrastructure.Identity;
 using Skylight.Infrastructure.Jobs;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -45,8 +48,22 @@ public static class DependencyInjection
                 options.SubstituteApiVersionInUrl = true;
             });
 
+		// Add Authentication
+		services
+			.AddAuthentication()
+			.AddBearerToken(IdentityConstants.BearerScheme);
+		
+		// Add Authorization
+		services
+			.AddAuthorization()
+			.AddIdentityCore<User>()
+			.AddRoles<Role>()
+			.AddEntityFrameworkStores<SkylightContext>()
+			.AddApiEndpoints();
+
         // Add Web Services
         services
+			.AddEndpointsApiExplorer()
             .AddSwaggerGen()
 			.Scan(scan => scan
 				.FromAssemblies(assembly)

@@ -2,6 +2,7 @@ using Skylight.Application;
 using Skylight.Controllers;
 using Skylight.Data;
 using Skylight.Infrastructure;
+using Skylight.Infrastructure.Identity;
 using Skylight.Web;
 
 namespace Skylight;
@@ -43,12 +44,14 @@ public class Program
         
         // Build the Web Application
         WebApplication app = builder.Build();
-        
-        // Add Middleware
+
+		// Add Middleware
         app.UseHttpsRedirection();
         app.UseCors(SkylightOrigins.LocalHostPolicy);
+		app.UseAuthentication();
         app.UseAuthorization();
         
+		app.MapIdentityApi<User>();
         app.MapControllers();
         
         // Add Development Middleware
