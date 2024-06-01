@@ -30,7 +30,7 @@ public static class DependencyInjection
             .AddControllers()
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-
+		
         // Add API Versioning Services
         services
             .AddApiVersioning(options =>
@@ -71,8 +71,10 @@ public static class DependencyInjection
 					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobScheduler)))
 					.WithSingletonLifetime());
 
-        // Configure Services
-        services
+		// Configure Services
+		services
+			.ConfigureOptions<ConfigureAuthorizationOptions>()
+			.ConfigureOptions<ConfigureIdentityOptions>()
             .ConfigureOptions<ConfigureSwaggerOptions>();
         
 		// Add Development Services

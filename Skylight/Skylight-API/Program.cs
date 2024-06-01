@@ -29,14 +29,12 @@ public class Program
                     | ActivityTrackingOptions.SpanId;
             });
 
-        // Add Configuration
-        builder.Services
-            .AddOptions();
-
 		// Add Application Services
 		bool isProduction = builder.Environment.IsProduction();
 
 		builder.Services
+			.AddLogging()
+			.AddOptions()
             .AddApplication()
             .AddInfrastructure(builder.Configuration)
             .AddData(builder.Configuration, isProduction)

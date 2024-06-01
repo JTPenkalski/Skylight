@@ -12,7 +12,8 @@ namespace Skylight.Data.Contexts;
 public class SkylightContext(
     ILogger<SkylightContext> logger,
     DbContextOptions<SkylightContext> contextOptions)
-    : IdentityDbContext<User, Role, Guid>(contextOptions), ISkylightContext
+    : IdentityDbContext<User, Role, Guid>(contextOptions)
+	, ISkylightContext
 {
     public string ChangeTrackingStatus
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
+using Skylight.Infrastructure.Identity;
 using Skylight.Infrastructure.Jobs;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -26,7 +27,8 @@ public static class DependencyInjection
         // Add Configuration
         services
             .Configure<NationalWeatherServiceClientOptions>(configuration.GetSection(NationalWeatherServiceClientOptions.RootKey))
-            .Configure<FetchActiveWeatherAlertsJobOptions>(configuration.GetSection(FetchActiveWeatherAlertsJobOptions.RootKey));
+            .Configure<FetchActiveWeatherAlertsJobOptions>(configuration.GetSection(FetchActiveWeatherAlertsJobOptions.RootKey))
+            .Configure<SkylightIdentityOptions>(configuration.GetSection(SkylightIdentityOptions.RootKey));
 
         // Add Time Provider
         services.AddSingleton(TimeProvider.System);

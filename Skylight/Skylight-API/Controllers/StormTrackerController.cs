@@ -20,10 +20,10 @@ public class StormTrackerController(
     /// Gets all <see cref="StormTracker"/>s with the specified name.
     /// </summary>
     /// <returns>A <see cref="GetStormTrackersByNameResponse"/> data object.</returns>
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost]
     [Route(nameof(GetStormTrackersByName))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<GetStormTrackersByNameResponse>> GetStormTrackersByName(GetStormTrackersByNameQuery request, CancellationToken cancellationToken)
     {
         Result<GetStormTrackersByNameResponse> result = await mediator.Send(request, cancellationToken);

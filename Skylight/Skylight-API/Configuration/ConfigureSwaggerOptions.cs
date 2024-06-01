@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Authentication.BearerToken;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -10,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace Skylight.API.Configuration;
 
 /// <summary>
-/// In-depth configuration setup for the <c>AddSwaggerGen()</c> call during bootstrapping.
+/// Configuration setup for the <c>AddSwaggerGen()</c> call during bootstrapping.
 /// Configures settings how the swagger.json file generates, according to the OpenAPI specification.
 /// </summary>
 public class ConfigureSwaggerOptions(IApiVersionDescriptionProvider apiVersionDescriptionProvider)
