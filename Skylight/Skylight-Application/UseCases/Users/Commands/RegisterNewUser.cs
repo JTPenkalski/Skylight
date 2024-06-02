@@ -33,8 +33,6 @@ public class RegisterNewUserCommandHandler(IUserService userService)
 {
 	public async Task<Result> Handle(RegisterNewUserCommand request, CancellationToken cancellationToken)
 	{
-		// TODO: Add request validator...
-
 		Result result = await userService.AddUserAsync(
 			request.FirstName,
 			request.LastName,

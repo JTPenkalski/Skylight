@@ -39,12 +39,11 @@ public class UserController(
 	}
 
 	/// <summary>
-	/// Signs a user in.
+	/// Signs the current user in with the specified credentials.
 	/// </summary>
 	/// <seealso href="https://github.com/dotnet/aspnetcore/blob/main/src/Http/Authentication.Core/src/AuthenticationService.cs#L164"/>
 	/// <seealso href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/BearerToken/src/BearerTokenHandler.cs#L64"/>
 	[HttpPost]
-	[AllowAnonymous]
 	[Route(nameof(SignIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -53,6 +52,22 @@ public class UserController(
 		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
 
 		await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
+
+		return Ok();
+	}
+
+	/// <summary>
+	/// Signs the current user out.
+	/// </summary>
+	[HttpPost]
+	[Route(nameof(SignOut))]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public virtual async Task<ActionResult> SignOut(CancellationToken cancellationToken)
+	{
+		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
+
+		await signInManager.SignOutAsync();
 
 		// The SignInManager writes to the Response directly
 		return Empty;

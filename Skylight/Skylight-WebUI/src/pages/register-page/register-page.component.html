@@ -1,0 +1,19 @@
+<div class="flex-column container">
+  <nb-card class="register-card">
+    <nb-card-body class="flex-column">
+      <h2>Register</h2>
+  
+      <form [formGroup]="form" class="flex-column register-form" (ngSubmit)="onSubmit()">
+        <input nbInput fullWidth id="firstName" formControlName="firstName" fieldSize="giant" placeholder="First Name" type="text">
+        
+        <input nbInput fullWidth id="lastName" formControlName="lastName" fieldSize="giant" placeholder="Last Name" type="text">
+        
+        <input nbInput fullWidth id="email" formControlName="email" fieldSize="giant" placeholder="Email" type="text">
+      
+        <input nbInput fullWidth id="password" formControlName="password" fieldSize="giant" placeholder="Password" type="password">
+
+        <button nbButton fullWidth hero class="float-bottom" size="giant" status="success" type="submit" [disabled]="false">Submit</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</div>

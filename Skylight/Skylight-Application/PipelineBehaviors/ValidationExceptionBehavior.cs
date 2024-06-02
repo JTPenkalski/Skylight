@@ -17,12 +17,11 @@ public class ValidationExceptionBehaviour<TRequest, TResponse>(IEnumerable<IVali
 		try
 		{
 			IEnumerable<Task<ValidationResult>> validationTasks = validators.Select(x => x.ValidateAsync(request, cancellationToken));
-			IEnumerable<ValidationResult> validationResults = await Task.WhenAll(validationTasks);
+			IEnumerable<ValidationResult> validationResults = (await Task.WhenAll(validationTasks)).Where(x => !x.IsValid);
 
 			if (validationResults.Any())
 			{
 				IEnumerable<Error> validationErrors = validationResults
-					.Where(x => x.Errors.Count > 0)
 					.SelectMany(x => x.Errors)
 					.Select(x => new Error(x.ErrorMessage));
 
