@@ -49,7 +49,6 @@ public class Program
 		app.UseAuthentication();
         app.UseAuthorization();
         
-		app.MapIdentityApi<User>();
         app.MapControllers();
         
         // Add Development Middleware

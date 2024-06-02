@@ -1,10 +1,17 @@
-﻿using Skylight.Application.Interfaces.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Skylight.Application.Interfaces.Data;
+using Skylight.Application.UseCases.Users.Constants;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
+using Skylight.Infrastructure.Identity;
 
 namespace Skylight.Data.Initializers;
 
-public class DefaultSkylightContextInitializer(ISkylightContext dbContext) : ISkylightContextInitializer
+public class DefaultSkylightContextInitializer(
+	ISkylightContext dbContext,
+	UserManager<User> userManager,
+	RoleManager<Role> roleManager)
+	: ISkylightContextInitializer
 {
     public async Task InitializeAsync()
 	{
@@ -14,7 +21,8 @@ public class DefaultSkylightContextInitializer(ISkylightContext dbContext) : ISk
 		await AddWeatherAlertModifiersAsync();
 		await AddWeatherAlertsAsync();
 		await AddWeatherEventsAsync();
-		await AddStormTrackersAsync();
+		await AddRolesAsync();
+		await AddUsersAsync();
 
 		await dbContext.CommitAsync();
 	}
@@ -201,11 +209,35 @@ public class DefaultSkylightContextInitializer(ISkylightContext dbContext) : ISk
 		await dbContext.WeatherEvents.AddRangeAsync(weatherEvents);
 	}
 
-	private async Task AddStormTrackersAsync()
+	private async Task AddRolesAsync()
 	{
-		var stormTrackers = new StormTracker[]
+		await roleManager.CreateAsync(new Role { Name = Roles.Admin });
+	}
+
+	private async Task AddUsersAsync()
+	{
+		var justin = new User
 		{
-			new()
+			UserName = "justin@test.com",
+			Email = "justin@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("b2b39e1a-df64-45e9-95ff-48b933689f39"),
+				FirstName = "Justin",
+				LastName = "Penkalski",
+				Biography = "Test user.",
+				StartDate = new DateTimeOffset(2021, 10, 31, 12, 0, 0, TimeSpan.Zero)
+			}
+		};
+
+		await userManager.CreateAsync(justin, "P@s$W0rD_1");
+		await userManager.AddToRoleAsync(justin, Roles.Admin);
+
+		var reed = new User
+		{
+			UserName = "reed@test.com",
+			Email = "reed@test.com",
+			StormTracker = new()
 			{
 				Id = Guid.Parse("472e9768-f238-49d5-8948-b1bca50e7bb9"),
 				FirstName = "Reed",
@@ -215,6 +247,6 @@ public class DefaultSkylightContextInitializer(ISkylightContext dbContext) : ISk
 			}
 		};
 
-		await dbContext.StormTrackers.AddRangeAsync(stormTrackers);
+		await userManager.CreateAsync(reed, "P@s$W0rD_1");
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using static Skylight.Infrastructure.Identity.Roles;
+using static Skylight.Application.UseCases.Users.Constants.Roles;
 
 namespace Skylight.Infrastructure.Identity.Attributes;
 

@@ -1,9 +1,9 @@
-﻿namespace Skylight.Infrastructure.Identity;
+﻿namespace Skylight.Application.UseCases.Users.Constants;
 
 /// <summary>
 /// All Policy names used within <see cref="Skylight"/>.
 /// </summary>
 public static class Policies
 {
-	public const string AdminRole = nameof(AdminRole);
+	
 }

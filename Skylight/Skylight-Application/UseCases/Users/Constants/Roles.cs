@@ -1,4 +1,4 @@
-﻿namespace Skylight.Infrastructure.Identity;
+﻿namespace Skylight.Application.UseCases.Users.Constants;
 
 /// <summary>
 /// All Role names used within <see cref="Skylight"/>.

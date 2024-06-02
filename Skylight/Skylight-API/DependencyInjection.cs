@@ -58,8 +58,9 @@ public static class DependencyInjection
 			.AddAuthorization()
 			.AddIdentityCore<User>()
 			.AddRoles<Role>()
-			.AddEntityFrameworkStores<SkylightContext>()
-			.AddApiEndpoints();
+			.AddSignInManager()
+			.AddDefaultTokenProviders()
+			.AddEntityFrameworkStores<SkylightContext>();
 
         // Add Web Services
         services
