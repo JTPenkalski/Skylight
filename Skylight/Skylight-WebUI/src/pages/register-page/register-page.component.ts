@@ -34,6 +34,6 @@ export class RegisterPageComponent {
       registerUser.lastName,
       registerUser.email,
       registerUser.password,
-    ).subscribe(() => console.log('HI'));
+    ).subscribe();
   }
 }

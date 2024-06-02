@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NbButtonModule } from '@nebular/theme';
+import { NbButtonModule, NbUserModule } from '@nebular/theme';
 import { UserService } from 'shared/services';
 
 @Component({
   selector: 'skylight-nav-bar',
   standalone: true,
   imports: [
-    NbButtonModule
+    NbButtonModule,
+    NbUserModule
   ],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
@@ -17,7 +18,7 @@ export class NavBarComponent implements OnInit {
   constructor(private readonly userService: UserService) { }
 
   public ngOnInit(): void {
-    this.userService.isSignedIn()
+    this.userService.authStateChanged
       .subscribe(result => this.isSignedIn = result);
   }
 }

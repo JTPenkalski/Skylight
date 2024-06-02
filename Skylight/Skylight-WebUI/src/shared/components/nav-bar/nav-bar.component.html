@@ -2,7 +2,11 @@
   <img id="logo" src="assets/images/logo_text_256.png" alt="logo" />
 
   <div class="float-right flex-row">
-    <a nbButton href="register" shape="round">Register</a>
-    <a nbButton href="sign-in" shape="round" status="info">Sign In</a>
+    @if (!isSignedIn) {
+      <a nbButton href="register" appearance="outline" shape="round">Register</a>
+      <a nbButton href="sign-in" shape="round" status="info">Sign In</a>
+    } @else {
+      <nb-user name="First Last"></nb-user>
+    }
   </div>
 </div>

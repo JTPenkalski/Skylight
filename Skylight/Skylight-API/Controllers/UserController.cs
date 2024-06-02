@@ -24,6 +24,22 @@ public class UserController(
 	public sealed record SignInResponse(string TokenType, string AccessToken, long ExpiresIn, string RefreshToken);
 
 	/// <summary>
+	/// Checks if the current user is authenticated.
+	/// </summary>
+	/// <returns>True if the user is signed in, false otherwise.</returns>
+	[HttpPost]
+	[Route(nameof(IsSignedIn))]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	public virtual ActionResult<bool> IsSignedIn(CancellationToken cancellationToken)
+	{
+		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
+
+		bool isSignedIn = signInManager.IsSignedIn(HttpContext.User);
+
+		return Ok(isSignedIn);
+	}
+
+	/// <summary>
 	/// Registers a new user.
 	/// </summary>
 	[HttpPost]
@@ -44,6 +60,7 @@ public class UserController(
 	/// <seealso href="https://github.com/dotnet/aspnetcore/blob/main/src/Http/Authentication.Core/src/AuthenticationService.cs#L164"/>
 	/// <seealso href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/BearerToken/src/BearerTokenHandler.cs#L64"/>
 	[HttpPost]
+	[AllowAnonymous]
 	[Route(nameof(SignIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,9 +68,12 @@ public class UserController(
 	{
 		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
 
-		await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
+        Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
 
-		return Ok();
+		// The SignInManager writes to the Response directly
+		return result.Succeeded
+			? Empty
+			: BadRequest();
 	}
 
 	/// <summary>
@@ -62,15 +82,13 @@ public class UserController(
 	[HttpPost]
 	[Route(nameof(SignOut))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public virtual async Task<ActionResult> SignOut(CancellationToken cancellationToken)
 	{
 		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
 
 		await signInManager.SignOutAsync();
 
-		// The SignInManager writes to the Response directly
-		return Empty;
+		return Ok();
 	}
 
 	/// <summary>
