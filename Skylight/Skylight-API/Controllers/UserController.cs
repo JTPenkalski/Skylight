@@ -4,8 +4,10 @@ using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Skylight.Application.UseCases.Users.Commands;
+using Skylight.Application.UseCases.StormTrackers;
+using Skylight.Application.UseCases.Users;
 using Skylight.Infrastructure.Identity;
+using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Skylight.Controllers;
 
@@ -23,6 +25,8 @@ public class UserController(
 
 	public sealed record SignInResponse(string TokenType, string AccessToken, long ExpiresIn, string RefreshToken);
 
+	public sealed record GetCurrentUserResponse(Guid StormTrackerId, string Email, string FirstName, string LastName);
+
 	/// <summary>
 	/// Checks if the current user is authenticated.
 	/// </summary>
@@ -30,28 +34,14 @@ public class UserController(
 	[HttpPost]
 	[Route(nameof(IsSignedIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
-	public virtual ActionResult<bool> IsSignedIn(CancellationToken cancellationToken)
+	public ActionResult<bool> IsSignedIn()
 	{
-		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
+		// Apparently, even though we're using Bearer, HttpContext.User has Identity.Application ???
+		// signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
 
 		bool isSignedIn = signInManager.IsSignedIn(HttpContext.User);
 
 		return Ok(isSignedIn);
-	}
-
-	/// <summary>
-	/// Registers a new user.
-	/// </summary>
-	[HttpPost]
-	[AllowAnonymous]
-	[Route(nameof(Register))]
-	[ProducesResponseType(StatusCodes.Status200OK)]
-	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public virtual async Task<ActionResult> Register(RegisterNewUserCommand request, CancellationToken cancellationToken)
-	{
-		Result result = await mediator.Send(request, cancellationToken);
-
-		return result.ToActionResult();
 	}
 
 	/// <summary>
@@ -64,11 +54,11 @@ public class UserController(
 	[Route(nameof(SignIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public virtual async Task<ActionResult<SignInResponse>> SignIn(SignInRequest request, CancellationToken cancellationToken)
+	public async Task<ActionResult<SignInResponse>> SignIn(SignInRequest request)
 	{
 		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
 
-        Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
+		IdentitySignInResult result = await signInManager.PasswordSignInAsync(request.Email, request.Password, true, true);
 
 		// The SignInManager writes to the Response directly
 		return result.Succeeded
@@ -82,7 +72,7 @@ public class UserController(
 	[HttpPost]
 	[Route(nameof(SignOut))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
-	public virtual async Task<ActionResult> SignOut(CancellationToken cancellationToken)
+	public new async Task<ActionResult> SignOut()
 	{
 		signInManager.AuthenticationScheme = IdentityConstants.BearerScheme;
 
@@ -92,16 +82,62 @@ public class UserController(
 	}
 
 	/// <summary>
+	/// Registers a new user.
+	/// </summary>
+	[HttpPost]
+	[AllowAnonymous]
+	[Route(nameof(Register))]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult> Register(RegisterNewUserCommand request, CancellationToken cancellationToken)
+	{
+		Result result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	/// <summary>
 	/// Grants a user the Admin role.
 	/// </summary>
 	[HttpPost]
 	[Route(nameof(GrantAdmin))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public virtual async Task<ActionResult> GrantAdmin(GrantAdminCommand request, CancellationToken cancellationToken)
+	public async Task<ActionResult> GrantAdmin(GrantAdminCommand request, CancellationToken cancellationToken)
 	{
 		Result result = await mediator.Send(request, cancellationToken);
 		
 		return result.ToActionResult();
+	}
+
+	/// <summary>
+	/// Get the currently authenticated user.
+	/// </summary>
+	/// <returns>A <see cref="GetCurrentUserResponse"/> data object.</returns>
+	[HttpPost]
+	[Route(nameof(GetCurrentUser))]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser(CancellationToken cancellationToken)
+	{
+		string? currentUserEmail = User.Identity?.Name;
+
+		if (!string.IsNullOrWhiteSpace(currentUserEmail))
+		{
+			var request = new GetStormTrackerByEmailQuery(currentUserEmail);
+
+			Result<GetStormTrackerByEmailResponse> result = await mediator.Send(request, cancellationToken);
+
+			return result
+				.Map(x =>
+					new GetCurrentUserResponse(
+						x.StormTrackerId,
+						currentUserEmail,
+						x.FirstName,
+						x.LastName))
+				.ToActionResult();
+		}
+
+		return BadRequest();
 	}
 }

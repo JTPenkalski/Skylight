@@ -26,6 +26,12 @@ public class SkylightIdentityOptions : IOptions<SkylightIdentityOptions>
 
 	public int PasswordRequiredLength { get; set; }
 
+	public bool RequireNonAlphanumeric { get; set; }
+
+	public bool RequireUppercase { get; set; }
+
+	public bool RequireDigit { get; set; }
+
 	#endregion
 
 	#region User

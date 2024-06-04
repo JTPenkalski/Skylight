@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using Skylight.Domain.Entities;
 
 namespace Skylight.Application.Interfaces.Infrastructure;
 
@@ -32,4 +33,11 @@ public interface IUserService
 	/// <param name="role">The name of the role to grant.</param>
 	/// <returns>True if the user is already granted the role, false otherwise.</returns>
 	Task<bool> IsUserInRoleAsync(Guid userId, string role, CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Gets a <see cref="StormTracker"/> from their <paramref name="email"/>.
+	/// </summary>
+	/// <param name="email">The email to search by.</param>
+	/// <returns>The unique <see cref="StormTracker"/>, or null if not found.</returns>
+	Task<StormTracker?> GetStormTrackerByEmail(string email, CancellationToken cancellationToken);
 }

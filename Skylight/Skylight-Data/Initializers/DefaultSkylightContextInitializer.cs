@@ -230,7 +230,7 @@ public class DefaultSkylightContextInitializer(
 			}
 		};
 
-		await userManager.CreateAsync(justin, "P@s$W0rD_1");
+		await userManager.CreateAsync(justin, "Justin");
 		await userManager.AddToRoleAsync(justin, Roles.Admin);
 
 		var reed = new User
@@ -247,6 +247,6 @@ public class DefaultSkylightContextInitializer(
 			}
 		};
 
-		await userManager.CreateAsync(reed, "P@s$W0rD_1");
+		await userManager.CreateAsync(reed, "Reed");
 	}
 }

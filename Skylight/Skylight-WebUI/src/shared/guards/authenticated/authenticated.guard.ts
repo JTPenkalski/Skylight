@@ -1,5 +1,18 @@
-import { CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { tap } from 'rxjs';
+import { UserService } from 'shared/services';
 
 export const authenticatedGuard: CanActivateFn = (route, state) => {
-  return true;
+  const userService: UserService = inject(UserService);
+  const router: Router = inject(Router);
+
+  return userService.isSignedIn().pipe(
+    tap(result => {
+      console.log('Sign in guard: ' + result);
+      if (!result) {
+        router.navigate(['/sign-in'])
+      }
+    })
+  );
 };

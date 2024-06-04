@@ -1,16 +1,36 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs';
+import { AUTH_TOKEN, User } from 'shared/models';
 import { RegisterNewUserCommand, SignInRequest, SkylightClient } from 'web/clients';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private authStateChangedSubject: Subject<boolean> = new BehaviorSubject<boolean>(false);
+  private currentUserChangedSubject: Subject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
 
   constructor(private readonly client: SkylightClient) { }
 
-  public get authStateChanged(): Observable<boolean> { return this.authStateChangedSubject.asObservable(); }
+  public get authToken(): string { return localStorage.getItem(AUTH_TOKEN) ?? ''; }
+
+  public get currentUserChanged(): Observable<User | undefined> { return this.currentUserChangedSubject.asObservable(); }
+
+  public trySignIn(): void {
+    if (this.authToken !== '') {
+      this.onCurrentUserChanged(this.authToken);
+    }
+  }
+
+  public getCurrentUser(): Observable<User> {
+    return this.client.getCurrentUser().pipe(
+      map(result => new User(
+        result.stormTrackerId!,
+        result.email!,
+        result.firstName!,
+        result.lastName!,
+      ))
+    );
+  }
 
   public isSignedIn(): Observable<boolean> {
     return this.client.isSignedIn();
@@ -34,18 +54,24 @@ export class UserService {
     }
 
     return this.client.signIn(request).pipe(
-      map(result => !!result.accessToken),
-      tap({
-        next: result => this.authStateChangedSubject.next(result)
-      })
+      tap(result => this.onCurrentUserChanged(result.accessToken)),
+      map(result => !!result.accessToken)
     );
   }
 
   public signOut(): Observable<void> {
     return this.client.signOut().pipe(
-      tap({
-        next: () => this.authStateChangedSubject.next(false)
-      })
+      tap(() => this.onCurrentUserChanged())
     );
+  }
+
+  private onCurrentUserChanged(authToken?: string): void {
+    localStorage.setItem(AUTH_TOKEN, authToken ?? '')
+
+    if (!!authToken) {
+      this.getCurrentUser().subscribe(result => this.currentUserChangedSubject.next(result));
+    } else {
+      this.currentUserChangedSubject.next(undefined);
+    }
   }
 }

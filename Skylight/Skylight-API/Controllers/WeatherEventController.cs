@@ -27,7 +27,7 @@ public class WeatherEventController(
     [Route(nameof(CreateWeatherEvent))]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<CreateWeatherEventResponse>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
+    public async Task<ActionResult<CreateWeatherEventResponse>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
     {
         Result<CreateWeatherEventResponse> result = await mediator.Send(request, cancellationToken);
 
@@ -41,7 +41,7 @@ public class WeatherEventController(
     [Route(nameof(AddWeatherEventParticipant))]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
+    public async Task<ActionResult> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
     {
         Result result = await mediator.Send(request, cancellationToken);
 
@@ -55,7 +55,7 @@ public class WeatherEventController(
     [Route(nameof(FetchWeatherAlerts))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<FetchWeatherAlertsResponse>> FetchWeatherAlerts(FetchWeatherAlertsCommand request, CancellationToken cancellationToken)
+    public async Task<ActionResult<FetchWeatherAlertsResponse>> FetchWeatherAlerts(FetchWeatherAlertsCommand request, CancellationToken cancellationToken)
     {
         Result<FetchWeatherAlertsResponse> result = await mediator.Send(request, cancellationToken);
 
@@ -70,7 +70,7 @@ public class WeatherEventController(
     [Route(nameof(GetWeatherEventById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<GetWeatherEventByIdResponse>> GetWeatherEventById(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ActionResult<GetWeatherEventByIdResponse>> GetWeatherEventById(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
     {
         Result<GetWeatherEventByIdResponse> result = await mediator.Send(request, cancellationToken);
 

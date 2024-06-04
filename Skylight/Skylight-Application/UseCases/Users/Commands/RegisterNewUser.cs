@@ -3,7 +3,7 @@ using FluentValidation;
 using Skylight.Application.Interfaces.Application;
 using Skylight.Application.Interfaces.Infrastructure;
 
-namespace Skylight.Application.UseCases.Users.Commands;
+namespace Skylight.Application.UseCases.Users;
 
 public sealed record RegisterNewUserCommand(
 	string FirstName,
