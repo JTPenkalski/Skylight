@@ -1,3 +1,4 @@
+export * from './home-page/home-page.component';
 export * from './not-found-page/not-found-page.component';
 export * from './register-page/register-page.component';
 export * from './sign-in-page/sign-in-page.component';

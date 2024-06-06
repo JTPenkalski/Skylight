@@ -32,6 +32,7 @@ public class UserController(
 	/// </summary>
 	/// <returns>True if the user is signed in, false otherwise.</returns>
 	[HttpPost]
+	[AllowAnonymous]
 	[Route(nameof(IsSignedIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	public ActionResult<bool> IsSignedIn()

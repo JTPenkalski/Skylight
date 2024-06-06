@@ -1,4 +1,3 @@
-import { Observable, filter } from 'rxjs';
 import { NbMenuBag, NbMenuItem } from '@nebular/theme';
 
 /**

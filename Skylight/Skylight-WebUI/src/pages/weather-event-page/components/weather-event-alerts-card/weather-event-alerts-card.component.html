@@ -1,6 +1,6 @@
 <nb-card size="large">
   <nb-card-header>
-    <div class="card-header">
+    <div class="flex-row">
       <h4>Alerts ({{alertCount}})</h4>
       <nb-actions class="float-right" size="small">
         <nb-action icon="refresh" (click)="onRefresh()"></nb-action>
@@ -8,7 +8,7 @@
       </nb-actions>
     </div>
   </nb-card-header>
-  <nb-card-body class="alerts-container" nbSpinnerSize="giant" [nbSpinner]="loading">
+  <nb-card-body class="flex-column" nbSpinnerSize="giant" [nbSpinner]="loading">
     @if (alerts.length > 0) {
       @for (alert of alerts; track $index) {
         @if (canDisplayAlert(alert)) {

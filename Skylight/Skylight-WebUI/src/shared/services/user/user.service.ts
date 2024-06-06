@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
 import { AUTH_TOKEN, User } from 'shared/models';
 import { RegisterNewUserCommand, SignInRequest, SkylightClient } from 'web/clients';
 

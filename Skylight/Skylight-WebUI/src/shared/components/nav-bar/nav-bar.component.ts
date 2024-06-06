@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NbButtonModule, NbContextMenuModule, NbMenuService, NbUserModule } from '@nebular/theme';
 import { UserService } from 'shared/services';
 import { ContextMenu, User } from 'shared/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'skylight-nav-bar',
@@ -29,12 +30,16 @@ export class NavBarComponent implements OnInit {
         item: {
           title: 'Sign Out'
         },
-        action: () => this.userService.signOut().subscribe()
+        action: () => {
+          this.userService.signOut().subscribe();
+          this.router.navigate(['/home'])
+        }
       }
     ]
   );
 
   constructor(
+    private readonly router: Router,
     private readonly userService: UserService,
     private readonly menuService: NbMenuService
   ) { }

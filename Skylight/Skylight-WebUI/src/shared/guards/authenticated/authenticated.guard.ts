@@ -9,7 +9,6 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
 
   return userService.isSignedIn().pipe(
     tap(result => {
-      console.log('Sign in guard: ' + result);
       if (!result) {
         router.navigate(['/sign-in'])
       }
