@@ -20,19 +20,24 @@ export class WeatherEventAlertButtonComponent {
   @Input({ required: true }) public alert!: NewWeatherEventAlert;
 
   public get status(): string {
+    // TODO: Actually use this for very important alerts...
+    if (this.alert.code === 'TOR') {
+      return 'critical';
+    }
+
     switch (this.alert.level) {
-      case WeatherAlertLevel.Warning: return "danger";
-      case WeatherAlertLevel.Watch: return "warning";
-      default: return "info";
+      case WeatherAlertLevel.Warning: return 'danger';
+      case WeatherAlertLevel.Watch: return 'warning';
+      default: return 'info';
     }
   }
 
   public get icon(): string {
     switch (this.alert.level) {
-      case WeatherAlertLevel.Warning: return "alert-triangle";
-      case WeatherAlertLevel.Watch: return "alert-circle";
-      case WeatherAlertLevel.Advisory: return "info";
-      default: return "question-mark-circle";
+      case WeatherAlertLevel.Warning: return 'alert-triangle';
+      case WeatherAlertLevel.Watch: return 'alert-circle';
+      case WeatherAlertLevel.Advisory: return 'info';
+      default: return 'question-mark-circle';
     }
   }
 }
