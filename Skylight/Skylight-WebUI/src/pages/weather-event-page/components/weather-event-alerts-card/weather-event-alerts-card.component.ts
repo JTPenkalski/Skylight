@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
 import { WeatherEventAlertButtonComponent } from '..';
+import { ContextMenu } from 'shared/models';
 
 @Component({
   selector: 'skylight-weather-event-alerts-card',
@@ -25,15 +26,20 @@ export class WeatherEventAlertsCardComponent implements OnInit {
   @Input({ required: true }) public weatherEventId!: string;
   @Output() public alertSelected: EventEmitter<NewWeatherEventAlert> = new EventEmitter<NewWeatherEventAlert>();
 
-  public readonly moreMenuTag: string = 'skylight-weather-event-alerts-card-more';
-
   public loading: boolean = true;
-  public moreMenuItems: NbMenuItem[] = [
-    { title: 'Toggle Advisories' }
-  ];
   public showAdvisories: boolean = false;
-
   public alerts: NewWeatherEventAlert[] = [];
+  public moreMenu: ContextMenu = new ContextMenu(
+    'skylight-weather-event-alerts-card-more-menu',
+    [
+      {
+        item: {
+          title: 'Toggle Advisories'
+        },
+        action: () => this.showAdvisories = !this.showAdvisories
+      }
+    ]
+  )
 
   constructor(
     private readonly service: WeatherEventService,
@@ -49,7 +55,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
 
   public ngOnInit(): void {
     if (environment.enableAutoNwsApiCalls) {
-      this.fetchAlerts();
+      this.onRefresh();
     } else {
       this.loading = false;
       console.log('Call to fetch Weather Alerts blocked by environment configuration.');
@@ -60,19 +66,18 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     });
 
     this.menuService.onItemClick()
-      .pipe(
-        filter(x => x.tag === this.moreMenuTag)
-      )
-      .subscribe(x => {
-        switch (x.item.title) {
-          case this.moreMenuItems[0].title:
-            this.showAdvisories = !this.showAdvisories;
-            break;
-        }
-      });
+      .subscribe(x => this.moreMenu.handle(x));
   }
 
-  public fetchAlerts(): void {
+  public canDisplayAlert(alert: NewWeatherEventAlert): boolean {
+    let output: boolean = true;
+
+    output = alert.level !== WeatherAlertLevel.Advisory || this.showAdvisories;
+
+    return output;
+  }
+
+  public onRefresh(): void {
     this.alerts = [];
     this.loading = true;
 
@@ -88,14 +93,6 @@ export class WeatherEventAlertsCardComponent implements OnInit {
           this.loading = false
         }
       });
-  }
-
-  public canDisplayAlert(alert: NewWeatherEventAlert): boolean {
-    let output: boolean = true;
-
-    output = alert.level !== WeatherAlertLevel.Advisory || this.showAdvisories;
-
-    return output;
   }
 
   public onClick(alert: NewWeatherEventAlert): void {

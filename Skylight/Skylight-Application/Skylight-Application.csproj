@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\WeatherEvent.Designer.cs">
+    <Compile Update="UseCases\WeatherEvents\Resources\WeatherEvent.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>WeatherEvent.resx</DependentUpon>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\WeatherEvent.resx">
+    <EmbeddedResource Update="UseCases\WeatherEvents\Resources\WeatherEvent.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WeatherEvent.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -1,0 +1,21 @@
+<div class="flex-column center">
+  <nb-card class="sign-in-card">
+    <nb-card-body class="flex-column">
+      <h2>Sign In</h2>
+  
+      <form [formGroup]="form" class="flex-column expand" (ngSubmit)="onSubmit()">        
+        <input nbInput fullWidth id="email" formControlName="email" fieldSize="giant" placeholder="Email" type="text">
+      
+        <input nbInput fullWidth id="password" formControlName="password" fieldSize="giant" placeholder="Password" type="password">
+
+        <button nbButton fullWidth hero class="float-bottom" size="giant" status="success" type="submit" [disabled]="false">Submit</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+
+  @if (signInFailed) {
+    <nb-alert closable status="danger" (close)="onCloseAlert()">
+      Failed to login! Please verify that your email and/or password are correct.
+    </nb-alert>
+  }
+</div>

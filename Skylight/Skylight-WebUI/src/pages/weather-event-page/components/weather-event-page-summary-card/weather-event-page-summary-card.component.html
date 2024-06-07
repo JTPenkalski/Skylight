@@ -2,7 +2,7 @@
   <nb-card accent="info">
     <nb-card-header>
       <h1 class="title">{{summary.name}}</h1>  
-      <span class="hero-buttons">
+      <span class="flex-row">
         @if (isTracking) {
           <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye-off"></nb-icon>Untrack</button>
         } @else {
@@ -13,7 +13,7 @@
       </span>
     </nb-card-header>
     <nb-card-body>
-      <div class="info-cards">
+      <div class="flex-row">
         <skylight-icon-card icon="clock" nbTooltip="Duration">
           <span>
             {{summary.startDate | date:'long'}}

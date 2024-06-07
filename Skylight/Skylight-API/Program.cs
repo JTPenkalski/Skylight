@@ -28,14 +28,12 @@ public class Program
                     | ActivityTrackingOptions.SpanId;
             });
 
-        // Add Configuration
-        builder.Services
-            .AddOptions();
-
 		// Add Application Services
 		bool isProduction = builder.Environment.IsProduction();
 
 		builder.Services
+			.AddLogging()
+			.AddOptions()
             .AddApplication()
             .AddInfrastructure(builder.Configuration)
             .AddData(builder.Configuration, isProduction)
@@ -43,10 +41,11 @@ public class Program
         
         // Build the Web Application
         WebApplication app = builder.Build();
-        
-        // Add Middleware
+
+		// Add Middleware
         app.UseHttpsRedirection();
         app.UseCors(SkylightOrigins.LocalHostPolicy);
+		app.UseAuthentication();
         app.UseAuthorization();
         
         app.MapControllers();

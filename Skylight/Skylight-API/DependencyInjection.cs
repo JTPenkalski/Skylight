@@ -1,8 +1,11 @@
 ﻿using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
+using Microsoft.AspNetCore.Identity;
 using Skylight.API.Configuration;
 using Skylight.Controllers;
+using Skylight.Data.Contexts;
 using Skylight.Infrastructure.Hubs.WeatherEvent;
+using Skylight.Infrastructure.Identity;
 using Skylight.Infrastructure.Jobs;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -27,7 +30,7 @@ public static class DependencyInjection
             .AddControllers()
             .AddJsonOptions(options =>
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-
+		
         // Add API Versioning Services
         services
             .AddApiVersioning(options =>
@@ -45,8 +48,23 @@ public static class DependencyInjection
                 options.SubstituteApiVersionInUrl = true;
             });
 
+		// Add Authentication
+		services
+			.AddAuthentication()
+			.AddBearerToken(IdentityConstants.BearerScheme);
+		
+		// Add Authorization
+		services
+			.AddAuthorization()
+			.AddIdentityCore<User>()
+			.AddRoles<Role>()
+			.AddSignInManager()
+			.AddDefaultTokenProviders()
+			.AddEntityFrameworkStores<SkylightContext>();
+
         // Add Web Services
         services
+			.AddEndpointsApiExplorer()
             .AddSwaggerGen()
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
@@ -54,8 +72,10 @@ public static class DependencyInjection
 					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobScheduler)))
 					.WithSingletonLifetime());
 
-        // Configure Services
-        services
+		// Configure Services
+		services
+			.ConfigureOptions<ConfigureAuthorizationOptions>()
+			.ConfigureOptions<ConfigureIdentityOptions>()
             .ConfigureOptions<ConfigureSwaggerOptions>();
         
 		// Add Development Services

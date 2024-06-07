@@ -1,16 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
 using Skylight.Domain.Exceptions;
+using Skylight.Infrastructure.Identity;
 
 namespace Skylight.Data.Contexts;
 
 public class SkylightContext(
     ILogger<SkylightContext> logger,
     DbContextOptions<SkylightContext> contextOptions)
-    : DbContext(contextOptions), ISkylightContext
+    : IdentityDbContext<User, Role, Guid>(contextOptions)
+	, ISkylightContext
 {
     public string ChangeTrackingStatus
     {

@@ -1,10 +1,10 @@
-<div class="container">
+<div class="flex-column">
   <nb-user size="large" [name]="alert.sender" [picture]="senderPicture" [title]="alert.source"></nb-user>
 
-  <div class="time-container">
-    <skylight-icon-card class="time-item" icon="play-circle" nbTooltip="Effective">{{alert.effective | date:'medium'}}</skylight-icon-card>
-    <skylight-icon-card class="time-item" icon="stop-circle" nbTooltip="Expires">{{alert.expires | date:'medium'}}</skylight-icon-card>
-    <skylight-icon-card class="time-item" icon="clock" nbTooltip="Issued">{{alert.sent | date:'medium'}}</skylight-icon-card>
+  <div class="flex-row">
+    <skylight-icon-card class="flex-item" icon="play-circle" nbTooltip="Effective">{{alert.effective | date:'medium'}}</skylight-icon-card>
+    <skylight-icon-card class="flex-item" icon="stop-circle" nbTooltip="Expires">{{alert.expires | date:'medium'}}</skylight-icon-card>
+    <skylight-icon-card class="flex-item" icon="clock" nbTooltip="Issued">{{alert.sent | date:'medium'}}</skylight-icon-card>
   </div>
 
   <nb-card>

@@ -1,17 +1,50 @@
 @use 'theme' as *;
 @use '@nebular/theme/styles/globals' as *;
 
-// Install the framework styles
+// Framework Styles
 @include nb-install() {
   @include nb-theme-global();
 }
 
-.darken {
-  background-color: nb-theme(background-basic-color-3) !important;
+// Layout
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.flex-item {
+  flex: 1 1 100% !important;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.expand {
+  height: 100%;
+  width: 100%;
+}
+
+.float-bottom {
+  margin-top: auto;
 }
 
 .float-right {
   margin-left: auto;
+}
+
+// Appearance
+.darken {
+  background-color: nb-theme(background-basic-color-3) !important;
 }
 
 .preformatted {

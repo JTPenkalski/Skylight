@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using MediatR.Pipeline;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Skylight.Application.Attributes;
+using Skylight.Domain.Extensions;
 using System.Reflection;
 
 namespace Skylight.Application;
@@ -27,7 +27,7 @@ public static class DependencyInjection
                 config.RegisterServicesFromAssembly(assembly);
 
                 IEnumerable<Type> pipelineBehaviorTypes = assembly.GetTypes()
-                    .Where(t => t.GetCustomAttribute<ServiceBehaviorAttribute>() is not null);
+                    .Where(t => t.IsAssignableToGeneric(typeof(IPipelineBehavior<,>)));
 
                 foreach (Type type in pipelineBehaviorTypes)
                 {
@@ -38,10 +38,6 @@ public static class DependencyInjection
                 .FromAssemblies(assembly)
                     .AddClasses()
                     .AsMatchingInterface()
-                    .WithScopedLifetime()
-                .FromAssemblies(assembly)
-                    .AddClasses()
-                    .AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IRequestExceptionHandler<,,>)))
                     .WithScopedLifetime());
 
             return services;
