@@ -39,5 +39,5 @@ public interface IUserService
 	/// </summary>
 	/// <param name="email">The email to search by.</param>
 	/// <returns>The unique <see cref="StormTracker"/>, or null if not found.</returns>
-	Task<StormTracker?> GetStormTrackerByEmail(string email, CancellationToken cancellationToken);
+	Task<StormTracker?> GetStormTrackerByEmailAsync(string email, CancellationToken cancellationToken);
 }

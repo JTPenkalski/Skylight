@@ -5,7 +5,10 @@
 /// </summary>
 public class WeatherEvent : BaseAuditableEntity
 {
-    public required string Name { get; set; }
+	private readonly List<WeatherEventAlert> alerts = [];
+	private readonly List<WeatherEventParticipant> participants = [];
+
+	public required string Name { get; set; }
 
     public required string Description { get; set; }
 
@@ -17,29 +20,29 @@ public class WeatherEvent : BaseAuditableEntity
 
     public int? AffectedPeople { get; set; }
 
-    public virtual IList<WeatherEventAlert> Alerts { get; set; } = new List<WeatherEventAlert>();
+	public virtual IReadOnlyList<WeatherEventAlert> Alerts => alerts;
 
-    public virtual IList<WeatherEventParticipant> Participants { get; set; } = new List<WeatherEventParticipant>();
+    public virtual IReadOnlyList<WeatherEventParticipant> Participants => participants;
 
     public void AddParticipant(WeatherEventParticipant participant)
     {
-        Participants.Add(participant);
+        participants.Add(participant);
     }
 
     public void RemoveParticipant(WeatherEventParticipant participant)
     {
-        Participants.Remove(participant);
+        participants.Remove(participant);
     }
 
     public void AddAlert(WeatherEventAlert alert)
     {
         if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return;
-
-        Alerts.Add(alert);
+		
+        alerts.Add(alert);
     }
 
     public void RemoveAlert(WeatherEventAlert alert)
     {
-        Alerts.Remove(alert);
+        alerts.Remove(alert);
     }
 }

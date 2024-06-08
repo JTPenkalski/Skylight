@@ -9,16 +9,14 @@ public class DomainEventPublisher(IMediator mediator) : IDomainEventPublisher
 {
     public async Task PublishDomainEventsAsync(IEnumerable<BaseEntity> entities, CancellationToken cancellationToken = default)
     {
-        IEnumerable<DomainEvent> domainEvents = entities.SelectMany(x => x.NewEvents);
+        IEnumerable<DomainEvent> domainEvents = entities.SelectMany(x => x.Events);
 
         foreach (BaseEntity entity in entities)
         {
-            foreach (DomainEvent domainEvent in entity.NewEvents)
+            foreach (DomainEvent domainEvent in entity.Events)
             {
                 await mediator.Publish(domainEvent, cancellationToken);
             }
-
-            entity.HandleNewEvents();
         }
     }
 }

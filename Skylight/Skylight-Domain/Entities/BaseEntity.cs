@@ -11,8 +11,7 @@ namespace Skylight.Domain.Entities;
 /// </remarks>
 public abstract class BaseEntity : IEquatable<BaseEntity>
 {
-    private readonly List<DomainEvent> allEvents = [];
-    private readonly List<DomainEvent> newEvents = [];
+    private readonly List<DomainEvent> events = [];
 
     public static bool operator ==(BaseEntity left, BaseEntity right) => left.Equals(right);
 
@@ -21,26 +20,26 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
     public Guid Id { get; set; }
 
     [NotMapped]
-    public IReadOnlyCollection<DomainEvent> AllEvents => allEvents;
-
-    [NotMapped]
-    public IReadOnlyCollection<DomainEvent> NewEvents => newEvents;
+    public IReadOnlyCollection<DomainEvent> Events => events;
 
     public override bool Equals(object? obj) => Equals(obj as BaseEntity);
 
     public override int GetHashCode() => Id.GetHashCode();
 
-    public bool Equals(BaseEntity? other) => other is not null && other.Id == Id;
-
-    public void HandleNewEvents()
-    {
-        newEvents.CopyTo([.. allEvents]);
-        newEvents.Clear();
-    }
+    public virtual bool Equals(BaseEntity? other) => other is not null && other.Id == Id;
 
     protected void RaiseEvent(DomainEvent domainEvent)
     {
-        newEvents.Add(domainEvent);
-        allEvents.Add(domainEvent);
+        events.Add(domainEvent);
     }
+
+	protected void CancelEvent(DomainEvent domainEvent)
+	{
+		events.Remove(domainEvent);
+	}
+
+	protected void ClearEvents()
+	{
+		events.Clear();
+	}
 }

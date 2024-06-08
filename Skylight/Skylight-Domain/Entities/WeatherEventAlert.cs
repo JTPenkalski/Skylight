@@ -5,6 +5,9 @@
 /// </summary>
 public class WeatherEventAlert : BaseAuditableEntity
 {
+	private readonly List<WeatherAlertModifier> modifiers = [];
+	private readonly List<Location> locations = [];
+
 	public required string Sender { get; set; }
 
 	public required string Headline { get; set; }
@@ -29,7 +32,27 @@ public class WeatherEventAlert : BaseAuditableEntity
 
     public required virtual WeatherEvent Event { get; set; }
 
-    public virtual IList<WeatherAlertModifier> Modifiers { get; set; } = new List<WeatherAlertModifier>();
+    public virtual IReadOnlyList<WeatherAlertModifier> Modifiers => modifiers;
 
-	public virtual IList<Location> Locations { get; set; } = new List<Location>();
+	public virtual IReadOnlyList<Location> Locations => locations;
+
+	public void AddModifier(WeatherAlertModifier modifier)
+	{
+		modifiers.Add(modifier);
+	}
+
+	public void RemoveModifier(WeatherAlertModifier modifier)
+	{
+		modifiers.Remove(modifier);
+	}
+
+	public void AddLocation(Location location)
+	{
+		locations.Add(location);
+	}
+
+	public void RemoveLocation(Location location)
+	{
+		locations.Remove(location);
+	}
 }
