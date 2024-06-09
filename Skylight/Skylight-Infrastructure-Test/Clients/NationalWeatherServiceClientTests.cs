@@ -1,4 +1,5 @@
 ﻿using Microsoft.Net.Http.Headers;
+using Skylight.Application.Interfaces.Infrastructure;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
@@ -11,6 +12,8 @@ public class NationalWeatherServiceClientTests
 	private readonly Mock<ILogger<NationalWeatherServiceClient>> logger = new();
 	private readonly Mock<IOptions<NationalWeatherServiceClientOptions>> options = new();
 	private readonly Mock<IValidator<GetActiveAlertsRequest>> getActiveAlertsValidator = new();
+	private readonly Mock<IValidator<GetZonesRequest>> getZonesValidator = new();
+	private readonly Mock<IGeoJsonService> geoJsonService = new();
 
 	private NationalWeatherServiceClient Client
 	{
@@ -23,7 +26,9 @@ public class NationalWeatherServiceClientTests
 			return new(
 				logger.Object,
 				options.Object,
-				getActiveAlertsValidator.Object);
+				getActiveAlertsValidator.Object,
+				getZonesValidator.Object,
+				geoJsonService.Object);
 		}
 	}
 
@@ -89,20 +94,13 @@ public class NationalWeatherServiceClientTests
 
         // Assert
         ClientAsserts.ContainsRoute(clientRequest, "alerts/active");
-        ClientAsserts.ContainsQuery(clientRequest, "status", "actual");
-        ClientAsserts.ContainsQuery(clientRequest, "status", "test");
-        ClientAsserts.ContainsQuery(clientRequest, "message_type", "alert");
-        ClientAsserts.ContainsQuery(clientRequest, "message_type", "update");
-        ClientAsserts.ContainsQuery(clientRequest, "event", "EventA");
-        ClientAsserts.ContainsQuery(clientRequest, "event", "EventB");
-        ClientAsserts.ContainsQuery(clientRequest, "code", "CodeA");
-        ClientAsserts.ContainsQuery(clientRequest, "code", "CodeB");
-        ClientAsserts.ContainsQuery(clientRequest, "urgency", "Immediate");
-        ClientAsserts.ContainsQuery(clientRequest, "urgency", "Future");
-        ClientAsserts.ContainsQuery(clientRequest, "severity", "Extreme");
-        ClientAsserts.ContainsQuery(clientRequest, "severity", "Severe");
-        ClientAsserts.ContainsQuery(clientRequest, "certainty", "Observed");
-        ClientAsserts.ContainsQuery(clientRequest, "certainty", "Possible");
+        ClientAsserts.ContainsQuery(clientRequest, "status", "actual", "test");
+        ClientAsserts.ContainsQuery(clientRequest, "message_type", "alert", "update");
+        ClientAsserts.ContainsQuery(clientRequest, "event", "EventA", "EventB");
+        ClientAsserts.ContainsQuery(clientRequest, "code", "CodeA", "CodeB");
+        ClientAsserts.ContainsQuery(clientRequest, "urgency", "Immediate", "Future");
+        ClientAsserts.ContainsQuery(clientRequest, "severity", "Extreme", "Severe");
+        ClientAsserts.ContainsQuery(clientRequest, "certainty", "Observed", "Possible");
         ClientAsserts.ContainsQuery(clientRequest, "limit", "200");
     }
 
@@ -410,6 +408,8 @@ public class NationalWeatherServiceClientTests
 		// Arrange
 		string clientResponse = PrepareGetActiveAlertsResponse_Should_ParseJson_TestData;
 
+		geoJsonService.SetUpRealService();
+
 		// Act
 		GetActiveAlertsResponse response = Client.PrepareGetActiveAlertsResponse(clientResponse);
 
@@ -574,6 +574,8 @@ public class NationalWeatherServiceClientTests
 		// Arrange
 		string clientResponse = PrepareGetActiveAlertsResponse_Should_ParseJsonWithNulls_TestData;
 
+		geoJsonService.SetUpRealService();
+
 		// Act
 		GetActiveAlertsResponse response = Client.PrepareGetActiveAlertsResponse(clientResponse);
 
@@ -586,6 +588,145 @@ public class NationalWeatherServiceClientTests
 		Assert.Null(alert1.Headline);
 		Assert.Null(alert1.Instruction);
 	}
+
+	#endregion
+
+	#region PrepareGetZonesRequest
+
+	[Fact]
+	public void PrepareGetZonesRequest_Should_CreateUrlWithDefaultQuery()
+	{
+		// Arrange
+		var request = new GetZonesRequest();
+
+		// Act
+		string clientRequest = Client.PrepareGetZonesRequest(request).Url;
+
+		// Assert
+		ClientAsserts.ContainsRoute(clientRequest, "zones");
+		ClientAsserts.DoesNotContainQueries(clientRequest,
+			"id",
+			"type");
+		ClientAsserts.ContainsQuery(clientRequest, "include_geometry", request.IncludeGeometry.ToString().ToLower());
+		ClientAsserts.ContainsQuery(clientRequest, "limit", request.Limit.ToString());
+	}
+
+	[Fact]
+	public void PrepareGetZonesRequest_Should_CreateUrlWithFullQuery()
+	{
+		// Arrange
+		var request = new GetZonesRequest(
+			ZoneIds: ["MOC217", "MOZ217"],
+			ZoneTypes: [ZoneType.Land, ZoneType.Marine],
+			IncludeGeometry: true,
+			Limit: 200);
+
+		// Act
+		string clientRequest = Client.PrepareGetZonesRequest(request).Url;
+
+		// Assert
+		ClientAsserts.ContainsRoute(clientRequest, "zones");
+		ClientAsserts.ContainsQuery(clientRequest, "id", "MOC217", "MOZ217");
+		ClientAsserts.ContainsQuery(clientRequest, "type", "land", "marine");
+		ClientAsserts.ContainsQuery(clientRequest, "include_geometry", "true");
+		ClientAsserts.ContainsQuery(clientRequest, "limit", "200");
+	}
+
+	#endregion
+
+	#region PrepareGetZonesResponse
+
+	private const string PrepareGetZonesResponse_Should_ParseJson_TestData = """
+		{
+		  "@context": {
+		    "@version": "1.1"
+		  },
+		  "type": "FeatureCollection",
+		  "features": [
+		    {
+		      "id": "https://api.weather.gov/zones/forecast/AKZ102",
+		      "type": "Feature",
+		      "geometry": null,
+		      "properties": {
+		        "@id": "https://api.weather.gov/zones/forecast/AKZ102",
+		        "@type": "wx:Zone",
+		        "id": "AKZ102",
+		        "type": "public",
+		        "name": "Anchorage",
+		        "effectiveDate": "2024-03-05T18:00:00+00:00",
+		        "expirationDate": "2200-01-01T00:00:00+00:00",
+		        "state": "AK",
+		        "cwa": [
+		          "AFC"
+		        ],
+		        "forecastOffices": [
+		          "https://api.weather.gov/offices/AFC"
+		        ],
+		        "timeZone": [
+		          "America/Anchorage"
+		        ],
+		        "observationStations": [],
+		        "radarStation": null
+		      }
+		    },
+			{
+			  "id": "https://api.weather.gov/zones/forecast/AMZ047",
+			  "type": "Feature",
+			  "geometry": null,
+			  "properties": {
+				"@id": "https://api.weather.gov/zones/forecast/AMZ047",
+				"@type": "wx:Zone",
+				"id": "AMZ047",
+				"type": "offshore",
+				"name": "Caribbean from 15N to 18N between 76W and 80W",
+				"effectiveDate": "2023-03-08T21:00:00+00:00",
+				"expirationDate": "2200-01-01T00:00:00+00:00",
+				"state": null,
+				"cwa": [
+				  "NH2"
+				],
+				"forecastOffices": [
+				  "https://api.weather.gov/offices/NH2"
+				],
+				"timeZone": [
+				  "America/New_York"
+				],
+				"observationStations": [],
+				"radarStation": null
+			  }
+			}
+		  ]
+		}
+		""";
+
+	[Fact]
+	public void PrepareGetZonesResponse_Should_ParseJson()
+	{
+		// Arrange
+		string clientResponse = PrepareGetZonesResponse_Should_ParseJson_TestData;
+
+		geoJsonService.SetUpRealService();
+
+		// Act
+		GetZonesResponse response = Client.PrepareGetZonesResponse(clientResponse);
+
+		// Assert
+		Assert.Equal(2, response.Zones.Count);
+
+		Zone zone1 = response.Zones[0];
+		Assert.Equal("AKZ102", zone1.Id);
+		Assert.Equal(ZoneType.Public, zone1.Type);
+		Assert.Equal("Anchorage", zone1.Name);
+		Assert.Equal("AK", zone1.State);
+
+		Zone zone2 = response.Zones[1];
+		Assert.Equal("AMZ047", zone2.Id);
+		Assert.Equal(ZoneType.Offshore, zone2.Type);
+		Assert.Equal("Caribbean from 15N to 18N between 76W and 80W", zone2.Name);
+		Assert.Null(zone2.State);
+	}
+
+
 
 	#endregion
 }

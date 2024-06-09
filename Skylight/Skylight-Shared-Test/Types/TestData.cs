@@ -19,7 +19,7 @@ public class TestData<T> : IXunitSerializable
 	{
 		Data = JsonSerializer.Deserialize<T>(info.GetValue<string>(nameof(Data)));
 	}
-
+	
 	public void Serialize(IXunitSerializationInfo info)
 	{
 		info.AddValue(nameof(Data), JsonSerializer.Serialize(Data));

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Skylight.Infrastructure.Clients.NationalWeatherService.Validators;
 
 namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 
@@ -90,6 +91,6 @@ public class ZoneAlertLocationValidator : AbstractValidator<ZoneAlertLocation>
 	public ZoneAlertLocationValidator()
 	{
 		RuleForEach(x => x.ZoneIds)
-			.Matches(@"^(A[KLMNRSZ]|C[AOT]|D[CE]|F[LM]|G[AMU]|I[ADLN]|K[SY]|L[ACEHMOS]|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[AHKMRSWZ]|S[CDL]|T[NX]|UT|V[AIT]|W[AIVY]|[HR]I)[CZ]\d{3}$");
+			.IsZoneId();
 	}
 }
