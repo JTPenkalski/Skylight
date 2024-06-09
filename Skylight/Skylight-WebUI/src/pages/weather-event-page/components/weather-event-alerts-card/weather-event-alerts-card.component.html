@@ -1,22 +1,17 @@
-<nb-card size="large">
-  <nb-card-header>
-    <div class="flex-row">
-      <h4>Alerts ({{alertCount}})</h4>
-      <nb-actions class="float-right" size="small">
-        <nb-action icon="refresh" (click)="onRefresh()"></nb-action>
-        <nb-action icon="more-vertical" nbContextMenuTrigger="hover" [nbContextMenu]="moreMenu.displayItems" [nbContextMenuTag]="moreMenu.tag"></nb-action>
-      </nb-actions>
-    </div>
-  </nb-card-header>
-  <nb-card-body class="flex-column" nbSpinnerSize="giant" [nbSpinner]="loading">
-    @if (alerts.length > 0) {
-      @for (alert of alerts; track $index) {
-        @if (canDisplayAlert(alert)) {
-          <skylight-weather-event-alert-button [alert]="alert" (click)="onClick(alert)"></skylight-weather-event-alert-button>
-        }
+<skylight-info-card
+  title="Alerts ({{alertCount}})"
+  [loading]="loading"
+  [contextMenu]="contextMenu"
+  (refresh)="fetchWeatherAlerts()">
+
+  @if (alerts.length > 0) {
+    @for (alert of alerts; track $index) {
+      @if (canDisplayAlert(alert)) {
+        <skylight-weather-event-alert-button [alert]="alert" (click)="openWeatherAlert(alert)"></skylight-weather-event-alert-button>
       }
-    } @else if (!loading) {
-      No Weather Alerts found.
     }
-  </nb-card-body>
-</nb-card>
+  } @else if (!loading) {
+    No Weather Alerts found.
+  }
+  
+</skylight-info-card>

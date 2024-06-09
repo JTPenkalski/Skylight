@@ -1,22 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NbActionsModule, NbCardModule, NbContextMenuModule, NbMenuItem, NbMenuService, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
-import { filter } from 'rxjs/operators';
 import { WeatherEventHubConnectionService } from 'web/connections';
 import { environment } from 'environments/environment';
+import { InfoCardComponent } from 'shared/components';
+import { ContextMenu } from 'shared/models';
+import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
 import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
-import { WeatherEventAlertButtonComponent } from '..';
-import { ContextMenu } from 'shared/models';
 
 @Component({
   selector: 'skylight-weather-event-alerts-card',
   standalone: true,
   imports: [
-    NbActionsModule,
-    NbCardModule,
-    NbContextMenuModule,
-    NbSpinnerModule,
-    NbTooltipModule,
+    InfoCardComponent,
     WeatherEventAlertButtonComponent
   ],
   templateUrl: './weather-event-alerts-card.component.html',
@@ -29,7 +24,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
   public loading: boolean = true;
   public showAdvisories: boolean = false;
   public alerts: NewWeatherEventAlert[] = [];
-  public moreMenu: ContextMenu = new ContextMenu(
+  public contextMenu: ContextMenu = new ContextMenu(
     'skylight-weather-event-alerts-card-more-menu',
     [
       {
@@ -43,8 +38,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
 
   constructor(
     private readonly service: WeatherEventService,
-    private readonly weatherEventHub: WeatherEventHubConnectionService,
-    private readonly menuService: NbMenuService
+    private readonly weatherEventHub: WeatherEventHubConnectionService
   ) { }
 
   public get alertCount(): number {
@@ -55,7 +49,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
 
   public ngOnInit(): void {
     if (environment.enableAutoNwsApiCalls) {
-      this.onRefresh();
+      this.fetchWeatherAlerts();
     } else {
       this.loading = false;
       console.log('Call to fetch Weather Alerts blocked by environment configuration.');
@@ -64,9 +58,6 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     this.weatherEventHub.newWeatherAlerts.subscribe(x => {
       this.alerts = x.newWeatherEventAlerts.map(a => NewWeatherEventAlert.fromHub(a));
     });
-
-    this.menuService.onItemClick()
-      .subscribe(x => this.moreMenu.handle(x));
   }
 
   public canDisplayAlert(alert: NewWeatherEventAlert): boolean {
@@ -77,7 +68,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     return output;
   }
 
-  public onRefresh(): void {
+  public fetchWeatherAlerts(): void {
     this.alerts = [];
     this.loading = true;
 
@@ -95,7 +86,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
       });
   }
 
-  public onClick(alert: NewWeatherEventAlert): void {
+  public openWeatherAlert(alert: NewWeatherEventAlert): void {
     this.alertSelected.emit(alert);
   }
 }
