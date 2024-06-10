@@ -3,7 +3,9 @@ import { WeatherEventHubConnectionService } from 'web/connections';
 import { environment } from 'environments/environment';
 import { InfoCardComponent } from 'shared/components';
 import { ContextMenu } from 'shared/models';
+import { EventBusService } from 'shared/services';
 import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
+import { ParticipantAddedEvent, WeatherAlertAddedEvent } from 'pages/weather-event-page/events';
 import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
 
@@ -25,7 +27,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
   public showAdvisories: boolean = false;
   public alerts: NewWeatherEventAlert[] = [];
   public contextMenu: ContextMenu = new ContextMenu(
-    'skylight-weather-event-alerts-card-more-menu',
+    `${WeatherEventAlertsCardComponent}Menu`,
     [
       {
         item: {
@@ -37,6 +39,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
   )
 
   constructor(
+    private readonly eventBus: EventBusService,
     private readonly service: WeatherEventService,
     private readonly weatherEventHub: WeatherEventHubConnectionService
   ) { }
@@ -78,6 +81,9 @@ export class WeatherEventAlertsCardComponent implements OnInit {
         next: result => {
           this.alerts = result;
           this.loading = false;
+
+          result.forEach(x => this.eventBus.emit(new WeatherAlertAddedEvent(x)));
+          result.forEach(x => this.eventBus.emit(new ParticipantAddedEvent('Test nae')));
         },
         error: () => {
           console.error(`Failed to fetch Weather Alerts for Weather Event ID ${this.weatherEventId}`);

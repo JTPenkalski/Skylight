@@ -1,0 +1,13 @@
+<skylight-info-card
+  title="Locations ({{locationCount}})"
+  [loading]="loading">
+
+  @if (locationCount > 0) {
+    @for (location of locations; track $index) {
+      <p>{{location.name}}</p>
+    }
+  } @else if (!loading) {
+    No Locations found.
+  }
+  
+</skylight-info-card>

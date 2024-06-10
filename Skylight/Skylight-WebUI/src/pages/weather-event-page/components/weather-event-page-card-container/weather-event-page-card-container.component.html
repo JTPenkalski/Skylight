@@ -4,9 +4,7 @@
       <skylight-weather-event-alerts-card [weatherEventId]="weatherEventId" (alertSelected)="onAlertSelected($event)"></skylight-weather-event-alerts-card>
     </div>
     <div class="card-col">
-      <nb-card size="large">
-        <nb-card-header><h4>Locations</h4></nb-card-header>
-      </nb-card>
+      <skylight-weather-event-locations-card [weatherEventId]="weatherEventId"></skylight-weather-event-locations-card>
     </div>
     <div class="card-col">
       <nb-card size="small">

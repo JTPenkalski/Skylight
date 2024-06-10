@@ -4,7 +4,7 @@
   [contextMenu]="contextMenu"
   (refresh)="fetchWeatherAlerts()">
 
-  @if (alerts.length > 0) {
+  @if (alertCount > 0) {
     @for (alert of alerts; track $index) {
       @if (canDisplayAlert(alert)) {
         <skylight-weather-event-alert-button [alert]="alert" (click)="openWeatherAlert(alert)"></skylight-weather-event-alert-button>
@@ -13,5 +13,5 @@
   } @else if (!loading) {
     No Weather Alerts found.
   }
-  
+
 </skylight-info-card>

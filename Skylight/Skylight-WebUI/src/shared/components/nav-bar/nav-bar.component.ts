@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbButtonModule, NbContextMenuModule, NbMenuService, NbUserModule } from '@nebular/theme';
-import { UserService } from 'shared/services';
-import { ContextMenu, User } from 'shared/models';
+import { User, UserService } from 'shared/services';
+import { ContextMenu } from 'shared/models';
 import { Router } from '@angular/router';
 
 @Component({

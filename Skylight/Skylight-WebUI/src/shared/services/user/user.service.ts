@@ -1,8 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
-import { AUTH_TOKEN, User } from 'shared/models';
+import { AUTH_TOKEN } from 'shared/models';
 import { RegisterNewUserCommand, SignInRequest, SkylightClient } from 'web/clients';
 
+/**
+ * Basic information about a user.
+ */
+export class User {
+  constructor(
+    public stormTrackerId: string,
+    public email: string,
+    public firstName: string,
+    public lastName: string
+  ) { }
+}
+
+/**
+ * Handles user state and authentication.
+ */
 @Injectable({
   providedIn: 'root'
 })
