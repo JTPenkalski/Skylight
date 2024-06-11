@@ -1,4 +1,5 @@
-﻿using Skylight.Application.Interfaces.Application;
+﻿using MediatR;
+using Skylight.Application.Interfaces.Application;
 
 namespace Skylight.Tests.Architecture.Application;
 
@@ -67,6 +68,24 @@ public class NamingTests(ITestOutputHelper outputHelper)
 
         Assert.True(result.IsSuccessful);
     }
+
+	[Fact]
+	public void Handler_Should_ShareUseCaseNamespace()
+	{
+		TestResult result = Types
+			.InAssembly(Assemblies.Application)
+			.That()
+			.ImplementInterface(typeof(IRequestHandler<,>))
+			.Should()
+			.NotResideInNamespaceEndingWith("Command")
+			.Or()
+			.NotResideInNamespaceEndingWith("Query")
+			.GetResult();
+
+		TestOutputHelpers.PrintFailingTypes(outputHelper, result);
+
+		Assert.True(result.IsSuccessful);
+	}
 
     [Fact]
     public void Responses_Should_HaveResponseSuffix()

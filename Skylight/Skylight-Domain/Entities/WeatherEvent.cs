@@ -29,20 +29,22 @@ public class WeatherEvent : BaseAuditableEntity
         participants.Add(participant);
     }
 
-    public void RemoveParticipant(WeatherEventParticipant participant)
+    public bool RemoveParticipant(WeatherEventParticipant participant)
     {
-        participants.Remove(participant);
+        return participants.Remove(participant);
     }
 
-    public void AddAlert(WeatherEventAlert alert)
+    public bool AddAlert(WeatherEventAlert alert)
     {
-        if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return;
+        if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return false;
 		
         alerts.Add(alert);
+
+		return true;
     }
 
-    public void RemoveAlert(WeatherEventAlert alert)
+    public bool RemoveAlert(WeatherEventAlert alert)
     {
-        alerts.Remove(alert);
+        return alerts.Remove(alert);
     }
 }

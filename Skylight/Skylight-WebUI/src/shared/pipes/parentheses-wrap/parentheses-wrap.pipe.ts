@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Adds parentheses around a value, if it exists.
+ */
 @Pipe({
   name: 'parenthesesWrap',
   standalone: true

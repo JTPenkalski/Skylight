@@ -19,7 +19,6 @@ public class StormTrackerController(
 	/// <summary>
 	/// Gets all <see cref="StormTracker"/> with the specified email.
 	/// </summary>
-	/// <returns>A <see cref="GetStormTrackerByEmailResponse"/> data object.</returns>
 	[HttpPost]
 	[Route(nameof(GetStormTrackerByEmail))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,7 +33,6 @@ public class StormTrackerController(
 	/// <summary>
 	/// Gets all <see cref="StormTracker"/>s with the specified name.
 	/// </summary>
-	/// <returns>A <see cref="GetStormTrackersByNameResponse"/> data object.</returns>
 	[HttpPost]
     [Route(nameof(GetStormTrackersByName))]
     [ProducesResponseType(StatusCodes.Status200OK)]

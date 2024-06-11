@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Skylight.Application.Interfaces.Data;
-using Skylight.Application.UseCases.WeatherEvents.Commands;
+using Skylight.Application.UseCases.WeatherEvents;
 using Skylight.Domain.Entities;
 using Skylight.Infrastructure.Hubs.WeatherEvent;
 using Skylight.Infrastructure.Hubs.WeatherEvent.Requests;

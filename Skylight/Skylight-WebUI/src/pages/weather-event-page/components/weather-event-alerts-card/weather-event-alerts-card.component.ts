@@ -5,7 +5,7 @@ import { InfoCardComponent } from 'shared/components';
 import { ContextMenu } from 'shared/models';
 import { EventBusService } from 'shared/services';
 import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
-import { ParticipantAddedEvent, WeatherAlertAddedEvent } from 'pages/weather-event-page/events';
+import { WeatherAlertAddedEvent, WeatherAlertsRefreshedEvent } from 'pages/weather-event-page/events';
 import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
 
@@ -75,6 +75,8 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     this.alerts = [];
     this.loading = true;
 
+    this.eventBus.emit(new WeatherAlertsRefreshedEvent());
+
     this.service
       .fetchWeatherAlerts(this.weatherEventId)
       .subscribe({
@@ -83,7 +85,6 @@ export class WeatherEventAlertsCardComponent implements OnInit {
           this.loading = false;
 
           result.forEach(x => this.eventBus.emit(new WeatherAlertAddedEvent(x)));
-          result.forEach(x => this.eventBus.emit(new ParticipantAddedEvent('Test nae')));
         },
         error: () => {
           console.error(`Failed to fetch Weather Alerts for Weather Event ID ${this.weatherEventId}`);

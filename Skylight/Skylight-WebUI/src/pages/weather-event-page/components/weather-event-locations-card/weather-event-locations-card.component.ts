@@ -1,71 +1,96 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { WeatherEventHubConnectionService } from 'web/connections';
-import { environment } from 'environments/environment';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { NbAccordionComponent, NbAccordionModule, NbButtonModule, NbListModule } from '@nebular/theme';
 import { InfoCardComponent } from 'shared/components';
 import { EventBusService } from 'shared/services';
 import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
-import { WeatherEventLocation } from 'pages/weather-event-page/models';
-import { WeatherAlertAddedEvent } from 'pages/weather-event-page/events';
-import { WeatherEventService } from 'pages/weather-event-page/services';
+import { WeatherEventAlertLocation } from 'pages/weather-event-page/models';
+import { WeatherAlertAddedEvent, WeatherAlertsRefreshedEvent } from 'pages/weather-event-page/events';
+import { StateNamePipe } from 'shared/pipes';
+import { DarkenDirective } from 'shared/directives';
+
+type LocationGroup = {
+  state: string,
+  locations: WeatherEventAlertLocation[]
+};
 
 @Component({
   selector: 'skylight-weather-event-locations-card',
   standalone: true,
   imports: [
+    NbAccordionModule,
+    NbButtonModule,
+    NbListModule,
     InfoCardComponent,
-    WeatherEventAlertButtonComponent
+    WeatherEventAlertButtonComponent,
+    DarkenDirective,
+    StateNamePipe
   ],
   templateUrl: './weather-event-locations-card.component.html',
   styleUrl: './weather-event-locations-card.component.scss'
 })
 export class WeatherEventLocationsCardComponent implements OnInit {
+  private readonly defaultLocationName: string = 'Other';
+  
   @Input({ required: true }) public weatherEventId!: string;
+  @ViewChild('locationGroupsElement') public locationGroupsElement?: NbAccordionComponent;
 
-  public loading: boolean = true;
-  public locations: WeatherEventLocation[] = [];
+  public locations: WeatherEventAlertLocation[] = [];
 
   constructor(
-    private readonly eventBus: EventBusService,
-    private readonly service: WeatherEventService,
-    private readonly weatherEventHub: WeatherEventHubConnectionService
+    private readonly eventBus: EventBusService
   ) { }
 
   public get locationCount(): number {
     return this.locations.length;
   }
 
-  public ngOnInit(): void {
-    if (environment.enableAutoNwsApiCalls) {
-      this.fetchLocations();
-    } else {
-      this.loading = false;
-      console.log('Call to fetch Locations blocked by environment configuration.');
-    }
-
-    this.eventBus.handle(WeatherAlertAddedEvent)
-      .subscribe(x => this.locations.push(new WeatherEventLocation(x.alert.sender)));
-
-    // this.weatherEventHub.newWeatherAlerts.subscribe(x => {
-    //   this.alerts = x.newWeatherEventAlerts.map(a => NewWeatherEventAlert.fromHub(a));
-    // });
+  public get locationGroupsCount(): number {
+    return this.locations
+      .map(x => x.state ?? this.defaultLocationName)
+      .filter((x, i, values) => values.indexOf(x) === i)
+      .length;
   }
 
-  public fetchLocations(): void {
-    this.locations = [];
-    this.loading = true;
+  public get locationGroups(): LocationGroup[] {
+    return this.locations
+      .reduce<LocationGroup[]>((prev, curr) => {
+        const state: string = curr.state ?? this.defaultLocationName;
+        const existingGroup: LocationGroup | undefined = prev.find(x => x.state === state)
 
-    // this.service
-    //   .fetchWeatherAlerts(this.weatherEventId)
-    //   .subscribe({
-    //     next: result => {
-    //       this.alerts = result;
-    //       this.loading = false;
-    //     },
-    //     error: () => {
-    //       console.error(`Failed to fetch Locations for Weather Event ID ${this.weatherEventId}`);
-    //       this.loading = false
-    //     }
-    //   });
+        if (existingGroup) {
+          existingGroup.locations.push(curr);
+        } else {
+          prev.push({
+            state: state,
+            locations: [curr]
+          });
+        }
+
+        prev
+          .find(x => x.state === state)?.locations
+          .sort((x, y) => x.name.localeCompare(y.name));
+
+        return prev;
+      }, [])
+      .sort((x, y) => x.state.localeCompare(y.state));
+  }
+
+  public ngOnInit(): void {
+    this.eventBus.handle(WeatherAlertsRefreshedEvent)
+      .subscribe(() => this.locations = []);
+
+    this.eventBus.handle(WeatherAlertAddedEvent)
+      .subscribe(x => {
+        x.alert.locations?.forEach(l => this.locations.push(l))
+      });
+  }
+
+  public collapseAll(): void {
+    this.locationGroupsElement?.closeAll();
+  }
+
+  public expandAll(): void {
+    this.locationGroupsElement?.openAll();
   }
 }
 

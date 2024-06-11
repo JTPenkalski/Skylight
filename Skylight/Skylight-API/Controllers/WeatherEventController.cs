@@ -3,7 +3,6 @@ using FluentResults;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Skylight.Application.UseCases.WeatherEvents;
-using Skylight.Application.UseCases.WeatherEvents.Commands;
 using Skylight.Domain.Entities;
 using Skylight.Infrastructure.Identity.Attributes;
 
@@ -21,7 +20,6 @@ public class WeatherEventController(
     /// <summary>
     /// Creates a new <see cref="WeatherEvent"/>.
     /// </summary>
-    /// <returns>A <see cref="CreateWeatherEventResponse"/>.</returns>
     [HttpPost]
 	[AdminAuthorize]
     [Route(nameof(CreateWeatherEvent))]
@@ -62,11 +60,10 @@ public class WeatherEventController(
         return result.ToActionResult();
     }
 
-    /// <summary>
-    /// Gets a <see cref="WeatherEvent"/> by its ID.
-    /// </summary>
-    /// <returns>A <see cref="GetWeatherEventByIdResponse"/>.</returns>
-    [HttpPost]
+	/// <summary>
+	/// Gets a <see cref="WeatherEvent"/> by its ID.
+	/// </summary>
+	[HttpPost]
     [Route(nameof(GetWeatherEventById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,4 +73,18 @@ public class WeatherEventController(
 
         return result.ToActionResult();
     }
+
+	/// <summary>
+	/// Gets all <see cref="WeatherEventAlert"/>s for a <see cref="WeatherEvent"/> by its ID.
+	/// </summary>
+	[HttpPost]
+	[Route(nameof(GetWeatherAlertsByEventId))]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<GetWeatherAlertsByEventIdResponse>> GetWeatherAlertsByEventId(GetWeatherAlertsByEventIdQuery request, CancellationToken cancellationToken)
+	{
+		Result<GetWeatherAlertsByEventIdResponse> result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
 }

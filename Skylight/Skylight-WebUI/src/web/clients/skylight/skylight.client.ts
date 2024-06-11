@@ -864,6 +864,79 @@ export class SkylightClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    getWeatherAlertsByEventId(body?: GetWeatherAlertsByEventIdQuery | undefined): Observable<GetWeatherAlertsByEventIdResponse> {
+        let url_ = this.baseUrl + "/api/v1/WeatherEvent/GetWeatherAlertsByEventId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWeatherAlertsByEventId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWeatherAlertsByEventId(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetWeatherAlertsByEventIdResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetWeatherAlertsByEventIdResponse>;
+        }));
+    }
+
+    protected processGetWeatherAlertsByEventId(response: HttpResponseBase): Observable<GetWeatherAlertsByEventIdResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetWeatherAlertsByEventIdResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface AddWeatherEventParticipantCommand {
@@ -915,6 +988,14 @@ export interface GetStormTrackersByNameQuery {
 
 export interface GetStormTrackersByNameResponse {
     stormTrackers: StormTrackerByName[] | undefined;
+}
+
+export interface GetWeatherAlertsByEventIdQuery {
+    weatherEventId?: string;
+}
+
+export interface GetWeatherAlertsByEventIdResponse {
+    weatherEventAlerts: WeatherEventAlert[] | undefined;
 }
 
 export interface GetWeatherEventByIdQuery {
@@ -995,6 +1076,26 @@ export enum WeatherAlertLevel {
     Advisory = "Advisory",
     Watch = "Watch",
     Warning = "Warning",
+}
+
+export interface WeatherEventAlert {
+    sender?: string | undefined;
+    headline?: string | undefined;
+    instruction?: string | undefined;
+    description?: string | undefined;
+    sent?: Date;
+    effective?: Date;
+    expires?: Date;
+    name?: string | undefined;
+    source?: string | undefined;
+    level?: WeatherAlertLevel;
+    code?: string | undefined;
+    locations?: WeatherEventAlertLocation[] | undefined;
+}
+
+export interface WeatherEventAlertLocation {
+    name?: string | undefined;
+    state?: string | undefined;
 }
 
 export class ApiException extends Error {

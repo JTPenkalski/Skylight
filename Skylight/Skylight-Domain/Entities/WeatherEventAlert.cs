@@ -41,9 +41,9 @@ public class WeatherEventAlert : BaseAuditableEntity
 		modifiers.Add(modifier);
 	}
 
-	public void RemoveModifier(WeatherAlertModifier modifier)
+	public bool RemoveModifier(WeatherAlertModifier modifier)
 	{
-		modifiers.Remove(modifier);
+		return modifiers.Remove(modifier);
 	}
 
 	public void AddLocation(Location location)
@@ -51,8 +51,8 @@ public class WeatherEventAlert : BaseAuditableEntity
 		locations.Add(location);
 	}
 
-	public void RemoveLocation(Location location)
+	public bool RemoveLocation(Location location)
 	{
-		locations.Remove(location);
+		return locations.Remove(location);
 	}
 }

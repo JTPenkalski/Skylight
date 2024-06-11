@@ -30,7 +30,6 @@ public class UserController(
 	/// <summary>
 	/// Checks if the current user is authenticated.
 	/// </summary>
-	/// <returns>True if the user is signed in, false otherwise.</returns>
 	[HttpPost]
 	[AllowAnonymous]
 	[Route(nameof(IsSignedIn))]
@@ -114,7 +113,6 @@ public class UserController(
 	/// <summary>
 	/// Get the currently authenticated user.
 	/// </summary>
-	/// <returns>A <see cref="GetCurrentUserResponse"/> data object.</returns>
 	[HttpPost]
 	[Route(nameof(GetCurrentUser))]
 	[ProducesResponseType(StatusCodes.Status200OK)]

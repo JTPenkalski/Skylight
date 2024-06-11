@@ -7,6 +7,10 @@
 }
 
 // Layout
+nb-window {
+  min-width: 50vw !important;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
