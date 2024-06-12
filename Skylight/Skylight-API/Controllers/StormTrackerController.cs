@@ -20,7 +20,6 @@ public class StormTrackerController(
 	/// Gets all <see cref="StormTracker"/> with the specified email.
 	/// </summary>
 	[HttpPost]
-	[Route(nameof(GetStormTrackerByEmail))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetStormTrackerByEmailResponse>> GetStormTrackerByEmail(GetStormTrackerByEmailQuery request, CancellationToken cancellationToken)
@@ -34,7 +33,6 @@ public class StormTrackerController(
 	/// Gets all <see cref="StormTracker"/>s with the specified name.
 	/// </summary>
 	[HttpPost]
-    [Route(nameof(GetStormTrackersByName))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GetStormTrackersByNameResponse>> GetStormTrackersByName(GetStormTrackersByNameQuery request, CancellationToken cancellationToken)

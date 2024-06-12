@@ -1,4 +1,6 @@
-﻿namespace Skylight.Domain.Entities;
+﻿using Skylight.Domain.Extensions;
+
+namespace Skylight.Domain.Entities;
 
 /// <summary>
 /// Aggregates all individual <see cref="WeatherIncident"/> occurences into a single, cumulative event.
@@ -24,9 +26,13 @@ public class WeatherEvent : BaseAuditableEntity
 
     public virtual IReadOnlyList<WeatherEventParticipant> Participants => participants;
 
-    public void AddParticipant(WeatherEventParticipant participant)
+    public bool AddParticipant(WeatherEventParticipant participant)
     {
+		if (participants.ContainsNonDefault(participant)) return false;
+
         participants.Add(participant);
+
+		return true;
     }
 
     public bool RemoveParticipant(WeatherEventParticipant participant)
@@ -34,9 +40,26 @@ public class WeatherEvent : BaseAuditableEntity
         return participants.Remove(participant);
     }
 
-    public bool AddAlert(WeatherEventAlert alert)
+	public bool RemoveParticipantId(Guid participantId)
+	{
+		return participants.RemoveById(participantId);
+	}
+
+	public bool RemoveParticipantByStormTrackerId(Guid stormTrackerId)
+	{
+		WeatherEventParticipant? participant = participants.Find(x => x.Tracker.Id == stormTrackerId);
+
+		if (participant is not null)
+		{
+			return participants.Remove(participant);
+		}
+		
+		return false;
+	}
+
+	public bool AddAlert(WeatherEventAlert alert)
     {
-        if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return false;
+        if (alert.ExternalId is not null && alerts.Any(x => x.ExternalId == alert.ExternalId)) return false;
 		
         alerts.Add(alert);
 
@@ -47,4 +70,9 @@ public class WeatherEvent : BaseAuditableEntity
     {
         return alerts.Remove(alert);
     }
+
+	public bool RemoveAlertById(Guid alertId)
+	{
+		return alerts.RemoveById(alertId);
+	}
 }

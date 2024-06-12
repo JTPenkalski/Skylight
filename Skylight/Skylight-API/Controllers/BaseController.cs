@@ -8,7 +8,7 @@ namespace Skylight.Controllers;
 /// </summary>
 [ApiController]
 [Authorize]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/v{version:apiVersion}/[controller]/[action]")]
 [Produces("application/json")]
 [ProducesResponseType(StatusCodes.Status401Unauthorized)]
 [ProducesResponseType(StatusCodes.Status403Forbidden)]

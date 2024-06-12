@@ -17,13 +17,25 @@ public class WeatherEventController(
     IMediator mediator)
     : BaseController
 {
-    /// <summary>
-    /// Creates a new <see cref="WeatherEvent"/>.
-    /// </summary>
-    [HttpPost]
+	/// <summary>
+	/// Adds a <see cref="StormTracker"/> to a <see cref="WeatherEvent"/>.
+	/// </summary>
+	[HttpPost]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<AddWeatherEventParticipantResponse>> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
+	{
+		Result<AddWeatherEventParticipantResponse> result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	/// <summary>
+	/// Creates a new <see cref="WeatherEvent"/>.
+	/// </summary>
+	[HttpPost]
 	[AdminAuthorize]
-    [Route(nameof(CreateWeatherEvent))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CreateWeatherEventResponse>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
     {
@@ -33,24 +45,9 @@ public class WeatherEventController(
     }
 
     /// <summary>
-    /// Adds a <see cref="StormTracker"/> to a <see cref="WeatherEvent"/>.
-    /// </summary>
-    [HttpPost]
-    [Route(nameof(AddWeatherEventParticipant))]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
-    {
-        Result result = await mediator.Send(request, cancellationToken);
-
-        return result.ToActionResult();
-    }
-
-    /// <summary>
     /// Adds all new <see cref="WeatherAlert"/>s to a <see cref="WeatherEvent"/>.
     /// </summary>
     [HttpPost]
-    [Route(nameof(FetchWeatherAlerts))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<FetchWeatherAlertsResponse>> FetchWeatherAlerts(FetchWeatherAlertsCommand request, CancellationToken cancellationToken)
@@ -61,10 +58,22 @@ public class WeatherEventController(
     }
 
 	/// <summary>
+	/// Removes a <see cref="StormTracker"/> from a <see cref="WeatherEvent"/>.
+	/// </summary>
+	[HttpPost]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<RemoveWeatherEventParticipantResponse>> RemoveWeatherEventParticipant(RemoveWeatherEventParticipantCommand request, CancellationToken cancellationToken)
+	{
+		Result<RemoveWeatherEventParticipantResponse> result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	/// <summary>
 	/// Gets a <see cref="WeatherEvent"/> by its ID.
 	/// </summary>
 	[HttpPost]
-    [Route(nameof(GetWeatherEventById))]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GetWeatherEventByIdResponse>> GetWeatherEventById(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
@@ -78,12 +87,24 @@ public class WeatherEventController(
 	/// Gets all <see cref="WeatherEventAlert"/>s for a <see cref="WeatherEvent"/> by its ID.
 	/// </summary>
 	[HttpPost]
-	[Route(nameof(GetWeatherAlertsByEventId))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetWeatherAlertsByEventIdResponse>> GetWeatherAlertsByEventId(GetWeatherAlertsByEventIdQuery request, CancellationToken cancellationToken)
 	{
 		Result<GetWeatherAlertsByEventIdResponse> result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	/// <summary>
+	/// Gets all <see cref="WeatherEventParticipant"/>s for a <see cref="WeatherEvent"/> by its ID.
+	/// </summary>
+	[HttpPost]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<GetWeatherEventParticipantsByEventIdResponse>> GetWeatherEventParticipantsByEventId(GetWeatherEventParticipantsByEventIdQuery request, CancellationToken cancellationToken)
+	{
+		Result<GetWeatherEventParticipantsByEventIdResponse> result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}

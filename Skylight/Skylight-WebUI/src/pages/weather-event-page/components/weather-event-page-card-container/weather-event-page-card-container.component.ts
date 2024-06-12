@@ -4,6 +4,7 @@ import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerM
 import { ParenthesesWrapPipe } from 'shared/pipes';
 import { WeatherEventAlertButtonComponent, WeatherEventAlertWindowComponent, WeatherEventAlertsCardComponent, WeatherEventLocationsCardComponent } from 'pages/weather-event-page/components';
 import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
+import { WeatherEventParticipantsCardComponent } from '../weather-event-participants-card/weather-event-participants-card.component';
 
 @Component({
   selector: 'skylight-weather-event-page-card-container',
@@ -19,6 +20,7 @@ import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
     WeatherEventAlertsCardComponent,
     WeatherEventAlertWindowComponent,
     WeatherEventLocationsCardComponent,
+    WeatherEventParticipantsCardComponent,
   ],
   providers: [
     ParenthesesWrapPipe

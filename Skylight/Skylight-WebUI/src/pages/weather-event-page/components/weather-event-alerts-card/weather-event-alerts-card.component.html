@@ -2,7 +2,7 @@
   title="Alerts ({{alertCount}})"
   [loading]="loading"
   [contextMenu]="contextMenu"
-  (refresh)="fetchWeatherAlerts()">
+  (refresh)="getWeatherAlerts()">
 
   @if (alertCount > 0) {
     @for (alert of alerts; track $index) {

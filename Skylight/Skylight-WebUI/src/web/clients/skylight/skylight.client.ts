@@ -578,7 +578,80 @@ export class SkylightClient {
 
     /**
      * @param body (optional) 
-     * @return Created
+     * @return OK
+     */
+    addWeatherEventParticipant(body?: AddWeatherEventParticipantCommand | undefined): Observable<AddWeatherEventParticipantResponse> {
+        let url_ = this.baseUrl + "/api/v1/WeatherEvent/AddWeatherEventParticipant";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddWeatherEventParticipant(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddWeatherEventParticipant(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AddWeatherEventParticipantResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AddWeatherEventParticipantResponse>;
+        }));
+    }
+
+    protected processAddWeatherEventParticipant(response: HttpResponseBase): Observable<AddWeatherEventParticipantResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AddWeatherEventParticipantResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
      */
     createWeatherEvent(body?: CreateWeatherEventCommand | undefined): Observable<CreateWeatherEventResponse> {
         let url_ = this.baseUrl + "/api/v1/WeatherEvent/CreateWeatherEvent";
@@ -629,81 +702,11 @@ export class SkylightClient {
             result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
             return throwException("Forbidden", status, _responseText, _headers, result403);
             }));
-        } else if (status === 201) {
+        } else if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result201: any = null;
-            result201 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CreateWeatherEventResponse;
-            return _observableOf(result201);
-            }));
-        } else if (status === 400) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result400: any = null;
-            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
-            return throwException("Bad Request", status, _responseText, _headers, result400);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf(null as any);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Created
-     */
-    addWeatherEventParticipant(body?: AddWeatherEventParticipantCommand | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/v1/WeatherEvent/AddWeatherEventParticipant";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json",
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processAddWeatherEventParticipant(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processAddWeatherEventParticipant(response_ as any);
-                } catch (e) {
-                    return _observableThrow(e) as any as Observable<void>;
-                }
-            } else
-                return _observableThrow(response_) as any as Observable<void>;
-        }));
-    }
-
-    protected processAddWeatherEventParticipant(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (response as any).error instanceof Blob ? (response as any).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 401) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result401: any = null;
-            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
-            return throwException("Unauthorized", status, _responseText, _headers, result401);
-            }));
-        } else if (status === 403) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            let result403: any = null;
-            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
-            return throwException("Forbidden", status, _responseText, _headers, result403);
-            }));
-        } else if (status === 201) {
-            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
-            return _observableOf(null as any);
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CreateWeatherEventResponse;
+            return _observableOf(result200);
             }));
         } else if (status === 400) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -776,6 +779,79 @@ export class SkylightClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as FetchWeatherAlertsResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    removeWeatherEventParticipant(body?: RemoveWeatherEventParticipantCommand | undefined): Observable<RemoveWeatherEventParticipantResponse> {
+        let url_ = this.baseUrl + "/api/v1/WeatherEvent/RemoveWeatherEventParticipant";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRemoveWeatherEventParticipant(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRemoveWeatherEventParticipant(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<RemoveWeatherEventParticipantResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<RemoveWeatherEventParticipantResponse>;
+        }));
+    }
+
+    protected processRemoveWeatherEventParticipant(response: HttpResponseBase): Observable<RemoveWeatherEventParticipantResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as RemoveWeatherEventParticipantResponse;
             return _observableOf(result200);
             }));
         } else if (status === 400) {
@@ -937,12 +1013,89 @@ export class SkylightClient {
         }
         return _observableOf(null as any);
     }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
+    getWeatherEventParticipantsByEventId(body?: GetWeatherEventParticipantsByEventIdQuery | undefined): Observable<GetWeatherEventParticipantsByEventIdResponse> {
+        let url_ = this.baseUrl + "/api/v1/WeatherEvent/GetWeatherEventParticipantsByEventId";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWeatherEventParticipantsByEventId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWeatherEventParticipantsByEventId(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetWeatherEventParticipantsByEventIdResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetWeatherEventParticipantsByEventIdResponse>;
+        }));
+    }
+
+    protected processGetWeatherEventParticipantsByEventId(response: HttpResponseBase): Observable<GetWeatherEventParticipantsByEventIdResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetWeatherEventParticipantsByEventIdResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
 }
 
 export interface AddWeatherEventParticipantCommand {
     weatherEventId?: string;
     stormTrackerId?: string;
     participationMethod?: ParticipationMethod;
+}
+
+export interface AddWeatherEventParticipantResponse {
+    added?: boolean;
 }
 
 export interface CreateWeatherEventCommand {
@@ -1011,6 +1164,14 @@ export interface GetWeatherEventByIdResponse {
     affectedPeople?: number | undefined;
 }
 
+export interface GetWeatherEventParticipantsByEventIdQuery {
+    weatherEventId?: string;
+}
+
+export interface GetWeatherEventParticipantsByEventIdResponse {
+    weatherEventParticipants: WeatherEventParticipant[] | undefined;
+}
+
 export interface GrantAdminCommand {
     userId?: string;
 }
@@ -1050,6 +1211,15 @@ export interface RegisterNewUserCommand {
     lastName?: string | undefined;
     email?: string | undefined;
     password?: string | undefined;
+}
+
+export interface RemoveWeatherEventParticipantCommand {
+    weatherEventId?: string;
+    stormTrackerId?: string;
+}
+
+export interface RemoveWeatherEventParticipantResponse {
+    removed?: boolean;
 }
 
 export interface SignInRequest {
@@ -1096,6 +1266,13 @@ export interface WeatherEventAlert {
 export interface WeatherEventAlertLocation {
     name?: string | undefined;
     state?: string | undefined;
+}
+
+export interface WeatherEventParticipant {
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    participationMethod?: ParticipationMethod;
+    participationDate?: Date;
 }
 
 export class ApiException extends Error {

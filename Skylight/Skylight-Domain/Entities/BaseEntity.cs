@@ -26,7 +26,11 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
 
     public override int GetHashCode() => Id.GetHashCode();
 
-    public virtual bool Equals(BaseEntity? other) => other is not null && other.Id == Id;
+    public virtual bool Equals(BaseEntity? other) =>
+		other is not null
+		&& Id != Guid.Empty
+		&& other.Id != Guid.Empty
+		&& other.Id == Id;
 
     protected void RaiseEvent(DomainEvent domainEvent)
     {

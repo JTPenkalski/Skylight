@@ -52,7 +52,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
 
   public ngOnInit(): void {
     if (environment.enableAutoNwsApiCalls) {
-      this.fetchWeatherAlerts();
+      this.getWeatherAlerts();
     } else {
       this.loading = false;
       console.log('Call to fetch Weather Alerts blocked by environment configuration.');
@@ -71,14 +71,14 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     return output;
   }
 
-  public fetchWeatherAlerts(): void {
+  public getWeatherAlerts(): void {
     this.alerts = [];
     this.loading = true;
 
     this.eventBus.emit(new WeatherAlertsRefreshedEvent());
 
     this.service
-      .fetchWeatherAlerts(this.weatherEventId)
+      .getWeatherAlerts(this.weatherEventId)
       .subscribe({
         next: result => {
           this.alerts = result;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, booleanAttribute } from '@angular/core';
 import { NbActionsModule, NbCardModule, NbComponentSize, NbContextMenuModule, NbMenuService, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
 import { ContextMenu } from 'shared/models';
 
@@ -17,6 +17,7 @@ import { ContextMenu } from 'shared/models';
 })
 export class InfoCardComponent implements OnInit {
   @Input({ required: true }) public title: string = '';
+  @Input( { transform: booleanAttribute }) public noGap: boolean = false;
   @Input() public size: NbComponentSize = 'large';
   @Input() public loading: boolean = false;
   @Input() public contextMenu?: ContextMenu;

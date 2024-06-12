@@ -13,7 +13,7 @@
       </nb-actions>
     </div>
   </nb-card-header>
-  <nb-card-body class="flex-column" nbSpinnerSize="giant" [nbSpinner]="loading">
+  <nb-card-body class="flex-column" [class.no-gap]="noGap" nbSpinnerSize="giant" [nbSpinner]="loading">
     <ng-content></ng-content>
   </nb-card-body>
 </nb-card>

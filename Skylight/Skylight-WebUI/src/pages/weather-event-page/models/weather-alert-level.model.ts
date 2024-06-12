@@ -1,6 +1,6 @@
 export enum WeatherAlertLevel {
-  None,
-  Advisory,
-  Watch,
-  Warning
+  None = 'None',
+  Advisory = 'Advisory',
+  Watch = 'Watch',
+  Warning = 'Warning',
 }

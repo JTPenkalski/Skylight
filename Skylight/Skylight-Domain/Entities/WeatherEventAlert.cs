@@ -1,4 +1,6 @@
-﻿namespace Skylight.Domain.Entities;
+﻿using Skylight.Domain.Extensions;
+
+namespace Skylight.Domain.Entities;
 
 /// <summary>
 /// Links a type of <see cref="WeatherAlert"/> to a specific <see cref="WeatherEvent"/>.
@@ -46,6 +48,11 @@ public class WeatherEventAlert : BaseAuditableEntity
 		return modifiers.Remove(modifier);
 	}
 
+	public bool RemoveModifierById(Guid modifierId)
+	{
+		return modifiers.RemoveById(modifierId);
+	}
+
 	public void AddLocation(Location location)
 	{
 		locations.Add(location);
@@ -54,5 +61,10 @@ public class WeatherEventAlert : BaseAuditableEntity
 	public bool RemoveLocation(Location location)
 	{
 		return locations.Remove(location);
+	}
+
+	public bool RemoveLocationById(Guid locationId)
+	{
+		return locations.RemoveById(locationId);
 	}
 }

@@ -17,12 +17,12 @@ public class DefaultSkylightContextInitializer(
 	{
 		await dbContext.ResetAsync();
 
+		await AddRolesAsync();
+		await AddUsersAsync();
 		await AddWeatherAsync();
 		await AddWeatherAlertModifiersAsync();
 		await AddWeatherAlertsAsync();
 		await AddWeatherEventsAsync();
-		await AddRolesAsync();
-		await AddUsersAsync();
 
 		await dbContext.CommitAsync();
 	}
@@ -206,6 +206,27 @@ public class DefaultSkylightContextInitializer(
 			}
 		};
 
+		foreach (WeatherEvent weatherEvent in weatherEvents)
+		{
+			var participant1 = new WeatherEventParticipant
+			{
+				Event = weatherEvent,
+				Tracker = await dbContext.FindAsync<StormTracker>(Guid.Parse("8206e82a-7dfb-41d0-a20f-3209adffec61"), CancellationToken.None),
+				ParticipationMethod = ParticipationMethod.Chased
+			};
+
+			weatherEvent.AddParticipant(participant1);
+
+			var participant2 = new WeatherEventParticipant
+			{
+				Event = weatherEvent,
+				Tracker = await dbContext.FindAsync<StormTracker>(Guid.Parse("d4e3435b-cc80-41b1-8381-6fb16bfd4671"), CancellationToken.None),
+				ParticipationMethod = ParticipationMethod.Viewed
+			};
+
+			weatherEvent.AddParticipant(participant2);
+		}
+
 		await dbContext.WeatherEvents.AddRangeAsync(weatherEvents);
 	}
 
@@ -233,6 +254,23 @@ public class DefaultSkylightContextInitializer(
 		await userManager.CreateAsync(justin, "Justin");
 		await userManager.AddToRoleAsync(justin, Roles.Admin);
 
+		var robby = new User
+		{
+			UserName = "robby@test.com",
+			Email = "robby@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("8206e82a-7dfb-41d0-a20f-3209adffec61"),
+				FirstName = "Robby",
+				LastName = "LastName",
+				Biography = "Biography",
+				StartDate = DateTimeOffset.UtcNow
+			}
+		};
+
+		await userManager.CreateAsync(robby, "Robby");
+		await userManager.AddToRoleAsync(robby, Roles.Admin);
+
 		var reed = new User
 		{
 			UserName = "reed@test.com",
@@ -248,5 +286,21 @@ public class DefaultSkylightContextInitializer(
 		};
 
 		await userManager.CreateAsync(reed, "Reed");
+
+		var brian = new User
+		{
+			UserName = "brian@test.com",
+			Email = "brian@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("d4e3435b-cc80-41b1-8381-6fb16bfd4671"),
+				FirstName = "Brian",
+				LastName = "LastName",
+				Biography = "Biography",
+				StartDate = DateTimeOffset.UtcNow
+			}
+		};
+
+		await userManager.CreateAsync(brian, "Brian");
 	}
 }

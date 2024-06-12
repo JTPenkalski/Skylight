@@ -1,0 +1,31 @@
+<skylight-info-card
+  noGap
+  size="small"
+  title="Participants ({{participantCount}})"
+  [loading]="loading">
+
+  @if (participantCount > 0) {
+    @for (participant of participants; track $index) {
+      <nb-card class="user-card" [accent]="getParticipantAccent(participant)">
+        <nb-card-header>
+          <div class="flex-row">
+            <nb-user
+              class="flex-item"
+              color="#0095ff"
+              size="small"
+              name="{{participant.firstName}} {{participant.lastName}}"
+              showTitle="false">
+            </nb-user>
+
+            <span class="flex-item">{{participant.participationMethod}}</span>
+
+            <span class="flex-item">{{participant.participationDate | date:'short'}}</span>
+          </div>
+        </nb-card-header>
+      </nb-card>
+    }
+  } @else if (!loading) {
+    No Participants found.
+  }
+
+</skylight-info-card>

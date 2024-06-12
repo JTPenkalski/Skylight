@@ -10,12 +10,18 @@ public sealed record AddWeatherEventParticipantCommand(
     Guid WeatherEventId,
     Guid StormTrackerId,
     ParticipationMethod ParticipationMethod)
-    : ICommand;
+    : ICommand<AddWeatherEventParticipantResponse>;
+
+public sealed record AddWeatherEventParticipantResponse(bool Added)
+	: IResponse;
+
+public sealed class WeatherEventParticipantAlreadyAddedError()
+	: Error($"The {nameof(WeatherEventParticipant)} was already added to the {nameof(WeatherEvent)} and was not added again.");
 
 public class AddWeatherEventParticipantCommandHandler(ISkylightContext dbContext)
-    : ICommandHandler<AddWeatherEventParticipantCommand>
+    : ICommandHandler<AddWeatherEventParticipantCommand, AddWeatherEventParticipantResponse>
 {
-    public async Task<Result> Handle(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
+    public async Task<Result<AddWeatherEventParticipantResponse>> Handle(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
     {
         WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken);
         StormTracker stormTracker = await dbContext.FindAsync<StormTracker>(request.StormTrackerId, cancellationToken);
@@ -27,10 +33,14 @@ public class AddWeatherEventParticipantCommandHandler(ISkylightContext dbContext
             ParticipationMethod = request.ParticipationMethod
         };
 
-        weatherEvent.AddParticipant(participant);
+        bool added = weatherEvent.AddParticipant(participant);
 
         await dbContext.CommitAsync(cancellationToken);
 
-        return Result.Ok();
-    }
+		var response = new AddWeatherEventParticipantResponse(added);
+
+		return Result
+			.FailIf(!added, new WeatherEventParticipantAlreadyAddedError())
+			.ToResult(response);
+	}
 }

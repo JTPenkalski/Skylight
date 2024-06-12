@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, flatMap, map, mergeMap } from 'rxjs';
-import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherAlertsByEventIdQuery, GetWeatherEventByIdQuery, ParticipationMethod, SkylightClient } from 'web/clients';
-import { NewWeatherEventAlert, WeatherEventAlert, WeatherEventSummary } from 'pages/weather-event-page/models';
+import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherAlertsByEventIdQuery, GetWeatherEventByIdQuery, GetWeatherEventParticipantsByEventIdQuery, ParticipationMethod, RemoveWeatherEventParticipantCommand, SkylightClient } from 'web/clients';
+import { NewWeatherEventAlert, WeatherEventAlert, WeatherEventParticipant, WeatherEventSummary } from 'pages/weather-event-page/models';
 
 @Injectable({
   providedIn: 'root'
@@ -19,17 +19,33 @@ export class WeatherEventService {
     );
   }
 
-  public trackWeatherEvent(weatherEventId: string, stormTrackerId: string): Observable<void> {
+  public trackWeatherEvent(weatherEventId: string, stormTrackerId: string): Observable<boolean> {
     const request: AddWeatherEventParticipantCommand = {
       weatherEventId: weatherEventId,
       stormTrackerId: stormTrackerId,
       participationMethod: ParticipationMethod.Tracked
     };
 
-    return this.client.addWeatherEventParticipant(request);
+    return this.client.addWeatherEventParticipant(request).pipe(
+      map(result => {
+        console.log('Got: ' + result);
+        return !!result.added;
+      })
+    );
   }
 
-  public fetchWeatherAlerts(weatherEventId: string): Observable<NewWeatherEventAlert[]> {
+  public untrackWeatherEvent(weatherEventId: string, stormTrackerId: string): Observable<boolean> {
+    const request: RemoveWeatherEventParticipantCommand = {
+      weatherEventId: weatherEventId,
+      stormTrackerId: stormTrackerId
+    };
+
+    return this.client.removeWeatherEventParticipant(request).pipe(
+      map(result => !!result.removed)
+    );
+  }
+
+  public getWeatherAlerts(weatherEventId: string): Observable<NewWeatherEventAlert[]> {
     const fetchWeatherAlertsRequest: FetchWeatherAlertsCommand = {
       weatherEventId: weatherEventId
     };
@@ -43,6 +59,20 @@ export class WeatherEventService {
       map(result =>
         result.weatherEventAlerts?.map(x =>
           WeatherEventAlert.fromApi(x)
+        ) ?? []
+      )
+    );
+  }
+
+  public getParticipants(weatherEventId: string): Observable<WeatherEventParticipant[]> {
+    const request: GetWeatherEventParticipantsByEventIdQuery = {
+      weatherEventId: weatherEventId
+    };
+
+    return this.client.getWeatherEventParticipantsByEventId(request).pipe(
+      map(result => 
+        result.weatherEventParticipants?.map(x =>
+          WeatherEventParticipant.fromApi(x)
         ) ?? []
       )
     );
