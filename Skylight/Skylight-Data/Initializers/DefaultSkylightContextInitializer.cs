@@ -237,6 +237,23 @@ public class DefaultSkylightContextInitializer(
 
 	private async Task AddUsersAsync()
 	{
+		var system = new User
+		{
+			UserName = "Skylight",
+			Email = "skylight@test.com",
+			StormTracker = new()
+			{
+				Id = Infrastructure.Constants.SkylightSystem.Id,
+				FirstName = "Skylight",
+				LastName = "System",
+				Biography = "The automated Skylight system.",
+				StartDate = DateTimeOffset.MinValue
+			}
+		};
+
+		await userManager.CreateAsync(system, "SkylightSystem");
+		await userManager.AddToRoleAsync(system, Roles.Admin);
+
 		var justin = new User
 		{
 			UserName = "justin@test.com",

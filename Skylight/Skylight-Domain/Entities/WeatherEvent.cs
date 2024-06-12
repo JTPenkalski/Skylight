@@ -7,8 +7,8 @@ namespace Skylight.Domain.Entities;
 /// </summary>
 public class WeatherEvent : BaseAuditableEntity
 {
-	private readonly List<WeatherEventAlert> alerts = [];
-	private readonly List<WeatherEventParticipant> participants = [];
+	private List<WeatherEventAlert> alerts = [];
+	private List<WeatherEventParticipant> participants = [];
 
 	public required string Name { get; set; }
 
@@ -22,11 +22,19 @@ public class WeatherEvent : BaseAuditableEntity
 
     public int? AffectedPeople { get; set; }
 
-	public virtual IReadOnlyList<WeatherEventAlert> Alerts => alerts;
+	public virtual IReadOnlyList<WeatherEventAlert> Alerts
+	{
+		get => alerts;
+		private set => alerts = [.. value];
+	}
 
-    public virtual IReadOnlyList<WeatherEventParticipant> Participants => participants;
+    public virtual IReadOnlyList<WeatherEventParticipant> Participants
+	{
+		get => participants;
+		private set => participants = [.. value];
+	}
 
-    public bool AddParticipant(WeatherEventParticipant participant)
+	public bool AddParticipant(WeatherEventParticipant participant)
     {
 		if (participants.ContainsNonDefault(participant)) return false;
 
