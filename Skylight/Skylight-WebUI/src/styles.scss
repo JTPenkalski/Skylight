@@ -11,6 +11,14 @@ nb-window {
   min-width: 50vw !important;
 }
 
+nb-action:only-child {
+  padding: 0 !important;
+}
+
+nb-action:last-child {
+  padding-right: 0 !important;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -48,10 +56,6 @@ nb-window {
 
 .float-right {
   margin-left: auto;
-}
-
-.final-action {
-  padding-right: 0 !important;
 }
 
 // Appearance

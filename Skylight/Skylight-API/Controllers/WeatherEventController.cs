@@ -108,4 +108,17 @@ public class WeatherEventController(
 
 		return result.ToActionResult();
 	}
+
+	/// <summary>
+	/// Gets the status of a <see cref="WeatherEventParticipant"/> for a <see cref="WeatherEvent"/>.
+	/// </summary>
+	[HttpPost]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<GetWeatherEventParticipantStatusResponse>> GetWeatherEventParticipantsStatus(GetWeatherEventParticipantStatusQuery request, CancellationToken cancellationToken)
+	{
+		Result<GetWeatherEventParticipantStatusResponse> result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
 }

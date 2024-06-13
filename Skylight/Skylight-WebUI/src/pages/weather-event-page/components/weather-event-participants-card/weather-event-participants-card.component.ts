@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { NbCardModule, NbComponentStatus, NbUserModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbCardModule, NbComponentStatus, NbIconModule, NbUserModule } from '@nebular/theme';
 import { InfoCardComponent } from 'shared/components';
 import { EventBusService } from 'shared/services';
 import { WeatherEventHubConnectionService } from 'web/connections';
@@ -13,6 +14,8 @@ import { WeatherEventService } from 'pages/weather-event-page/services';
   standalone: true,
   imports: [
     NbCardModule,
+    NbEvaIconsModule,
+    NbIconModule,
     NbUserModule,
     InfoCardComponent,
     DatePipe
@@ -42,11 +45,11 @@ export class WeatherEventParticipantsCardComponent implements OnInit {
     // TODO: Get individual info from API?
     this.eventBus
       .handle(ParticipantAddedEvent)
-      .subscribe(result => this.getParticipants());
+      .subscribe(event => this.getParticipants());
 
     this.eventBus
       .handle(ParticipantRemovedEvent)
-      .subscribe(result => this.getParticipants());
+      .subscribe(event => this.getParticipants());
 
     // this.weatherEventHub.newWeatherAlerts.subscribe(x => {
     //   this.participants = x.newWeatherEventAlerts.map(a => NewWeatherEventAlert.fromHub(a));
@@ -54,9 +57,19 @@ export class WeatherEventParticipantsCardComponent implements OnInit {
   }
 
   public getParticipantAccent(participant: WeatherEventParticipant): NbComponentStatus {
-    return participant.participationMethod === ParticipationMethod.Chased
-      ? 'info'
-      : 'basic';
+    switch (participant.participationMethod) {
+      case ParticipationMethod.Chased: return 'success';
+      case ParticipationMethod.Reported: return 'info';
+      default: return 'basic';
+    }
+  }
+
+  public getParticipantIcon(participant: WeatherEventParticipant): string {
+    switch (participant.participationMethod) {
+      case ParticipationMethod.Chased: return 'car';
+      case ParticipationMethod.Reported: return 'file';
+      default: return 'eye';
+    }
   }
 
   public getParticipants(): void {

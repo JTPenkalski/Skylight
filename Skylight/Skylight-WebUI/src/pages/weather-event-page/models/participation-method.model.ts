@@ -1,5 +1,5 @@
 export enum ParticipationMethod {
   Tracked = 'Tracked',
-  Viewed = 'Viewed',
+  Reported = 'Reported',
   Chased = 'Chased',
 }

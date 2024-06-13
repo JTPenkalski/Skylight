@@ -7,8 +7,8 @@ namespace Skylight.Domain.Entities;
 /// </summary>
 public class WeatherEvent : BaseAuditableEntity
 {
-	private List<WeatherEventAlert> alerts = [];
-	private List<WeatherEventParticipant> participants = [];
+	private readonly List<WeatherEventAlert> alerts = [];
+	private readonly List<WeatherEventParticipant> participants = [];
 
 	public required string Name { get; set; }
 
@@ -22,17 +22,9 @@ public class WeatherEvent : BaseAuditableEntity
 
     public int? AffectedPeople { get; set; }
 
-	public virtual IReadOnlyList<WeatherEventAlert> Alerts
-	{
-		get => alerts;
-		private set => alerts = [.. value];
-	}
+	public virtual IEnumerable<WeatherEventAlert> Alerts => alerts;
 
-    public virtual IReadOnlyList<WeatherEventParticipant> Participants
-	{
-		get => participants;
-		private set => participants = [.. value];
-	}
+    public virtual IEnumerable<WeatherEventParticipant> Participants => participants;
 
 	public bool AddParticipant(WeatherEventParticipant participant)
     {
@@ -55,7 +47,7 @@ public class WeatherEvent : BaseAuditableEntity
 
 	public bool RemoveParticipantByStormTrackerId(Guid stormTrackerId)
 	{
-		WeatherEventParticipant? participant = participants.Find(x => x.Tracker.Id == stormTrackerId);
+		WeatherEventParticipant? participant = Participants.FirstOrDefault(x => x.Tracker.Id == stormTrackerId);
 
 		if (participant is not null)
 		{
@@ -67,7 +59,7 @@ public class WeatherEvent : BaseAuditableEntity
 
 	public bool AddAlert(WeatherEventAlert alert)
     {
-        if (alert.ExternalId is not null && alerts.Any(x => x.ExternalId == alert.ExternalId)) return false;
+        if (alert.ExternalId is not null && Alerts.Any(x => x.ExternalId == alert.ExternalId)) return false;
 		
         alerts.Add(alert);
 

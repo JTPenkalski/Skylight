@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
+import { NbButtonGroupModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { IconCardComponent, TabContainerComponent } from 'shared/components';
 import { EventBusService, User, UserService } from 'shared/services';
 import { ParticipantAddedEvent, ParticipantRemovedEvent } from 'pages/weather-event-page/events';
-import { WeatherEventSummary } from 'pages/weather-event-page/models';
+import { ParticipationMethod, WeatherEventSummary } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
 
 @Component({
@@ -13,6 +13,7 @@ import { WeatherEventService } from 'pages/weather-event-page/services';
   standalone: true,
   imports: [
     NbButtonModule,
+    NbButtonGroupModule,
     NbCardModule,
     NbEvaIconsModule,
     NbIconModule,
@@ -44,7 +45,24 @@ export class WeatherEventPageSummaryCardComponent implements OnInit {
 
   public ngOnInit(): void {
     this.userService.currentUserChanged
-      .subscribe(result => this.user = result);
+      .subscribe(result => {
+        this.user = result;
+
+        if (this.user) {
+          this.service
+            .getParticipantStatus(this.user.stormTrackerId, this.weatherEventId)
+            .subscribe({
+              next: result => {
+                if (result) {
+                  this.isTracking = result.participationMethod === ParticipationMethod.Tracked
+                }
+              },
+              error: () => {
+                this.isTracking = false;
+              }
+            });
+        }
+      });
 
     this.service
       .getWeatherEventSummary(this.weatherEventId)

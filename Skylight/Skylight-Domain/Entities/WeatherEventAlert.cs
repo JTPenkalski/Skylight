@@ -7,8 +7,8 @@ namespace Skylight.Domain.Entities;
 /// </summary>
 public class WeatherEventAlert : BaseAuditableEntity
 {
-	private List<WeatherAlertModifier> modifiers = [];
-	private List<Location> locations = [];
+	private readonly List<WeatherAlertModifier> modifiers = [];
+	private readonly List<Location> locations = [];
 
 	public required string Sender { get; set; }
 
@@ -34,17 +34,9 @@ public class WeatherEventAlert : BaseAuditableEntity
 
     public required virtual WeatherEvent Event { get; set; }
 
-    public virtual IReadOnlyList<WeatherAlertModifier> Modifiers
-	{
-		get => modifiers;
-		set => modifiers = [.. value];
-	}
+	public virtual IReadOnlyList<WeatherAlertModifier> Modifiers => modifiers;
 
-	public virtual IReadOnlyList<Location> Locations
-	{
-		get => locations;
-		set => locations = [.. value];
-	}
+	public virtual IReadOnlyList<Location> Locations => locations;
 
 	public void AddModifier(WeatherAlertModifier modifier)
 	{

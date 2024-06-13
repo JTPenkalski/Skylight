@@ -2,13 +2,14 @@
   noGap
   size="small"
   title="Participants ({{participantCount}})"
-  [loading]="loading">
+  [loading]="loading"
+  (refresh)="getParticipants()">
 
   @if (participantCount > 0) {
     @for (participant of participants; track $index) {
       <nb-card class="user-card" [accent]="getParticipantAccent(participant)">
         <nb-card-header>
-          <div class="flex-row">
+          <div class="flex-row center">
             <nb-user
               class="flex-item"
               color="#0095ff"
@@ -17,9 +18,15 @@
               showTitle="false">
             </nb-user>
 
-            <span class="flex-item">{{participant.participationMethod}}</span>
+            <div class="flex-row flex-item center no-gap data">
+              <nb-icon [icon]="getParticipantIcon(participant)"></nb-icon>
+              <span class="flex-item data-label paragraph-2">{{participant.participationMethod}}</span>
+            </div>
 
-            <span class="flex-item">{{participant.participationDate | date:'short'}}</span>
+            <div class="flex-row flex-item center no-gap data">
+              <nb-icon icon="clock"></nb-icon>
+              <span class="flex-item data-label paragraph-2">{{participant.participationDate | date:'short'}}</span>
+            </div>
           </div>
         </nb-card-header>
       </nb-card>

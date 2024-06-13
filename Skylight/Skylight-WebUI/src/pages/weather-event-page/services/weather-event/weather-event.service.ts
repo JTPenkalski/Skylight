@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, flatMap, map, mergeMap } from 'rxjs';
-import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherAlertsByEventIdQuery, GetWeatherEventByIdQuery, GetWeatherEventParticipantsByEventIdQuery, ParticipationMethod, RemoveWeatherEventParticipantCommand, SkylightClient } from 'web/clients';
-import { NewWeatherEventAlert, WeatherEventAlert, WeatherEventParticipant, WeatherEventSummary } from 'pages/weather-event-page/models';
+import { Observable, map, mergeMap } from 'rxjs';
+import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherAlertsByEventIdQuery, GetWeatherEventByIdQuery, GetWeatherEventParticipantsByEventIdQuery, GetWeatherEventParticipantStatusQuery, ParticipationMethod, RemoveWeatherEventParticipantCommand, SkylightClient } from 'web/clients';
+import { NewWeatherEventAlert, WeatherEventAlert, WeatherEventParticipant, WeatherEventParticipantStatus, WeatherEventSummary } from 'pages/weather-event-page/models';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,6 @@ export class WeatherEventService {
 
     return this.client.addWeatherEventParticipant(request).pipe(
       map(result => {
-        console.log('Got: ' + result);
         return !!result.added;
       })
     );
@@ -75,6 +74,17 @@ export class WeatherEventService {
           WeatherEventParticipant.fromApi(x)
         ) ?? []
       )
+    );
+  }
+
+  public getParticipantStatus(stormTrackerId: string, weatherEventId: string): Observable<WeatherEventParticipantStatus | undefined> {
+    const request: GetWeatherEventParticipantStatusQuery = {
+      stormTrackerId: stormTrackerId,
+      weatherEventId: weatherEventId
+    };
+
+    return this.client.getWeatherEventParticipantsStatus(request).pipe(
+      map(result => WeatherEventParticipantStatus.fromApi(result))
     );
   }
 }

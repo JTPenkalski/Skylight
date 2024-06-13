@@ -3,7 +3,7 @@ import { NbAccordionComponent, NbAccordionModule, NbButtonModule, NbListModule }
 import { InfoCardComponent } from 'shared/components';
 import { EventBusService } from 'shared/services';
 import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
-import { WeatherEventAlertLocation } from 'pages/weather-event-page/models';
+import { WeatherAlertLevel, WeatherEventAlertLocation } from 'pages/weather-event-page/models';
 import { WeatherAlertAddedEvent, WeatherAlertsRefreshedEvent } from 'pages/weather-event-page/events';
 import { StateNamePipe } from 'shared/pipes';
 import { DarkenDirective } from 'shared/directives';
@@ -58,7 +58,9 @@ export class WeatherEventLocationsCardComponent implements OnInit {
         const existingGroup: LocationGroup | undefined = prev.find(x => x.state === state)
 
         if (existingGroup) {
-          existingGroup.locations.push(curr);
+          if (!existingGroup.locations.find(x => x.name === curr.name)) {
+            existingGroup.locations.push(curr);
+          }
         } else {
           prev.push({
             state: state,
@@ -80,8 +82,12 @@ export class WeatherEventLocationsCardComponent implements OnInit {
       .subscribe(() => this.locations = []);
 
     this.eventBus.handle(WeatherAlertAddedEvent)
-      .subscribe(x => {
-        x.alert.locations?.forEach(l => this.locations.push(l))
+      .subscribe(event => {
+        event.alert.locations?.forEach(l => {
+          if (![WeatherAlertLevel.None, WeatherAlertLevel.Advisory].find(x => x === event.alert.level)) {
+            this.locations.push(l)
+          }
+        })
       });
   }
 

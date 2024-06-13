@@ -37,8 +37,8 @@ export class WeatherEventAlert {
   private static mapWeatherAlertLevel(webWeatherAlertLevel?: WebWeatherAlertLevel): WeatherAlertLevel {
     switch (webWeatherAlertLevel) {
       case WebWeatherAlertLevel.Warning: return WeatherAlertLevel.Warning;
-      case WebWeatherAlertLevel.Watch || 1: return WeatherAlertLevel.Watch;
-      case WebWeatherAlertLevel.Advisory || 2: return WeatherAlertLevel.Advisory;
+      case WebWeatherAlertLevel.Watch: return WeatherAlertLevel.Watch;
+      case WebWeatherAlertLevel.Advisory: return WeatherAlertLevel.Advisory;
       default: return WeatherAlertLevel.None;
     }
   }

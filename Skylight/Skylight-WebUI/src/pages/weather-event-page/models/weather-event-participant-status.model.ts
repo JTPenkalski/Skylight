@@ -1,20 +1,16 @@
-import { WeatherEventParticipant as WebWeatherEventParticipant, ParticipationMethod as WebParticipationMethod } from 'web/clients';
+import { GetWeatherEventParticipantStatusResponse as WebWeatherEventParticipant, ParticipationMethod as WebParticipationMethod } from 'web/clients';
 import { ParticipationMethod } from '.';
 
-export class WeatherEventParticipant {
+export class WeatherEventParticipantStatus {
   constructor(
-    public firstName: string,
-    public lastName: string,
     public participationMethod: ParticipationMethod,
     public participationDate: Date
   ) { }
 
-  public static fromApi(data: WebWeatherEventParticipant): WeatherEventParticipant {
-    return new WeatherEventParticipant(
-      data.firstName!,
-      data.lastName!,
+  public static fromApi(data: WebWeatherEventParticipant): WeatherEventParticipantStatus {
+    return new WeatherEventParticipantStatus(
       this.mapParticipationMethod(data.participationMethod),
-      data.participationDate!
+      data.participationDate!,
     )
   }
 
