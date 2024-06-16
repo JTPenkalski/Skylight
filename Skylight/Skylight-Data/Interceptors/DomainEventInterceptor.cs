@@ -6,28 +6,32 @@ using Skylight.Domain.Entities;
 namespace Skylight.Data.Interceptors;
 
 /// <summary>
-/// Publishes all <see cref="BaseEntity.NewEvents"/> for handlers to respond to.
+/// Saves all <see cref="BaseEntity.NewEvents"/> to the database for future handling.
 /// </summary>
-public class DomainEventInterceptor(IDomainEventPublisher domainEventPublisher) : SaveChangesInterceptor
+public class DomainEventInterceptor(IDomainEventService domainEventService) : SaveChangesInterceptor
 {
-    public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
-    {
-        PublishDomainEvents(eventData.Context).AsTask().GetAwaiter().GetResult();
+	public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
+	{
+		SaveDomainEventsAsync(eventData.Context).AsTask().GetAwaiter().GetResult();
 
-        return base.SavedChanges(eventData, result);
-    }
+		return base.SavingChanges(eventData, result);
+	}
 
-    public override async ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
-    {
-        await PublishDomainEvents(eventData.Context, cancellationToken);
+	public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
+	{
+		await SaveDomainEventsAsync(eventData.Context, cancellationToken);
 
-        return await base.SavedChangesAsync(eventData, result, cancellationToken);
-    }
+		return await base.SavingChangesAsync(eventData, result, cancellationToken);
+	}
 
-    internal virtual async ValueTask PublishDomainEvents(DbContext? context, CancellationToken cancellationToken = default)
+    internal virtual async ValueTask SaveDomainEventsAsync(DbContext? context, CancellationToken cancellationToken = default)
     {
         if (context == null) return;
 
-        await domainEventPublisher.PublishDomainEventsAsync(context.ChangeTracker.Entries<BaseEntity>().Select(x => x.Entity), cancellationToken);
-    }
+		IEnumerable<Event> events = context.ChangeTracker
+			.Entries<BaseEntity>()
+			.SelectMany(x => domainEventService.GetEvents(x.Entity));
+
+		await context.Set<Event>().AddRangeAsync(events, cancellationToken);
+	}
 }

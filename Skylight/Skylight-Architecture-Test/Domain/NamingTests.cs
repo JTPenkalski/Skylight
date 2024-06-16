@@ -12,7 +12,7 @@ public class NamingTests(ITestOutputHelper outputHelper)
             .That()
             .Inherit(typeof(DomainEvent))
             .Should()
-            .HaveNameEndingWith("DomainEvent")
+            .HaveNameEndingWith("Event")
             .GetResult();
 
         TestOutputHelpers.PrintFailingTypes(outputHelper, result);

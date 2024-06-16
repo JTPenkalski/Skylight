@@ -30,7 +30,7 @@ public class NationalWeatherServiceClient(
 	public async Task<GetActiveAlertsResponse> GetActiveAlertsAsync(GetActiveAlertsRequest request, CancellationToken cancellationToken)
     {
 		IFlurlRequest clientRequest = PrepareRequest(request, PrepareGetActiveAlertsRequest, getActiveAlertsValidator);
-
+		
 		return await ExecuteRequestAsync(clientRequest, PrepareGetActiveAlertsResponse, cancellationToken);
     }
 

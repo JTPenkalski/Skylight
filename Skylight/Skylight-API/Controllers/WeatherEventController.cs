@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning;
-using FluentResults;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Skylight.Application.UseCases.WeatherEvents;
@@ -25,7 +24,20 @@ public class WeatherEventController(
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<AddWeatherEventParticipantResponse>> AddWeatherEventParticipant(AddWeatherEventParticipantCommand request, CancellationToken cancellationToken)
 	{
-		Result<AddWeatherEventParticipantResponse> result = await mediator.Send(request, cancellationToken);
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	/// <summary>
+	/// Adds a <see cref="Tag"/> to a <see cref="WeatherEvent"/>.
+	/// </summary>
+	[HttpPost]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<AddWeatherEventTagResponse>> AddWeatherEventTag(AddWeatherEventTagCommand request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}
@@ -39,7 +51,7 @@ public class WeatherEventController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CreateWeatherEventResponse>> CreateWeatherEvent(CreateWeatherEventCommand request, CancellationToken cancellationToken)
     {
-        Result<CreateWeatherEventResponse> result = await mediator.Send(request, cancellationToken);
+        var result = await mediator.Send(request, cancellationToken);
 
         return result.ToActionResult();
     }
@@ -52,7 +64,7 @@ public class WeatherEventController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<FetchWeatherAlertsResponse>> FetchWeatherAlerts(FetchWeatherAlertsCommand request, CancellationToken cancellationToken)
     {
-        Result<FetchWeatherAlertsResponse> result = await mediator.Send(request, cancellationToken);
+        var result = await mediator.Send(request, cancellationToken);
 
         return result.ToActionResult();
     }
@@ -65,7 +77,7 @@ public class WeatherEventController(
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<RemoveWeatherEventParticipantResponse>> RemoveWeatherEventParticipant(RemoveWeatherEventParticipantCommand request, CancellationToken cancellationToken)
 	{
-		Result<RemoveWeatherEventParticipantResponse> result = await mediator.Send(request, cancellationToken);
+		var result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}
@@ -78,7 +90,7 @@ public class WeatherEventController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GetWeatherEventByIdResponse>> GetWeatherEventById(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
     {
-        Result<GetWeatherEventByIdResponse> result = await mediator.Send(request, cancellationToken);
+        var result = await mediator.Send(request, cancellationToken);
 
         return result.ToActionResult();
     }
@@ -91,7 +103,7 @@ public class WeatherEventController(
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetWeatherAlertsByEventIdResponse>> GetWeatherAlertsByEventId(GetWeatherAlertsByEventIdQuery request, CancellationToken cancellationToken)
 	{
-		Result<GetWeatherAlertsByEventIdResponse> result = await mediator.Send(request, cancellationToken);
+		var result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}
@@ -104,7 +116,7 @@ public class WeatherEventController(
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetWeatherEventParticipantsByEventIdResponse>> GetWeatherEventParticipantsByEventId(GetWeatherEventParticipantsByEventIdQuery request, CancellationToken cancellationToken)
 	{
-		Result<GetWeatherEventParticipantsByEventIdResponse> result = await mediator.Send(request, cancellationToken);
+		var result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}
@@ -117,7 +129,7 @@ public class WeatherEventController(
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetWeatherEventParticipantStatusResponse>> GetWeatherEventParticipantsStatus(GetWeatherEventParticipantStatusQuery request, CancellationToken cancellationToken)
 	{
-		Result<GetWeatherEventParticipantStatusResponse> result = await mediator.Send(request, cancellationToken);
+		var result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}

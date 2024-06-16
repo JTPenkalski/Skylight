@@ -26,9 +26,8 @@ public abstract class BaseClient(ILogger logger)
 	/// <param name="requestPreparer">The mapping between <typeparamref name="TRequest"/> and the web request.</param>
 	/// <param name="validator">The validator to use to validate the request.</param>
 	/// <returns>A web request ready to be called.</returns>
-	protected IFlurlRequest PrepareRequest<TRequest, TRequestValidator>(TRequest request, Func<TRequest, IFlurlRequest> requestPreparer, TRequestValidator? validator = null)
+	protected IFlurlRequest PrepareRequest<TRequest>(TRequest request, Func<TRequest, IFlurlRequest> requestPreparer, IValidator<TRequest>? validator = null)
 		where TRequest : IClientRequest
-		where TRequestValidator : class, IValidator<TRequest>
 	{
 		validator?.ValidateAndThrow(request);
 

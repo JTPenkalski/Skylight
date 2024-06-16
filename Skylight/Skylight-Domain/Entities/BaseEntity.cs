@@ -17,7 +17,8 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
 
     public static bool operator !=(BaseEntity left, BaseEntity right) => !(left == right);
 
-    public Guid Id { get; set; }
+	[DatabaseGenerated(DatabaseGeneratedOption.None)]
+	public Guid Id { get; set; } = Guid.NewGuid();
 
     [NotMapped]
     public IReadOnlyCollection<DomainEvent> Events => events;
@@ -32,14 +33,14 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
 		&& other.Id != Guid.Empty
 		&& other.Id == Id;
 
-    protected void RaiseEvent(DomainEvent domainEvent)
+    protected void AddEvent(DomainEvent domainEvent)
     {
         events.Add(domainEvent);
     }
 
-	protected void CancelEvent(DomainEvent domainEvent)
+	protected bool RemoveEvent(DomainEvent domainEvent)
 	{
-		events.Remove(domainEvent);
+		return events.Remove(domainEvent);
 	}
 
 	protected void ClearEvents()

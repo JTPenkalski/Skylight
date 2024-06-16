@@ -1,5 +1,4 @@
 ﻿using Asp.Versioning;
-using FluentResults;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Skylight.Application.UseCases.StormTrackers;
@@ -24,7 +23,7 @@ public class StormTrackerController(
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetStormTrackerByEmailResponse>> GetStormTrackerByEmail(GetStormTrackerByEmailQuery request, CancellationToken cancellationToken)
 	{
-		Result<GetStormTrackerByEmailResponse> result = await mediator.Send(request, cancellationToken);
+		var result = await mediator.Send(request, cancellationToken);
 
 		return result.ToActionResult();
 	}
@@ -37,7 +36,7 @@ public class StormTrackerController(
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<GetStormTrackersByNameResponse>> GetStormTrackersByName(GetStormTrackersByNameQuery request, CancellationToken cancellationToken)
     {
-        Result<GetStormTrackersByNameResponse> result = await mediator.Send(request, cancellationToken);
+        var result = await mediator.Send(request, cancellationToken);
 
         return result.ToActionResult();
     }

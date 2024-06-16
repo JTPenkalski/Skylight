@@ -27,7 +27,7 @@ public static class DependencyInjection
         // Add Configuration
         services
             .Configure<NationalWeatherServiceClientOptions>(configuration.GetSection(NationalWeatherServiceClientOptions.RootKey))
-            .Configure<FetchActiveWeatherAlertsJobOptions>(configuration.GetSection(FetchActiveWeatherAlertsJobOptions.RootKey))
+            .Configure<PublishDomainEventsJobOptions>(configuration.GetSection(PublishDomainEventsJobOptions.RootKey))
             .Configure<SkylightIdentityOptions>(configuration.GetSection(SkylightIdentityOptions.RootKey));
 
         // Add Time Provider

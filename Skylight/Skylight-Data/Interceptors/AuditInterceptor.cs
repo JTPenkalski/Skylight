@@ -43,15 +43,16 @@ public class AuditInterceptor(
             if (entry.State == EntityState.Added)
             {
 				entry.Entity.CreatedBy = user;
-				entry.Entity.Created = utcNow;
+				entry.Entity.CreatedOn = utcNow;
             }
             else if (entry.State == EntityState.Deleted)
             {
-                entry.Entity.Deleted = true;
-            }
+				entry.Entity.DeletedBy = user;
+				entry.Entity.DeletedOn = utcNow;
+			}
 
-			entry.Entity.LastModifiedBy = user;
-			entry.Entity.LastModified = utcNow;
+			entry.Entity.ModifiedBy = user;
+			entry.Entity.ModifiedOn = utcNow;
         }
     }
 

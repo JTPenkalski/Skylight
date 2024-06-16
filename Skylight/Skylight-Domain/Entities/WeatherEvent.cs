@@ -1,4 +1,5 @@
-﻿using Skylight.Domain.Extensions;
+﻿using Skylight.Domain.Events;
+using Skylight.Domain.Extensions;
 
 namespace Skylight.Domain.Entities;
 
@@ -9,6 +10,7 @@ public class WeatherEvent : BaseAuditableEntity
 {
 	private readonly List<WeatherEventAlert> alerts = [];
 	private readonly List<WeatherEventParticipant> participants = [];
+	private readonly List<WeatherEventTag> tags = [];
 
 	public required string Name { get; set; }
 
@@ -25,6 +27,8 @@ public class WeatherEvent : BaseAuditableEntity
 	public virtual IEnumerable<WeatherEventAlert> Alerts => alerts;
 
     public virtual IEnumerable<WeatherEventParticipant> Participants => participants;
+	
+    public virtual IEnumerable<WeatherEventTag> Tags => tags;
 
 	public bool AddParticipant(WeatherEventParticipant participant)
     {
@@ -74,5 +78,26 @@ public class WeatherEvent : BaseAuditableEntity
 	public bool RemoveAlertById(Guid alertId)
 	{
 		return alerts.RemoveById(alertId);
+	}
+
+	public bool AddTag(WeatherEventTag tag)
+	{
+		AddEvent(new WeatherEventTagAddedEvent(Id, tag.Id));
+
+		if (Tags.Any(x => x.Tag.Id == tag.Id)) return false;
+
+		tags.Add(tag);
+
+		return true;
+	}
+
+	public bool RemoveTag(WeatherEventTag tag)
+	{
+		return tags.Remove(tag);
+	}
+
+	public bool RemoveTagById(Guid tagId)
+	{
+		return tags.RemoveById(tagId);
 	}
 }

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Skylight.Domain.Exceptions;
 
 /// <summary>
-/// Thrown when an entity is not found in the database, but should have been.
+/// Thrown when a <see cref="BaseEntity"/> is not found in the database, but should have been.
 /// </summary>
 public class EntityNotFoundException : Exception
 {
@@ -19,7 +19,7 @@ public class EntityNotFoundException : Exception
     /// </summary>
     /// <param name="entity">The entity to validate.</param>
     /// <param name="expectedId">The ID of <paramref name="entity"/> expected to be found.</param>
-    /// <exception cref="EntityNotFoundException" />
+    /// <exception cref="EntityNotFoundException"/>
     public static void ThrowIfNull<T>([NotNull] T? entity, Guid? expectedId = null) where T : BaseEntity
     {
         if (entity is null)
@@ -33,12 +33,12 @@ public class EntityNotFoundException : Exception
     /// </summary>
     /// <param name="entity">The entity to validate.</param>
     /// <param name="expectedId">The ID of <paramref name="entity"/> expected to be found.</param>
-    /// <exception cref="EntityNotFoundException" />
+    /// <exception cref="EntityNotFoundException"/>
     public static void ThrowIfNullOrDeleted<T>([NotNull] T? entity, Guid? expectedId = null) where T : BaseAuditableEntity
     {
         ThrowIfNull(entity, expectedId);
 
-        if (entity.Deleted)
+        if (entity.IsDeleted)
         {
             throw new EntityNotFoundException($"{GetBaseExceptionMessage<T>(expectedId)} is deleted!");
         }

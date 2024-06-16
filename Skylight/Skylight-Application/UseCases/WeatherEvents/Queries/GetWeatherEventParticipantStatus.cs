@@ -26,7 +26,7 @@ public class GetWeatherEventParticipantsStatusQueryHandler(ISkylightContext dbCo
 
 		EntityNotFoundException.ThrowIfNullOrDeleted(weatherEventParticipant, request.StormTrackerId);
 
-		var response = new GetWeatherEventParticipantStatusResponse(weatherEventParticipant.ParticipationMethod, weatherEventParticipant.Created);
+		var response = new GetWeatherEventParticipantStatusResponse(weatherEventParticipant.ParticipationMethod, weatherEventParticipant.CreatedOn);
 
 		return Result.Ok(response);
 	}

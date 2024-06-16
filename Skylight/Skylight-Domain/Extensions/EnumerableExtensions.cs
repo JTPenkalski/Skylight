@@ -43,4 +43,20 @@ public static class EnumerableExtensions
 
 		return false;
 	}
+
+	/// <summary>
+	/// Gets an existing value from an <see cref="IDictionary{TKey, TValue}"/>, or adds it.
+	/// </summary>
+	/// <param name="key">The key of the value to obtain.</param>
+	/// <param name="valueFactory">The generator for the initial value, if it doens't already exist.</param>
+	/// <returns>The value corresponding to <paramref name="key"/>.</returns>
+	public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+	{
+		if (dictionary.TryGetValue(key, out TValue? value)) return value;
+
+		TValue newValue = valueFactory();
+		dictionary.Add(key, newValue);
+
+		return newValue;
+	}
 }

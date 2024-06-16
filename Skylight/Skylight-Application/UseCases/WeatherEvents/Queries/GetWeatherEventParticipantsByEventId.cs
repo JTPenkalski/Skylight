@@ -33,7 +33,7 @@ public class GetWeatherEventParticipantsByEventIdQueryHandler(ISkylightContext d
 				weatherEventParticipant.Tracker.FirstName,
 				weatherEventParticipant.Tracker.LastName,
 				weatherEventParticipant.ParticipationMethod,
-				weatherEventParticipant.Created);
+				weatherEventParticipant.CreatedOn);
 
 			participants.Add(participant);
 		}
