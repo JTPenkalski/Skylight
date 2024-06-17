@@ -33,7 +33,12 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
 		&& other.Id != Guid.Empty
 		&& other.Id == Id;
 
-    protected void AddEvent(DomainEvent domainEvent)
+	public void ClearEvents()
+	{
+		events.Clear();
+	}
+
+	protected void AddEvent(DomainEvent domainEvent)
     {
         events.Add(domainEvent);
     }
@@ -41,10 +46,5 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
 	protected bool RemoveEvent(DomainEvent domainEvent)
 	{
 		return events.Remove(domainEvent);
-	}
-
-	protected void ClearEvents()
-	{
-		events.Clear();
 	}
 }

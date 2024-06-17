@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Application.UseCases.Users.Constants;
 using Skylight.Domain.Constants;
@@ -21,21 +19,27 @@ public class DefaultSkylightContextInitializer(
 
 		await AddRolesAsync();
 		await AddUsersAsync();
-		await AddWeatherAsync();
-		await AddWeatherAlertModifiersAsync();
+
 		await AddWeatherAlertsAsync();
-		await AddWeatherEventsAsync();
-		await AddTagsAsync();
+		var weather = await AddWeatherAsync();
+		var weatherAlertModifiers = await AddWeatherAlertModifiersAsync();
+		var tags = await AddTagsAsync(weather, weatherAlertModifiers);
+
+		await AddWeatherEventsAsync(tags);
 
 		await dbContext.CommitAsync();
 	}
 
-	private async Task AddRolesAsync()
+	private async Task<Role[]> AddRolesAsync()
 	{
-		await roleManager.CreateAsync(new Role { Name = Roles.Admin });
+		var admin = new Role { Name = Roles.Admin };
+
+		await roleManager.CreateAsync(admin);
+
+		return [admin];
 	}
 
-	private async Task AddUsersAsync()
+	private async Task<User[]> AddUsersAsync()
 	{
 		var system = new User
 		{
@@ -119,9 +123,11 @@ public class DefaultSkylightContextInitializer(
 		};
 
 		await userManager.CreateAsync(brian, "Brian");
+
+		return [system, justin, robby, reed, brian];
 	}
 
-	private async Task AddWeatherAsync()
+	private async Task<Weather[]> AddWeatherAsync()
 	{
 		var weather = new Weather[]
 		{
@@ -143,60 +149,11 @@ public class DefaultSkylightContextInitializer(
 		};
 
 		await dbContext.Weather.AddRangeAsync(weather);
+
+		return weather;
 	}
 
-	private async Task AddWeatherAlertModifiersAsync()
-	{
-		var weatherAlertModifiers = new WeatherAlertModifier[]
-		{
-			new()
-			{
-				Name = "Radar Indicated",
-				Description = "Used when a potential tornado was spotted on the radar, indicated by rotation, debris, or otherwise.",
-				Bonus = 0,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-			new()
-			{
-				Name = "Observed",
-				Description = "Used when a live tornado was witnessed by the public, storm chasers, emergency management or law enforcement.",
-				Bonus = 2,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-			new()
-			{
-				Name = "Considerable",
-				Description = "Used for Severe Thunderstorm Warnings when hail of 1.75 inches or larger and/or winds at or above 70 miles per hour is indicated by radar or observed.",
-				Bonus = 3,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-			new()
-			{
-				Name = "Destructive",
-				Description = "Used for Severe Thunderstorm Warnings when hail of 2.75 inches or larger and/or winds at or above 80 miles per hour is indicated by radar or observed.",
-				Bonus = 5,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-			new()
-			{
-				Name = "PDS",
-				Description = "Used when a Watch or Warning is a Particularly Dangerous Situation. It is used to convey special urgency for unusually extreme and life-threatening severe weather events, above and beyond the average severity for the type of event.",
-				Bonus = 5,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-			new()
-			{
-				Name = "Emergency",
-				Description = "Used for the highest level Tornado Warnings. It generally means that significant, widespread damage is expected to occur and a high likelihood of numerous fatalities is expected with a large, strong to violent tornado.",
-				Bonus = 7,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-		};
-
-		await dbContext.WeatherAlertModifiers.AddRangeAsync(weatherAlertModifiers);
-	}
-
-	private async Task AddWeatherAlertsAsync()
+	private async Task<WeatherAlert[]> AddWeatherAlertsAsync()
 	{
 		const string NationalWeatherServiceSource = "National Weather Service";
 
@@ -300,9 +257,101 @@ public class DefaultSkylightContextInitializer(
 		};
 
 		await dbContext.WeatherAlerts.AddRangeAsync(weatherAlerts);
+
+		return weatherAlerts;
 	}
 
-	private async Task AddWeatherEventsAsync()
+	private async Task<WeatherAlertModifier[]> AddWeatherAlertModifiersAsync()
+	{
+		var weatherAlertModifiers = new WeatherAlertModifier[]
+		{
+			new()
+			{
+				Name = "Radar Indicated",
+				Description = "Used when a potential tornado was spotted on the radar, indicated by rotation, debris, or otherwise.",
+				Bonus = 0,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Observed",
+				Description = "Used when a live tornado was witnessed by the public, storm chasers, emergency management or law enforcement.",
+				Bonus = 2,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Considerable",
+				Description = "Used for Severe Thunderstorm Warnings when hail of 1.75 inches or larger and/or winds at or above 70 miles per hour is indicated by radar or observed.",
+				Bonus = 3,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Destructive",
+				Description = "Used for Severe Thunderstorm Warnings when hail of 2.75 inches or larger and/or winds at or above 80 miles per hour is indicated by radar or observed.",
+				Bonus = 5,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "PDS",
+				Description = "Used when a Watch or Warning is a Particularly Dangerous Situation. It is used to convey special urgency for unusually extreme and life-threatening severe weather events, above and beyond the average severity for the type of event.",
+				Bonus = 5,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Emergency",
+				Description = "Used for the highest level Tornado Warnings. It generally means that significant, widespread damage is expected to occur and a high likelihood of numerous fatalities is expected with a large, strong to violent tornado.",
+				Bonus = 7,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+		};
+
+		await dbContext.WeatherAlertModifiers.AddRangeAsync(weatherAlertModifiers);
+
+		return weatherAlertModifiers;
+	}
+
+	private async Task<Tag[]> AddTagsAsync(Weather[] weather, WeatherAlertModifier[] weatherAlertModifiers)
+	{
+		var weatherTags = weather
+			.Select(x => new Tag
+			{
+				Name = x.Name,
+				Description = x.Description
+			});
+
+		var weatherAlertModifierTags = weatherAlertModifiers
+			.Select(x => new Tag
+			{
+				Name = x.Name,
+				Description = x.Description
+			});
+
+		var tags = new Tag[]
+		{
+			new()
+			{
+				Name = "Outbreak",
+				Description = "Used when a Weather Event produces multiple tornadoes spawned by the same synoptic scale weather system. The number of tornadoes required to qualify as an outbreak typically are at least six to ten, with at least two rotational locations (if squall line) or at least two supercells producing multiple tornadoes."
+			},
+			new()
+			{
+				Name = "Nocturnal",
+				Description = "Used when a Weather Event produced significant activity during the nighttime. Nocturnal tornadoes are nearly 2 times as deadly as daytime events, and the number of of overnight tornadoes has been increasing in recent years."
+			},
+		};
+
+		await dbContext.Tags.AddRangeAsync(weatherTags);
+		await dbContext.Tags.AddRangeAsync(weatherAlertModifierTags);
+		await dbContext.Tags.AddRangeAsync(tags);
+
+		return [.. weatherTags, .. weatherAlertModifierTags, .. tags];
+	}
+
+	private async Task<WeatherEvent[]> AddWeatherEventsAsync(Tag[] tags)
 	{
 		var weatherEvents = new WeatherEvent[]
 		{
@@ -324,7 +373,7 @@ public class DefaultSkylightContextInitializer(
 				StartDate = new DateTimeOffset(2024, 4, 26, 20, 0, 0, TimeSpan.Zero),
 				EndDate = null,
 				DamageCost = null,
-				AffectedPeople = 117
+				AffectedPeople = 117,
 			}
 		};
 
@@ -347,36 +396,43 @@ public class DefaultSkylightContextInitializer(
 			};
 
 			weatherEvent.AddParticipant(participant2);
+
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Tornado"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Thunderstorm"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Outbreak"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Nocturnal"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "PDS"),
+				Votes = 5,
+			});
+
+			weatherEvent.ClearEvents();
 		}
 
 		await dbContext.WeatherEvents.AddRangeAsync(weatherEvents);
-	}
 
-	private async Task AddTagsAsync()
-	{
-		var weatherTags = await dbContext.Weather
-			.Select(x => new Tag
-			{
-				Name = x.Name,
-				Description = x.Description
-			})
-			.ToListAsync();
-
-		var tags = new Tag[]
-		{
-			new()
-			{
-				Name = "Outbreak",
-				Description = "Used when a Weather Event produces multiple tornadoes spawned by the same synoptic scale weather system. The number of tornadoes required to qualify as an outbreak typically are at least six to ten, with at least two rotational locations (if squall line) or at least two supercells producing multiple tornadoes."
-			},
-			new()
-			{
-				Name = "Nocturnal",
-				Description = "Used when a Weather Event produced significant activity during the nighttime. Nocturnal tornadoes are nearly 2 times as deadly as daytime events, and the number of of overnight tornadoes has been increasing in recent years."
-			},
-		};
-
-		await dbContext.Tags.AddRangeAsync(weatherTags);
-		await dbContext.Tags.AddRangeAsync(tags);
+		return weatherEvents;
 	}
 }

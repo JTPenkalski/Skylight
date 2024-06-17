@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, mergeMap } from 'rxjs';
-import { AddWeatherEventParticipantCommand, FetchWeatherAlertsCommand, GetWeatherAlertsByEventIdQuery, GetWeatherEventByIdQuery, GetWeatherEventParticipantsByEventIdQuery, GetWeatherEventParticipantStatusQuery, ParticipationMethod, RemoveWeatherEventParticipantCommand, SkylightClient } from 'web/clients';
+import { AddWeatherEventParticipantCommand, AddWeatherEventTagCommand, FetchWeatherAlertsCommand, GetWeatherAlertsByEventIdQuery, GetWeatherEventByIdQuery, GetWeatherEventParticipantsByEventIdQuery, GetWeatherEventParticipantStatusQuery, ParticipationMethod, RemoveWeatherEventParticipantCommand, SkylightClient } from 'web/clients';
 import { NewWeatherEventAlert, WeatherEventAlert, WeatherEventParticipant, WeatherEventParticipantStatus, WeatherEventSummary } from 'pages/weather-event-page/models';
 
 @Injectable({
@@ -42,6 +42,17 @@ export class WeatherEventService {
     return this.client.removeWeatherEventParticipant(request).pipe(
       map(result => !!result.removed)
     );
+  }
+
+  public addTag(weatherEventId: string, name: string): Observable<boolean> {
+    const request: AddWeatherEventTagCommand = {
+      weatherEventId: weatherEventId,
+      tagName: name
+    }
+
+    return this.client.addWeatherEventTag(request).pipe(
+      map(result => !!result.added)
+    )
   }
 
   public getWeatherAlerts(weatherEventId: string): Observable<NewWeatherEventAlert[]> {

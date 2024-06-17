@@ -1,12 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { NbButtonGroupModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule } from '@nebular/theme';
+import { NbButtonGroupModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule, NbWindowRef, NbWindowService } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { IconCardComponent, TabContainerComponent } from 'shared/components';
 import { EventBusService, User, UserService } from 'shared/services';
 import { ParticipantAddedEvent, ParticipantRemovedEvent } from 'pages/weather-event-page/events';
 import { ParticipationMethod, WeatherEventSummary } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
+import { WeatherEventAddTagWindowComponent } from '../weather-event-add-tag-window/weather-event-add-tag-window.component';
 
 @Component({
   selector: 'skylight-weather-event-page-summary-card',
@@ -19,8 +20,9 @@ import { WeatherEventService } from 'pages/weather-event-page/services';
     NbIconModule,
     NbSpinnerModule,
     NbTooltipModule,
-    TabContainerComponent,
     IconCardComponent,
+    TabContainerComponent,
+    WeatherEventAddTagWindowComponent,
     CurrencyPipe,
     DatePipe,
   ],
@@ -29,13 +31,16 @@ import { WeatherEventService } from 'pages/weather-event-page/services';
 })
 export class WeatherEventPageSummaryCardComponent implements OnInit {
   @Input({ required: true }) public weatherEventId!: string;
-  
+  @ViewChild('addTagWindow') private addTagWindowRef!: TemplateRef<any>;
+
   public user?: User;
   public summary!: WeatherEventSummary;
   public loading: boolean = true;
   public isTracking: boolean = false;
+  public addTagWindow?: NbWindowRef;
 
   constructor(
+    private readonly windowService: NbWindowService,
     private readonly userService: UserService,
     private readonly service: WeatherEventService,
     private readonly eventBus: EventBusService
@@ -104,5 +109,26 @@ export class WeatherEventPageSummaryCardComponent implements OnInit {
           }
         });
     }
+  }
+
+  public tryAddTag(): void {
+    this.addTagWindow = this.windowService.open(this.addTagWindowRef, {
+      title: `Add Tag`,
+      context: {
+        weatherEventId: this.weatherEventId
+      },
+      buttons: {
+        minimize: false,
+        maximize: false,
+        fullScreen: false,
+        close: true,
+      }
+    });
+  }
+
+  public confirmAddTag(): void {
+    this.addTagWindow?.close()
+
+    this.addTagWindow = undefined;
   }
 }

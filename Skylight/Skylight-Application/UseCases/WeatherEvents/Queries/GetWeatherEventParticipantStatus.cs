@@ -3,7 +3,6 @@ using Skylight.Application.Interfaces.Application;
 using Skylight.Application.Interfaces.Data;
 using Skylight.Domain.Constants;
 using Skylight.Domain.Entities;
-using Skylight.Domain.Exceptions;
 
 namespace Skylight.Application.UseCases.WeatherEvents;
 
@@ -14,7 +13,7 @@ public sealed record GetWeatherEventParticipantStatusQuery(
 
 public sealed record GetWeatherEventParticipantStatusResponse(
 	ParticipationMethod ParticipationMethod,
-	DateTimeOffset ParticipationDate)
+	DateTimeOffset? ParticipationDate = null)
 	: IResponse;
 
 public class GetWeatherEventParticipantsStatusQueryHandler(ISkylightContext dbContext) : IQueryHandler<GetWeatherEventParticipantStatusQuery, GetWeatherEventParticipantStatusResponse>
@@ -24,9 +23,9 @@ public class GetWeatherEventParticipantsStatusQueryHandler(ISkylightContext dbCo
 		WeatherEventParticipant? weatherEventParticipant = (await dbContext.FindAsync<WeatherEvent>(request.WeatherEventId, cancellationToken))?.Participants
 			.FirstOrDefault(x => x.Tracker.Id == request.StormTrackerId);
 
-		EntityNotFoundException.ThrowIfNullOrDeleted(weatherEventParticipant, request.StormTrackerId);
-
-		var response = new GetWeatherEventParticipantStatusResponse(weatherEventParticipant.ParticipationMethod, weatherEventParticipant.CreatedOn);
+		var response = weatherEventParticipant is not null
+			? new GetWeatherEventParticipantStatusResponse(weatherEventParticipant.ParticipationMethod, weatherEventParticipant.CreatedOn)
+			: new GetWeatherEventParticipantStatusResponse(ParticipationMethod.None);
 
 		return Result.Ok(response);
 	}

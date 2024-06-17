@@ -28,7 +28,7 @@ export class SignInPageComponent {
     private readonly userService: UserService
   ) { }
 
-  public onSubmit(): void {
+  public submitForm(): void {
     if (!this.form.valid) return;
 
     const registerUser: SignInUserData = SignInUser.fromFormGroup(this.form);

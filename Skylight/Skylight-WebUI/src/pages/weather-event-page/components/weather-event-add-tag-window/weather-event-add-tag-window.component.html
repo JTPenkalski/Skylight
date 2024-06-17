@@ -1,0 +1,7 @@
+<div class="flex-column">
+  <form [formGroup]="form" class="flex-column expand" (ngSubmit)="addTag()">        
+    <input nbInput fullWidth id="name" formControlName="name" fieldSize="giant" placeholder="Tag Name" type="text">
+
+    <button nbButton fullWidth hero class="float-bottom" size="giant" status="success" type="submit" [disabled]="false">Submit</button>
+  </form>
+</div>

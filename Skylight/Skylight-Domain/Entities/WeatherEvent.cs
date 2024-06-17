@@ -82,9 +82,12 @@ public class WeatherEvent : BaseAuditableEntity
 
 	public bool AddTag(WeatherEventTag tag)
 	{
-		AddEvent(new WeatherEventTagAddedEvent(Id, tag.Id));
+		// TODO: Add logic to prevent the same user from spamming their vote...
+		WeatherEventTag? existingTag = Tags.SingleOrDefault(x => x.Tag.Name.Equals(tag.Tag.Name, StringComparison.InvariantCultureIgnoreCase));
 
-		if (Tags.Any(x => x.Tag.Id == tag.Id)) return false;
+		AddEvent(new WeatherEventTagAddedEvent(Id, existingTag?.Id ?? tag.Id));
+
+		if (existingTag is not null) return false;
 
 		tags.Add(tag);
 

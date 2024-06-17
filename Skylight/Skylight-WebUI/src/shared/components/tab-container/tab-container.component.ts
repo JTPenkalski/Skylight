@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbButtonModule, NbCardModule, NbIconModule, NbTagModule } from '@nebular/theme';
 import { NoSelectDirective } from 'shared/directives';
@@ -18,7 +18,17 @@ import { NoSelectDirective } from 'shared/directives';
   styleUrl: './tab-container.component.scss'
 })
 export class TabContainerComponent {
-  @Input() public tags: string[] = ['Tornado', 'Outbreak', 'Oklahoma', 'PDS', 'Nocturnal', 'Iowa', 'Kansas', 'Midwest', 'South', 'High Plains'];
+  @Input() public tags: string[] = [];
+  @Output() public newTagRequested: EventEmitter<void> = new EventEmitter<void>();
   
-  get hasTags(): boolean { return this.tags.length > 0; }
+  public get displayTags(): string[] {
+    return this.tags
+      .sort((x, y) => x.localeCompare(y));
+  }
+
+  public get hasTags(): boolean { return this.tags.length > 0; }
+
+  public requestNewTag(): void {
+    this.newTagRequested.emit();
+  }
 }

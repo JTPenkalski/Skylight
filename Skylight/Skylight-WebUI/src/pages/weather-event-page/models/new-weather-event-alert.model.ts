@@ -1,6 +1,6 @@
-import { NewWeatherEventAlert as WebNewWeatherEventAlert, WeatherAlertLevel as WebWeatherAlertLevel } from 'web/clients';
+import { NewWeatherEventAlert as WebNewWeatherEventAlert } from 'web/clients';
 import { NewWeatherEventAlert as HubNewWeatherEventAlert } from 'web/connections/weather-event-hub-connection/requests';
-import { WeatherAlertLevel } from '.';
+import { WeatherAlertLevel, mapWeatherAlertLevel } from '.';
 
 export class NewWeatherEventAlert {
   constructor(
@@ -28,7 +28,7 @@ export class NewWeatherEventAlert {
       data.expires!,
       data.name!,
       data.source!,
-      this.mapWeatherAlertLevel(data.level),
+      mapWeatherAlertLevel(data.level),
       data.code
     )
   }
@@ -44,17 +44,8 @@ export class NewWeatherEventAlert {
       data.expires,
       data.name,
       data.source,
-      this.mapWeatherAlertLevel(data.level),
+      mapWeatherAlertLevel(data.level),
       data.code
     )
-  }
-
-  private static mapWeatherAlertLevel(webWeatherAlertLevel?: WebWeatherAlertLevel): WeatherAlertLevel {
-    switch (webWeatherAlertLevel) {
-      case WebWeatherAlertLevel.Warning: return WeatherAlertLevel.Warning;
-      case WebWeatherAlertLevel.Watch || 1: return WeatherAlertLevel.Watch;
-      case WebWeatherAlertLevel.Advisory || 2: return WeatherAlertLevel.Advisory;
-      default: return WeatherAlertLevel.None;
-    }
   }
 }

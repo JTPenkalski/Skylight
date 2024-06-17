@@ -16,7 +16,6 @@ public sealed class PublishDomainEventsJob(
 	public async Task ProcessAsync(CancellationToken cancellationToken)
 	{
 		ICollection<Event> domainEvents = await dbContext.Events
-			.AsNoTracking()
 			.Where(x => !x.HandledOn.HasValue)
 			.ToListAsync(cancellationToken);
 
@@ -44,6 +43,10 @@ public sealed class PublishDomainEventsJob(
 			}
 			finally
 			{
+				string x = dbContext.ChangeTrackingStatus;
+
+				await Console.Out.WriteLineAsync(x);
+
 				await dbContext.CommitAsync(cancellationToken);
 			}
 		}

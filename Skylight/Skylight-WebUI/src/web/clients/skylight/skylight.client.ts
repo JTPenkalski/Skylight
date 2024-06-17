@@ -653,6 +653,79 @@ export class SkylightClient {
      * @param body (optional) 
      * @return OK
      */
+    addWeatherEventTag(body?: AddWeatherEventTagCommand | undefined): Observable<AddWeatherEventTagResponse> {
+        let url_ = this.baseUrl + "/api/v1/WeatherEvent/AddWeatherEventTag";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddWeatherEventTag(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddWeatherEventTag(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AddWeatherEventTagResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AddWeatherEventTagResponse>;
+        }));
+    }
+
+    protected processAddWeatherEventTag(response: HttpResponseBase): Observable<AddWeatherEventTagResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AddWeatherEventTagResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
     createWeatherEvent(body?: CreateWeatherEventCommand | undefined): Observable<CreateWeatherEventResponse> {
         let url_ = this.baseUrl + "/api/v1/WeatherEvent/CreateWeatherEvent";
         url_ = url_.replace(/[?&]$/, "");
@@ -1171,6 +1244,15 @@ export interface AddWeatherEventParticipantResponse {
     added?: boolean;
 }
 
+export interface AddWeatherEventTagCommand {
+    weatherEventId?: string;
+    tagName?: string | undefined;
+}
+
+export interface AddWeatherEventTagResponse {
+    added?: boolean;
+}
+
 export interface CreateWeatherEventCommand {
     name?: string | undefined;
     description?: string | undefined;
@@ -1235,14 +1317,7 @@ export interface GetWeatherEventByIdResponse {
     endDate?: Date | undefined;
     damageCost?: number | undefined;
     affectedPeople?: number | undefined;
-}
-
-export interface GetWeatherEventParticipantsByEventIdQuery {
-    weatherEventId?: string;
-}
-
-export interface GetWeatherEventParticipantsByEventIdResponse {
-    weatherEventParticipants: WeatherEventParticipant[] | undefined;
+    tags?: string[] | undefined;
 }
 
 export interface GetWeatherEventParticipantStatusQuery {
@@ -1252,7 +1327,15 @@ export interface GetWeatherEventParticipantStatusQuery {
 
 export interface GetWeatherEventParticipantStatusResponse {
     participationMethod?: ParticipationMethod;
-    participationDate?: Date;
+    participationDate?: Date | undefined;
+}
+
+export interface GetWeatherEventParticipantsByEventIdQuery {
+    weatherEventId?: string;
+}
+
+export interface GetWeatherEventParticipantsByEventIdResponse {
+    weatherEventParticipants: WeatherEventParticipant[] | undefined;
 }
 
 export interface GrantAdminCommand {
@@ -1274,6 +1357,7 @@ export interface NewWeatherEventAlert {
 }
 
 export enum ParticipationMethod {
+    None = "None",
     Tracked = "Tracked",
     Viewed = "Viewed",
     Chased = "Chased",

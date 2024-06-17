@@ -25,7 +25,7 @@ public static class EnumerableExtensions
 	/// <param name="item">The item to search for.</param>
 	/// <returns>True if the item has a default <see cref="BaseEntity.Id"/> or is contained in the collection, false otherwise.</returns>
 	public static bool ContainsNonDefault<T>(this IEnumerable<T> values, T item) where T : BaseEntity =>
-		item.Id != Guid.Empty || values.Contains(item);
+		item.Id != Guid.Empty && values.Contains(item);
 
 	/// <summary>
 	/// Removes an element from the <see cref="List{T}"/> with the specified <paramref name="id"/>.

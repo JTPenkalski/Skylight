@@ -42,7 +42,7 @@
       <p>{{summary.description}}</p>
     </nb-card-body>
     <nb-card-footer>
-      <skylight-tab-container></skylight-tab-container>
+      <skylight-tab-container [tags]="summary.tags" (newTagRequested)="tryAddTag()"></skylight-tab-container>
     </nb-card-footer>
   </nb-card>
 } @else {
@@ -54,3 +54,7 @@
     </nb-card-body>
   </nb-card>
 }
+
+<ng-template #addTagWindow let-data>
+  <skylight-weather-event-add-tag-window [weatherEventId]="data.weatherEventId" (tagAdded)="confirmAddTag()"></skylight-weather-event-add-tag-window>
+</ng-template>
