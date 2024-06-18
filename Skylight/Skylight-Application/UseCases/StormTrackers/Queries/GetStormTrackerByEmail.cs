@@ -19,7 +19,7 @@ public class GetStormTrackerByEmailQueryHandler(IUserService userService)
 {
 	public async Task<Result<GetStormTrackerByEmailResponse>> Handle(GetStormTrackerByEmailQuery request, CancellationToken cancellationToken)
 	{
-		StormTracker? stormTracker = await userService.GetStormTrackerByEmail(request.Email, cancellationToken);
+		StormTracker? stormTracker = await userService.GetStormTrackerByEmailAsync(request.Email, cancellationToken);
 
 		EntityNotFoundException.ThrowIfNullOrDeleted(stormTracker);
 

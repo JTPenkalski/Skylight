@@ -65,7 +65,7 @@ public class UserService(
 		return userHasRole;
 	}
 
-	public async Task<StormTracker?> GetStormTrackerByEmail(string email, CancellationToken cancellationToken)
+	public async Task<StormTracker?> GetStormTrackerByEmailAsync(string email, CancellationToken cancellationToken)
 	{
 		User? user = await userManager.FindByEmailAsync(email);
 

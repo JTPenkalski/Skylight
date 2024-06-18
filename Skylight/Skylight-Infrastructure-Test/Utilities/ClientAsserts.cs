@@ -21,20 +21,20 @@ internal static class ClientAsserts
         Assert.DoesNotContain($"/{route}", request);
 
     /// <summary>
-    /// Asserts that <paramref name="request"/> contains <c>?<paramref name="queryName"/>=<paramref name="queryValue"/></c>.
+    /// Asserts that <paramref name="request"/> contains <c>?<paramref name="queryName"/>=<paramref name="queryValues"/></c>.
     /// </summary>
     /// <param name="request">The actual request.</param>
     /// <param name="queryName">The expected query name.</param>
-    /// <param name="queryValue">The expected query value, or anything if none is provided.</param>
-    internal static void ContainsQuery(string request, string queryName, string queryValue = "") =>
-        Assert.Contains($"{queryName}={queryValue}", request);
+    /// <param name="queryValues">The expected query value, or anything if none is provided.</param>
+    internal static void ContainsQuery(string request, string queryName, params string[] queryValues) =>
+        Assert.Contains($"{queryName}={string.Join("%2C", queryValues)}", request);
 
     /// <summary>
     /// Inverts <see cref="ContainsQuery(string, string, string)"/>.
     /// </summary>
     /// <inheritdoc cref="ContainsQuery(string, string, string)"/>
-    internal static void DoesNotContainQuery(string request, string queryName, string queryValue = "") =>
-        Assert.DoesNotContain($"{queryName}={queryValue}", request);
+    internal static void DoesNotContainQuery(string request, string queryName, params string[] queryValues) =>
+        Assert.DoesNotContain($"{queryName}={string.Join("%2C", queryValues)}", request);
 
 	/// <summary>
 	/// Ensures none of the <paramref name="queryNames"/> are present in <paramref name="request"/>.

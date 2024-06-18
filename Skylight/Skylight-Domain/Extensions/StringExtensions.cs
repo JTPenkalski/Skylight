@@ -24,4 +24,11 @@ public static partial class StringExtensions
     /// </summary>
     /// <returns>True if the string is a number, false otherwise.</returns>
     public static bool IsNumber(this string value) => NumberRegex().IsMatch(value);
+
+	/// <summary>
+	/// Capitalizes the first character of a string.
+	/// </summary>
+	/// <returns>The new string value.</returns>
+	public static string CapitalizeFirst(this string value) =>
+		string.Concat(value[0].ToString().ToUpper(), value.AsSpan(1));
 }

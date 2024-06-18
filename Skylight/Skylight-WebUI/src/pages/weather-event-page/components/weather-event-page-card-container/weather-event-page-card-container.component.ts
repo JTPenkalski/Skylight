@@ -1,9 +1,10 @@
 import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbWindowService } from '@nebular/theme';
-import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
-import { WeatherEventAlertButtonComponent, WeatherEventAlertWindowComponent, WeatherEventAlertsCardComponent } from '..';
 import { ParenthesesWrapPipe } from 'shared/pipes';
+import { WeatherEventAlertButtonComponent, WeatherEventAlertWindowComponent, WeatherEventAlertsCardComponent, WeatherEventLocationsCardComponent } from 'pages/weather-event-page/components';
+import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
+import { WeatherEventParticipantsCardComponent } from '../weather-event-participants-card/weather-event-participants-card.component';
 
 @Component({
   selector: 'skylight-weather-event-page-card-container',
@@ -17,7 +18,9 @@ import { ParenthesesWrapPipe } from 'shared/pipes';
     NbSpinnerModule,
     WeatherEventAlertButtonComponent,
     WeatherEventAlertsCardComponent,
-    WeatherEventAlertWindowComponent
+    WeatherEventAlertWindowComponent,
+    WeatherEventLocationsCardComponent,
+    WeatherEventParticipantsCardComponent,
   ],
   providers: [
     ParenthesesWrapPipe

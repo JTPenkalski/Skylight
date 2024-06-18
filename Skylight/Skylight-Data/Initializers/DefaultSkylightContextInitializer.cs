@@ -17,17 +17,117 @@ public class DefaultSkylightContextInitializer(
 	{
 		await dbContext.ResetAsync();
 
-		await AddWeatherAsync();
-		await AddWeatherAlertModifiersAsync();
-		await AddWeatherAlertsAsync();
-		await AddWeatherEventsAsync();
 		await AddRolesAsync();
 		await AddUsersAsync();
+
+		await AddWeatherAlertsAsync();
+		var weather = await AddWeatherAsync();
+		var weatherAlertModifiers = await AddWeatherAlertModifiersAsync();
+		var tags = await AddTagsAsync(weather, weatherAlertModifiers);
+
+		await AddWeatherEventsAsync(tags);
 
 		await dbContext.CommitAsync();
 	}
 
-	private async Task AddWeatherAsync()
+	private async Task<Role[]> AddRolesAsync()
+	{
+		var admin = new Role { Name = Roles.Admin };
+
+		await roleManager.CreateAsync(admin);
+
+		return [admin];
+	}
+
+	private async Task<User[]> AddUsersAsync()
+	{
+		var system = new User
+		{
+			UserName = "Skylight",
+			Email = "skylight@test.com",
+			StormTracker = new()
+			{
+				Id = Infrastructure.Constants.SkylightSystem.Id,
+				FirstName = "Skylight",
+				LastName = "System",
+				Biography = "The automated Skylight system.",
+				StartDate = DateTimeOffset.MinValue
+			}
+		};
+
+		await userManager.CreateAsync(system, "SkylightSystem");
+		await userManager.AddToRoleAsync(system, Roles.Admin);
+
+		var justin = new User
+		{
+			UserName = "justin@test.com",
+			Email = "justin@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("b2b39e1a-df64-45e9-95ff-48b933689f39"),
+				FirstName = "Justin",
+				LastName = "Penkalski",
+				Biography = "Test user.",
+				StartDate = new DateTimeOffset(2021, 10, 31, 12, 0, 0, TimeSpan.Zero)
+			}
+		};
+
+		await userManager.CreateAsync(justin, "Justin");
+		await userManager.AddToRoleAsync(justin, Roles.Admin);
+
+		var robby = new User
+		{
+			UserName = "robby@test.com",
+			Email = "robby@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("8206e82a-7dfb-41d0-a20f-3209adffec61"),
+				FirstName = "Robby",
+				LastName = "LastName",
+				Biography = "Biography",
+				StartDate = DateTimeOffset.UtcNow
+			}
+		};
+
+		await userManager.CreateAsync(robby, "Robby");
+		await userManager.AddToRoleAsync(robby, Roles.Admin);
+
+		var reed = new User
+		{
+			UserName = "reed@test.com",
+			Email = "reed@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("472e9768-f238-49d5-8948-b1bca50e7bb9"),
+				FirstName = "Reed",
+				LastName = "Timmer",
+				Biography = "An American meteorologist and storm chaser. Born in Grand Rapids, Michigan, he took an interest in science, including weather, at a young age, before experiencing severe weather, including a hailstorm at age 13. After presenting weather forecasts at his high school, he began studying meteorology at the University of Oklahoma, completing his PhD in 2015.",
+				StartDate = new DateTimeOffset(2015, 3, 17, 19, 8, 0, TimeSpan.Zero)
+			}
+		};
+
+		await userManager.CreateAsync(reed, "Reed");
+
+		var brian = new User
+		{
+			UserName = "brian@test.com",
+			Email = "brian@test.com",
+			StormTracker = new()
+			{
+				Id = Guid.Parse("d4e3435b-cc80-41b1-8381-6fb16bfd4671"),
+				FirstName = "Brian",
+				LastName = "LastName",
+				Biography = "Biography",
+				StartDate = DateTimeOffset.UtcNow
+			}
+		};
+
+		await userManager.CreateAsync(brian, "Brian");
+
+		return [system, justin, robby, reed, brian];
+	}
+
+	private async Task<Weather[]> AddWeatherAsync()
 	{
 		var weather = new Weather[]
 		{
@@ -49,32 +149,11 @@ public class DefaultSkylightContextInitializer(
 		};
 
 		await dbContext.Weather.AddRangeAsync(weather);
+
+		return weather;
 	}
 
-	private async Task AddWeatherAlertModifiersAsync()
-	{
-		var weatherAlertModifiers = new WeatherAlertModifier[]
-		{
-			new()
-			{
-				Name = "Radar Indicated",
-				Description = "A potential tornado was spotted on the radar, indicated by rotation, debris, or otherwise.",
-				Bonus = 0,
-				Operation = WeatherAlertModifierOperation.Add,
-			},
-			new()
-			{
-				Name = "Observed",
-				Description = "A live tornado was witnessed by the public, storm chasers, emergency management or law enforcement.",
-				Bonus = 2,
-				Operation = WeatherAlertModifierOperation.Add,
-			}
-		};
-
-		await dbContext.WeatherAlertModifiers.AddRangeAsync(weatherAlertModifiers);
-	}
-
-	private async Task AddWeatherAlertsAsync()
+	private async Task<WeatherAlert[]> AddWeatherAlertsAsync()
 	{
 		const string NationalWeatherServiceSource = "National Weather Service";
 
@@ -178,9 +257,101 @@ public class DefaultSkylightContextInitializer(
 		};
 
 		await dbContext.WeatherAlerts.AddRangeAsync(weatherAlerts);
+
+		return weatherAlerts;
 	}
 
-	private async Task AddWeatherEventsAsync()
+	private async Task<WeatherAlertModifier[]> AddWeatherAlertModifiersAsync()
+	{
+		var weatherAlertModifiers = new WeatherAlertModifier[]
+		{
+			new()
+			{
+				Name = "Radar Indicated",
+				Description = "Used when a potential tornado was spotted on the radar, indicated by rotation, debris, or otherwise.",
+				Bonus = 0,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Observed",
+				Description = "Used when a live tornado was witnessed by the public, storm chasers, emergency management or law enforcement.",
+				Bonus = 2,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Considerable",
+				Description = "Used for Severe Thunderstorm Warnings when hail of 1.75 inches or larger and/or winds at or above 70 miles per hour is indicated by radar or observed.",
+				Bonus = 3,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Destructive",
+				Description = "Used for Severe Thunderstorm Warnings when hail of 2.75 inches or larger and/or winds at or above 80 miles per hour is indicated by radar or observed.",
+				Bonus = 5,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "PDS",
+				Description = "Used when a Watch or Warning is a Particularly Dangerous Situation. It is used to convey special urgency for unusually extreme and life-threatening severe weather events, above and beyond the average severity for the type of event.",
+				Bonus = 5,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+			new()
+			{
+				Name = "Emergency",
+				Description = "Used for the highest level Tornado Warnings. It generally means that significant, widespread damage is expected to occur and a high likelihood of numerous fatalities is expected with a large, strong to violent tornado.",
+				Bonus = 7,
+				Operation = WeatherAlertModifierOperation.Add,
+			},
+		};
+
+		await dbContext.WeatherAlertModifiers.AddRangeAsync(weatherAlertModifiers);
+
+		return weatherAlertModifiers;
+	}
+
+	private async Task<Tag[]> AddTagsAsync(Weather[] weather, WeatherAlertModifier[] weatherAlertModifiers)
+	{
+		var weatherTags = weather
+			.Select(x => new Tag
+			{
+				Name = x.Name,
+				Description = x.Description
+			});
+
+		var weatherAlertModifierTags = weatherAlertModifiers
+			.Select(x => new Tag
+			{
+				Name = x.Name,
+				Description = x.Description
+			});
+
+		var tags = new Tag[]
+		{
+			new()
+			{
+				Name = "Outbreak",
+				Description = "Used when a Weather Event produces multiple tornadoes spawned by the same synoptic scale weather system. The number of tornadoes required to qualify as an outbreak typically are at least six to ten, with at least two rotational locations (if squall line) or at least two supercells producing multiple tornadoes."
+			},
+			new()
+			{
+				Name = "Nocturnal",
+				Description = "Used when a Weather Event produced significant activity during the nighttime. Nocturnal tornadoes are nearly 2 times as deadly as daytime events, and the number of of overnight tornadoes has been increasing in recent years."
+			},
+		};
+
+		await dbContext.Tags.AddRangeAsync(weatherTags);
+		await dbContext.Tags.AddRangeAsync(weatherAlertModifierTags);
+		await dbContext.Tags.AddRangeAsync(tags);
+
+		return [.. weatherTags, .. weatherAlertModifierTags, .. tags];
+	}
+
+	private async Task<WeatherEvent[]> AddWeatherEventsAsync(Tag[] tags)
 	{
 		var weatherEvents = new WeatherEvent[]
 		{
@@ -202,51 +373,66 @@ public class DefaultSkylightContextInitializer(
 				StartDate = new DateTimeOffset(2024, 4, 26, 20, 0, 0, TimeSpan.Zero),
 				EndDate = null,
 				DamageCost = null,
-				AffectedPeople = 117
+				AffectedPeople = 117,
 			}
 		};
+
+		foreach (WeatherEvent weatherEvent in weatherEvents)
+		{
+			var participant1 = new WeatherEventParticipant
+			{
+				Event = weatherEvent,
+				Tracker = await dbContext.FindAsync<StormTracker>(Guid.Parse("8206e82a-7dfb-41d0-a20f-3209adffec61"), CancellationToken.None),
+				ParticipationMethod = ParticipationMethod.Chased
+			};
+
+			weatherEvent.AddParticipant(participant1);
+
+			var participant2 = new WeatherEventParticipant
+			{
+				Event = weatherEvent,
+				Tracker = await dbContext.FindAsync<StormTracker>(Guid.Parse("d4e3435b-cc80-41b1-8381-6fb16bfd4671"), CancellationToken.None),
+				ParticipationMethod = ParticipationMethod.Viewed
+			};
+
+			weatherEvent.AddParticipant(participant2);
+
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Tornado"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Thunderstorm"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Outbreak"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "Nocturnal"),
+				Votes = 5,
+			});
+			weatherEvent.AddTag(new WeatherEventTag
+			{
+				Event = weatherEvent,
+				Tag = tags.Single(x => x.Name == "PDS"),
+				Votes = 5,
+			});
+
+			weatherEvent.ClearEvents();
+		}
 
 		await dbContext.WeatherEvents.AddRangeAsync(weatherEvents);
-	}
 
-	private async Task AddRolesAsync()
-	{
-		await roleManager.CreateAsync(new Role { Name = Roles.Admin });
-	}
-
-	private async Task AddUsersAsync()
-	{
-		var justin = new User
-		{
-			UserName = "justin@test.com",
-			Email = "justin@test.com",
-			StormTracker = new()
-			{
-				Id = Guid.Parse("b2b39e1a-df64-45e9-95ff-48b933689f39"),
-				FirstName = "Justin",
-				LastName = "Penkalski",
-				Biography = "Test user.",
-				StartDate = new DateTimeOffset(2021, 10, 31, 12, 0, 0, TimeSpan.Zero)
-			}
-		};
-
-		await userManager.CreateAsync(justin, "Justin");
-		await userManager.AddToRoleAsync(justin, Roles.Admin);
-
-		var reed = new User
-		{
-			UserName = "reed@test.com",
-			Email = "reed@test.com",
-			StormTracker = new()
-			{
-				Id = Guid.Parse("472e9768-f238-49d5-8948-b1bca50e7bb9"),
-				FirstName = "Reed",
-				LastName = "Timmer",
-				Biography = "An American meteorologist and storm chaser. Born in Grand Rapids, Michigan, he took an interest in science, including weather, at a young age, before experiencing severe weather, including a hailstorm at age 13. After presenting weather forecasts at his high school, he began studying meteorology at the University of Oklahoma, completing his PhD in 2015.",
-				StartDate = new DateTimeOffset(2015, 3, 17, 19, 8, 0, TimeSpan.Zero)
-			}
-		};
-
-		await userManager.CreateAsync(reed, "Reed");
+		return weatherEvents;
 	}
 }

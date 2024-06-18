@@ -3,10 +3,10 @@
 namespace Skylight.Domain.Entities;
 
 /// <summary>
-/// Represents a modification to the base <see cref="WeatherAlert.Severity"/> value.
+/// Represents a modification or extension to a <see cref="WeatherAlert"/>.
 /// </summary>
 /// <remarks>
-/// This allows identification of rarer <see cref="WeatherAlert"/> instances, which usually correspond to more severe <see cref="WeatherIncident"/> instances.
+/// This allows identification of rarer <see cref="WeatherAlert"/> instances, which usually correspond to more severe <see cref="WeatherEvent"/>s.
 /// </remarks>
 public class WeatherAlertModifier : BaseAuditableEntity
 {

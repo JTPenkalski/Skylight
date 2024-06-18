@@ -1,0 +1,19 @@
+<nb-card [size]="size">
+  <nb-card-header>
+    <div class="flex-row">
+      <h4>{{title}}</h4>
+      <nb-actions class="float-right" size="small">
+        @if (isRefreshEnabled) {
+          <nb-action nbTooltip="Refresh" icon="refresh" (click)="onRefresh()"></nb-action>
+        }
+        
+        @if (contextMenu) {
+          <nb-action icon="more-vertical" nbContextMenuTrigger="hover" [nbContextMenu]="contextMenu.displayItems" [nbContextMenuTag]="contextMenu.tag"></nb-action>
+        }
+      </nb-actions>
+    </div>
+  </nb-card-header>
+  <nb-card-body class="flex-column" [class.no-gap]="noGap" nbSpinnerSize="giant" [nbSpinner]="loading">
+    <ng-content></ng-content>
+  </nb-card-body>
+</nb-card>

@@ -1,10 +1,15 @@
-﻿namespace Skylight.Domain.Entities;
+﻿using Skylight.Domain.Extensions;
+
+namespace Skylight.Domain.Entities;
 
 /// <summary>
 /// Links a type of <see cref="WeatherAlert"/> to a specific <see cref="WeatherEvent"/>.
 /// </summary>
 public class WeatherEventAlert : BaseAuditableEntity
 {
+	private readonly List<WeatherEventAlertModifier> modifiers = [];
+	private readonly List<Location> locations = [];
+
 	public required string Sender { get; set; }
 
 	public required string Headline { get; set; }
@@ -25,11 +30,45 @@ public class WeatherEventAlert : BaseAuditableEntity
 
 	public string? ExternalId { get; set; }
 
-    public required virtual WeatherAlert Alert { get; set; }
-
     public required virtual WeatherEvent Event { get; set; }
 
-    public virtual IList<WeatherAlertModifier> Modifiers { get; set; } = new List<WeatherAlertModifier>();
+    public required virtual WeatherAlert Alert { get; set; }
 
-	public virtual IList<Location> Locations { get; set; } = new List<Location>();
+	public virtual IReadOnlyList<WeatherEventAlertModifier> Modifiers => modifiers;
+
+	public virtual IReadOnlyList<Location> Locations => locations;
+
+	public bool AddModifier(WeatherEventAlertModifier modifier)
+	{
+		if (Modifiers.Any(x => x.Modifier.Id == modifier.Modifier.Id)) return false;
+
+		modifiers.Add(modifier);
+
+		return true;
+	}
+
+	public bool RemoveModifier(WeatherEventAlertModifier modifier)
+	{
+		return modifiers.Remove(modifier);
+	}
+
+	public bool RemoveModifierById(Guid modifierId)
+	{
+		return modifiers.RemoveById(modifierId);
+	}
+
+	public void AddLocation(Location location)
+	{
+		locations.Add(location);
+	}
+
+	public bool RemoveLocation(Location location)
+	{
+		return locations.Remove(location);
+	}
+
+	public bool RemoveLocationById(Guid locationId)
+	{
+		return locations.RemoveById(locationId);
+	}
 }

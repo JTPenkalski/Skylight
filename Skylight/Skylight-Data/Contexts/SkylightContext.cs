@@ -24,9 +24,13 @@ public class SkylightContext(
         }
     }
 
+	public DbSet<Event> Events => Set<Event>();
+
     public DbSet<Location> Locations => Set<Location>();
 
     public DbSet<StormTracker> StormTrackers => Set<StormTracker>();
+
+    public DbSet<Tag> Tags => Set<Tag>();
 
     public DbSet<Weather> Weather => Set<Weather>();
 
@@ -41,19 +45,19 @@ public class SkylightContext(
         T? entity = await Set<T>()
             .FindAsync([id], cancellationToken);
 
-        if (entity is BaseAuditableEntity auditableEntity)
-        {
-            EntityNotFoundException.ThrowIfNullOrDeleted(auditableEntity, id);
-        }
-        else
-        {
-            EntityNotFoundException.ThrowIfNull(entity, id);
-        }
-
-        return entity;
+		return ValidateFoundEntity(id, entity);
     }
 
-    public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
+	public async Task<T> FindNoTrackingAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity
+	{
+		T? entity = await Set<T>()
+			.AsNoTracking()
+			.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+		return ValidateFoundEntity(id, entity);
+	}
+
+	public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
     {
         bool success = true;
 
@@ -85,5 +89,20 @@ public class SkylightContext(
     {
         // Enum Value Converters
         configurationBuilder.Properties<ParticipationMethod>().HaveConversion<string>();
+        configurationBuilder.Properties<WeatherAlertModifierOperation>().HaveConversion<string>();
     }
+
+	protected static T ValidateFoundEntity<T>(Guid id, T? entity) where T : BaseEntity
+	{
+		if (entity is BaseAuditableEntity auditableEntity)
+		{
+			EntityNotFoundException.ThrowIfNullOrDeleted(auditableEntity, id);
+		}
+		else
+		{
+			EntityNotFoundException.ThrowIfNull(entity, id);
+		}
+
+		return entity;
+	}
 }

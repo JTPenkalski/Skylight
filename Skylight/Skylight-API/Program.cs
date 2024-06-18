@@ -1,6 +1,8 @@
 using Skylight.Application;
 using Skylight.Controllers;
 using Skylight.Data;
+using Skylight.Domain.Entities;
+using Skylight.Domain.Events;
 using Skylight.Infrastructure;
 using Skylight.Web;
 
@@ -64,7 +66,7 @@ public class Program
 		// Add Hubs
 		app.MapHubs();
 
-        // Start the Web Application
-        app.Run();
+		// Start the Web Application
+		app.Run();
     }
 }

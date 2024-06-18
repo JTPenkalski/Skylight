@@ -30,10 +30,8 @@ public class UserController(
 	/// <summary>
 	/// Checks if the current user is authenticated.
 	/// </summary>
-	/// <returns>True if the user is signed in, false otherwise.</returns>
 	[HttpPost]
 	[AllowAnonymous]
-	[Route(nameof(IsSignedIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	public ActionResult<bool> IsSignedIn()
 	{
@@ -52,7 +50,6 @@ public class UserController(
 	/// <seealso href="https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/BearerToken/src/BearerTokenHandler.cs#L64"/>
 	[HttpPost]
 	[AllowAnonymous]
-	[Route(nameof(SignIn))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<SignInResponse>> SignIn(SignInRequest request)
@@ -71,7 +68,6 @@ public class UserController(
 	/// Signs the current user out.
 	/// </summary>
 	[HttpPost]
-	[Route(nameof(SignOut))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	public new async Task<ActionResult> SignOut()
 	{
@@ -87,7 +83,6 @@ public class UserController(
 	/// </summary>
 	[HttpPost]
 	[AllowAnonymous]
-	[Route(nameof(Register))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult> Register(RegisterNewUserCommand request, CancellationToken cancellationToken)
@@ -101,7 +96,6 @@ public class UserController(
 	/// Grants a user the Admin role.
 	/// </summary>
 	[HttpPost]
-	[Route(nameof(GrantAdmin))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult> GrantAdmin(GrantAdminCommand request, CancellationToken cancellationToken)
@@ -114,9 +108,7 @@ public class UserController(
 	/// <summary>
 	/// Get the currently authenticated user.
 	/// </summary>
-	/// <returns>A <see cref="GetCurrentUserResponse"/> data object.</returns>
 	[HttpPost]
-	[Route(nameof(GetCurrentUser))]
 	[ProducesResponseType(StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<ActionResult<GetCurrentUserResponse>> GetCurrentUser(CancellationToken cancellationToken)

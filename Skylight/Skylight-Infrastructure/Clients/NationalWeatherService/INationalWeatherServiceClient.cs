@@ -8,4 +8,6 @@ namespace Skylight.Infrastructure.Clients.NationalWeatherService;
 public interface INationalWeatherServiceClient
 {
 	Task<GetActiveAlertsResponse> GetActiveAlertsAsync(GetActiveAlertsRequest request, CancellationToken cancellationToken);
+
+	Task<GetZonesResponse> GetZonesAsync(GetZonesRequest request, CancellationToken cancellationToken);
 }

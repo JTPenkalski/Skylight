@@ -14,7 +14,8 @@ public sealed record GetWeatherEventByIdResponse(
     DateTimeOffset StartDate,
     DateTimeOffset? EndDate,
     long? DamageCost,
-    int? AffectedPeople)
+    int? AffectedPeople,
+	IEnumerable<string> Tags)
     : IResponse;
 
 public class GetWeatherEventByIdQueryHandler(ISkylightContext dbContext)
@@ -23,14 +24,18 @@ public class GetWeatherEventByIdQueryHandler(ISkylightContext dbContext)
     public async Task<Result<GetWeatherEventByIdResponse>> Handle(GetWeatherEventByIdQuery request, CancellationToken cancellationToken)
     {
         WeatherEvent weatherEvent = await dbContext.FindAsync<WeatherEvent>(request.Id, cancellationToken);
-        
+        IEnumerable<string> weatherEventTags = weatherEvent.Tags
+			.Where(x => x.EffectiveDate.HasValue)
+			.Select(x => x.Tag.Name).ToList();
+
         var response = new GetWeatherEventByIdResponse(
             Name: weatherEvent.Name,
             Description: weatherEvent.Description,
             StartDate: weatherEvent.StartDate,
             EndDate: weatherEvent.EndDate,
             DamageCost: weatherEvent.DamageCost,
-            AffectedPeople: weatherEvent.AffectedPeople);
+            AffectedPeople: weatherEvent.AffectedPeople,
+			Tags: weatherEventTags);
         
         return Result.Ok(response);
     }

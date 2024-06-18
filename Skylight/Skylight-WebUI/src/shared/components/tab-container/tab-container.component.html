@@ -1,12 +1,12 @@
 <div>
   <nb-tag-list>
-    @for (tag of tags; track $index) {
+    @for (tag of displayTags; track $index) {
       <nb-tag noSelect appearance="outline" status="info" [text]="tag"></nb-tag>
     }
   </nb-tag-list>
 
   @if (hasTags) {
     <span class="add-tag-spacer"></span>
-    <button nbButton outline shape="round" size="small" status="info"><nb-icon icon="plus"></nb-icon></button>
+    <button nbButton outline shape="round" size="small" status="info" (click)="requestNewTag()"><nb-icon icon="plus"></nb-icon></button>
   }
 </div>

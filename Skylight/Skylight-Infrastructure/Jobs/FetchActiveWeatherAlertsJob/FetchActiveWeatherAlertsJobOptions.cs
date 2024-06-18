@@ -4,7 +4,7 @@ namespace Skylight.Infrastructure.Jobs;
 
 public class FetchActiveWeatherAlertsJobOptions : IOptions<FetchActiveWeatherAlertsJobOptions>
 {
-	public const string RootKey = "Jobs:FetchActiveWeatherAlertsJob";
+	public const string RootKey = $"Jobs:{nameof(FetchActiveWeatherAlertsJob)}";
 
 	public FetchActiveWeatherAlertsJobOptions Value => this;
 

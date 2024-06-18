@@ -1,4 +1,6 @@
-﻿using Skylight.Application.Interfaces.Application;
+﻿using FluentResults;
+using MediatR;
+using Skylight.Application.Interfaces.Application;
 
 namespace Skylight.Tests.Architecture.Application;
 
@@ -68,6 +70,24 @@ public class NamingTests(ITestOutputHelper outputHelper)
         Assert.True(result.IsSuccessful);
     }
 
+	[Fact]
+	public void Handlers_Should_ShareUseCaseNamespace()
+	{
+		TestResult result = Types
+			.InAssembly(Assemblies.Application)
+			.That()
+			.ImplementInterface(typeof(IRequestHandler<,>))
+			.Should()
+			.NotResideInNamespaceEndingWith("Command")
+			.Or()
+			.NotResideInNamespaceEndingWith("Query")
+			.GetResult();
+
+		TestOutputHelpers.PrintFailingTypes(outputHelper, result);
+
+		Assert.True(result.IsSuccessful);
+	}
+
     [Fact]
     public void Responses_Should_HaveResponseSuffix()
     {
@@ -84,7 +104,25 @@ public class NamingTests(ITestOutputHelper outputHelper)
         Assert.True(result.IsSuccessful);
     }
 
-    [Fact]
+	[Fact]
+	public void Errors_Should_HaveErrorSuffix()
+	{
+		TestResult result = Types
+			.InAssembly(Assemblies.Application)
+			.That()
+			.ImplementInterface(typeof(IError))
+			.Or()
+			.Inherit(typeof(Error))
+			.Should()
+			.HaveNameEndingWith("Error")
+			.GetResult();
+
+		TestOutputHelpers.PrintFailingTypes(outputHelper, result);
+
+		Assert.True(result.IsSuccessful);
+	}
+
+	[Fact]
     public void Interfaces_Should_HaveActionsWithAsyncSuffix()
     {
         TestResult result = Types

@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using System.Text.Json.Serialization;
 
 namespace Skylight.Domain.Events;
 
-public abstract record DomainEvent(Guid Id) : INotification;
+[JsonDerivedType(typeof(WeatherEventTagAddedEvent))]
+public abstract record DomainEvent : INotification;

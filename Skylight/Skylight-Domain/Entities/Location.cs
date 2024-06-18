@@ -5,7 +5,9 @@
 /// </summary>
 public class Location : BaseAuditableEntity
 {
-    public required string City { get; set; }
+    public required string Name { get; set; }
 
-    public required string Country { get; set; }
+    public string? State { get; set; }
+
+	public string? ExternalId { get; set; }
 }

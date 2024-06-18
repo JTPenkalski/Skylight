@@ -3,13 +3,15 @@
     <nb-card-header>
       <h1 class="title">{{summary.name}}</h1>  
       <span class="flex-row">
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>Share</button>
+        
+        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>Report</button>
+
         @if (isTracking) {
           <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye-off"></nb-icon>Untrack</button>
         } @else {
           <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye"></nb-icon>Track</button>
         }
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>Share</button>
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>Report</button>
       </span>
     </nb-card-header>
     <nb-card-body>
@@ -40,7 +42,7 @@
       <p>{{summary.description}}</p>
     </nb-card-body>
     <nb-card-footer>
-      <skylight-tab-container></skylight-tab-container>
+      <skylight-tab-container [tags]="summary.tags" (newTagRequested)="tryAddTag()"></skylight-tab-container>
     </nb-card-footer>
   </nb-card>
 } @else {
@@ -52,3 +54,7 @@
     </nb-card-body>
   </nb-card>
 }
+
+<ng-template #addTagWindow let-data>
+  <skylight-weather-event-add-tag-window [weatherEventId]="data.weatherEventId" (tagAdded)="confirmAddTag()"></skylight-weather-event-add-tag-window>
+</ng-template>

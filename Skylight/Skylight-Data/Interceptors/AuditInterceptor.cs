@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Skylight.Application.Interfaces.Infrastructure;
 using Skylight.Domain.Entities;
 
 namespace Skylight.Data.Interceptors;
@@ -8,18 +9,21 @@ namespace Skylight.Data.Interceptors;
 /// <summary>
 /// Sets the audit columns of all updated <see cref="BaseAuditableEntity"/> records.
 /// </summary>
-public class AuditInterceptor(TimeProvider timeProvider) : SaveChangesInterceptor
+public class AuditInterceptor(
+	TimeProvider timeProvider,
+	ICurrentUserService currentUserService)
+	: SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        UpdateAuditColumns(eventData.Context);
+		UpdateAuditColumns(eventData.Context);
 
         return base.SavingChanges(eventData, result);
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
-        UpdateAuditColumns(eventData.Context);
+		UpdateAuditColumns(eventData.Context);
 
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
@@ -34,19 +38,21 @@ public class AuditInterceptor(TimeProvider timeProvider) : SaveChangesIntercepto
         foreach (EntityEntry<BaseAuditableEntity> entry in updatedEntities)
         {
             DateTimeOffset utcNow = timeProvider.GetUtcNow();
+			string user = currentUserService.GetCurrentUser();
 
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedBy = "System"; // TODO: Use UserProvider to get actual user
-                entry.Entity.Created = utcNow;
+				entry.Entity.CreatedBy = user;
+				entry.Entity.CreatedOn = utcNow;
             }
             else if (entry.State == EntityState.Deleted)
             {
-                entry.Entity.Deleted = true;
-            }
+				entry.Entity.DeletedBy = user;
+				entry.Entity.DeletedOn = utcNow;
+			}
 
-            entry.Entity.LastModifiedBy = "System"; // TODO: Use UserProvider to get actual user
-            entry.Entity.LastModified = utcNow;
+			entry.Entity.ModifiedBy = user;
+			entry.Entity.ModifiedOn = utcNow;
         }
     }
 

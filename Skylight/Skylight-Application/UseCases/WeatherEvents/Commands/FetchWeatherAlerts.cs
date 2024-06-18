@@ -4,7 +4,7 @@ using Skylight.Application.Interfaces.Data;
 using Skylight.Application.Interfaces.Infrastructure;
 using Skylight.Domain.Entities;
 
-namespace Skylight.Application.UseCases.WeatherEvents.Commands;
+namespace Skylight.Application.UseCases.WeatherEvents;
 
 public sealed record FetchWeatherAlertsCommand(Guid WeatherEventId) : ICommand<FetchWeatherAlertsResponse>;
 
@@ -40,22 +40,25 @@ public class FetchWeatherAlertsCommandHandler(
 
         foreach (WeatherEventAlert alert in alerts)
         {
-			weatherEvent.AddAlert(alert);
+			bool addedAlert = weatherEvent.AddAlert(alert);
 
-			var newWeatherEventAlert = new FetchWeatherAlertsResponse.NewWeatherEventAlert(
-				alert.Sender,
-				alert.Headline,
-				alert.Instruction,
-				alert.Description,
-				alert.Sent,
-				alert.Effective,
-				alert.Expires,
-				alert.Alert.Name,
-				alert.Alert.Source,
-				alert.Alert.Level,
-				alert.Alert.Code);
+			if (addedAlert)
+			{
+				var newWeatherEventAlert = new FetchWeatherAlertsResponse.NewWeatherEventAlert(
+					alert.Sender,
+					alert.Headline,
+					alert.Instruction,
+					alert.Description,
+					alert.Sent,
+					alert.Effective,
+					alert.Expires,
+					alert.Alert.Name,
+					alert.Alert.Source,
+					alert.Alert.Level,
+					alert.Alert.Code);
 
-			newAlerts.Add(newWeatherEventAlert);
+				newAlerts.Add(newWeatherEventAlert);
+			}
 		}
 
         await dbContext.CommitAsync(cancellationToken);

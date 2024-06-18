@@ -1,45 +1,53 @@
-﻿using Skylight.Infrastructure.Constants;
-using System.Text.Json;
+﻿using FluentValidation;
+using Flurl.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Skylight.Infrastructure.Clients;
 
 /// <summary>
 /// Base client for all shared client functionality.
 /// </summary>
-public abstract class BaseClient
+public abstract class BaseClient(ILogger logger)
 {
 	/// <summary>
-	/// Converts an Enum array to lowercase.
+	/// Comma-delimits array values for the APIs that require it.
 	/// </summary>
-	/// <remarks>
-	/// Used when the API is case-sensitive and requires lowercase values.
-	/// </remarks>
-	/// <param name="values">The array of enum values to convert.</param>
-	/// <returns>A string array of lowercase values.</returns>
-	protected static string[] ToLower<T>(T[]? values) where T : Enum =>
-		values?.Select(x => x.ToString().ToLowerInvariant()).ToArray() ?? [];
+	/// <param name="array">The array of values.</param>
+	/// <returns>A CSV of the array values, or null if there are no values.</returns>
+	protected static string? EncodeArray<T>(T[]? array) =>
+		array is not null
+			? string.Join(',', array)
+			: null;
 
 	/// <summary>
-	/// Parses GeoJson geometry fields, grouped by ID, assuming a standardized format.
+	/// Builds a web request.
 	/// </summary>
-	/// <param name="root">The root JSON object.</param>
-	/// <returns>The GeoJson geometry root.</returns>
-    protected static IReadOnlyDictionary<string, JsonElement> GetGeoJsonGeometries(JsonElement root) =>
-        root.GetProperty(GeoJson.FeaturesKey)
-            .EnumerateArray()
-            .ToDictionary(
-                x => x.GetProperty(GeoJson.IdKey).GetString()!,
-                x => x.GetProperty(GeoJson.GeometryKey));
+	/// <param name="request">The <see cref="IClientRequest"/>.</param>
+	/// <param name="requestPreparer">The mapping between <typeparamref name="TRequest"/> and the web request.</param>
+	/// <param name="validator">The validator to use to validate the request.</param>
+	/// <returns>A web request ready to be called.</returns>
+	protected IFlurlRequest PrepareRequest<TRequest>(TRequest request, Func<TRequest, IFlurlRequest> requestPreparer, IValidator<TRequest>? validator = null)
+		where TRequest : IClientRequest
+	{
+		validator?.ValidateAndThrow(request);
+
+		logger.LogInformation("Preparing HTTP request '{request}'.", typeof(TRequest).Name);
+
+		return requestPreparer(request);
+	}
 
 	/// <summary>
-	/// Parses GeoJson property fields, grouped by ID, assuming a standardized format.
+	/// Executes a web request.
 	/// </summary>
-	/// <param name="root">The root JSON object.</param>
-	/// <returns>The GeoJson properties root.</returns>
-	protected static IReadOnlyDictionary<string, JsonElement> GetGeoJsonProperties(JsonElement root) =>
-		root.GetProperty(GeoJson.FeaturesKey)
-            .EnumerateArray()
-            .ToDictionary(
-                x => x.GetProperty(GeoJson.IdKey).GetString()!,
-                x => x.GetProperty(GeoJson.PropertiesKey));
+	/// <param name="request">The web request to execute.</param>
+	/// <param name="responsePreparer">The mapping between the response and <typeparamref name="TResponse"/>.</param>
+	/// <returns>The response object.</returns>
+	protected async Task<TResponse> ExecuteRequestAsync<TResponse>(IFlurlRequest request, Func<string, TResponse> responsePreparer, CancellationToken cancellationToken)
+	{
+		logger.LogInformation("Executing HTTP request to {url}.", request.Url);
+
+		string response = await request.GetStringAsync(cancellationToken: cancellationToken);
+
+		return responsePreparer(response);
+	}
 }

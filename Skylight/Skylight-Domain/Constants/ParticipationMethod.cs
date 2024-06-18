@@ -2,6 +2,7 @@
 
 public enum ParticipationMethod
 {
+	None,
     Tracked,
     Viewed,
     Chased

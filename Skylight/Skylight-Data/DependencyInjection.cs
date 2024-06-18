@@ -43,10 +43,10 @@ public static class DependencyInjection
                     .AddClasses()
                     .AsMatchingInterface()
                     .WithScopedLifetime()
-            .FromAssemblies(assembly)
-                .AddClasses()
-                .AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IInterceptor)))
-                .WithScopedLifetime());
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IInterceptor)))
+					.WithScopedLifetime());
 
         // Add EF Core Database
         services.AddDbContext<SkylightContext>((provider, options) =>
