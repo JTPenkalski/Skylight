@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Infrastructure-Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Shared-Test", "tests\Skylight-Shared-Test\Skylight-Shared-Test.csproj", "{01C0BD8F-1251-4944-81C4-F37DE27FA917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight-Domain-Test", "tests\Skylight-Domain-Test\Skylight-Domain-Test.csproj", "{52D1E20A-1E14-43E8-A56B-C6FDD1C8EE19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skylight-Domain-Test", "tests\Skylight-Domain-Test\Skylight-Domain-Test.csproj", "{52D1E20A-1E14-43E8-A56B-C6FDD1C8EE19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,7 +50,6 @@ Global
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5E50F35-7EFC-4463-A314-C4B3DCA8803A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16D0D05D-BA1D-4514-B253-603103862FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
