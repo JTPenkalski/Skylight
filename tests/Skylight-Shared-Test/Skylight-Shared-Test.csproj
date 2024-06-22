@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skylight-Domain\Skylight-Domain.csproj" />
+    <ProjectReference Include="..\..\src\Skylight-Domain\Skylight-Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
