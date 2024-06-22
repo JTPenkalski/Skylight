@@ -27,7 +27,7 @@ jobs:
         dotnet-version: 8.0.x
         
     - name: List Directory
-    - run: ls
+      run: ls
 
     - name: Restore Dependencies
       run: dotnet restore ./Skylight
