@@ -25,11 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skylight-API\Skylight-API.csproj" />
-    <ProjectReference Include="..\Skylight-Application\Skylight-Application.csproj" />
-    <ProjectReference Include="..\Skylight-Data\Skylight-Data.csproj" />
-    <ProjectReference Include="..\Skylight-Domain\Skylight-Domain.csproj" />
-    <ProjectReference Include="..\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Skylight-API\Skylight-API.csproj" />
+    <ProjectReference Include="..\..\src\Skylight-Application\Skylight-Application.csproj" />
+    <ProjectReference Include="..\..\src\Skylight-Data\Skylight-Data.csproj" />
+    <ProjectReference Include="..\..\src\Skylight-Infrastructure\Skylight-Infrastructure.csproj" />
     <ProjectReference Include="..\Skylight-Shared-Test\Skylight-Shared-Test.csproj" />
   </ItemGroup>
 
