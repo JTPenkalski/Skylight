@@ -79,15 +79,17 @@ export class WeatherEventLocationsCardComponent implements OnInit {
 
   public ngOnInit(): void {
     this.eventBus.handle(WeatherAlertsRefreshedEvent)
-      .subscribe(() => this.locations = []);
+      .subscribe(() => { this.locations = [] });
 
     this.eventBus.handle(WeatherAlertAddedEvent)
       .subscribe(event => {
-        event.alert.locations?.forEach(l => {
-          if (![WeatherAlertLevel.None, WeatherAlertLevel.Advisory].find(x => x === event.alert.level)) {
-            this.locations.push(l)
+        if (event.alert.locations) {
+          for (const location of event.alert.locations) {
+            if (![WeatherAlertLevel.None, WeatherAlertLevel.Advisory].find(x => x === event.alert.level)) {
+              this.locations.push(location)
+            }
           }
-        })
+        }
       });
   }
 

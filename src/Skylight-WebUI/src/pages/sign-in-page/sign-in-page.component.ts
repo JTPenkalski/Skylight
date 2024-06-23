@@ -44,7 +44,9 @@ export class SignInPageComponent {
           this.router.navigate(['/weather-event']);
         }
       },
-      error: () => this.signInFailed = true
+      error: () => {
+        this.signInFailed = true;
+      }
     });
   }
 

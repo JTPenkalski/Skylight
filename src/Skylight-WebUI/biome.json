@@ -1,0 +1,27 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
+	"files": {
+		"ignore": [
+			".angular/**",
+			".vscode/**",
+			"node_modules/**",
+			"src/web/clients/**",
+			"angular.json",
+			"karma.conf.js"
+		]
+	},
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"noInferrableTypes": "off",
+				"noNonNullAssertion": "off",
+				"useImportType": "off"
+			}
+		}
+	}
+}

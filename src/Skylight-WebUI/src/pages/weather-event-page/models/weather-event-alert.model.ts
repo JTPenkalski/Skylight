@@ -1,5 +1,5 @@
 import { WeatherEventAlert as WebWeatherEventAlert, WeatherAlertLevel as WebWeatherAlertLevel } from 'web/clients';
-import { WeatherAlertLevel, WeatherEventAlertLocation } from '.';
+import { WeatherAlertLevel, WeatherEventAlertLocation, mapWeatherAlertLevel } from '.';
 
 export class WeatherEventAlert {
   constructor(
@@ -28,18 +28,9 @@ export class WeatherEventAlert {
       data.expires!,
       data.name!,
       data.source!,
-      this.mapWeatherAlertLevel(data.level),
+      mapWeatherAlertLevel(data.level),
       data.code,
       data.locations?.map(x => WeatherEventAlertLocation.fromApi(x))
     )
-  }
-
-  private static mapWeatherAlertLevel(webWeatherAlertLevel?: WebWeatherAlertLevel): WeatherAlertLevel {
-    switch (webWeatherAlertLevel) {
-      case WebWeatherAlertLevel.Warning: return WeatherAlertLevel.Warning;
-      case WebWeatherAlertLevel.Watch: return WeatherAlertLevel.Watch;
-      case WebWeatherAlertLevel.Advisory: return WeatherAlertLevel.Advisory;
-      default: return WeatherAlertLevel.None;
-    }
   }
 }

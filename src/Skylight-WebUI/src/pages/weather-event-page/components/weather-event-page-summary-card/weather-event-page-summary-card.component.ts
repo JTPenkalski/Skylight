@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { NbButtonGroupModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule, NbWindowRef, NbWindowService } from '@nebular/theme';
+import { NbButtonGroupModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbTooltipModule, NbWindowComponent, NbWindowRef, NbWindowService } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { IconCardComponent, TabContainerComponent } from 'shared/components';
 import { EventBusService, User, UserService } from 'shared/services';
@@ -31,7 +31,7 @@ import { WeatherEventAddTagWindowComponent } from '../weather-event-add-tag-wind
 })
 export class WeatherEventPageSummaryCardComponent implements OnInit {
   @Input({ required: true }) public weatherEventId!: string;
-  @ViewChild('addTagWindow') private addTagWindowRef!: TemplateRef<any>;
+  @ViewChild('addTagWindow') private addTagWindowRef!: TemplateRef<NbWindowComponent>;
 
   public user?: User;
   public summary!: WeatherEventSummary;
@@ -113,7 +113,7 @@ export class WeatherEventPageSummaryCardComponent implements OnInit {
 
   public tryAddTag(): void {
     this.addTagWindow = this.windowService.open(this.addTagWindowRef, {
-      title: `Add Tag`,
+      title: 'Add Tag',
       context: {
         weatherEventId: this.weatherEventId
       },

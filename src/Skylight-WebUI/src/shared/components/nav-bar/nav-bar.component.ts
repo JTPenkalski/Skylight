@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent implements OnInit {
+  public userName: string = User.Unknown;
   public user?: User;
   public userContextMenu: ContextMenu = new ContextMenu(
     'skylight-nav-bar-user-menu',
@@ -46,15 +47,12 @@ export class NavBarComponent implements OnInit {
 
   public get isSignedIn(): boolean { return !!this.user; }
 
-  public get fullName(): string {
-    return this.isSignedIn
-      ? `${this.user!.firstName} ${this.user!.lastName}`
-      : 'Unknown';
-  }
-
   public ngOnInit(): void {
     this.userService.currentUserChanged
-      .subscribe(result => this.user = result);
+      .subscribe(result => {
+        this.user = result;
+        this.userName = result?.fullName ?? User.Unknown;
+      });
 
     this.menuService.onItemClick()
       .subscribe(x => this.userContextMenu.handle(x));

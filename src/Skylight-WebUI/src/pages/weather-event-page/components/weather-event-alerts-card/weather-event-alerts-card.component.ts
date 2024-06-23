@@ -33,7 +33,7 @@ export class WeatherEventAlertsCardComponent implements OnInit {
         item: {
           title: 'Toggle Advisories'
         },
-        action: () => this.showAdvisories = !this.showAdvisories
+        action: () => { this.showAdvisories = !this.showAdvisories }
       }
     ]
   )
@@ -84,7 +84,9 @@ export class WeatherEventAlertsCardComponent implements OnInit {
           this.alerts = result;
           this.loading = false;
 
-          result.forEach(x => this.eventBus.emit(new WeatherAlertAddedEvent(x)));
+          for (const alert of result) {
+            this.eventBus.emit(new WeatherAlertAddedEvent(alert))
+          }
         },
         error: () => {
           console.error(`Failed to fetch Weather Alerts for Weather Event ID ${this.weatherEventId}`);

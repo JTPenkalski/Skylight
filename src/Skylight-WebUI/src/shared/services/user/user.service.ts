@@ -13,6 +13,10 @@ export class User {
     public firstName: string,
     public lastName: string
   ) { }
+
+  public static Unknown: string = 'Unknown';
+
+  public get fullName(): string { return `${this.firstName} ${this.lastName}`; }
 }
 
 /**
@@ -83,7 +87,7 @@ export class UserService {
   private onCurrentUserChanged(authToken?: string): void {
     localStorage.setItem(AUTH_TOKEN, authToken ?? '')
 
-    if (!!authToken) {
+    if (authToken) {
       this.getCurrentUser().subscribe(result => this.currentUserChangedSubject.next(result));
     } else {
       this.currentUserChangedSubject.next(undefined);

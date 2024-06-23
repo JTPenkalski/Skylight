@@ -5,6 +5,7 @@ import { Constructor } from 'shared/models';
 /**
  * An abstract event that a component may emit.
  */
+// biome-ignore lint/suspicious/noEmptyInterface: The Event interface is a strongly-typed identifier to make declaring and finding Events easier.
 export interface Event { }
 
 /**
