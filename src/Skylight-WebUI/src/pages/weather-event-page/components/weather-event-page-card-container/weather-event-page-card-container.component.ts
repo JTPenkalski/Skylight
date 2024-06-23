@@ -1,8 +1,26 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbWindowComponent, NbWindowService } from '@nebular/theme';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+  NbSpinnerModule,
+  NbWindowComponent,
+  NbWindowService,
+} from '@nebular/theme';
 import { ParenthesesWrapPipe } from 'shared/pipes';
-import { WeatherEventAlertButtonComponent, WeatherEventAlertWindowComponent, WeatherEventAlertsCardComponent, WeatherEventLocationsCardComponent } from 'pages/weather-event-page/components';
+import {
+  WeatherEventAlertButtonComponent,
+  WeatherEventAlertWindowComponent,
+  WeatherEventAlertsCardComponent,
+  WeatherEventLocationsCardComponent,
+} from 'pages/weather-event-page/components';
 import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
 import { WeatherEventParticipantsCardComponent } from '../weather-event-participants-card/weather-event-participants-card.component';
 
@@ -22,20 +40,21 @@ import { WeatherEventParticipantsCardComponent } from '../weather-event-particip
     WeatherEventLocationsCardComponent,
     WeatherEventParticipantsCardComponent,
   ],
-  providers: [
-    ParenthesesWrapPipe
-  ],
-  templateUrl: './weather-event-page-card-container.component.html',
-  styleUrl: './weather-event-page-card-container.component.scss'
+  providers: [ParenthesesWrapPipe],
+  templateUrl:
+    './weather-event-page-card-container.component.html',
+  styleUrl:
+    './weather-event-page-card-container.component.scss',
 })
 export class WeatherEventPageCardContainerComponent {
   @Input({ required: true }) public weatherEventId!: string;
-  @ViewChild('alertWindow') private alertWindow!: TemplateRef<NbWindowComponent>;
+  @ViewChild('alertWindow')
+  private alertWindow!: TemplateRef<NbWindowComponent>;
 
   constructor(
     private readonly windowService: NbWindowService,
-    private readonly parenthesesWrapPipe: ParenthesesWrapPipe
-  ) { }
+    private readonly parenthesesWrapPipe: ParenthesesWrapPipe,
+  ) {}
 
   public onAlertSelected(alert: NewWeatherEventAlert): void {
     this.windowService.open(this.alertWindow, {
@@ -46,7 +65,7 @@ export class WeatherEventPageCardContainerComponent {
         maximize: false,
         fullScreen: false,
         close: true,
-      }
+      },
     });
   }
 }

@@ -12,10 +12,10 @@ import { DarkenDirective } from 'shared/directives';
     NbEvaIconsModule,
     NbIconModule,
     DarkenDirective,
-    DatePipe
+    DatePipe,
   ],
   templateUrl: './icon-card.component.html',
-  styleUrl: './icon-card.component.scss'
+  styleUrl: './icon-card.component.scss',
 })
 export class IconCardComponent {
   @Input() public icon: string = 'info';

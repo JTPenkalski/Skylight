@@ -1,7 +1,10 @@
-import * as SignalR from "@microsoft/signalr"
+import * as SignalR from '@microsoft/signalr';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
-import { ReceiveNewWeatherAlertsRequest, ReceiveNewWeatherAlertsRequestName } from './requests';
+import {
+  ReceiveNewWeatherAlertsRequest,
+  ReceiveNewWeatherAlertsRequestName,
+} from './requests';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
@@ -9,16 +12,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
  * NOTE: SignalR connections may be closed due to browser sleep/inactivity. Maybe investigate some ways to prevent this, if needed?
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WeatherEventHubConnectionService {
   private hubConnection?: SignalR.HubConnection;
 
-  private newWeatherAlertsSubject: BehaviorSubject<ReceiveNewWeatherAlertsRequest> = new BehaviorSubject<ReceiveNewWeatherAlertsRequest>({
-    newWeatherEventAlerts: []
-  });
+  private newWeatherAlertsSubject: BehaviorSubject<ReceiveNewWeatherAlertsRequest> =
+    new BehaviorSubject<ReceiveNewWeatherAlertsRequest>({
+      newWeatherEventAlerts: [],
+    });
 
-  public get newWeatherAlerts(): Observable<ReceiveNewWeatherAlertsRequest> { return this.newWeatherAlertsSubject.asObservable(); }
+  public get newWeatherAlerts(): Observable<ReceiveNewWeatherAlertsRequest> {
+    return this.newWeatherAlertsSubject.asObservable();
+  }
 
   /**
    * Opens a connection to the SignalR Hub.
@@ -26,21 +32,27 @@ export class WeatherEventHubConnectionService {
    */
   public connect(): void {
     const hubUrl = `${environment.skylightApiUrl}/hub/weather-event`;
-    
+
     this.hubConnection = new SignalR.HubConnectionBuilder()
       .withUrl(hubUrl)
       .withAutomaticReconnect()
       .configureLogging(SignalR.LogLevel.Information)
       .build();
 
-    this.hubConnection.start()
-      .then(() => console.log(`Successfully connected to SignalR Hub at ${hubUrl}.`))
-      .catch(error => console.error(`Error connecting to SignalR Hub at ${hubUrl}: ${error}`));
+    this.hubConnection
+      .start()
+      .then(() =>
+        console.log(
+          `Successfully connected to SignalR Hub at ${hubUrl}.`,
+        ),
+      )
+      .catch((error) =>
+        console.error(
+          `Error connecting to SignalR Hub at ${hubUrl}: ${error}`,
+        ),
+      );
 
-    this
-      .addReconnecting()
-      .addClose()
-      .addNewWeatherAlerts();
+    this.addReconnecting().addClose().addNewWeatherAlerts();
   }
 
   /**
@@ -51,25 +63,32 @@ export class WeatherEventHubConnectionService {
   }
 
   protected addClose(): WeatherEventHubConnectionService {
-    this.hubConnection?.onclose(error => {
-      console.error(`Weather Event Hub closing. Potential error: ${error}`);
+    this.hubConnection?.onclose((error) => {
+      console.error(
+        `Weather Event Hub closing. Potential error: ${error}`,
+      );
     });
 
     return this;
   }
 
   protected addReconnecting(): WeatherEventHubConnectionService {
-    this.hubConnection?.onreconnecting(error => {
-      console.error(`Weather Event Hub reconnecting from error: ${error}`);
+    this.hubConnection?.onreconnecting((error) => {
+      console.error(
+        `Weather Event Hub reconnecting from error: ${error}`,
+      );
     });
 
     return this;
   }
 
   protected addNewWeatherAlerts(): WeatherEventHubConnectionService {
-    this.hubConnection?.on(ReceiveNewWeatherAlertsRequestName, (data: ReceiveNewWeatherAlertsRequest) => {
-      this.newWeatherAlertsSubject.next(data);
-    });
+    this.hubConnection?.on(
+      ReceiveNewWeatherAlertsRequestName,
+      (data: ReceiveNewWeatherAlertsRequest) => {
+        this.newWeatherAlertsSubject.next(data);
+      },
+    );
 
     return this;
   }

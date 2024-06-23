@@ -1,4 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { IconCardComponent } from './icon-card.component';
 
@@ -8,10 +11,9 @@ describe('IconCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IconCardComponent]
-    })
-    .compileComponents();
-    
+      imports: [IconCardComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(IconCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,12 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { WeatherEventHubConnectionService } from 'web/connections';
 import { environment } from 'environments/environment';
 import { InfoCardComponent } from 'shared/components';
 import { ContextMenu } from 'shared/models';
 import { EventBusService } from 'shared/services';
 import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
-import { WeatherAlertAddedEvent, WeatherAlertsRefreshedEvent } from 'pages/weather-event-page/events';
-import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
+import {
+  WeatherAlertAddedEvent,
+  WeatherAlertsRefreshedEvent,
+} from 'pages/weather-event-page/events';
+import {
+  NewWeatherEventAlert,
+  WeatherAlertLevel,
+} from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
 
 @Component({
@@ -14,14 +26,16 @@ import { WeatherEventService } from 'pages/weather-event-page/services';
   standalone: true,
   imports: [
     InfoCardComponent,
-    WeatherEventAlertButtonComponent
+    WeatherEventAlertButtonComponent,
   ],
   templateUrl: './weather-event-alerts-card.component.html',
-  styleUrl: './weather-event-alerts-card.component.scss'
+  styleUrl: './weather-event-alerts-card.component.scss',
 })
 export class WeatherEventAlertsCardComponent implements OnInit {
   @Input({ required: true }) public weatherEventId!: string;
-  @Output() public alertSelected: EventEmitter<NewWeatherEventAlert> = new EventEmitter<NewWeatherEventAlert>();
+  @Output()
+  public alertSelected: EventEmitter<NewWeatherEventAlert> =
+    new EventEmitter<NewWeatherEventAlert>();
 
   public loading: boolean = true;
   public showAdvisories: boolean = false;
@@ -31,22 +45,23 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     [
       {
         item: {
-          title: 'Toggle Advisories'
+          title: 'Toggle Advisories',
         },
-        action: () => { this.showAdvisories = !this.showAdvisories }
-      }
-    ]
-  )
+        action: () => {
+          this.showAdvisories = !this.showAdvisories;
+        },
+      },
+    ],
+  );
 
   constructor(
     private readonly eventBus: EventBusService,
     private readonly service: WeatherEventService,
-    private readonly weatherEventHub: WeatherEventHubConnectionService
-  ) { }
+    private readonly weatherEventHub: WeatherEventHubConnectionService,
+  ) {}
 
   public get alertCount(): number {
-    return this.alerts
-      .filter(x => this.canDisplayAlert(x))
+    return this.alerts.filter((x) => this.canDisplayAlert(x))
       .length;
   }
 
@@ -55,18 +70,24 @@ export class WeatherEventAlertsCardComponent implements OnInit {
       this.getWeatherAlerts();
     } else {
       this.loading = false;
-      console.log('Call to fetch Weather Alerts blocked by environment configuration.');
+      console.log(
+        'Call to fetch Weather Alerts blocked by environment configuration.',
+      );
     }
 
-    this.weatherEventHub.newWeatherAlerts.subscribe(x => {
-      this.alerts = x.newWeatherEventAlerts.map(a => NewWeatherEventAlert.fromHub(a));
+    this.weatherEventHub.newWeatherAlerts.subscribe((x) => {
+      this.alerts = x.newWeatherEventAlerts.map((a) =>
+        NewWeatherEventAlert.fromHub(a),
+      );
     });
   }
 
   public canDisplayAlert(alert: NewWeatherEventAlert): boolean {
     let output: boolean = true;
 
-    output = alert.level !== WeatherAlertLevel.Advisory || this.showAdvisories;
+    output =
+      alert.level !== WeatherAlertLevel.Advisory ||
+      this.showAdvisories;
 
     return output;
   }
@@ -80,18 +101,22 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     this.service
       .getWeatherAlerts(this.weatherEventId)
       .subscribe({
-        next: result => {
+        next: (result) => {
           this.alerts = result;
           this.loading = false;
 
           for (const alert of result) {
-            this.eventBus.emit(new WeatherAlertAddedEvent(alert))
+            this.eventBus.emit(
+              new WeatherAlertAddedEvent(alert),
+            );
           }
         },
         error: () => {
-          console.error(`Failed to fetch Weather Alerts for Weather Event ID ${this.weatherEventId}`);
-          this.loading = false
-        }
+          console.error(
+            `Failed to fetch Weather Alerts for Weather Event ID ${this.weatherEventId}`,
+          );
+          this.loading = false;
+        },
       });
   }
 

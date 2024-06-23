@@ -5,8 +5,10 @@ import { Directive, ElementRef } from '@angular/core';
  */
 @Directive({
   selector: '[darken]',
-  standalone: true
+  standalone: true,
 })
 export class DarkenDirective {
-  constructor(element: ElementRef) { element.nativeElement.classList.add('darken'); }
+  constructor(element: ElementRef) {
+    element.nativeElement.classList.add('darken');
+  }
 }

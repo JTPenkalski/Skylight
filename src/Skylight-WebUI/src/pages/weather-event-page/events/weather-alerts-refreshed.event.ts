@@ -1,5 +1,3 @@
 import { Event } from 'shared/services/event-bus/event-bus.service';
 
-export class WeatherAlertsRefreshedEvent implements Event {
-
-}
+export class WeatherAlertsRefreshedEvent implements Event {}

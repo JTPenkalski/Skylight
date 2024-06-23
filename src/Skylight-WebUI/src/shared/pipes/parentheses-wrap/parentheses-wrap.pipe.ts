@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({
   name: 'parenthesesWrap',
-  standalone: true
+  standalone: true,
 })
 export class ParenthesesWrapPipe implements PipeTransform {
   public transform(value: string | undefined): string {

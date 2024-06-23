@@ -1,6 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { NbCardModule, NbTooltipModule, NbUserModule } from '@nebular/theme';
+import {
+  NbCardModule,
+  NbTooltipModule,
+  NbUserModule,
+} from '@nebular/theme';
 import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
 import { IconCardComponent } from 'shared/components';
 
@@ -12,18 +16,20 @@ import { IconCardComponent } from 'shared/components';
     NbTooltipModule,
     NbUserModule,
     DatePipe,
-    IconCardComponent
+    IconCardComponent,
   ],
   templateUrl: './weather-event-alert-window.component.html',
-  styleUrl: './weather-event-alert-window.component.scss'
+  styleUrl: './weather-event-alert-window.component.scss',
 })
 export class WeatherEventAlertWindowComponent {
   @Input() public alert!: NewWeatherEventAlert;
 
   public get senderPicture(): string {
     switch (this.alert.source.toUpperCase()) {
-      case 'NATIONAL WEATHER SERVICE': return "https://upload.wikimedia.org/wikipedia/commons/f/ff/US-NationalWeatherService-Logo.svg";
-      default: return '';
+      case 'NATIONAL WEATHER SERVICE':
+        return 'https://upload.wikimedia.org/wikipedia/commons/f/ff/US-NationalWeatherService-Logo.svg';
+      default:
+        return '';
     }
   }
 }

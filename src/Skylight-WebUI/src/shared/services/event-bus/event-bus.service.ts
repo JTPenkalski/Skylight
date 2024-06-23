@@ -1,21 +1,27 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, filter } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  filter,
+} from 'rxjs';
 import { Constructor } from 'shared/models';
 
 /**
  * An abstract event that a component may emit.
  */
 // biome-ignore lint/suspicious/noEmptyInterface: The Event interface is a strongly-typed identifier to make declaring and finding Events easier.
-export interface Event { }
+export interface Event {}
 
 /**
  * Global event emitter for communicating between components.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventBusService {
-  private readonly subject: Subject<Event> = new BehaviorSubject<Event>({});
+  private readonly subject: Subject<Event> =
+    new BehaviorSubject<Event>({});
 
   /**
    * Emits a global event for all handlers to respond to.
@@ -30,9 +36,13 @@ export class EventBusService {
    * @param event The type of event to respond to.
    * @returns The Observable to subscribe a callback to.
    */
-  public handle<T extends Event>(event: Constructor<T>): Observable<T> {
-    return <Observable<T>>this.subject.asObservable().pipe(
-      filter(e => e instanceof event)
+  public handle<T extends Event>(
+    event: Constructor<T>,
+  ): Observable<T> {
+    return <Observable<T>>(
+      this.subject
+        .asObservable()
+        .pipe(filter((e) => e instanceof event))
     );
   }
 }
