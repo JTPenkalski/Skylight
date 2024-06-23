@@ -33,6 +33,11 @@
     "lineWidth": 64,
     "lineEnding": "crlf"
   },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "javascript": {
     "formatter": {
       "arrowParentheses": "always",
@@ -46,8 +51,6 @@
   },
   "json": {
     "formatter": {
-      "indentStyle": "space",
-      "indentWidth": 2,
       "trailingCommas": "none"
     }
   }
