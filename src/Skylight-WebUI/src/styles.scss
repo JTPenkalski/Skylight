@@ -35,10 +35,14 @@ nb-action:last-child {
   flex: 1 1 100% !important;
 }
 
+.stretch {
+  align-items: stretch;
+}
+
 .center {
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100%; // TODO: Stretch?
 }
 
 .expand {
@@ -50,12 +54,24 @@ nb-action:last-child {
   gap: 0;
 }
 
-.float-bottom {
-  margin-top: auto;
+.float-top {
+  margin-bottom: auto;
 }
 
 .float-right {
   margin-left: auto;
+}
+
+.float-bottom {
+  margin-top: auto;
+}
+
+.float-left {
+  margin-right: auto;
+}
+
+.badge-container {
+  position: relative;
 }
 
 // Appearance

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {
+  AllWeatherEventsPageComponent,
   HomePageComponent,
   NotFoundPageComponent,
   RegisterPageComponent,
@@ -17,7 +18,16 @@ export const routes: Routes = [
     component: WeatherEventPageComponent,
     canActivate: [authenticatedGuard],
   },
-  { path: '', redirectTo: '/weather-event', pathMatch: 'full' },
+  {
+    path: 'weather-events',
+    component: AllWeatherEventsPageComponent,
+    canActivate: [authenticatedGuard],
+  },
+  {
+    path: '',
+    redirectTo: '/weather-events',
+    pathMatch: 'full',
+  },
   { path: 'not-found', component: NotFoundPageComponent },
   { path: '**', component: NotFoundPageComponent },
 ];

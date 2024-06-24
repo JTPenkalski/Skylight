@@ -1,3 +1,4 @@
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {
   Component,
   Input,
@@ -5,7 +6,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {
   NbButtonGroupModule,
   NbButtonModule,
@@ -17,16 +18,6 @@ import {
   NbWindowRef,
   NbWindowService,
 } from '@nebular/theme';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
-import {
-  IconCardComponent,
-  TabContainerComponent,
-} from 'shared/components';
-import {
-  EventBusService,
-  User,
-  UserService,
-} from 'shared/services';
 import {
   ParticipantAddedEvent,
   ParticipantRemovedEvent,
@@ -36,6 +27,15 @@ import {
   WeatherEventSummary,
 } from 'pages/weather-event-page/models';
 import { WeatherEventService } from 'pages/weather-event-page/services';
+import {
+  IconCardComponent,
+  TabContainerComponent,
+} from 'shared/components';
+import {
+  EventBusService,
+  User,
+  UserService,
+} from 'shared/services';
 import { WeatherEventAddTagWindowComponent } from '../weather-event-add-tag-window/weather-event-add-tag-window.component';
 
 @Component({
@@ -79,7 +79,7 @@ export class WeatherEventPageSummaryCardComponent
     private readonly eventBus: EventBusService,
   ) {}
 
-  get isActive(): boolean {
+  public get isActive(): boolean {
     return !this.summary.endDate;
   }
 

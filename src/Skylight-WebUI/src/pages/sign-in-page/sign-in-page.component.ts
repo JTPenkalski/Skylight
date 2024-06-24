@@ -4,6 +4,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   NbAlertModule,
   NbButtonModule,
@@ -12,7 +13,6 @@ import {
 } from '@nebular/theme';
 import { UserService } from 'shared/services';
 import { SignInUser, SignInUserData } from './forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'skylight-sign-in-page',
@@ -52,7 +52,7 @@ export class SignInPageComponent {
           this.signInFailed = !result;
 
           if (result) {
-            this.router.navigate(['/weather-event']);
+            this.router.navigate(['/weather-events']);
           }
         },
         error: () => {

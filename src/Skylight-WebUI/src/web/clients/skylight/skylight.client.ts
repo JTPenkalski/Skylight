@@ -945,6 +945,79 @@ export class SkylightClient {
      * @param body (optional) 
      * @return OK
      */
+    getAllWeatherEvents(body?: GetAllWeatherEventsQuery | undefined): Observable<GetAllWeatherEventsResponse> {
+        let url_ = this.baseUrl + "/api/v1/WeatherEvent/GetAllWeatherEvents";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllWeatherEvents(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllWeatherEvents(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllWeatherEventsResponse>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllWeatherEventsResponse>;
+        }));
+    }
+
+    protected processGetAllWeatherEvents(response: HttpResponseBase): Observable<GetAllWeatherEventsResponse> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 401) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result401: any = null;
+            result401 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+            }));
+        } else if (status === 403) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result403: any = null;
+            result403 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+            }));
+        } else if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAllWeatherEventsResponse;
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result400: any = null;
+            result400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProblemDetails;
+            return throwException("Bad Request", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return OK
+     */
     getWeatherEventById(body?: GetWeatherEventByIdQuery | undefined): Observable<GetWeatherEventByIdResponse> {
         let url_ = this.baseUrl + "/api/v1/WeatherEvent/GetWeatherEventById";
         url_ = url_.replace(/[?&]$/, "");
@@ -1272,6 +1345,13 @@ export interface FetchWeatherAlertsResponse {
     newWeatherEventAlerts: NewWeatherEventAlert[] | undefined;
 }
 
+export interface GetAllWeatherEventsQuery {
+}
+
+export interface GetAllWeatherEventsResponse {
+    weatherEvents: WeatherEvent[] | undefined;
+}
+
 export interface GetCurrentUserResponse {
     stormTrackerId?: string;
     email?: string | undefined;
@@ -1413,6 +1493,17 @@ export enum WeatherAlertLevel {
     Advisory = "Advisory",
     Watch = "Watch",
     Warning = "Warning",
+}
+
+export interface WeatherEvent {
+    id?: string;
+    name?: string | undefined;
+    description?: string | undefined;
+    startDate?: Date;
+    endDate?: Date | undefined;
+    damageCost?: number | undefined;
+    affectedPeople?: number | undefined;
+    tags?: string[] | undefined;
 }
 
 export interface WeatherEventAlert {

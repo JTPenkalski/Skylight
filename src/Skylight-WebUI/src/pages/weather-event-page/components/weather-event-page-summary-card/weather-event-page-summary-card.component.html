@@ -1,16 +1,28 @@
 @if (summary) {
   <nb-card accent="info">
     <nb-card-header>
-      <h1 class="title">{{summary.name}}</h1>  
+      <h1 class="title">{{summary.name}}</h1>
       <span class="flex-row">
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="share"></nb-icon>Share</button>
-        
-        <button nbButton hero shape="semi-round" size="medium" status="primary"><nb-icon icon="file-add"></nb-icon>Report</button>
+        <button nbButton hero shape="semi-round" size="medium" status="primary">
+          <nb-icon icon="share"></nb-icon>
+          Share
+        </button>
+
+        <button nbButton hero shape="semi-round" size="medium" status="primary">
+          <nb-icon icon="file-add"></nb-icon>
+          Report
+        </button>
 
         @if (isTracking) {
-          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye-off"></nb-icon>Untrack</button>
+          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()">
+            <nb-icon icon="eye-off"></nb-icon>
+            Untrack
+          </button>
         } @else {
-          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()"><nb-icon icon="eye"></nb-icon>Track</button>
+          <button nbButton hero class="hero-button" shape="semi-round" size="medium" status="primary" (click)="toggleTracking()">
+            <nb-icon icon="eye"></nb-icon>
+            Track
+          </button>
         }
       </span>
     </nb-card-header>
@@ -19,7 +31,7 @@
         <skylight-icon-card icon="clock" nbTooltip="Duration">
           <span>
             {{summary.startDate | date:'long'}}
-  
+            
             @if (!isActive) {
               to {{summary.endDate | date:'long'}}
             }
@@ -38,7 +50,7 @@
           </skylight-icon-card>
         }
       </div>
-      
+
       <p>{{summary.description}}</p>
     </nb-card-body>
     <nb-card-footer>
@@ -56,5 +68,6 @@
 }
 
 <ng-template #addTagWindow let-data>
-  <skylight-weather-event-add-tag-window [weatherEventId]="data.weatherEventId" (tagAdded)="confirmAddTag()"></skylight-weather-event-add-tag-window>
+  <skylight-weather-event-add-tag-window [weatherEventId]="data.weatherEventId"
+    (tagAdded)="confirmAddTag()"></skylight-weather-event-add-tag-window>
 </ng-template>
