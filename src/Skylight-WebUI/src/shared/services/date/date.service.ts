@@ -4,8 +4,6 @@
  * @param value The string value of the date.
  * @returns A new Date instance.
  */
-export function date(
-  value: Date | undefined,
-): Date | undefined {
+export function date(value: Date | undefined): Date | undefined {
   return value ? new Date(value) : undefined;
 }

@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  booleanAttribute,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, booleanAttribute } from '@angular/core';
 import {
   NbActionsModule,
   NbCardModule,
@@ -20,26 +13,28 @@ import { ContextMenu } from 'shared/models';
 @Component({
   selector: 'skylight-info-card',
   standalone: true,
-  imports: [
-    NbActionsModule,
-    NbCardModule,
-    NbContextMenuModule,
-    NbSpinnerModule,
-    NbTooltipModule,
-  ],
+  imports: [NbActionsModule, NbCardModule, NbContextMenuModule, NbSpinnerModule, NbTooltipModule],
   templateUrl: './info-card.component.html',
   styleUrl: './info-card.component.scss',
 })
 export class InfoCardComponent implements OnInit {
-  @Input({ required: true }) public title: string = '';
+  @Input({ required: true })
+  public title: string = '';
+
   @Input({ transform: booleanAttribute })
   public noGap: boolean = false;
-  @Input() public size: NbComponentSize = 'large';
-  @Input() public loading: boolean = false;
-  @Input() public contextMenu?: ContextMenu;
 
-  @Output() public refresh: EventEmitter<void> =
-    new EventEmitter<void>();
+  @Input()
+  public size: NbComponentSize = 'large';
+
+  @Input()
+  public loading: boolean = false;
+
+  @Input()
+  public contextMenu?: ContextMenu;
+
+  @Output()
+  public refresh: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private readonly menuService: NbMenuService) {}
 
@@ -49,9 +44,7 @@ export class InfoCardComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.contextMenu) {
-      this.menuService
-        .onItemClick()
-        .subscribe((x) => this.contextMenu?.handle(x));
+      this.menuService.onItemClick().subscribe((x) => this.contextMenu?.handle(x));
     }
   }
 

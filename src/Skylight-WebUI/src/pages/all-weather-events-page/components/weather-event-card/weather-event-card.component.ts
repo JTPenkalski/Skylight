@@ -1,17 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import {
-  NbBadgeModule,
-  NbButtonModule,
-  NbCardModule,
-  NbIconModule,
-} from '@nebular/theme';
+import { NbBadgeModule, NbButtonModule, NbCardModule, NbIconModule } from '@nebular/theme';
 import { WeatherEventSummary } from 'pages/all-weather-events-page/models';
 import { IconCardComponent } from 'shared/components';
 
@@ -36,8 +26,7 @@ export class WeatherEventCardComponent {
   public summary!: WeatherEventSummary;
 
   @Output()
-  public navigated: EventEmitter<string> =
-    new EventEmitter<string>();
+  public navigated: EventEmitter<string> = new EventEmitter<string>();
 
   public get isActive(): boolean {
     return !this.summary.endDate;

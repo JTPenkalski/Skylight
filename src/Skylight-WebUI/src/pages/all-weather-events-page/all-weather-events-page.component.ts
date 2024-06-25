@@ -42,10 +42,7 @@ export class AllWeatherEventsPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.service.getAllWeatherEvents().subscribe((result) => {
-      this.summaries = result.sort(
-        (x, y) =>
-          -x.startDate.getTime() - y.startDate.getTime(),
-      );
+      this.summaries = result.sort((x, y) => -x.startDate.getTime() - y.startDate.getTime());
     });
   }
 

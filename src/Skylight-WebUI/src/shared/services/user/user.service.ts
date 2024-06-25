@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  map,
-  tap,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, tap } from 'rxjs';
 import { AUTH_TOKEN } from 'shared/models';
-import {
-  RegisterNewUserCommand,
-  SignInRequest,
-  SkylightClient,
-} from 'web/clients';
+import { RegisterNewUserCommand, SignInRequest, SkylightClient } from 'web/clients';
 
 /**
  * Basic information about a user.
@@ -24,7 +14,7 @@ export class User {
     public lastName: string,
   ) {}
 
-  public static Unknown: string = 'Unknown';
+  public static UNKNOWN: string = 'Unknown';
 
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -38,8 +28,9 @@ export class User {
   providedIn: 'root',
 })
 export class UserService {
-  private currentUserChangedSubject: Subject<User | undefined> =
-    new BehaviorSubject<User | undefined>(undefined);
+  private currentUserChangedSubject: Subject<User | undefined> = new BehaviorSubject<
+    User | undefined
+  >(undefined);
 
   constructor(private readonly client: SkylightClient) {}
 
@@ -47,9 +38,7 @@ export class UserService {
     return localStorage.getItem(AUTH_TOKEN) ?? '';
   }
 
-  public get currentUserChanged(): Observable<
-    User | undefined
-  > {
+  public get currentUserChanged(): Observable<User | undefined> {
     return this.currentUserChangedSubject.asObservable();
   }
 
@@ -65,12 +54,7 @@ export class UserService {
       .pipe(
         map(
           (result) =>
-            new User(
-              result.stormTrackerId!,
-              result.email!,
-              result.firstName!,
-              result.lastName!,
-            ),
+            new User(result.stormTrackerId!, result.email!, result.firstName!, result.lastName!),
         ),
       );
   }
@@ -95,36 +79,30 @@ export class UserService {
     return this.client.register(request);
   }
 
-  public signIn(
-    email: string,
-    password: string,
-  ): Observable<boolean> {
+  public signIn(email: string, password: string): Observable<boolean> {
     const request: SignInRequest = {
       email: email,
       password: password,
     };
 
     return this.client.signIn(request).pipe(
-      tap((result) =>
-        this.onCurrentUserChanged(result.accessToken),
-      ),
+      tap((result) => this.onCurrentUserChanged(result.accessToken)),
       map((result) => !!result.accessToken),
     );
   }
 
   public signOut(): Observable<void> {
-    return this.client
-      .signOut()
-      .pipe(tap(() => this.onCurrentUserChanged()));
+    return this.client.signOut().pipe(tap(() => this.onCurrentUserChanged()));
   }
 
   private onCurrentUserChanged(authToken?: string): void {
     localStorage.setItem(AUTH_TOKEN, authToken ?? '');
 
     if (authToken) {
-      this.getCurrentUser().subscribe((result) =>
-        this.currentUserChangedSubject.next(result),
-      );
+      this.getCurrentUser().subscribe({
+        next: (result) => this.currentUserChangedSubject.next(result),
+        error: () => localStorage.removeItem(AUTH_TOKEN),
+      });
     } else {
       this.currentUserChangedSubject.next(undefined);
     }

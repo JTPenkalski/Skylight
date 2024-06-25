@@ -6,6 +6,10 @@
   @include nb-theme-global();
 }
 
+.form-field>.ng-invalid.ng-touched {
+  @extend .status-danger;
+}
+
 // Layout
 nb-window {
   min-width: 50vw !important;
@@ -17,6 +21,10 @@ nb-action:only-child {
 
 nb-action:last-child {
   padding-right: 0 !important;
+}
+
+label {
+  margin-bottom: 0.5rem;
 }
 
 .flex-column {

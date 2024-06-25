@@ -19,10 +19,16 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error"
+      },
       "style": {
         "noInferrableTypes": "off",
         "noNonNullAssertion": "off",
         "useImportType": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
       }
     }
   },
@@ -31,7 +37,7 @@
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 64,
+    "lineWidth": 100,
     "lineEnding": "crlf"
   },
   "css": {

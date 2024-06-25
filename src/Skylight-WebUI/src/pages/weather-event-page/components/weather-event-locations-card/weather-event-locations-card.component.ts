@@ -1,28 +1,20 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   NbAccordionComponent,
   NbAccordionModule,
   NbButtonModule,
   NbListModule,
 } from '@nebular/theme';
-import { InfoCardComponent } from 'shared/components';
-import { EventBusService } from 'shared/services';
 import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
-import {
-  WeatherAlertLevel,
-  WeatherEventAlertLocation,
-} from 'pages/weather-event-page/models';
 import {
   WeatherAlertAddedEvent,
   WeatherAlertsRefreshedEvent,
 } from 'pages/weather-event-page/events';
-import { StateNamePipe } from 'shared/pipes';
+import { WeatherAlertLevel, WeatherEventAlertLocation } from 'pages/weather-event-page/models';
+import { InfoCardComponent } from 'shared/components';
 import { DarkenDirective } from 'shared/directives';
+import { StateNamePipe } from 'shared/pipes';
+import { EventBusService } from 'shared/services';
 
 type LocationGroup = {
   state: string;
@@ -44,12 +36,12 @@ type LocationGroup = {
   templateUrl: './weather-event-locations-card.component.html',
   styleUrl: './weather-event-locations-card.component.scss',
 })
-export class WeatherEventLocationsCardComponent
-  implements OnInit
-{
+export class WeatherEventLocationsCardComponent implements OnInit {
   private readonly defaultLocationName: string = 'Other';
 
-  @Input({ required: true }) public weatherEventId!: string;
+  @Input({ required: true })
+  public weatherEventId!: string;
+
   @ViewChild('locationGroupsElement')
   public locationGroupsElement?: NbAccordionComponent;
 
@@ -70,17 +62,11 @@ export class WeatherEventLocationsCardComponent
   public get locationGroups(): LocationGroup[] {
     return this.locations
       .reduce<LocationGroup[]>((prev, curr) => {
-        const state: string =
-          curr.state ?? this.defaultLocationName;
-        const existingGroup: LocationGroup | undefined =
-          prev.find((x) => x.state === state);
+        const state: string = curr.state ?? this.defaultLocationName;
+        const existingGroup: LocationGroup | undefined = prev.find((x) => x.state === state);
 
         if (existingGroup) {
-          if (
-            !existingGroup.locations.find(
-              (x) => x.name === curr.name,
-            )
-          ) {
+          if (!existingGroup.locations.find((x) => x.name === curr.name)) {
             existingGroup.locations.push(curr);
           }
         } else {
@@ -90,11 +76,7 @@ export class WeatherEventLocationsCardComponent
           });
         }
 
-        prev
-          .find((x) => x.state === state)
-          ?.locations.sort((x, y) =>
-            x.name.localeCompare(y.name),
-          );
+        prev.find((x) => x.state === state)?.locations.sort((x, y) => x.name.localeCompare(y.name));
 
         return prev;
       }, [])
@@ -102,28 +84,23 @@ export class WeatherEventLocationsCardComponent
   }
 
   public ngOnInit(): void {
-    this.eventBus
-      .handle(WeatherAlertsRefreshedEvent)
-      .subscribe(() => {
-        this.locations = [];
-      });
+    this.eventBus.handle(WeatherAlertsRefreshedEvent).subscribe(() => {
+      this.locations = [];
+    });
 
-    this.eventBus
-      .handle(WeatherAlertAddedEvent)
-      .subscribe((event) => {
-        if (event.alert.locations) {
-          for (const location of event.alert.locations) {
-            if (
-              ![
-                WeatherAlertLevel.None,
-                WeatherAlertLevel.Advisory,
-              ].find((x) => x === event.alert.level)
-            ) {
-              this.locations.push(location);
-            }
+    this.eventBus.handle(WeatherAlertAddedEvent).subscribe((event) => {
+      if (event.alert.locations) {
+        for (const location of event.alert.locations) {
+          if (
+            ![WeatherAlertLevel.None, WeatherAlertLevel.Advisory].find(
+              (x) => x === event.alert.level,
+            )
+          ) {
+            this.locations.push(location);
           }
         }
-      });
+      }
+    });
   }
 
   public collapseAll(): void {

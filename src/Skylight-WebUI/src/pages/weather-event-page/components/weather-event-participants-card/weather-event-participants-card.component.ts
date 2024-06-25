@@ -1,24 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import {
-  NbCardModule,
-  NbComponentStatus,
-  NbIconModule,
-  NbUserModule,
-} from '@nebular/theme';
+import { NbCardModule, NbComponentStatus, NbIconModule, NbUserModule } from '@nebular/theme';
+import { ParticipantAddedEvent, ParticipantRemovedEvent } from 'pages/weather-event-page/events';
+import { ParticipationMethod, WeatherEventParticipant } from 'pages/weather-event-page/models';
+import { WeatherEventService } from 'pages/weather-event-page/services';
 import { InfoCardComponent } from 'shared/components';
 import { EventBusService } from 'shared/services';
 import { WeatherEventHubConnectionService } from 'web/connections';
-import {
-  ParticipantAddedEvent,
-  ParticipantRemovedEvent,
-} from 'pages/weather-event-page/events';
-import {
-  ParticipationMethod,
-  WeatherEventParticipant,
-} from 'pages/weather-event-page/models';
-import { WeatherEventService } from 'pages/weather-event-page/services';
 
 @Component({
   selector: 'skylight-weather-event-participants-card',
@@ -31,14 +20,12 @@ import { WeatherEventService } from 'pages/weather-event-page/services';
     InfoCardComponent,
     DatePipe,
   ],
-  templateUrl:
-    './weather-event-participants-card.component.html',
+  templateUrl: './weather-event-participants-card.component.html',
   styleUrl: './weather-event-participants-card.component.scss',
 })
-export class WeatherEventParticipantsCardComponent
-  implements OnInit
-{
-  @Input({ required: true }) public weatherEventId!: string;
+export class WeatherEventParticipantsCardComponent implements OnInit {
+  @Input({ required: true })
+  public weatherEventId!: string;
 
   public loading: boolean = true;
   public participants: WeatherEventParticipant[] = [];
@@ -57,22 +44,16 @@ export class WeatherEventParticipantsCardComponent
     this.getParticipants();
 
     // TODO: Get individual info from API?
-    this.eventBus
-      .handle(ParticipantAddedEvent)
-      .subscribe((event) => this.getParticipants());
+    this.eventBus.handle(ParticipantAddedEvent).subscribe((event) => this.getParticipants());
 
-    this.eventBus
-      .handle(ParticipantRemovedEvent)
-      .subscribe((event) => this.getParticipants());
+    this.eventBus.handle(ParticipantRemovedEvent).subscribe((event) => this.getParticipants());
 
     // this.weatherEventHub.newWeatherAlerts.subscribe(x => {
     //   this.participants = x.newWeatherEventAlerts.map(a => NewWeatherEventAlert.fromHub(a));
     // });
   }
 
-  public getParticipantAccent(
-    participant: WeatherEventParticipant,
-  ): NbComponentStatus {
+  public getParticipantAccent(participant: WeatherEventParticipant): NbComponentStatus {
     switch (participant.participationMethod) {
       case ParticipationMethod.Chased:
         return 'success';
@@ -83,9 +64,7 @@ export class WeatherEventParticipantsCardComponent
     }
   }
 
-  public getParticipantIcon(
-    participant: WeatherEventParticipant,
-  ): string {
+  public getParticipantIcon(participant: WeatherEventParticipant): string {
     switch (participant.participationMethod) {
       case ParticipationMethod.Chased:
         return 'car';
@@ -100,19 +79,17 @@ export class WeatherEventParticipantsCardComponent
     this.participants = [];
     this.loading = true;
 
-    this.service
-      .getParticipants(this.weatherEventId)
-      .subscribe({
-        next: (result) => {
-          this.participants = result;
-          this.loading = false;
-        },
-        error: () => {
-          console.error(
-            `Failed to fetch Weather Event Participants for Weather Event ID ${this.weatherEventId}`,
-          );
-          this.loading = false;
-        },
-      });
+    this.service.getParticipants(this.weatherEventId).subscribe({
+      next: (result) => {
+        this.participants = result;
+        this.loading = false;
+      },
+      error: () => {
+        console.error(
+          `Failed to fetch Weather Event Participants for Weather Event ID ${this.weatherEventId}`,
+        );
+        this.loading = false;
+      },
+    });
   }
 }
