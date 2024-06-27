@@ -17,6 +17,11 @@ export type ValidationError =
   providedIn: 'root',
 })
 export class ErrorService {
+  /**
+   * Gets the error messages to display on the UI, if any, given the current status of a FormControl.
+   * @param controlErrors The validation errors to display.
+   * @returns A string array of error messages.
+   */
   public messages(controlErrors: ValidationErrors): string[] {
     const messages: string[] = [];
 
