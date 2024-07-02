@@ -1,6 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NbWindowComponent, NbWindowService } from '@nebular/theme';
 import { environment } from 'environments/environment';
-import { WeatherEventAlertButtonComponent } from 'pages/weather-event-page/components';
+import {
+  WeatherEventAlertButtonComponent,
+  WeatherEventAlertWindowComponent,
+} from 'pages/weather-event-page/components';
 import {
   WeatherAlertAddedEvent,
   WeatherAlertsRefreshedEvent,
@@ -9,13 +13,14 @@ import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-pag
 import { WeatherEventService } from 'pages/weather-event-page/services';
 import { InfoCardComponent } from 'shared/components';
 import { ContextMenu } from 'shared/models';
+import { ParenthesesWrapPipe } from 'shared/pipes';
 import { EventBusService } from 'shared/services';
 import { WeatherEventHubConnectionService } from 'web/connections';
 
 @Component({
   selector: 'skylight-weather-event-alerts-card',
   standalone: true,
-  imports: [InfoCardComponent, WeatherEventAlertButtonComponent],
+  imports: [InfoCardComponent, WeatherEventAlertButtonComponent, WeatherEventAlertWindowComponent],
   templateUrl: './weather-event-alerts-card.component.html',
   styleUrl: './weather-event-alerts-card.component.scss',
 })
@@ -23,9 +28,8 @@ export class WeatherEventAlertsCardComponent implements OnInit {
   @Input({ required: true })
   public weatherEventId!: string;
 
-  @Output()
-  public alertSelected: EventEmitter<NewWeatherEventAlert> =
-    new EventEmitter<NewWeatherEventAlert>();
+  @ViewChild('alertWindow')
+  private alertWindow!: TemplateRef<NbWindowComponent>;
 
   public loading: boolean = true;
   public showAdvisories: boolean = false;
@@ -45,6 +49,8 @@ export class WeatherEventAlertsCardComponent implements OnInit {
     private readonly eventBus: EventBusService,
     private readonly service: WeatherEventService,
     private readonly weatherEventHub: WeatherEventHubConnectionService,
+    private readonly windowService: NbWindowService,
+    private readonly parenthesesWrapPipe: ParenthesesWrapPipe,
   ) {}
 
   public get alertCount(): number {
@@ -95,6 +101,15 @@ export class WeatherEventAlertsCardComponent implements OnInit {
   }
 
   public openWeatherAlert(alert: NewWeatherEventAlert): void {
-    this.alertSelected.emit(alert);
+    this.windowService.open(this.alertWindow, {
+      title: `${alert.name.toUpperCase()} ${this.parenthesesWrapPipe.transform(alert.code)}`,
+      context: alert,
+      buttons: {
+        minimize: true,
+        maximize: false,
+        fullScreen: false,
+        close: true,
+      },
+    });
   }
 }

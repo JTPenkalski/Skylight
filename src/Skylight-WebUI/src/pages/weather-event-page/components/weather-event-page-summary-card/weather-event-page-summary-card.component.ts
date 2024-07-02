@@ -117,7 +117,7 @@ export class WeatherEventPageSummaryCardComponent implements OnInit {
     }
   }
 
-  public tryAddTag(): void {
+  public openAddTagWindow(): void {
     this.addTagWindow = this.windowService.open(this.addTagWindowRef, {
       title: 'Add Tag',
       context: {
@@ -132,7 +132,7 @@ export class WeatherEventPageSummaryCardComponent implements OnInit {
     });
   }
 
-  public confirmAddTag(): void {
+  public closeAddTagWindow(): void {
     this.addTagWindow?.close();
 
     this.addTagWindow = undefined;
