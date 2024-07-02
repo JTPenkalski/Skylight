@@ -1,4 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { WeatherEventLocationsCardComponent } from './weather-event-locations-card.component';
 
@@ -8,11 +11,12 @@ describe('WeatherEventLocationsCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherEventLocationsCardComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(WeatherEventLocationsCardComponent);
+      imports: [WeatherEventLocationsCardComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(
+      WeatherEventLocationsCardComponent,
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

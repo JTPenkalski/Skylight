@@ -4,13 +4,21 @@
       <h2>Register</h2>
   
       <form [formGroup]="form" class="flex-column expand" (ngSubmit)="submitForm()">
-        <input nbInput fullWidth id="firstName" formControlName="firstName" fieldSize="giant" placeholder="First Name" type="text">
+        <skylight-form-field>
+          <input nbInput fullWidth id="firstName" formControlName="firstName" fieldSize="giant" placeholder="First Name" type="text">
+        </skylight-form-field>
         
-        <input nbInput fullWidth id="lastName" formControlName="lastName" fieldSize="giant" placeholder="Last Name" type="text">
+        <skylight-form-field>
+          <input nbInput fullWidth id="lastName" formControlName="lastName" fieldSize="giant" placeholder="Last Name" type="text">
+        </skylight-form-field>
         
-        <input nbInput fullWidth id="email" formControlName="email" fieldSize="giant" placeholder="Email" type="text">
-      
-        <input nbInput fullWidth id="password" formControlName="password" fieldSize="giant" placeholder="Password" type="password">
+        <skylight-form-field>
+          <input nbInput fullWidth id="email" formControlName="email" fieldSize="giant" placeholder="Email" type="text">
+        </skylight-form-field>
+        
+        <skylight-form-field>
+          <input nbInput fullWidth id="password" formControlName="password" fieldSize="giant" placeholder="Password" type="password">
+        </skylight-form-field>
 
         <button nbButton fullWidth hero class="float-bottom" size="giant" status="success" type="submit" [disabled]="false">Submit</button>
       </form>

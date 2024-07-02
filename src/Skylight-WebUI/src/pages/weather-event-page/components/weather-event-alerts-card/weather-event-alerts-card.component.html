@@ -13,5 +13,8 @@
   } @else if (!loading) {
     No Weather Alerts found.
   }
-
 </skylight-info-card>
+
+<ng-template #alertWindow let-data>
+  <skylight-weather-event-alert-window [alert]="data"></skylight-weather-event-alert-window>
+</ng-template>

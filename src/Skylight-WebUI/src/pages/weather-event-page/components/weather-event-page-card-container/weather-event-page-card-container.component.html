@@ -1,7 +1,7 @@
 <div>
   <div class="card-row">
     <div class="card-col">
-      <skylight-weather-event-alerts-card [weatherEventId]="weatherEventId" (alertSelected)="onAlertSelected($event)"></skylight-weather-event-alerts-card>
+      <skylight-weather-event-alerts-card [weatherEventId]="weatherEventId"></skylight-weather-event-alerts-card>
     </div>
     <div class="card-col">
       <skylight-weather-event-locations-card [weatherEventId]="weatherEventId"></skylight-weather-event-locations-card>
@@ -16,7 +16,3 @@
       </nb-card>
   </div>
 </div>
-
-<ng-template #alertWindow let-data>
-  <skylight-weather-event-alert-window [alert]="data"></skylight-weather-event-alert-window>
-</ng-template>

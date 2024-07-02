@@ -83,6 +83,19 @@ public class WeatherEventController(
 	}
 
 	/// <summary>
+	/// Gets all <see cref="WeatherEvent"/>s.
+	/// </summary>
+	[HttpPost]
+	[ProducesResponseType(StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<ActionResult<GetAllWeatherEventsResponse>> GetAllWeatherEvents(GetAllWeatherEventsQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	/// <summary>
 	/// Gets a <see cref="WeatherEvent"/> by its ID.
 	/// </summary>
 	[HttpPost]

@@ -1,9 +1,17 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbSpinnerModule, NbWindowService } from '@nebular/theme';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbIconModule,
+  NbSpinnerModule,
+} from '@nebular/theme';
+import {
+  WeatherEventAlertsCardComponent,
+  WeatherEventLocationsCardComponent,
+} from 'pages/weather-event-page/components';
 import { ParenthesesWrapPipe } from 'shared/pipes';
-import { WeatherEventAlertButtonComponent, WeatherEventAlertWindowComponent, WeatherEventAlertsCardComponent, WeatherEventLocationsCardComponent } from 'pages/weather-event-page/components';
-import { NewWeatherEventAlert } from 'pages/weather-event-page/models';
 import { WeatherEventParticipantsCardComponent } from '../weather-event-participants-card/weather-event-participants-card.component';
 
 @Component({
@@ -16,37 +24,15 @@ import { WeatherEventParticipantsCardComponent } from '../weather-event-particip
     NbEvaIconsModule,
     NbIconModule,
     NbSpinnerModule,
-    WeatherEventAlertButtonComponent,
     WeatherEventAlertsCardComponent,
-    WeatherEventAlertWindowComponent,
     WeatherEventLocationsCardComponent,
     WeatherEventParticipantsCardComponent,
   ],
-  providers: [
-    ParenthesesWrapPipe
-  ],
+  providers: [ParenthesesWrapPipe],
   templateUrl: './weather-event-page-card-container.component.html',
-  styleUrl: './weather-event-page-card-container.component.scss'
+  styleUrl: './weather-event-page-card-container.component.scss',
 })
 export class WeatherEventPageCardContainerComponent {
-  @Input({ required: true }) public weatherEventId!: string;
-  @ViewChild('alertWindow') private alertWindow!: TemplateRef<any>;
-
-  constructor(
-    private readonly windowService: NbWindowService,
-    private readonly parenthesesWrapPipe: ParenthesesWrapPipe
-  ) { }
-
-  public onAlertSelected(alert: NewWeatherEventAlert): void {
-    this.windowService.open(this.alertWindow, {
-      title: `${alert.name.toUpperCase()} ${this.parenthesesWrapPipe.transform(alert.code)}`,
-      context: alert,
-      buttons: {
-        minimize: true,
-        maximize: false,
-        fullScreen: false,
-        close: true,
-      }
-    });
-  }
+  @Input({ required: true })
+  public weatherEventId!: string;
 }

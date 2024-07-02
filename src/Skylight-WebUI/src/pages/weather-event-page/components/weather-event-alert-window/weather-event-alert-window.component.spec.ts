@@ -1,4 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+} from '@angular/core/testing';
 
 import { WeatherEventAlertWindowComponent } from './weather-event-alert-window.component';
 
@@ -8,11 +11,12 @@ describe('WeatherEventAlertWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherEventAlertWindowComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(WeatherEventAlertWindowComponent);
+      imports: [WeatherEventAlertWindowComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(
+      WeatherEventAlertWindowComponent,
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

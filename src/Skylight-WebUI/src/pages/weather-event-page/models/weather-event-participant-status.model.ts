@@ -4,13 +4,15 @@ import { ParticipationMethod, mapParticipationMethod } from '.';
 export class WeatherEventParticipantStatus {
   constructor(
     public participationMethod: ParticipationMethod,
-    public participationDate: Date
-  ) { }
+    public participationDate: Date,
+  ) {}
 
-  public static fromApi(data: WebWeatherEventParticipant): WeatherEventParticipantStatus {
+  public static fromApi(
+    data: WebWeatherEventParticipant,
+  ): WeatherEventParticipantStatus {
     return new WeatherEventParticipantStatus(
       mapParticipationMethod(data.participationMethod),
       data.participationDate!,
-    )
+    );
   }
 }

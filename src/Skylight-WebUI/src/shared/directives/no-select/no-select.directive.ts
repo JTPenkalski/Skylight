@@ -6,10 +6,10 @@ import { NbTagComponent } from '@nebular/theme';
  */
 @Directive({
   selector: 'nb-tag[noSelect]',
-  standalone: true
+  standalone: true,
 })
 export class NoSelectDirective {
-  constructor(private readonly tag: NbTagComponent) { }
+  constructor(private readonly tag: NbTagComponent) {}
 
   @HostListener('click')
   onClick(): void {

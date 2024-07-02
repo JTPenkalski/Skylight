@@ -7,11 +7,17 @@ export enum ParticipationMethod {
   Chased = 'Chased',
 }
 
-export function mapParticipationMethod(webParticipationMethod?: WebParticipationMethod): ParticipationMethod {
+export function mapParticipationMethod(
+  webParticipationMethod?: WebParticipationMethod,
+): ParticipationMethod {
   switch (webParticipationMethod) {
-    case WebParticipationMethod.None: return ParticipationMethod.None;
-    case WebParticipationMethod.Viewed: return ParticipationMethod.Reported;
-    case WebParticipationMethod.Chased: return ParticipationMethod.Chased;
-    default: return ParticipationMethod.Tracked;
+    case WebParticipationMethod.None:
+      return ParticipationMethod.None;
+    case WebParticipationMethod.Viewed:
+      return ParticipationMethod.Reported;
+    case WebParticipationMethod.Chased:
+      return ParticipationMethod.Chased;
+    default:
+      return ParticipationMethod.Tracked;
   }
 }
