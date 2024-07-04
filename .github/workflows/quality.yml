@@ -31,7 +31,10 @@ jobs:
             echo "biome.json not found"
           fi
 
+      - name: List files in the repository
+        run: ls -la
+
       - name: Run Biome
-        run: biome ci src/Skylight-WebUI/ --config-path="src/Skylight-WebUI"
+        run: biome ci src/Skylight-WebUI/ --config-path src/Skylight-WebUI
       
 
