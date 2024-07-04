@@ -14,8 +14,8 @@ export class ErrorService {
     const messages: string[] = [];
 
     this.append(messages, 'required', controlErrors, () => this.required());
-    this.append(messages, 'minLength', controlErrors, (e) => this.minLength(e.requiredLength));
-    this.append(messages, 'maxLength', controlErrors, (e) => this.maxLength(e.requiredLength));
+    this.append(messages, 'minlength', controlErrors, (e) => this.minLength(e.requiredLength));
+    this.append(messages, 'maxlength', controlErrors, (e) => this.maxLength(e.requiredLength));
     this.append(messages, 'email', controlErrors, () => this.email());
 
     return messages;
@@ -30,7 +30,6 @@ export class ErrorService {
     const error: any = controlErrors[errorType];
 
     if (error) {
-      console.log('Appending ' + errorType);
       messages.push(messageFunc(error));
     }
   }

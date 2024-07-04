@@ -6,12 +6,7 @@ export class WeatherEventAlertLocation {
     public state?: string,
   ) {}
 
-  public static fromApi(
-    data: WebWeatherEventAlertLocation,
-  ): WeatherEventAlertLocation {
-    return new WeatherEventAlertLocation(
-      data.name!,
-      data.state!,
-    );
+  public static fromApi(data: WebWeatherEventAlertLocation): WeatherEventAlertLocation {
+    return new WeatherEventAlertLocation(data.name!, data.state!);
   }
 }

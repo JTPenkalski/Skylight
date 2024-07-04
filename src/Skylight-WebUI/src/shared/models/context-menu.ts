@@ -23,9 +23,7 @@ export class ContextMenu {
 
   public handle(menu: NbMenuBag): void {
     if (menu.tag === this.tag) {
-      this.items
-        .find((x) => x.item.title === menu.item.title)
-        ?.action();
+      this.items.find((x) => x.item.title === menu.item.title)?.action();
     }
   }
 }

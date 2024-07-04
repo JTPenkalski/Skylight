@@ -17,9 +17,7 @@ export class NewWeatherEventAlert {
     public code?: string,
   ) {}
 
-  public static fromApi(
-    data: WebNewWeatherEventAlert,
-  ): NewWeatherEventAlert {
+  public static fromApi(data: WebNewWeatherEventAlert): NewWeatherEventAlert {
     return new NewWeatherEventAlert(
       data.sender!,
       data.headline!,
@@ -35,9 +33,7 @@ export class NewWeatherEventAlert {
     );
   }
 
-  public static fromHub(
-    data: HubNewWeatherEventAlert,
-  ): NewWeatherEventAlert {
+  public static fromHub(data: HubNewWeatherEventAlert): NewWeatherEventAlert {
     return new NewWeatherEventAlert(
       data.sender,
       data.headline,

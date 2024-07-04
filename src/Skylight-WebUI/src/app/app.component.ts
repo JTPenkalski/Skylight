@@ -1,23 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {
-  NbButtonModule,
-  NbLayoutModule,
-  NbSidebarModule,
-} from '@nebular/theme';
+import { NbButtonModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme';
 import { NavBarComponent } from 'shared/components';
 import { UserService } from 'shared/services';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    NbLayoutModule,
-    NbButtonModule,
-    NbSidebarModule,
-    NavBarComponent,
-    RouterOutlet,
-  ],
+  imports: [NbLayoutModule, NbButtonModule, NbSidebarModule, NavBarComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

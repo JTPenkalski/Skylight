@@ -1,7 +1,6 @@
 import { WeatherAlertLevel } from 'web/clients';
 
-export const ReceiveNewWeatherAlertsRequestName: string =
-  'ReceiveNewWeatherAlerts';
+export const ReceiveNewWeatherAlertsRequestName: string = 'ReceiveNewWeatherAlerts';
 
 export interface ReceiveNewWeatherAlertsRequest {
   newWeatherEventAlerts: NewWeatherEventAlert[];

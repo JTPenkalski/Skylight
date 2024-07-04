@@ -13,9 +13,7 @@ export class WeatherEventSummary {
     public affectedPeople?: number,
   ) {}
 
-  public static fromApi(
-    data: GetAllWeatherEventsResponse,
-  ): WeatherEventSummary[] {
+  public static fromApi(data: GetAllWeatherEventsResponse): WeatherEventSummary[] {
     return (
       data.weatherEvents?.map(
         (x) =>

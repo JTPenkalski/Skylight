@@ -2,20 +2,12 @@ import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbButtonModule, NbIconModule } from '@nebular/theme';
-import {
-  WeatherAlertLevel,
-  NewWeatherEventAlert,
-} from 'pages/weather-event-page/models';
+import { NewWeatherEventAlert, WeatherAlertLevel } from 'pages/weather-event-page/models';
 
 @Component({
   selector: 'skylight-weather-event-alert-button',
   standalone: true,
-  imports: [
-    NbButtonModule,
-    NbEvaIconsModule,
-    NbIconModule,
-    DatePipe,
-  ],
+  imports: [NbButtonModule, NbEvaIconsModule, NbIconModule, DatePipe],
   templateUrl: './weather-event-alert-button.component.html',
   styleUrl: './weather-event-alert-button.component.scss',
 })

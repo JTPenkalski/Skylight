@@ -3,10 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { UserService } from 'shared/services';
 
-export const authenticatedGuard: CanActivateFn = (
-  route,
-  state,
-) => {
+export const authenticatedGuard: CanActivateFn = (route, state) => {
   const userService: UserService = inject(UserService);
   const router: Router = inject(Router);
 

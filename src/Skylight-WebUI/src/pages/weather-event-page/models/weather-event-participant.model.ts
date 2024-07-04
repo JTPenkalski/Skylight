@@ -9,9 +9,7 @@ export class WeatherEventParticipant {
     public participationDate: Date,
   ) {}
 
-  public static fromApi(
-    data: WebWeatherEventParticipant,
-  ): WeatherEventParticipant {
+  public static fromApi(data: WebWeatherEventParticipant): WeatherEventParticipant {
     return new WeatherEventParticipant(
       data.firstName!,
       data.lastName!,

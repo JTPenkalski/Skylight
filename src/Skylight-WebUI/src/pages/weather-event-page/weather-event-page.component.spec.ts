@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WeatherEventPageComponent } from './weather-event-page.component';
 
@@ -14,9 +11,7 @@ describe('WeatherEventPageComponent', () => {
       imports: [WeatherEventPageComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(
-      WeatherEventPageComponent,
-    );
+    fixture = TestBed.createComponent(WeatherEventPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

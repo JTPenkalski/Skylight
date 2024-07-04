@@ -7,9 +7,7 @@ export class WeatherEventParticipantStatus {
     public participationDate: Date,
   ) {}
 
-  public static fromApi(
-    data: WebWeatherEventParticipant,
-  ): WeatherEventParticipantStatus {
+  public static fromApi(data: WebWeatherEventParticipant): WeatherEventParticipantStatus {
     return new WeatherEventParticipantStatus(
       mapParticipationMethod(data.participationMethod),
       data.participationDate!,

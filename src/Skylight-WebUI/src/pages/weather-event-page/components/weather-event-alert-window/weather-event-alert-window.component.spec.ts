@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WeatherEventAlertWindowComponent } from './weather-event-alert-window.component';
 
@@ -14,9 +11,7 @@ describe('WeatherEventAlertWindowComponent', () => {
       imports: [WeatherEventAlertWindowComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(
-      WeatherEventAlertWindowComponent,
-    );
+    fixture = TestBed.createComponent(WeatherEventAlertWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
