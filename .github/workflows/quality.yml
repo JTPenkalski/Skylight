@@ -22,19 +22,8 @@ jobs:
         with:
           version: latest
 
-      - name: Check if biome.json exists
-        run: |
-          if [ -f biome.json ]; then
-            echo "biome.json found"
-            cat biome.json
-          else
-            echo "biome.json not found"
-          fi
-
-      - name: List files in the repository
-        run: ls -la
-
       - name: Run Biome
-        run: biome ci src/Skylight-WebUI/ --config-path src/Skylight-WebUI
-      
-
+        run: |
+          biome ci src/Skylight-WebUI/
+          --config-path src/Skylight-WebUI
+          --line-ending lf
