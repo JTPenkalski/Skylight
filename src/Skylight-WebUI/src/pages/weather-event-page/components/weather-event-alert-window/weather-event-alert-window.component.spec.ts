@@ -8,10 +8,9 @@ describe('WeatherEventAlertWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherEventAlertWindowComponent]
-    })
-    .compileComponents();
-    
+      imports: [WeatherEventAlertWindowComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(WeatherEventAlertWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

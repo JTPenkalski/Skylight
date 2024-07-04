@@ -17,25 +17,27 @@ public class WeatherAlertService(
 	{
 		var eventAlerts = new List<WeatherEventAlert>();
 
+		// Get all Alerts
 		var clientRequest = new GetActiveAlertsRequest(
 			Statuses: [AlertStatus.Actual],
 			MessageTypes: [AlertMessageType.Alert]);
 
 		GetActiveAlertsResponse clientResponse = await nwsClient.GetActiveAlertsAsync(clientRequest, cancellationToken);
 
-		HashSet<string> alertNames = clientResponse.AlertCollection.Alerts
+		IEnumerable<Alert> alerts = clientResponse.AlertCollection.Alerts.ToList();
+		HashSet<string> alertNames = alerts
 			.Select(x => x.Event)
 			.ToHashSet();
+
+		// Get all Alert Types
 		Dictionary<string, WeatherAlert> weatherAlerts = await dbContext.WeatherAlerts
 			.Where(x => alertNames.Contains(x.Name))
 			.ToDictionaryAsync(x => x.Name, cancellationToken);
 
-		HashSet<string> alertLocations = clientResponse.AlertCollection.Alerts
-			.SelectMany(x => x.ZoneIds)
-			.ToHashSet();
-		Dictionary<string, Location> locations = (await GetLocationsForAlertAsync(alertLocations, cancellationToken))
-			.ToDictionary(x => x.ExternalId!);
+		// Get all Locations
+		Dictionary<string, Location> locations = await GetLocationsAsync(alerts, cancellationToken);
 
+		// Store all Event Alerts
 		foreach (Alert alert in clientResponse.AlertCollection.Alerts)
 		{
 			if (weatherAlerts.TryGetValue(alert.Event, out WeatherAlert? weatherAlert))
@@ -58,7 +60,10 @@ public class WeatherAlertService(
 
 				foreach (string zoneId in alert.ZoneIds)
 				{
-					weatherEventAlert.AddLocation(locations[zoneId]);
+					if (locations.TryGetValue(zoneId, out Location? location))
+					{
+						weatherEventAlert.AddLocation(location);
+					}
 				}
 
 				eventAlerts.Add(weatherEventAlert);
@@ -68,27 +73,42 @@ public class WeatherAlertService(
 		return eventAlerts;
 	}
 
-	protected async Task<IEnumerable<Location>> GetLocationsForAlertAsync(IEnumerable<string> zoneIds, CancellationToken cancellationToken)
+	internal async Task<Dictionary<string, Location>> GetLocationsAsync(IEnumerable<Alert> alerts, CancellationToken cancellationToken)
 	{
-		var locations = new List<Location>();
+		// Find all existing Locations
+		HashSet<string> zoneIds = alerts
+			.SelectMany(x => x.ZoneIds)
+			.ToHashSet();
 
-		var clientRequest = new GetZonesRequest(
-			ZoneIds: zoneIds.ToArray(),
-			ZoneTypes: [ZoneType.Public, ZoneType.County]);
+		Dictionary<string, Location> locations = await dbContext.Locations
+			.Where(x => x.ExternalId != null && zoneIds.Contains(x.ExternalId))
+			.ToDictionaryAsync(x => x.ExternalId!, cancellationToken);
 
-		GetZonesResponse response = await nwsClient.GetZonesAsync(clientRequest, cancellationToken);
+		IEnumerable<string[]> zoneIdChunks = zoneIds
+			.Except(locations.Keys)
+			.Chunk(500);
 
-		foreach (Zone zone in response.Zones)
+		foreach (string[] zoneIdChunk in zoneIdChunks)
 		{
-			Location location = await dbContext.Locations.FirstOrDefaultAsync(x => x.ExternalId == zone.Id, cancellationToken)
-				?? new Location
+			// Get all new Locations
+			var clientRequest = new GetZonesRequest(
+				ZoneIds: zoneIdChunk,
+				ZoneTypes: [ZoneType.Public, ZoneType.County]);
+
+			GetZonesResponse response = await nwsClient.GetZonesAsync(clientRequest, cancellationToken);
+
+			// Store all new Locations
+			foreach (Zone zone in response.Zones)
+			{
+				var location = new Location
 				{
 					Name = zone.Name,
 					State = zone.State,
 					ExternalId = zone.Id,
 				};
 
-			locations.Add(location);
+				locations.Add(zone.Id, location);
+			}
 		}
 
 		return locations;

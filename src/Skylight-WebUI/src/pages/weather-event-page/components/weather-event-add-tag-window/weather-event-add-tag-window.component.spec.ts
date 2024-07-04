@@ -8,10 +8,9 @@ describe('WeatherEventAddTagWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WeatherEventAddTagWindowComponent]
-    })
-    .compileComponents();
-    
+      imports: [WeatherEventAddTagWindowComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(WeatherEventAddTagWindowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

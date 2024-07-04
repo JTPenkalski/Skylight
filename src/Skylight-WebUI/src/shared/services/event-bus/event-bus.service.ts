@@ -5,13 +5,14 @@ import { Constructor } from 'shared/models';
 /**
  * An abstract event that a component may emit.
  */
-export interface Event { }
+// biome-ignore lint/suspicious/noEmptyInterface: The Event interface is a strongly-typed identifier to make declaring and finding Events easier.
+export interface Event {}
 
 /**
  * Global event emitter for communicating between components.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventBusService {
   private readonly subject: Subject<Event> = new BehaviorSubject<Event>({});
@@ -30,8 +31,6 @@ export class EventBusService {
    * @returns The Observable to subscribe a callback to.
    */
   public handle<T extends Event>(event: Constructor<T>): Observable<T> {
-    return <Observable<T>>this.subject.asObservable().pipe(
-      filter(e => e instanceof event)
-    );
+    return <Observable<T>>this.subject.asObservable().pipe(filter((e) => e instanceof event));
   }
 }

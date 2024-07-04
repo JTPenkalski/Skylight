@@ -3,13 +3,10 @@ import { WeatherEventAlertLocation as WebWeatherEventAlertLocation } from 'web/c
 export class WeatherEventAlertLocation {
   constructor(
     public name: string,
-    public state?: string
-  ) { }
+    public state?: string,
+  ) {}
 
   public static fromApi(data: WebWeatherEventAlertLocation): WeatherEventAlertLocation {
-    return new WeatherEventAlertLocation(
-      data.name!,
-      data.state!
-    )
+    return new WeatherEventAlertLocation(data.name!, data.state!);
   }
 }

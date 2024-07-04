@@ -7,18 +7,12 @@ import { UserService } from 'shared/services';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    NbLayoutModule,
-    NbButtonModule,
-    NbSidebarModule,
-    NavBarComponent,
-    RouterOutlet
-  ],
+  imports: [NbLayoutModule, NbButtonModule, NbSidebarModule, NavBarComponent, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit { 
-  constructor(private readonly userService: UserService) { }
+export class AppComponent implements OnInit {
+  constructor(private readonly userService: UserService) {}
 
   public ngOnInit(): void {
     // Automatically sign the user in, if their credentials are still valid

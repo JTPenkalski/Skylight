@@ -2,7 +2,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 export type AddTagData = {
   name: string;
-}
+};
 
 export class AddTag {
   public readonly name: FormControl<string>;

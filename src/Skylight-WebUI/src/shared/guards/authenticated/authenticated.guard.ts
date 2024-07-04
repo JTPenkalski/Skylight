@@ -8,10 +8,10 @@ export const authenticatedGuard: CanActivateFn = (route, state) => {
   const router: Router = inject(Router);
 
   return userService.isSignedIn().pipe(
-    tap(result => {
+    tap((result) => {
       if (!result) {
-        router.navigate(['/sign-in'])
+        router.navigate(['/sign-in']);
       }
-    })
+    }),
   );
 };

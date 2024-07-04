@@ -7,16 +7,11 @@ import { DarkenDirective } from 'shared/directives';
 @Component({
   selector: 'skylight-icon-card',
   standalone: true,
-  imports: [
-    NbCardModule,
-    NbEvaIconsModule,
-    NbIconModule,
-    DarkenDirective,
-    DatePipe
-  ],
+  imports: [NbCardModule, NbEvaIconsModule, NbIconModule, DarkenDirective, DatePipe],
   templateUrl: './icon-card.component.html',
-  styleUrl: './icon-card.component.scss'
+  styleUrl: './icon-card.component.scss',
 })
 export class IconCardComponent {
-  @Input() public icon: string = 'info';
+  @Input()
+  public icon: string = 'info';
 }

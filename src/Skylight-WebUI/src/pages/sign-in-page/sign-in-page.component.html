@@ -1,12 +1,16 @@
-<div class="flex-column center">
+<div class="flex-column center expand">
   <nb-card class="sign-in-card">
     <nb-card-body class="flex-column">
       <h2>Sign In</h2>
   
       <form [formGroup]="form" class="flex-column expand" (ngSubmit)="submitForm()">        
-        <input nbInput fullWidth id="email" formControlName="email" fieldSize="giant" placeholder="Email" type="text">
-      
-        <input nbInput fullWidth id="password" formControlName="password" fieldSize="giant" placeholder="Password" type="password">
+        <skylight-form-field>
+          <input nbInput fullWidth id="email" formControlName="email" fieldSize="giant" placeholder="Email" type="text">
+        </skylight-form-field>
+
+        <skylight-form-field>
+          <input nbInput fullWidth id="password" formControlName="password" fieldSize="giant" placeholder="Password" type="password">
+        </skylight-form-field>
 
         <button nbButton fullWidth hero class="float-bottom" size="giant" status="success" type="submit" [disabled]="false">Submit</button>
       </form>

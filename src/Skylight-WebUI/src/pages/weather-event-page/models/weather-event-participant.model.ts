@@ -6,15 +6,15 @@ export class WeatherEventParticipant {
     public firstName: string,
     public lastName: string,
     public participationMethod: ParticipationMethod,
-    public participationDate: Date
-  ) { }
+    public participationDate: Date,
+  ) {}
 
   public static fromApi(data: WebWeatherEventParticipant): WeatherEventParticipant {
     return new WeatherEventParticipant(
       data.firstName!,
       data.lastName!,
       mapParticipationMethod(data.participationMethod),
-      data.participationDate!
-    )
+      data.participationDate!,
+    );
   }
 }

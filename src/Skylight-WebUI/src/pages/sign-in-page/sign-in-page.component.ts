@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NbAlertModule, NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { FormFieldComponent } from 'shared/components';
 import { UserService } from 'shared/services';
 import { SignInUser, SignInUserData } from './forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'skylight-sign-in-page',
@@ -13,10 +14,11 @@ import { Router } from '@angular/router';
     NbCardModule,
     NbButtonModule,
     NbInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormFieldComponent,
   ],
   templateUrl: './sign-in-page.component.html',
-  styleUrl: './sign-in-page.component.scss'
+  styleUrl: './sign-in-page.component.scss',
 })
 export class SignInPageComponent {
   public signInFailed: boolean = false;
@@ -25,26 +27,25 @@ export class SignInPageComponent {
   constructor(
     private readonly router: Router,
     private readonly formBuilder: FormBuilder,
-    private readonly userService: UserService
-  ) { }
+    private readonly userService: UserService,
+  ) {}
 
   public submitForm(): void {
     if (!this.form.valid) return;
 
     const registerUser: SignInUserData = SignInUser.fromFormGroup(this.form);
 
-    this.userService.signIn(
-      registerUser.email,
-      registerUser.password,
-    ).subscribe({
-      next: result => {
-        this.signInFailed = !result
+    this.userService.signIn(registerUser.email, registerUser.password).subscribe({
+      next: (result) => {
+        this.signInFailed = !result;
 
         if (result) {
-          this.router.navigate(['/weather-event']);
+          this.router.navigate(['/weather-events']);
         }
       },
-      error: () => this.signInFailed = true
+      error: () => {
+        this.signInFailed = true;
+      },
     });
   }
 

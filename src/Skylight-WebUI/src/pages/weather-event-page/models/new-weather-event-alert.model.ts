@@ -14,8 +14,8 @@ export class NewWeatherEventAlert {
     public name: string,
     public source: string,
     public level: WeatherAlertLevel,
-    public code?: string 
-  ) { }
+    public code?: string,
+  ) {}
 
   public static fromApi(data: WebNewWeatherEventAlert): NewWeatherEventAlert {
     return new NewWeatherEventAlert(
@@ -29,10 +29,10 @@ export class NewWeatherEventAlert {
       data.name!,
       data.source!,
       mapWeatherAlertLevel(data.level),
-      data.code
-    )
+      data.code,
+    );
   }
-  
+
   public static fromHub(data: HubNewWeatherEventAlert): NewWeatherEventAlert {
     return new NewWeatherEventAlert(
       data.sender,
@@ -45,7 +45,7 @@ export class NewWeatherEventAlert {
       data.name,
       data.source,
       mapWeatherAlertLevel(data.level),
-      data.code
-    )
+      data.code,
+    );
   }
 }

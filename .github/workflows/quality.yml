@@ -1,0 +1,29 @@
+# Runs various formatters, linters, and analyzers to ensure code quality.
+
+name: Quality
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  quality:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set Up Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
+      - name: Run Biome
+        run: |
+          biome ci src/Skylight-WebUI/ \
+          --config-path src/Skylight-WebUI \
+          --line-ending lf

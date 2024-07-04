@@ -1,0 +1,15 @@
+<div class="flex-column no-gap form-field">
+  @if (label) {
+    <label class="label" [for]="name">{{label}}</label>
+  }
+  
+  <ng-content #control></ng-content>
+  
+  @if (invalid) {
+    <ul>
+      @for (error of errors; track $index) {
+        <li class="caption status-danger">{{error}}</li>
+      }
+    </ul>
+  }
+</div>
