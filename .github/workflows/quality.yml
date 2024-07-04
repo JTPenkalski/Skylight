@@ -24,6 +24,6 @@ jobs:
 
       - name: Run Biome
         run: |
-          biome ci src/Skylight-WebUI/
-          --config-path src/Skylight-WebUI
+          biome ci src/Skylight-WebUI/ \
+          --config-path src/Skylight-WebUI \
           --line-ending lf
