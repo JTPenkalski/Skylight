@@ -1,6 +1,6 @@
 # Runs various formatters, linters, and analyzers to ensure code quality.
 
-name: Code Quality
+name: Quality
 
 on:
   push:
@@ -23,6 +23,6 @@ jobs:
           version: latest
 
       - name: Run Biome
-        run: biome ci .
+        run: biome ci src/Skylight-WebUI/
       
 
