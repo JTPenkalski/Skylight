@@ -84,26 +84,31 @@ public class WeatherAlertService(
 			.Where(x => x.ExternalId != null && zoneIds.Contains(x.ExternalId))
 			.ToDictionaryAsync(x => x.ExternalId!, cancellationToken);
 
-		// Get all new Locations
-		var clientRequest = new GetZonesRequest(
-			ZoneIds: zoneIds
-				.Except(locations.Keys)
-				.ToArray(),
-			ZoneTypes: [ZoneType.Public, ZoneType.County]);
+		IEnumerable<string[]> zoneIdChunks = zoneIds
+			.Except(locations.Keys)
+			.Chunk(500);
 
-		GetZonesResponse response = await nwsClient.GetZonesAsync(clientRequest, cancellationToken);
-
-		// Store all new Locations
-		foreach (Zone zone in response.Zones)
+		foreach (string[] zoneIdChunk in zoneIdChunks)
 		{
-			var location = new Location
-			{
-				Name = zone.Name,
-				State = zone.State,
-				ExternalId = zone.Id,
-			};
+			// Get all new Locations
+			var clientRequest = new GetZonesRequest(
+				ZoneIds: zoneIdChunk,
+				ZoneTypes: [ZoneType.Public, ZoneType.County]);
 
-			locations.Add(zone.Id, location);
+			GetZonesResponse response = await nwsClient.GetZonesAsync(clientRequest, cancellationToken);
+
+			// Store all new Locations
+			foreach (Zone zone in response.Zones)
+			{
+				var location = new Location
+				{
+					Name = zone.Name,
+					State = zone.State,
+					ExternalId = zone.Id,
+				};
+
+				locations.Add(zone.Id, location);
+			}
 		}
 
 		return locations;
