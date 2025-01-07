@@ -8,7 +8,6 @@ using Skylight.Application.Interfaces.Infrastructure;
 using Skylight.Domain.Extensions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Actions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
-using Skylight.Utilities.Extensions;
 using System.Text.Json;
 
 namespace Skylight.Infrastructure.Clients.NationalWeatherService;

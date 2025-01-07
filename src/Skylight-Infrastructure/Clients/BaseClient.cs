@@ -31,7 +31,7 @@ public abstract class BaseClient(ILogger logger)
 	{
 		validator?.ValidateAndThrow(request);
 
-		logger.LogInformation("Preparing HTTP request '{request}'.", typeof(TRequest).Name);
+		logger.LogInformation("Preparing HTTP request '{Request}'.", typeof(TRequest).Name);
 
 		return requestPreparer(request);
 	}
@@ -44,7 +44,7 @@ public abstract class BaseClient(ILogger logger)
 	/// <returns>The response object.</returns>
 	protected async Task<TResponse> ExecuteRequestAsync<TResponse>(IFlurlRequest request, Func<string, TResponse> responsePreparer, CancellationToken cancellationToken)
 	{
-		logger.LogInformation("Executing HTTP request to {url}.", request.Url);
+		logger.LogInformation("Executing HTTP request to {Url}.", request.Url);
 
 		string response = await request.GetStringAsync(cancellationToken: cancellationToken);
 

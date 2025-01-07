@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Skylight.Controllers;
+namespace Skylight.API.Controllers;
 
 /// <summary>
 /// Represents the shared behavior of all API controllers.

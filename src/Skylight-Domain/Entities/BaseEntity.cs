@@ -23,9 +23,9 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
     [NotMapped]
     public IReadOnlyCollection<DomainEvent> Events => events;
 
-    public override bool Equals(object? obj) => Equals(obj as BaseEntity);
-
     public override int GetHashCode() => Id.GetHashCode();
+
+    public override bool Equals(object? obj) => Equals(obj as BaseEntity);
 
     public virtual bool Equals(BaseEntity? other) =>
 		other is not null

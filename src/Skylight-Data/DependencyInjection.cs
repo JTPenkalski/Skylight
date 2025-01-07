@@ -8,7 +8,6 @@ using Skylight.Application.Interfaces.Data;
 using Skylight.Data.Contexts;
 using Skylight.Data.Initializers;
 using Skylight.Domain.Exceptions;
-using Skylight.Infrastructure.Contexts;
 using System.Reflection;
 
 namespace Skylight.Data;

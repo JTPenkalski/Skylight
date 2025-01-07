@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Skylight.Infrastructure.Jobs;
 
-namespace Skylight.Jobs;
+namespace Skylight.API.Jobs;
 
 public class FetchActiveWeatherAlertsJobScheduler(IOptions<FetchActiveWeatherAlertsJobOptions> options) : BaseJobScheduler<FetchActiveWeatherAlertsJob>
 {

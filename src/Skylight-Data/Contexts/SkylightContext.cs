@@ -68,7 +68,7 @@ public class SkylightContext(
         catch (Exception ex)
         {
             success = false;
-            logger.LogError("There was a problem updating the database, no changes have been made. Inner Exception: {ERROR}", ex.Message);
+            logger.LogError(ex, "There was a problem updating the database, no changes have been made.");
         }
 
         return success;

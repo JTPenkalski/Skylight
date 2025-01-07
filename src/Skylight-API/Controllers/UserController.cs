@@ -4,12 +4,13 @@ using FluentResults.Extensions.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Skylight.API.Controllers;
 using Skylight.Application.UseCases.StormTrackers;
 using Skylight.Application.UseCases.Users;
 using Skylight.Infrastructure.Identity;
 using IdentitySignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-namespace Skylight.Controllers;
+namespace Skylight.API.Controllers;
 
 /// <summary>
 /// Web API Controller for manipulating <see cref="User"/> models.

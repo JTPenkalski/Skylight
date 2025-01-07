@@ -5,7 +5,7 @@ using Skylight.Application.UseCases.WeatherEvents;
 using Skylight.Domain.Entities;
 using Skylight.Infrastructure.Identity.Attributes;
 
-namespace Skylight.Controllers;
+namespace Skylight.API.Controllers;
 
 /// <summary>
 /// Web API Controller for manipulating <see cref="WeatherEvent"/> models.

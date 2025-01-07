@@ -1,4 +1,4 @@
-﻿namespace Skylight.Controllers;
+﻿namespace Skylight.API.Controllers;
 
 /// <summary>
 /// Stores CORS information about the API.

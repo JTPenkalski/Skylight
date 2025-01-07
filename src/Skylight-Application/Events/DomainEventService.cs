@@ -1,12 +1,11 @@
 ﻿using MediatR;
-using Skylight.Application.Events;
 using Skylight.Application.Interfaces.Application;
 using Skylight.Domain.Entities;
 using Skylight.Domain.Events;
 using Skylight.Domain.Exceptions;
 using System.Text.Json;
 
-namespace Skylight.Application.Messaging;
+namespace Skylight.Application.Events;
 
 public class DomainEventService(IMediator mediator) : IDomainEventService
 {

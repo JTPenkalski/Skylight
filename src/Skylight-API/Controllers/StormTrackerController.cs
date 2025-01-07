@@ -1,10 +1,11 @@
 ﻿using Asp.Versioning;
 using FluentResults.Extensions.AspNetCore;
 using MediatR;
+using Skylight.API.Controllers;
 using Skylight.Application.UseCases.StormTrackers;
 using Skylight.Domain.Entities;
 
-namespace Skylight.Controllers;
+namespace Skylight.API.Controllers;
 
 /// <summary>
 /// Web API Controller for manipulating <see cref="StromTracker"/> models.
