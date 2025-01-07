@@ -86,9 +86,9 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_constructors = false:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_expression_bodied_methods = false:silent
-csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_local_functions = true:silent
+csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_operators = true:silent
 csharp_style_expression_bodied_properties = true:silent
 
 # Pattern matching preferences
@@ -128,8 +128,8 @@ csharp_style_prefer_range_operator = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_prefer_utf8_string_literals = true:suggestion
 csharp_style_throw_expression = true:suggestion
-csharp_style_unused_value_assignment_preference = discard_variable:warning
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+csharp_style_unused_value_assignment_preference = unused_local_variable:silent
+csharp_style_unused_value_expression_statement_preference = unused_local_variable:silent
 
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace:silent
@@ -245,7 +245,7 @@ dotnet_style_null_propagation = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:error
 dotnet_style_prefer_auto_properties = true:error
 dotnet_style_object_initializer = true:warning
-dotnet_style_prefer_collection_expression = true:warning
+dotnet_style_prefer_collection_expression = when_types_exactly_match:warning
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
