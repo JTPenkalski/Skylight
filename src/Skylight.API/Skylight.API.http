@@ -1,0 +1,7 @@
+@Skylight.BaseAddress = http://localhost:5171/api
+@Skylight.CurrentVersion = v1
+
+GET {{Skylight.BaseAddress}}/{{Skylight.CurrentVersion}}/WeatherAlerts/GetActive
+Accept: application/json
+
+###
