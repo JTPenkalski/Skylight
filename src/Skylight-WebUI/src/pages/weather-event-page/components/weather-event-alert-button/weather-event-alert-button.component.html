@@ -1,8 +1,0 @@
-<button nbButton outline class="alert-button" [status]="status">
-  <nb-icon [icon]="icon"></nb-icon>
-  <div class="button-content">
-    <div class="button-item button-header">{{alert.name}}</div>
-    <div class="button-item preserve-text">Effective {{alert.effective | date:'short'}} until {{alert.expires | date:'short'}}</div>
-    <div class="button-item preserve-text">{{alert.sender}}</div>
-  </div>
-</button>
