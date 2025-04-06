@@ -1,6 +1,4 @@
-using Scalar.AspNetCore;
 using Skylight.API;
-using Skylight.API.Controllers;
 using Skylight.Application;
 using Skylight.Infrastructure;
 using Skylight.Infrastructure.Data;
@@ -45,14 +43,11 @@ application
 // Add Development Registrations
 if (application.Environment.IsDevelopment())
 {
-    application.MapOpenApi();
-	application.MapScalarApiReference(options =>
-	{
-		options
-			.WithTitle("Skylight API")
-			.WithTheme(ScalarTheme.Purple)
-			.AddDocuments($"v{SkylightApiVersion.Current}");
-	});
+	application
+		.UseDevelopmentInfrastructure();
+
+    application
+		.MapDevelopmentApi();
 }
 
 // Add Middleware

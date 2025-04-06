@@ -8,7 +8,11 @@ using Skylight.Domain.Common.Exceptions;
 
 namespace Skylight.Infrastructure.Data;
 
-public class SkylightDbContext(ILogger<SkylightDbContext> logger) : DbContext, ISkylightDbContext
+public class SkylightDbContext(
+	DbContextOptions<SkylightDbContext> options,
+	ILogger<SkylightDbContext> logger)
+	: DbContext(options),
+	ISkylightDbContext
 {
 	public string ChangeTrackingStatus
 	{

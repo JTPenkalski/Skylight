@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 using Skylight.API.Controllers;
 using System.Text.Json.Serialization;
 
@@ -67,5 +68,23 @@ public static class Bootstrap
 			});
 
 		return services;
+	}
+
+	/// <summary>
+	/// Adds development-only routing for the <see cref="API"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="IEndpointRouteBuilder"/>.</returns>
+	public static IEndpointRouteBuilder MapDevelopmentApi(this IEndpointRouteBuilder application)
+	{
+		application.MapOpenApi();
+		application.MapScalarApiReference(options =>
+		{
+			options
+				.WithTitle("Skylight API")
+				.WithTheme(ScalarTheme.Purple)
+				.AddDocuments($"v{SkylightApiVersion.Current}");
+		});
+
+		return application;
 	}
 }
