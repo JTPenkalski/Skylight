@@ -1,6 +1,7 @@
 using Scalar.AspNetCore;
 using Skylight.API;
 using Skylight.API.Controllers;
+using Skylight.Application;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.AddServiceDefaults();
 builder.Services
 	.AddLogging()
 	.AddOptions()
+	.AddApplication()
 	.AddApi();
 
 WebApplication application = builder.Build();

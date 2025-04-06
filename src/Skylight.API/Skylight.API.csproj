@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Skylight.Infrastructure\Skylight.Infrastructure.csproj" />
     <ProjectReference Include="..\Skylight.ServiceDefaults\Skylight.ServiceDefaults.csproj" />
   </ItemGroup>
 
