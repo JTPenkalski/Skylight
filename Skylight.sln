@@ -2,30 +2,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.AppHost", "src\Skylight.AppHost\Skylight.AppHost.csproj", "{2C0B13A9-3EE4-4DD4-B9D7-3620476B7E07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.ServiceDefaults", "src\Skylight.ServiceDefaults\Skylight.ServiceDefaults.csproj", "{025A83FD-58F6-18F2-6A94-3D0F149701BF}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.AppHost", "src\Skylight.AppHost\Skylight.AppHost.csproj", "{2C0B13A9-3EE4-4DD4-B9D7-3620476B7E07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.AppDefaults", "src\Skylight.AppDefaults\Skylight.AppDefaults.csproj", "{51CA24E9-83B2-46AB-9FEE-71B156900AB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.ServiceDefaults", "src\Skylight.ServiceDefaults\Skylight.ServiceDefaults.csproj", "{025A83FD-58F6-18F2-6A94-3D0F149701BF}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{183C787F-6EE3-4081-9FDC-C271687D1CCE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B71AC175-2BEE-451E-A0C1-C88F96417AA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{75A01C89-7C29-4F58-9C65-12E7939F2AA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{22A502C0-D081-4854-9952-E77E3CD86DFD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.API", "src\Skylight.API\Skylight.API.csproj", "{33143123-401F-4F25-54F1-501DF9FB44B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Domain", "src\Skylight.Domain\Skylight.Domain.csproj", "{66894C63-10E4-430E-8B49-2E11DD9DA22C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{22A502C0-D081-4854-9952-E77E3CD86DFD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{75A01C89-7C29-4F58-9C65-12E7939F2AA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Application", "src\Skylight.Application\Skylight.Application.csproj", "{43F62E52-0054-48A6-94F0-B873C905129C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Infrastructure", "src\Skylight.Infrastructure\Skylight.Infrastructure.csproj", "{DDF6EF51-E188-4891-8C29-715AB91D6A53}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Application", "src\Skylight.Application\Skylight.Application.csproj", "{43F62E52-0054-48A6-94F0-B873C905129C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{43F62E52-0054-48A6-94F0-B873C905129C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43F62E52-0054-48A6-94F0-B873C905129C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43F62E52-0054-48A6-94F0-B873C905129C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51CA24E9-83B2-46AB-9FEE-71B156900AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51CA24E9-83B2-46AB-9FEE-71B156900AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51CA24E9-83B2-46AB-9FEE-71B156900AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51CA24E9-83B2-46AB-9FEE-71B156900AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{66894C63-10E4-430E-8B49-2E11DD9DA22C} = {B71AC175-2BEE-451E-A0C1-C88F96417AA8}
 		{DDF6EF51-E188-4891-8C29-715AB91D6A53} = {75A01C89-7C29-4F58-9C65-12E7939F2AA5}
 		{43F62E52-0054-48A6-94F0-B873C905129C} = {B71AC175-2BEE-451E-A0C1-C88F96417AA8}
+		{51CA24E9-83B2-46AB-9FEE-71B156900AB5} = {183C787F-6EE3-4081-9FDC-C271687D1CCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2B3B4D7-C279-4751-8470-AF350FB2FE52}

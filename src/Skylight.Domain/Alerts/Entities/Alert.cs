@@ -6,7 +6,7 @@ public class Alert : BaseAuditableEntity
 {
 	public required AlertType Type { get; set; }
 
-	public required Sender Sender { get; set; }
+	public required AlertSender Sender { get; set; }
 
 	public required string Headline { get; set; }
 
@@ -36,5 +36,5 @@ public class Alert : BaseAuditableEntity
 
 	public string? ExternalId { get; set; }
 
-	public IEnumerable<Zone> Zones { get; protected set; } = [];
+	public IEnumerable<AlertZone> Zones { get; protected set; } = [];
 }

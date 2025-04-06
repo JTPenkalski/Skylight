@@ -2,7 +2,7 @@
 
 namespace Skylight.Domain.Alerts.Entities;
 
-public class Sender : BaseAuditableEntity
+public class AlertSender : BaseAuditableEntity
 {
 	public required string Code { get; set; }
 

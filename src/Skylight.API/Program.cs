@@ -2,8 +2,12 @@ using Scalar.AspNetCore;
 using Skylight.API;
 using Skylight.API.Controllers;
 using Skylight.Application;
+using Skylight.Infrastructure;
+using Skylight.Infrastructure.Data;
+using Skylight.ServiceDefaults;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+bool isProduction = builder.Environment.IsProduction();
 
 // Add Logging
 builder.Logging
@@ -24,7 +28,12 @@ builder.Services
 	.AddLogging()
 	.AddOptions()
 	.AddApplication()
+	.AddInfrastructure(builder.Configuration, isProduction)
 	.AddApi();
+
+// Enrich Services
+builder
+	.EnrichNpgsqlDbContext<SkylightDbContext>();
 
 WebApplication application = builder.Build();
 
