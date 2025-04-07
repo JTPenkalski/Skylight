@@ -9,6 +9,6 @@ public class AddCurrentAlertsHandler : ICommandHandler<AddCurrentAlertsCommand, 
 	{
 		var response = new AddCurrentAlertsResponse();
 
-		return ValueTask.FromResult(Result<AddCurrentAlertsResponse>.Success(response));
+		return ValueTask.FromResult(Result.Success(response));
 	}
 }

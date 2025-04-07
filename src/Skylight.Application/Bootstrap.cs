@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Mediator;
+using Microsoft.Extensions.DependencyInjection;
+using Skylight.Application.Behaviors;
 using System.Reflection;
 
 namespace Skylight.Application;
@@ -15,7 +17,11 @@ public static class Bootstrap
 
 		// Add Application Services
 		services
-			.AddMediator()
+			.AddMediator(options =>
+			{
+				options.ServiceLifetime = ServiceLifetime.Transient;
+			})
+			.AddSingleton(typeof(IPipelineBehavior<,>), typeof(EntityNotFoundExceptionBehavior<,>))
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
 					.AddClasses()

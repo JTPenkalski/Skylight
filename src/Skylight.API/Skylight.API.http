@@ -7,3 +7,10 @@ Content-Type: application/json
 {}
 
 ###
+
+POST {{Skylight.BaseAddress}}/{{Skylight.CurrentVersion}}/Alerts/GetAlertTypes
+Accept: application/json
+Content-Type: application/json
+{}
+
+###

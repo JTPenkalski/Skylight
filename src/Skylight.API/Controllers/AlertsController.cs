@@ -1,7 +1,9 @@
 using Asp.Versioning;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
+using Skylight.API.Extensions;
 using Skylight.Application.Features.Alerts.AddCurrentAlerts;
+using Skylight.Application.Features.Alerts.GetAlertTypes;
 
 namespace Skylight.API.Controllers;
 
@@ -15,8 +17,14 @@ public class AlertsController(IMediator mediator)
     {
 		var result = await mediator.Send(request, cancellationToken);
 
-		return result.IsSuccess
-			? Ok(result.Value)
-			: BadRequest(result.Errors);
+		return result.ToActionResult();
     }
+
+	[HttpPost]
+	public async Task<ActionResult<GetAlertTypesResponse>> GetAlertTypes(GetAlertTypesQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
 }
