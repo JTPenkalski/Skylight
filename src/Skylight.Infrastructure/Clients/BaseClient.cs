@@ -1,4 +1,5 @@
-﻿using Flurl.Http;
+﻿using FluentValidation;
+using Flurl.Http;
 using Microsoft.Extensions.Logging;
 
 namespace Skylight.Infrastructure.Clients;
@@ -8,42 +9,35 @@ namespace Skylight.Infrastructure.Clients;
 /// </summary>
 public abstract class BaseClient(ILogger logger)
 {
-	/// <summary>
-	/// Comma-delimits array values for the APIs that require it.
-	/// </summary>
-	/// <param name="array">The array of values.</param>
-	/// <returns>A CSV of the array values, or null if there are no values.</returns>
-	protected static string? EncodeArray<T>(T[]? array) =>
-		array is not null
-			? string.Join(',', array)
-			: null;
+	internal abstract IFlurlRequest BaseRequest { get; }
 
 	/// <summary>
-	/// Builds a web request.
-	/// </summary>
-	/// <param name="request">The <see cref="IClientRequest"/>.</param>
-	/// <param name="requestPreparer">The mapping between <typeparamref name="TRequest"/> and the web request.</param>
-	/// <returns>A web request ready to be called.</returns>
-	protected IFlurlRequest PrepareRequest<TRequest>(TRequest request, Func<TRequest, IFlurlRequest> requestPreparer)
-		where TRequest : IClientRequest
-	{
-		logger.LogInformation("Preparing HTTP request '{Request}'.", typeof(TRequest).Name);
-
-		return requestPreparer(request);
-	}
-
-	/// <summary>
-	/// Executes a web request.
+	/// Prepares and executes web request, returning a marshalled response.
 	/// </summary>
 	/// <param name="request">The web request to execute.</param>
 	/// <param name="responsePreparer">The mapping between the response and <typeparamref name="TResponse"/>.</param>
 	/// <returns>The response object.</returns>
-	protected async Task<TResponse> ExecuteRequestAsync<TResponse>(IFlurlRequest request, Func<string, TResponse> responsePreparer, CancellationToken cancellationToken)
+	protected async Task<TResponse> ExecuteRequestAsync<TRequest, TResponse>(
+		TRequest request,
+		Func<TRequest, IFlurlRequest> requestPreparer,
+		Func<string, TResponse> responsePreparer,
+		CancellationToken cancellationToken,
+		IValidator<TRequest>? validator = null)
+		where TRequest : IClientRequest
+		where TResponse : IClientResponse
 	{
-		logger.LogInformation("Executing HTTP request to {Url}.", request.Url);
+		if (validator is not null)
+		{
+			await validator.ValidateAndThrowAsync(request, cancellationToken);
+		}
 
-		string response = await request.GetStringAsync(cancellationToken: cancellationToken);
+		IFlurlRequest clientRequest = requestPreparer(request);
 
-		return responsePreparer(response);
+		logger.LogInformation("Executing HTTP request to {Url}.", clientRequest.Url);
+
+		string clientResponse = await clientRequest.GetStringAsync(cancellationToken: cancellationToken);
+		TResponse response = responsePreparer(clientResponse);
+
+		return response;
 	}
 }

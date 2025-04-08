@@ -1,4 +1,5 @@
-﻿using Mediator;
+﻿using FluentValidation;
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Behaviors;
 using System.Reflection;
@@ -17,11 +18,12 @@ public static class Bootstrap
 
 		// Add Application Services
 		services
+			.AddValidatorsFromAssembly(assembly)
 			.AddMediator(options =>
 			{
 				options.ServiceLifetime = ServiceLifetime.Transient;
 			})
-			.AddSingleton(typeof(IPipelineBehavior<,>), typeof(EntityNotFoundExceptionBehavior<,>))
+			.AddSingleton(typeof(IPipelineBehavior<,>), typeof(ExceptionBehavior<,>))
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
 					.AddClasses()

@@ -5,9 +5,9 @@ using Skylight.Domain.Common.Results;
 namespace Skylight.Application.Behaviors;
 
 /// <summary>
-/// Catches any <see cref="EntityNotFoundException"/> and returns a failed <see cref="Result"/> to the sender.
+/// Catches uncaught exceptions and returns a failed <see cref="Result"/> to the sender for specific types.
 /// </summary>
-public class EntityNotFoundExceptionBehavior<TMessage, TResponse> : IPipelineBehavior<TMessage, TResponse>
+public class ExceptionBehavior<TMessage, TResponse> : IPipelineBehavior<TMessage, TResponse>
 	where TMessage : IMessage
 	where TResponse : Result, new()
 {
@@ -20,7 +20,7 @@ public class EntityNotFoundExceptionBehavior<TMessage, TResponse> : IPipelineBeh
 		catch (EntityNotFoundException ex)
 		{
 			var result = new TResponse();
-			result.Errors.Add(new Error(ex.Message));
+			result.AddErrors(new Error(ex.Message));
 
 			return result;
 		}

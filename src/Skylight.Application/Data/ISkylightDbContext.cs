@@ -2,6 +2,7 @@
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Entities;
 using Skylight.Domain.Common.Events;
+using Skylight.Domain.Common.Exceptions;
 
 namespace Skylight.Application.Data;
 
@@ -38,6 +39,13 @@ public interface ISkylightDbContext
 	/// <returns>The tracked <typeparamref name="T"/> instance.</returns>
 	/// <exception cref="EntityNotFoundException"/>
 	Task<T> FindNoTrackingAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity;
+
+	/// <summary>
+	/// Finds an optional <typeparamref name="T"/> in the database.
+	/// </summary>
+	/// <param name="id">The <see cref="BaseEntity.Id"/> to query for.</param>
+	/// <returns>The tracked <typeparamref name="T"/> instance, or null if not found.</returns>
+	Task<T?> FindOptionalAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity;
 
 	/// <summary>
 	/// Saves all changes in the current transaction.

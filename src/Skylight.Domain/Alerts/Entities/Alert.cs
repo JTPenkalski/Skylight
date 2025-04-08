@@ -4,6 +4,8 @@ namespace Skylight.Domain.Alerts.Entities;
 
 public class Alert : BaseAuditableEntity
 {
+	private readonly HashSet<AlertZone> _zones = [];
+
 	public required AlertType Type { get; set; }
 
 	public required AlertSender Sender { get; set; }
@@ -36,5 +38,11 @@ public class Alert : BaseAuditableEntity
 
 	public string? ExternalId { get; set; }
 
-	public IEnumerable<AlertZone> Zones { get; protected set; } = [];
+	public IReadOnlySet<AlertZone> Zones => _zones;
+
+	public bool AddZone(AlertZone zone) =>
+		_zones.Add(zone);
+
+	public bool RemoveZone(AlertZone zone) =>
+		_zones.Remove(zone);
 }

@@ -11,6 +11,7 @@
     <PackageReference Include="Flurl" Version="4.0.0" />
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Net.Http.Headers" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>

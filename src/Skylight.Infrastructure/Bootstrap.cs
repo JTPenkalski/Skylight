@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Data;
+using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Data.Initializers;
 using System.Reflection;
@@ -20,6 +22,10 @@ public static class Bootstrap
 	{
 		Assembly assembly = typeof(Bootstrap).Assembly;
 
+		// Add Configuration
+		services
+			.AddOptions<NationalWeatherServiceOptions>().Bind(configuration.GetSection(NationalWeatherServiceOptions.RootKey)).ValidateOnStart();
+
 		// Add Time Provider
 		services.AddSingleton(TimeProvider.System);
 
@@ -29,13 +35,14 @@ public static class Bootstrap
 			{
 				options
 					.AddInterceptors(provider.GetServices<IInterceptor>())
-					.UseNpgsql(configuration.GetConnectionString("skylight-postgress-db"));
+					.UseNpgsql(configuration.GetConnectionString("skylight-postgres-db"));
 
 				options.EnableSensitiveDataLogging(!isProduction);
 			});
 
 		// Add Infrastructure Services
 		services
+			.AddValidatorsFromAssembly(assembly)
 			.AddScoped<ISkylightDbContextInitializer, DefaultSkylightDbContextInitializer>()
 			.Scan(scan => scan
 				.FromAssemblies(assembly)

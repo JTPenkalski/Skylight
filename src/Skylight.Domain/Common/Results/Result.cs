@@ -2,34 +2,39 @@
 
 public abstract class Result
 {
+	private readonly List<Error> _errors = [];
+
 	public bool IsSuccess => Errors.Count == 0;
 
 	public bool IsFailed => !IsSuccess;
 
-	public IList<Error> Errors { get; protected set; } = [];
+	public IReadOnlyList<Error> Errors { get; protected set; } = [];
 
 	public static Result<T> Success<T>(T? value) =>
 		new(value);
 
-	public static Result<T> Fail<T>(Error error) =>
-		new(error);
+	public static Result<T> Fail<T>(params IEnumerable<Error> errors) =>
+		new(errors);
+
+	public void AddErrors(params IEnumerable<Error> errors) =>
+		_errors.AddRange(errors);
 }
 
 public class Result<T> : Result
 {
-	public T? Value { get; protected set; }
-
 	public Result() : base() { }
 
-	public Result(T? value) : base() =>
+	internal Result(T? value) : base() =>
 		Value = value;
 
-	public Result(Error error) : base() =>
-		Errors.Add(error);
+	internal Result(params IEnumerable<Error> errors) : base() =>
+		AddErrors(errors);
 
 	public static implicit operator T?(Result<T> result) =>
 		result.Value;
 
 	public static implicit operator Result<T>(T value) =>
 		new(value);
+
+	public T? Value { get; protected set; }
 }

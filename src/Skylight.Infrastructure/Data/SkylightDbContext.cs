@@ -50,6 +50,14 @@ public class SkylightDbContext(
 		return ValidateFoundEntity(id, entity);
 	}
 
+	public async Task<T?> FindOptionalAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity
+	{
+		T? entity = await Set<T>()
+			.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+		return entity;
+	}
+
 	public async Task<bool> CommitAsync(CancellationToken cancellationToken = default)
 	{
 		bool success = true;
@@ -87,7 +95,6 @@ public class SkylightDbContext(
 		configurationBuilder.Properties<Response>().HaveConversion<string>();
 		configurationBuilder.Properties<Severity>().HaveConversion<string>();
 		configurationBuilder.Properties<Urgency>().HaveConversion<string>();
-		configurationBuilder.Properties<ZoneType>().HaveConversion<string>();
 	}
 
 	protected static T ValidateFoundEntity<T>(Guid id, T? entity) where T : BaseEntity
