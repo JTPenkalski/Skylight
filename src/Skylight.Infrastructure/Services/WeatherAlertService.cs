@@ -84,19 +84,19 @@ public class WeatherAlertService(
 		return knownZones;
 	}
 
-	internal static List<Core.Alert> MapCurrentAlerts(GetActiveAlertsResponse clientResponse, Dictionary<string, Core.AlertType> alertTypes, Dictionary<string, Core.AlertSender> alertSenders, Dictionary<string, Core.AlertZone> alertZones)
+	internal static List<Core.Alert> MapCurrentAlerts(
+		GetActiveAlertsResponse clientResponse,
+		Dictionary<string, Core.AlertType> alertTypes,
+		Dictionary<string, Core.AlertSender> alertSenders,
+		Dictionary<string, Core.AlertZone> alertZones)
 	{
 		var currentAlerts = new List<Core.Alert>();
 
 		foreach (Alert alert in clientResponse.AlertCollection.Alerts)
 		{
-			if (alertTypes.TryGetValue(alert.AwipsId.ProductCategory, out Core.AlertType? alertType))
+			if (alertTypes.TryGetValue(alert.AwipsId.ProductCategory, out Core.AlertType? alertType)
+				&& alertSenders.TryGetValue(alert.AwipsId.OfficeIdentifier, out Core.AlertSender? alertSender))
 			{
-				// TODO: Actually populate Senders in the database as static data
-				Core.AlertSender alertSender = alertSenders.TryGetValue(alert.SenderName, out Core.AlertSender? value)
-					? value
-					: new Core.AlertSender { Code = "TEST", Name = alert.SenderName };
-
 				var currentAlert = new Core.Alert
 				{
 					Type = alertType,

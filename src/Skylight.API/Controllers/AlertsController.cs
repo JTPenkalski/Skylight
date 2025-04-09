@@ -3,6 +3,7 @@ using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Skylight.API.Extensions;
 using Skylight.Application.Features.Alerts.AddCurrentAlerts;
+using Skylight.Application.Features.Alerts.GetAlertSenders;
 using Skylight.Application.Features.Alerts.GetAlertTypes;
 
 namespace Skylight.API.Controllers;
@@ -19,6 +20,14 @@ public class AlertsController(IMediator mediator)
 
 		return result.ToActionResult();
     }
+
+	[HttpPost]
+	public async Task<ActionResult<GetAlertSendersResponse>> GetAlertSenders(GetAlertSendersQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
 
 	[HttpPost]
 	public async Task<ActionResult<GetAlertTypesResponse>> GetAlertTypes(GetAlertTypesQuery request, CancellationToken cancellationToken)

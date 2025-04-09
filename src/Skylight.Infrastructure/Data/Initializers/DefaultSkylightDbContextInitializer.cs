@@ -10,6 +10,7 @@ public class DefaultSkylightDbContextInitializer(ISkylightDbContext dbContext) :
 		await dbContext.ResetAsync();
 
 		await AddAlertTypesAsync();
+		await AddAlertSendersAsync();
 
 		await dbContext.CommitAsync();
 	}
@@ -105,5 +106,624 @@ public class DefaultSkylightDbContextInitializer(ISkylightDbContext dbContext) :
 		];
 
 		await dbContext.AlertTypes.AddRangeAsync(alertTypes);
+	}
+
+	private async Task AddAlertSendersAsync()
+	{
+		AlertSender[] alertSenders =
+		[
+			new()
+			{
+				Code = "AFC",
+				Name = "NWS Anchorage",
+			},
+			new()
+			{
+				Code = "AFG",
+				Name = "NWS Fairbanks",
+			},
+			new()
+			{
+				Code = "AJK",
+				Name = "NWS Juneau",
+			},
+			new()
+			{
+				Code = "BOU",
+				Name = "NWS Denver/Boulder",
+			},
+			new()
+			{
+				Code = "GJT",
+				Name = "NWS Grand Junction",
+			},
+			new()
+			{
+				Code = "PUB",
+				Name = "NWS Pueblo",
+			},
+			new()
+			{
+				Code = "LOT",
+				Name = "NWS Chicago",
+			},
+			new()
+			{
+				Code = "ILX",
+				Name = "NWS Lincoln",
+			},
+			new()
+			{
+				Code = "IND",
+				Name = "NWS Indianapolis",
+			},
+			new()
+			{
+				Code = "IWX",
+				Name = "NWS Northern Indiana",
+			},
+			new()
+			{
+				Code = "DVN",
+				Name = "NWS Quad Cities",
+			},
+			new()
+			{
+				Code = "DMX",
+				Name = "NWS Des Moines",
+			},
+			new()
+			{
+				Code = "DDC",
+				Name = "NWS Dodge City",
+			},
+			new()
+			{
+				Code = "GLD",
+				Name = "NWS Goodland",
+			},
+			new()
+			{
+				Code = "TOP",
+				Name = "NWS Topeka",
+			},
+			new()
+			{
+				Code = "ICT",
+				Name = "NWS Wichita",
+			},
+			new()
+			{
+				Code = "JKL",
+				Name = "NWS Jackson",
+			},
+			new()
+			{
+				Code = "LMK",
+				Name = "NWS Louisville",
+			},
+			new()
+			{
+				Code = "PAH",
+				Name = "NWS Paducah",
+			},
+			new()
+			{
+				Code = "DTX",
+				Name = "NWS Detroit/Pontiac",
+			},
+			new()
+			{
+				Code = "APX",
+				Name = "NWS Gaylord",
+			},
+			new()
+			{
+				Code = "GRR",
+				Name = "NWS Grand Rapids",
+			},
+			new()
+			{
+				Code = "MQT",
+				Name = "NWS Marquette",
+			},
+			new()
+			{
+				Code = "DLH",
+				Name = "NWS Duluth",
+			},
+			new()
+			{
+				Code = "MPX",
+				Name = "NWS Twin Cities",
+			},
+			new()
+			{
+				Code = "EAX",
+				Name = "NWS Kansas City/Pleasant Hill",
+			},
+			new()
+			{
+				Code = "SGF",
+				Name = "NWS Springfield",
+			},
+			new()
+			{
+				Code = "LSX",
+				Name = "NWS St. Louis",
+			},
+			new()
+			{
+				Code = "GID",
+				Name = "NWS Hastings",
+			},
+			new()
+			{
+				Code = "LBF",
+				Name = "NWS North Platte",
+			},
+			new()
+			{
+				Code = "OAX",
+				Name = "NWS Omaha/Valley",
+			},
+			new()
+			{
+				Code = "BIS",
+				Name = "NWS Bismarc",
+			},
+			new()
+			{
+				Code = "FGF",
+				Name = "NWS Grand Fork",
+			},
+			new()
+			{
+				Code = "ABR",
+				Name = "NWS Aberdee",
+			},
+			new()
+			{
+				Code = "UNR",
+				Name = "NWS Rapid Cit",
+			},
+			new()
+			{
+				Code = "FSD",
+				Name = "NWS Sioux Fall",
+			},
+			new()
+			{
+				Code = "GRB",
+				Name = "NWS Green Bay",
+			},
+			new()
+			{
+				Code = "ARX",
+				Name = "NWS La Crosse",
+			},
+			new()
+			{
+				Code = "MKX",
+				Name = "NWS Milwaukee/Sullivan",
+			},
+			new()
+			{
+				Code = "CYS",
+				Name = "NWS Cheyenne",
+			},
+			new()
+			{
+				Code = "RIW",
+				Name = "NWS Riverton",
+			},
+			new()
+			{
+				Code = "CAR",
+				Name = "NWS Caribou",
+			},
+			new()
+			{
+				Code = "GYX",
+				Name = "NWS Gray/Portland",
+			},
+			new()
+			{
+				Code = "BOX",
+				Name = "NWS Boston/Norton",
+			},
+			new()
+			{
+				Code = "PHI",
+				Name = "NWS Mount Holly/Philadelphi",
+			},
+			new()
+			{
+				Code = "ALY",
+				Name = "NWS Alban",
+			},
+			new()
+			{
+				Code = "BGM",
+				Name = "NWS Binghamto",
+			},
+			new()
+			{
+				Code = "BUF",
+				Name = "NWS Buffal",
+			},
+			new()
+			{
+				Code = "OKX",
+				Name = "NWS New Yor",
+			},
+			new()
+			{
+				Code = "MHX",
+				Name = "NWS Newport/Morehead Cit",
+			},
+			new()
+			{
+				Code = "RAH",
+				Name = "NWS Raleigh North",
+			},
+			new()
+			{
+				Code = "ILM",
+				Name = "NWS Wilmingto",
+			},
+			new()
+			{
+				Code = "CLE",
+				Name = "NWS Cleveland",
+			},
+			new()
+			{
+				Code = "ILN",
+				Name = "NWS Wilmington",
+			},
+			new()
+			{
+				Code = "PBZ",
+				Name = "NWS Pittsburgh",
+			},
+			new()
+			{
+				Code = "CTP",
+				Name = "NWS State College",
+			},
+			new()
+			{
+				Code = "CHS",
+				Name = "NWS Charlesto",
+			},
+			new()
+			{
+				Code = "CAE",
+				Name = "NWS Columbi",
+			},
+			new()
+			{
+				Code = "GSP",
+				Name = "NWS Greenville/Spartanbur",
+			},
+			new()
+			{
+				Code = "BTV",
+				Name = "NWS Burlington",
+			},
+			new()
+			{
+				Code = "LWX",
+				Name = "NWS Baltimore/Washington",
+			},
+			new()
+			{
+				Code = "RNK",
+				Name = "NWS Blacksburg",
+			},
+			new()
+			{
+				Code = "AKQ",
+				Name = "NWS Wakefield",
+			},
+			new()
+			{
+				Code = "RLX",
+				Name = "NWS Charlesto",
+			},
+			new()
+			{
+				Code = "GUM",
+				Name = "NWS Guam",
+			},
+			new()
+			{
+				Code = "HFO",
+				Name = "NWS Honolulu",
+			},
+			new()
+			{
+				Code = "BMX",
+				Name = "NWS Birmingham",
+			},
+			new()
+			{
+				Code = "HUN",
+				Name = "NWS Huntsville",
+			},
+			new()
+			{
+				Code = "MOB",
+				Name = "NWS Mobile/Pensacola",
+			},
+			new()
+			{
+				Code = "LZK",
+				Name = "NWS Little Rock",
+			},
+			new()
+			{
+				Code = "JAX",
+				Name = "NWS Jacksonville",
+			},
+			new()
+			{
+				Code = "KEY",
+				Name = "NWS Key West",
+			},
+			new()
+			{
+				Code = "MLB",
+				Name = "NWS Melbourne",
+			},
+			new()
+			{
+				Code = "MFL",
+				Name = "NWS Miami",
+			},
+			new()
+			{
+				Code = "TAE",
+				Name = "NWS Tallahassee",
+			},
+			new()
+			{
+				Code = "TBW",
+				Name = "NWS Tampa",
+			},
+			new()
+			{
+				Code = "FFC",
+				Name = "NWS Peachtree City",
+			},
+			new()
+			{
+				Code = "LCH",
+				Name = "NWS Lake Charles",
+			},
+			new()
+			{
+				Code = "LIX",
+				Name = "NWS New Orleans/Baton Rouge",
+			},
+			new()
+			{
+				Code = "SHV",
+				Name = "NWS Shreveport",
+			},
+			new()
+			{
+				Code = "JAN",
+				Name = "NWS Jackson",
+			},
+			new()
+			{
+				Code = "ABQ",
+				Name = "NWS Albuquerque",
+			},
+			new()
+			{
+				Code = "OUN",
+				Name = "NWS Norman",
+			},
+			new()
+			{
+				Code = "TSA",
+				Name = "NWS Tulsa",
+			},
+			new()
+			{
+				Code = "SJU",
+				Name = "NWS San Jua",
+			},
+			new()
+			{
+				Code = "MEG",
+				Name = "NWS Memphis",
+			},
+			new()
+			{
+				Code = "MRX",
+				Name = "NWS Morristown",
+			},
+			new()
+			{
+				Code = "OHX",
+				Name = "NWS Nashville",
+			},
+			new()
+			{
+				Code = "AMA",
+				Name = "NWS Amarillo",
+			},
+			new()
+			{
+				Code = "EWX",
+				Name = "NWS Austin/San Antonio",
+			},
+			new()
+			{
+				Code = "BRO",
+				Name = "NWS Brownsville",
+			},
+			new()
+			{
+				Code = "CRP",
+				Name = "NWS Corpus Christi",
+			},
+			new()
+			{
+				Code = "EPZ",
+				Name = "NWS El Paso",
+			},
+			new()
+			{
+				Code = "FWD",
+				Name = "NWS Fort Worth/Dallas",
+			},
+			new()
+			{
+				Code = "HGX",
+				Name = "NWS Houston/Galveston",
+			},
+			new()
+			{
+				Code = "LUB",
+				Name = "NWS Lubbock",
+			},
+			new()
+			{
+				Code = "MAF",
+				Name = "NWS Midland/Odessa",
+			},
+			new()
+			{
+				Code = "SJT",
+				Name = "NWS San Angelo",
+			},
+			new()
+			{
+				Code = "FGZ",
+				Name = "NWS Flagstaff",
+			},
+			new()
+			{
+				Code = "PSR",
+				Name = "NWS Phoenix",
+			},
+			new()
+			{
+				Code = "TWC",
+				Name = "NWS Tucson",
+			},
+			new()
+			{
+				Code = "EKA",
+				Name = "NWS Eureka",
+			},
+			new()
+			{
+				Code = "LOX",
+				Name = "NWS Los Angeles",
+			},
+			new()
+			{
+				Code = "STO",
+				Name = "NWS Sacramento",
+			},
+			new()
+			{
+				Code = "SGX",
+				Name = "NWS San Diego",
+			},
+			new()
+			{
+				Code = "MTR",
+				Name = "NWS San Francisco Bay Area",
+			},
+			new()
+			{
+				Code = "HNX",
+				Name = "NWS San Joaquin Valley",
+			},
+			new()
+			{
+				Code = "BOI",
+				Name = "NWS Boise",
+			},
+			new()
+			{
+				Code = "PIH",
+				Name = "NWS Pocatello",
+			},
+			new()
+			{
+				Code = "BYZ",
+				Name = "NWS Billings",
+			},
+			new()
+			{
+				Code = "GGW",
+				Name = "NWS Glasgow",
+			},
+			new()
+			{
+				Code = "TFX",
+				Name = "NWS Great Falls",
+			},
+			new()
+			{
+				Code = "MSO",
+				Name = "NWS Missoula",
+			},
+			new()
+			{
+				Code = "LKN",
+				Name = "NWS Elko",
+			},
+			new()
+			{
+				Code = "VEF",
+				Name = "NWS Las Vegas",
+			},
+			new()
+			{
+				Code = "REV",
+				Name = "NWS Reno",
+			},
+			new()
+			{
+				Code = "MFR",
+				Name = "NWS Medford",
+			},
+			new()
+			{
+				Code = "PDT",
+				Name = "NWS Pendleton",
+			},
+			new()
+			{
+				Code = "PQR",
+				Name = "NWS Portland",
+			},
+			new()
+			{
+				Code = "SLC",
+				Name = "NWS Salt Lake City",
+			},
+			new()
+			{
+				Code = "SEW",
+				Name = "NWS Seattle",
+			},
+			new()
+			{
+				Code = "OTX",
+				Name = "NWS Spokane",
+			},
+		];
+
+		await dbContext.AlertSenders.AddRangeAsync(alertSenders);
 	}
 }
