@@ -6,13 +6,21 @@ var username = builder.AddParameter("username", secret: true);
 var password = builder.AddParameter("password", secret: true);
 
 var postgres = builder
-	.AddPostgres("skylight-postgres", username, password, 22222)
+	.AddPostgres("skylight-postgres", username, password)
 	.AddDatabase("skylight-postgres-db");
 
 var skylightApi = builder
 	.AddProject<Projects.Skylight_API>("skylight-api")
 	.WithReference(postgres)
 	.WaitFor(postgres);
+
+var webUi = builder
+	.AddNpmApp("skylight-webui", "../Skylight.WebUI")
+	.WithReference(skylightApi)
+	.WaitFor(skylightApi)
+	.WithHttpEndpoint(env: "PORT")
+	.WithExternalHttpEndpoints()
+	.PublishAsDockerFile();
 
 builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(
 	(@event, cancellationToken) =>
