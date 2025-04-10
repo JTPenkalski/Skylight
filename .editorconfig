@@ -234,6 +234,7 @@ dotnet_diagnostic.xUnit1044.severity = none
 dotnet_diagnostic.xUnit1045.severity = none
 dotnet_diagnostic.xUnit1046.severity = none
 dotnet_diagnostic.xUnit1047.severity = none
+csharp_prefer_system_threading_lock = true:suggestion
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
@@ -245,7 +246,7 @@ dotnet_style_null_propagation = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:error
 dotnet_style_prefer_auto_properties = true:error
 dotnet_style_object_initializer = true:warning
-dotnet_style_prefer_collection_expression = true:warning
+dotnet_style_prefer_collection_expression = when_types_exactly_match:warning
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:silent
