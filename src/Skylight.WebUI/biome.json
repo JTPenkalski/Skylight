@@ -15,9 +15,6 @@
 			"vite.config.ts"
 		]
 	},
-	"organizeImports": {
-		"enabled": true
-	},
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -43,10 +40,8 @@
 		"lineWidth": 100,
 		"lineEnding": "crlf"
 	},
-	"css": {
-		"formatter": {
-			"quoteStyle": "single"
-		}
+	"organizeImports": {
+		"enabled": true
 	},
 	"javascript": {
 		"formatter": {
@@ -66,5 +61,26 @@
 		"formatter": {
 			"trailingCommas": "none"
 		}
-	}
+	},
+	"css": {
+		"formatter": {
+			"quoteStyle": "single"
+		}
+	},
+	"overrides": [
+		{
+			"include": ["*.vue"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedImports": "off"
+					},
+					"style": {
+						"useConst": "off",
+						"useImportType": "off"
+					}
+				}
+			}
+		}
+	]
 }

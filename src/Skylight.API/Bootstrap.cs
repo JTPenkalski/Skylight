@@ -63,9 +63,6 @@ public static class Bootstrap
 							Version = name,
 						};
 
-						// TODO: Remove this once the root issue is resolved.
-						document.Servers = [];
-
 						return Task.CompletedTask;
 					});
 			});

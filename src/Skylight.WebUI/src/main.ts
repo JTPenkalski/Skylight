@@ -1,15 +1,15 @@
 import './assets/main.css';
 
+import Lara from '@primeuix/themes/lara';
+import PrimeVue from 'primevue/config';
 import { createApp } from 'vue';
 import App from './App.vue';
-import PrimeVue from 'primevue/config';
-import Lara from '@primeuix/themes/lara';
 
 const app = createApp(App);
 app.use(PrimeVue, {
-    theme: {
-        preset: Lara
-    }
+	theme: {
+		preset: Lara,
+	},
 });
 
 app.mount('#app');
