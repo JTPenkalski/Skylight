@@ -1,4 +1,4 @@
-import './assets/main.css';
+import './assets/main.scss';
 
 import Lara from '@primeuix/themes/lara';
 import PrimeVue from 'primevue/config';
@@ -9,6 +9,10 @@ const app = createApp(App);
 app.use(PrimeVue, {
 	theme: {
 		preset: Lara,
+		options: {
+			prefix: 'p',
+			darkModeSelector: 'system',
+		},
 	},
 });
 

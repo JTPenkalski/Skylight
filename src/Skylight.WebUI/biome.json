@@ -46,7 +46,7 @@
 	"javascript": {
 		"formatter": {
 			"arrowParentheses": "always",
-			"bracketSameLine": false,
+			"bracketSameLine": true,
 			"bracketSpacing": true,
 			"quoteProperties": "asNeeded",
 			"quoteStyle": "single",
@@ -76,7 +76,6 @@
 						"noUnusedImports": "off"
 					},
 					"style": {
-						"useConst": "off",
 						"useImportType": "off"
 					}
 				}
