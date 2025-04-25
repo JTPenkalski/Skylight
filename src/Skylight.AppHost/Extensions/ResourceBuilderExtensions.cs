@@ -47,9 +47,12 @@ public static class ResourceBuilderExtensions
 
 				return Task.FromResult(result);
 			},
-			updateState: context => context.ResourceSnapshot.HealthStatus == HealthStatus.Healthy
-				? ResourceCommandState.Enabled
-				: ResourceCommandState.Disabled,
-			iconName: "Document",
-			iconVariant: IconVariant.Filled);
+			commandOptions: new CommandOptions
+			{
+				IconName = "Document",
+				IconVariant = IconVariant.Filled,
+				UpdateState = static context => context.ResourceSnapshot.HealthStatus == HealthStatus.Healthy
+					? ResourceCommandState.Enabled
+					: ResourceCommandState.Disabled,
+			});
 }
