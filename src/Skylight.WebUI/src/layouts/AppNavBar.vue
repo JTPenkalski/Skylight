@@ -2,14 +2,12 @@
 import { Button } from 'primevue';
 
 //import { useLayout } from '@/layout/composables/layout';
-function getThemeIcon(): string
-{
-  return `pi ${isDarkTheme ? 'pi-moon' : 'pi-sun'}`;
+function getThemeIcon(): string {
+	return `pi ${isDarkTheme ? 'pi-moon' : 'pi-sun'}`;
 }
 
 //const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
 const isDarkTheme: boolean = true;
-
 </script>
 
 <template>
@@ -51,7 +49,7 @@ const isDarkTheme: boolean = true;
     display: flex;
 
     img {
-      width: 12rem;
+      width: 10rem;
     }
   }
 }
@@ -85,7 +83,7 @@ const isDarkTheme: boolean = true;
       display: flex;
 
       img {
-        width: 25vw;
+        width: 8rem;
       }
     }
   }
