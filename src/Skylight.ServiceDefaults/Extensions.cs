@@ -18,8 +18,8 @@ namespace Skylight.ServiceDefaults;
 /// </remarks>
 public static class Extensions
 {
-    public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-    {
+	public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+	{
 		builder
 			.AddAppDefaults()
 			.AddDefaultHealthChecks()
@@ -37,29 +37,29 @@ public static class Extensions
 		return builder;
 	}
 
-    public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
-    {
-        builder.Services
+	public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
+	{
+		builder.Services
 			.AddHealthChecks()
-            .AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
+			.AddCheck("self", () => HealthCheckResult.Healthy(), ["live"]);
 
-        return builder;
-    }
+		return builder;
+	}
 
-    public static WebApplication MapDefaultEndpoints(this WebApplication app)
-    {
-        if (app.Environment.IsDevelopment())
-        {
-            // All health checks must pass for app to be considered ready to accept traffic after starting
-            app.MapHealthChecks("/health");
+	public static WebApplication MapDefaultEndpoints(this WebApplication app)
+	{
+		if (app.Environment.IsDevelopment())
+		{
+			// All health checks must pass for app to be considered ready to accept traffic after starting
+			app.MapHealthChecks("/health");
 
-            // Only health checks tagged with the "live" tag must pass for app to be considered alive
-            app.MapHealthChecks("/alive", new HealthCheckOptions
-            {
-                Predicate = r => r.Tags.Contains("live")
-            });
-        }
+			// Only health checks tagged with the "live" tag must pass for app to be considered alive
+			app.MapHealthChecks("/alive", new HealthCheckOptions
+			{
+				Predicate = r => r.Tags.Contains("live")
+			});
+		}
 
-        return app;
-    }
+		return app;
+	}
 }

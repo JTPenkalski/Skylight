@@ -46,7 +46,7 @@ if (application.Environment.IsDevelopment())
 	application
 		.UseDevelopmentInfrastructure();
 
-    application
+	application
 		.MapDevelopmentApi();
 }
 

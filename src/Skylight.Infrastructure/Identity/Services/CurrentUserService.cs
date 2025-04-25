@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Skylight.Application.Identity;
+﻿using Skylight.Application.Identity;
 using Skylight.Infrastructure.Identity.Constants;
 
 namespace Skylight.Infrastructure.Identity.Services;

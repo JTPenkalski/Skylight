@@ -31,6 +31,6 @@ public class DomainEventInterceptor(IDomainEventService domainEventService) : Sa
 		IEnumerable<BaseEntity> entities = context.ChangeTracker.Entries<BaseEntity>()
 			.Select(x => x.Entity);
 
-		await domainEventService.SaveDomainEventsAsync(entities, context,cancellationToken);
+		await domainEventService.SaveDomainEventsAsync(entities, context, cancellationToken);
 	}
 }
