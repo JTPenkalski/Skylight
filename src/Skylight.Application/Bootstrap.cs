@@ -18,12 +18,13 @@ public static class Bootstrap
 
 		// Add Application Services
 		services
-			.AddValidatorsFromAssembly(assembly)
+			.AddValidatorsFromAssembly(assembly, lifetime: ServiceLifetime.Singleton)
 			.AddMediator(options =>
 			{
 				options.ServiceLifetime = ServiceLifetime.Transient;
 			})
 			.AddSingleton(typeof(IPipelineBehavior<,>), typeof(ExceptionBehavior<,>))
+			.AddSingleton(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
 					.AddClasses()

@@ -1,5 +1,4 @@
 ﻿using Mediator;
-using Skylight.Domain.Common.Exceptions;
 using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Behaviors;
@@ -17,7 +16,7 @@ public class ExceptionBehavior<TMessage, TResponse> : IPipelineBehavior<TMessage
 		{
 			return await next(message, cancellationToken);
 		}
-		catch (EntityNotFoundException ex)
+		catch (Exception ex)
 		{
 			var result = new TResponse();
 			result.AddErrors(new Error(ex.Message));

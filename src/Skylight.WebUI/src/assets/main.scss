@@ -1,9 +1,26 @@
 @import 'primeicons/primeicons.css';
 
+:root {
+  // Layout
+  --navbar-height: 3rem;
+
+  // Colors
+  --p-high-color: var(--p-fuchsia-600);
+  --p-high-background: color-mix(in srgb, var(--p-fuchsia-400), transparent 60%);
+  --p-moderate-color: var(--p-red-600);
+  --p-moderate-background: color-mix(in srgb, var(--p-red-400), transparent 60%);
+  --p-enhanced-color: var(--p-orange-600);
+  --p-enhanced-background: color-mix(in srgb, var(--p-orange-400), transparent 60%);
+  --p-slight-color: var(--p-yellow-600);
+  --p-slight-background: color-mix(in srgb, var(--p-yellow-400), transparent 60%);
+  --p-marginal-color: var(--p-green-600);
+  --p-marginal-background: color-mix(in srgb, var(--p-green-400), transparent 60%);
+}
+
 body {
-  font-family:
-    Inter,
-    sans-serif;
+  font-family: "Sunflower", sans-serif;
+  font-style: normal;
+  font-weight: 300;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

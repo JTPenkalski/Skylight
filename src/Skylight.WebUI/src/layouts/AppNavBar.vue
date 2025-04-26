@@ -13,7 +13,7 @@ const isDarkTheme: boolean = true;
 <template>
   <div class="navbar">
     <div class="navbar-logo-container">
-      <Button rounded icon="pi pi-bars" severity="contrast" variant="text" aria-label="Menu" />
+      <!-- <Button rounded icon="pi pi-bars" severity="contrast" variant="text" aria-label="Menu" /> -->
       <a href="/" class="navbar-logo">
         <img alt="logo" src="../assets/logo_full.svg" />
       </a>
@@ -21,8 +21,8 @@ const isDarkTheme: boolean = true;
 
     <div class="navbar-action-container hello">
       <Button rounded :icon="getThemeIcon()" severity="contrast" variant="text" aria-label="Theme" />
-      <Button rounded icon="pi pi-inbox" severity="contrast" variant="text" aria-label="Notifications" />
-      <Button rounded icon="pi pi-user" severity="contrast" variant="text" aria-label="Profile" />
+      <!-- <Button rounded icon="pi pi-inbox" severity="contrast" variant="text" aria-label="Notifications" />
+      <Button rounded icon="pi pi-user" severity="contrast" variant="text" aria-label="Profile" /> -->
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ const isDarkTheme: boolean = true;
   align-items: center;
   background-color: var(--p-content-background);
   display: flex;
-  height: 3rem;
+  height: var(--navbar-height);
   left: 0;
   padding: 0 1rem;
   position: fixed;
@@ -66,7 +66,7 @@ const isDarkTheme: boolean = true;
     align-items: center;
     background-color: var(--p-content-background);
     display: flex;
-    height: 3rem;
+    height: var(--navbar-height);
     left: 0;
     padding: 0 1rem;
     position: fixed;

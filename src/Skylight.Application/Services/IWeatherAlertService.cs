@@ -11,5 +11,5 @@ public interface IWeatherAlertService
 	/// Determines all currently active weather alerts.
 	/// </summary>
 	/// <returns>A collection of all currently active weather alerts</returns>
-	Task<IEnumerable<Alert>> GetActiveAlertsAsync(CancellationToken cancellationToken);
+	Task<List<Alert>> GetActiveAlertsAsync(CancellationToken cancellationToken);
 }

@@ -8,7 +8,7 @@ public abstract class Result
 
 	public bool IsFailed => !IsSuccess;
 
-	public IReadOnlyList<Error> Errors { get; protected set; } = [];
+	public IReadOnlyList<Error> Errors => _errors;
 
 	public static Result<T> Success<T>(T? value) =>
 		new(value);

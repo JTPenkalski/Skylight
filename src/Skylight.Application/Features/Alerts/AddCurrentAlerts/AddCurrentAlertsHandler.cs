@@ -16,14 +16,16 @@ public class AddCurrentAlertsHandler(
 	{
 		var currentAlerts = new List<AddCurrentAlertsResponse.CurrentAlert>();
 
-		IEnumerable<Alert> alerts = await weatherAlertService.GetActiveAlertsAsync(cancellationToken);
+		List<Alert> activeAlerts = await weatherAlertService.GetActiveAlertsAsync(cancellationToken);
 
-		foreach (Alert alert in alerts)
+		HashSet<string?> activeAlertIds = [.. activeAlerts.Select(x => x.ExternalId)];
+		HashSet<Alert> existingAlerts = await dbContext.Alerts
+			.Where(x => activeAlertIds.Contains(x.ExternalId))
+			.ToHashSetAsync(cancellationToken);
+
+		foreach (Alert alert in activeAlerts)
 		{
-			Alert? existingAlert = await dbContext.Alerts
-				.SingleOrDefaultAsync(x => x.ExternalId == alert.ExternalId, cancellationToken);
-
-			if (existingAlert is null)
+			if (!existingAlerts.Contains(alert))
 			{
 				await dbContext.Alerts.AddAsync(alert, cancellationToken);
 			}

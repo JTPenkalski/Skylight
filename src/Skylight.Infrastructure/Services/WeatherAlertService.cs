@@ -13,7 +13,7 @@ public class WeatherAlertService(
 	INationalWeatherServiceClient nwsClient)
 	: IWeatherAlertService
 {
-	public async Task<IEnumerable<Core.Alert>> GetActiveAlertsAsync(CancellationToken cancellationToken)
+	public async Task<List<Core.Alert>> GetActiveAlertsAsync(CancellationToken cancellationToken)
 	{
 		var clientRequest = new GetActiveAlertsRequest(
 			Statuses: [AlertStatus.Actual],

@@ -5,6 +5,7 @@ using Skylight.API.Extensions;
 using Skylight.Application.Features.Alerts.AddCurrentAlerts;
 using Skylight.Application.Features.Alerts.GetAlertSenders;
 using Skylight.Application.Features.Alerts.GetAlertTypes;
+using Skylight.Application.Features.Alerts.GetCurrentAlertsByType;
 
 namespace Skylight.API.Controllers;
 
@@ -15,6 +16,14 @@ public class AlertsController(IMediator mediator)
 {
 	[HttpPost]
 	public async Task<ActionResult<AddCurrentAlertsResponse>> AddCurrentAlerts(AddCurrentAlertsCommand request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	[HttpPost]
+	public async Task<ActionResult<GetCurrentAlertsByTypeResponse>> GetCurrentAlertsByType(GetCurrentAlertsByTypeQuery request, CancellationToken cancellationToken)
 	{
 		var result = await mediator.Send(request, cancellationToken);
 
