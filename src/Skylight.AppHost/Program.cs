@@ -19,6 +19,7 @@ var webUi = builder
 	.WithReference(skylightApi)
 	.WaitFor(skylightApi)
 	.WithHttpEndpoint(env: "PORT")
+	.WithEnvironment("NUXT_PUBLIC_API_BASE_SKYLIGHT", skylightApi.GetEndpoint("https"))
 	.WithExternalHttpEndpoints()
 	.PublishAsDockerFile();
 

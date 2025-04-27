@@ -27,7 +27,7 @@ builder.Services
 	.AddOptions()
 	.AddApplication()
 	.AddInfrastructure(builder.Configuration, isProduction)
-	.AddApi();
+	.AddApi(isProduction);
 
 // Enrich Services
 builder
@@ -52,6 +52,7 @@ if (application.Environment.IsDevelopment())
 
 // Add Middleware
 application.UseHttpsRedirection();
+application.UseCors();
 application.UseAuthorization();
 
 await application.RunAsync();

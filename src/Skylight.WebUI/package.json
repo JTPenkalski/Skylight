@@ -9,7 +9,8 @@
 		"lint": "npx biome check --write"
 	},
 	"dependencies": {
-		"@primeuix/themes": "^1.0.2",
+		"@primeuix/themes": "^1.0.3",
+		"@primevue/forms": "^4.3.3",
 		"chart.js": "^4.4.8",
 		"nuxt": "^3.16.2",
 		"primeicons": "^7.0.0",
@@ -19,6 +20,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
+		"@primevue/nuxt-module": "^4.3.3",
 		"@tsconfig/node22": "^22.0.1",
 		"@types/node": "^22.14.0",
 		"@vitejs/plugin-vue": "^5.2.3",

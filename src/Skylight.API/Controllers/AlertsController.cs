@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
+using Skylight.API.Configuration;
 using Skylight.API.Extensions;
 using Skylight.Application.Features.Alerts.AddCurrentAlerts;
 using Skylight.Application.Features.Alerts.GetAlertSenders;

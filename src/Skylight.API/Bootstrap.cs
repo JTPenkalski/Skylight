@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
-using Skylight.API.Controllers;
+using Skylight.API.Configuration;
 using System.Text.Json.Serialization;
 
 namespace Skylight.API;
@@ -12,7 +12,7 @@ public static class Bootstrap
 	/// Adds required services for the <see cref="API"/> layer.
 	/// </summary>
 	/// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-	public static IServiceCollection AddApi(this IServiceCollection services)
+	public static IServiceCollection AddApi(this IServiceCollection services, bool isProduction)
 	{
 		// Add MVC Services
 		services
@@ -37,6 +37,29 @@ public static class Bootstrap
 				options.GroupNameFormat = "'v'VVV";
 				options.SubstituteApiVersionInUrl = true;
 			});
+
+		// Add CORS
+		services.AddCors(options =>
+		{
+			if (isProduction)
+			{
+				options.AddDefaultPolicy(builder =>
+					builder
+						.WithOrigins("" /* TODO */)
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+						.AllowCredentials());
+			}
+			else
+			{
+				options.AddDefaultPolicy(builder =>
+					builder
+						.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.LocalHost)
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+						.AllowCredentials());
+			}
+		});
 
 		return services;
 	}

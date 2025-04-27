@@ -10,7 +10,9 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 	public async ValueTask<Result<GetCurrentAlertsByTypeResponse>> Handle(GetCurrentAlertsByTypeQuery request, CancellationToken cancellationToken)
 	{
 		var alerts = await dbContext.Alerts
-			.Where(x => x.Type.Code == request.Code)
+			.Where(x =>
+				x.Type.Code == request.Code
+				&& x.ExpiresOn > DateTimeOffset.UtcNow)
 			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertByType(
 				x.Type.Code,
 				x.Type.Name,

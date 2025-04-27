@@ -12,11 +12,9 @@
 			"dist/**",
 			"node_modules/**",
 			"obj/**",
+			"clients/**",
 			"public/**",
-			"src/web/clients/**",
-			"tsconfig.json",
-			"nuxt.config.ts",
-			"vite.config.ts"
+			"tsconfig.json"
 		]
 	},
 	"linter": {

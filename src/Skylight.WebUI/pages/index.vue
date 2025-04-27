@@ -1,9 +1,35 @@
+<script setup lang="ts">
+import type { GetCurrentAlertsByTypeResponse } from '~/clients/Skylight';
+
+// Get Axios
+// Generate NSwag client using Axios
+// Create composable useSkylight() to initialize with baseURL from runtime config
+// const api = useSkylight();
+// const result = await useAsyncData(() => api.getCurrentAlertsByType({ code: 'SVR' }));
+// Then... figure out why SSR doesn't work???
+
+const config = useRuntimeConfig();
+const { data } = await useFetch<GetCurrentAlertsByTypeResponse>(
+	`${config.public.apiBaseSkylight}/api/v1/Alerts/GetCurrentAlertsByType`,
+	{
+		method: 'POST',
+		body: {
+			code: 'SVR',
+		},
+	},
+).then((x) => {
+	console.log(x.data);
+	return x;
+});
+
+const currentAlerts = computed(() => {
+	return data.value?.currentAlerts;
+});
+</script>
+
 <template>
-  <div class="content">
-    <AlertCounter :count="3" label="Severe Thunderstorm Warning" />
-    <AlertCounter :count="3" label="Severe Thunderstorm Warning" />
-    <AlertCounter :count="3" label="Severe Thunderstorm Warning" />
-    <AlertCounter :count="1" label="Severe Thunderstorm Warning" />
+  <div class="content">    
+    <AlertCounter :count="currentAlerts?.length ?? 0" :label="currentAlerts?.at(0)?.alertName ?? ''" />
   </div>
 </template>
 
