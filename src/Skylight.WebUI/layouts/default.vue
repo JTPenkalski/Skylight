@@ -1,15 +1,8 @@
-<script setup>
-import AppDashboard from './AppDashboard.vue';
-import AppNavBar from './AppNavBar.vue';
-</script>
-
 <template>
-  <div class="content">
-    <AppNavBar />
-    <main>
-      <AppDashboard />
-    </main>
-  </div>
+	<NavBar />
+	<main>
+		<slot />
+	</main>
 </template>
 
 <style scoped lang="scss">

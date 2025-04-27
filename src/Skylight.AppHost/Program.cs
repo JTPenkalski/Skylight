@@ -15,7 +15,7 @@ var skylightApi = builder
 	.WaitFor(postgres);
 
 var webUi = builder
-	.AddNpmApp("skylight-webui", "../Skylight.WebUI")
+	.AddNpmApp("skylight-webui", "../Skylight.WebUI", "dev")
 	.WithReference(skylightApi)
 	.WaitFor(skylightApi)
 	.WithHttpEndpoint(env: "PORT")

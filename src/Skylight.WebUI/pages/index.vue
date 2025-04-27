@@ -1,7 +1,3 @@
-<script setup>
-import AlertCounter from '@/components/AlertCounter.vue';
-</script>
-
 <template>
   <div class="content">
     <AlertCounter :count="3" label="Severe Thunderstorm Warning" />

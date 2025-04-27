@@ -8,6 +8,9 @@ const props = defineProps({
 });
 
 const count = ref(props.count);
+const label = computed(() => {
+	return pluralize(props.label, count);
+});
 </script>
 
 <template>
@@ -16,7 +19,7 @@ const count = ref(props.count);
       <div class="counter">{{ count }}</div>
     </template>
     <template #content>
-      <div class="label">{{ $filters.pluralize(props.label, count) }}</div>
+      <div class="label">{{ label }}</div>
     </template>
   </Card>
 </template>
