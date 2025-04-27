@@ -5,13 +5,17 @@
 			"**/*.html",
 			"**/*.css",
 			"**/*.scss",
+			"**/*.d.ts",
+			".nuxt/**",
+			".output/**",
 			".vscode/**",
 			"dist/**",
 			"node_modules/**",
+			"obj/**",
 			"public/**",
 			"src/web/clients/**",
-			"shims-vue.d.ts",
 			"tsconfig.json",
+			"nuxt.config.ts",
 			"vite.config.ts"
 		]
 	},
