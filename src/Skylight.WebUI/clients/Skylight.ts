@@ -120,7 +120,6 @@ export class SkylightClient {
                 }
             }
         }
-				
         if (status === 200) {
             const _responseText = response.data;
             let result200: any = null;
@@ -296,9 +295,6 @@ export interface CurrentAlert {
 }
 
 export interface CurrentAlertByType {
-    alertCode: string;
-    alertName: string;
-    alertLevel: number;
     senderCode: string;
     senderName: string;
     headline: string;
@@ -346,6 +342,10 @@ export interface GetCurrentAlertsByTypeQuery {
 }
 
 export interface GetCurrentAlertsByTypeResponse {
+    count: number;
+    alertCode: string;
+    alertName: string;
+    alertLevel: number;
     currentAlerts: CurrentAlertByType[];
 
     [key: string]: any;

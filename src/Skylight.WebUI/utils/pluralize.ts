@@ -1,5 +1,9 @@
-export default function (text: string, amount: MaybeRef<number>): string {
-	const normalizedAmount = Math.abs(unref(amount));
+import pluralize from 'pluralize';
 
-	return normalizedAmount === 1 ? text : `${text}s`;
+export default function (
+	word: MaybeRef<string>,
+	number: MaybeRef<number>,
+	inclusive?: boolean,
+): string {
+	return pluralize(unref(word), unref(number), inclusive);
 }

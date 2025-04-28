@@ -28,6 +28,16 @@ public class EntityNotFoundException : Exception
 		}
 	}
 
+	/// <inheritdoc cref="ThrowIfNull{T}(T?, Guid?)"/>
+	/// <param name="expectedCode">The Code of <paramref name="entity"/> expected to be found.</param>
+	public static void ThrowIfNull<T>([NotNull] T? entity, string expectedCode) where T : BaseEntity
+	{
+		if (entity is null)
+		{
+			throw new EntityNotFoundException($"{GetBaseExceptionMessage<T>(expectedCode)} was not found!");
+		}
+	}
+
 	/// <summary>
 	/// Throws an exception if <paramref name="entity"/> is null or record-deleted.
 	/// </summary>
@@ -44,12 +54,27 @@ public class EntityNotFoundException : Exception
 		}
 	}
 
+	/// <inheritdoc cref="ThrowIfNullOrDeleted{T}(T?, Guid?)"/>
+	/// <param name="expectedCode">The Code of <paramref name="entity"/> expected to be found.</param>
+	public static void ThrowIfNullOrDeleted<T>([NotNull] T? entity, string expectedCode) where T : BaseAuditableEntity
+	{
+		ThrowIfNull(entity, expectedCode);
+
+		if (entity.IsDeleted)
+		{
+			throw new EntityNotFoundException($"{GetBaseExceptionMessage<T>(expectedCode)} is deleted!");
+		}
+	}
+
 	private static string GetBaseExceptionMessage<T>(Guid? expectedId = null)
 	{
 		string expectedIdDisplay = expectedId.HasValue
-			? $"with ID = {expectedId.Value}"
+			? $"with ID = '{expectedId.Value}'"
 			: string.Empty;
 
-		return $"The entity '{typeof(T).Name}' {expectedIdDisplay}".Trim();
+		return $"The '{typeof(T).Name}' entity {expectedIdDisplay}".Trim();
 	}
+
+	private static string GetBaseExceptionMessage<T>(string expectedCode) =>
+		$"The '{typeof(T).Name}' entity with Code '{expectedCode}'".Trim();
 }

@@ -3,12 +3,14 @@ using Skylight.Domain.Alerts.Entities;
 
 namespace Skylight.Application.Features.Alerts.GetCurrentAlertsByType;
 
-public sealed record GetCurrentAlertsByTypeResponse(IEnumerable<GetCurrentAlertsByTypeResponse.CurrentAlertByType> CurrentAlerts) : IResponse
+public sealed record GetCurrentAlertsByTypeResponse(
+	int Count,
+	string AlertCode,
+	string AlertName,
+	Level AlertLevel,
+	IEnumerable<GetCurrentAlertsByTypeResponse.CurrentAlertByType> CurrentAlerts) : IResponse
 {
 	public sealed record CurrentAlertByType(
-		string AlertCode,
-		string AlertName,
-		Level AlertLevel,
 		string SenderCode,
 		string SenderName,
 		string Headline,

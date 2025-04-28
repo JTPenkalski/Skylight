@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skylight.Application.Data;
 using Skylight.Application.Features.Interfaces;
+using Skylight.Domain.Alerts.Entities;
+using Skylight.Domain.Common.Exceptions;
 using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Features.Alerts.GetCurrentAlertsByType;
@@ -9,14 +11,19 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 {
 	public async ValueTask<Result<GetCurrentAlertsByTypeResponse>> Handle(GetCurrentAlertsByTypeQuery request, CancellationToken cancellationToken)
 	{
+		AlertType? alertType = await dbContext.AlertTypes
+			.AsNoTracking()
+			.SingleOrDefaultAsync(x => x.Code == request.Code, cancellationToken);
+
+		EntityNotFoundException.ThrowIfNullOrDeleted(alertType, request.Code);
+
 		var alerts = await dbContext.Alerts
+			.AsNoTracking()
 			.Where(x =>
 				x.Type.Code == request.Code
-				&& x.ExpiresOn > DateTimeOffset.UtcNow)
+				&& x.ExpiresOn > DateTimeOffset.UtcNow
+				&& !x.DeletedOn.HasValue)
 			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertByType(
-				x.Type.Code,
-				x.Type.Name,
-				x.Type.Level,
 				x.Sender.Code,
 				x.Sender.Name,
 				x.Headline,
@@ -33,7 +40,12 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 				x.Zones.Select(x => x.Code)))
 			.ToListAsync(cancellationToken);
 
-		var response = new GetCurrentAlertsByTypeResponse(alerts);
+		var response = new GetCurrentAlertsByTypeResponse(
+			alerts.Count,
+			alertType.Code,
+			alertType.Name,
+			alertType.Level,
+			alerts);
 
 		return Result.Success(response);
 	}

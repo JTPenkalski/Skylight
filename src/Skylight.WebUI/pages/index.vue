@@ -14,25 +14,25 @@ const { data } = await useAsyncData(async () => {
 });
 
 const currentSva = computed(() => {
-	return data.value?.sva.currentAlerts;
+	return data.value?.sva;
 });
 const currentSvs = computed(() => {
-	return data.value?.svs.currentAlerts;
+	return data.value?.svs;
 });
 const currentToa = computed(() => {
-	return data.value?.toa.currentAlerts;
+	return data.value?.toa;
 });
 const currentTor = computed(() => {
-	return data.value?.tor.currentAlerts;
+	return data.value?.tor;
 });
 </script>
 
 <template>
   <div class="content">
-    <AlertCounter :count="currentSva?.length ?? 0" :label="currentSva?.at(0)?.alertName ?? 'Alert'" />
-    <AlertCounter :count="currentSvs?.length ?? 0" :label="currentSvs?.at(0)?.alertName ?? 'Alert'" />
-    <AlertCounter :count="currentToa?.length ?? 0" :label="currentToa?.at(0)?.alertName ?? 'Alert'" />
-    <AlertCounter :count="currentTor?.length ?? 0" :label="currentTor?.at(0)?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentSva?.count ?? 0" :label="currentSva?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentSvs?.count ?? 0" :label="currentSvs?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentToa?.count ?? 0" :label="currentToa?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentTor?.count ?? 0" :label="currentTor?.alertName ?? 'Alert'" />
   </div>
 </template>
 
