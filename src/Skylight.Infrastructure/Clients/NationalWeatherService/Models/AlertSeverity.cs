@@ -17,14 +17,14 @@ public enum AlertSeverity
 
 public static class AlertSeverityExtensions
 {
-	public static Severity ToCore(this AlertSeverity client) =>
+	public static Domain.Alerts.Entities.AlertSeverity ToCore(this AlertSeverity client) =>
 		client switch
 		{
-			AlertSeverity.Unknown => Severity.Unknown,
-			AlertSeverity.Minor => Severity.Minor,
-			AlertSeverity.Moderate => Severity.Moderate,
-			AlertSeverity.Severe => Severity.Severe,
-			AlertSeverity.Extreme => Severity.Extreme,
-			_ => throw new InvalidEnumCastException<Severity>(client)
+			AlertSeverity.Unknown => Domain.Alerts.Entities.AlertSeverity.Unknown,
+			AlertSeverity.Minor => Domain.Alerts.Entities.AlertSeverity.Minor,
+			AlertSeverity.Moderate => Domain.Alerts.Entities.AlertSeverity.Moderate,
+			AlertSeverity.Severe => Domain.Alerts.Entities.AlertSeverity.Severe,
+			AlertSeverity.Extreme => Domain.Alerts.Entities.AlertSeverity.Extreme,
+			_ => throw new InvalidEnumCastException<Domain.Alerts.Entities.AlertSeverity>(client)
 		};
 }

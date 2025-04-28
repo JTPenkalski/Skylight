@@ -133,116 +133,6 @@ export class SkylightClient {
         }
         return Promise.resolve<GetCurrentAlertsByTypeResponse>(null as any);
     }
-
-    /**
-     * @return OK
-     */
-    getAlertSenders(body: GetAlertSendersQuery, cancelToken?: CancelToken): Promise<GetAlertSendersResponse> {
-        let url_ = this.baseUrl + "/api/v1/Alerts/GetAlertSenders";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetAlertSenders(_response);
-        });
-    }
-
-    protected processGetAlertSenders(response: AxiosResponse): Promise<GetAlertSendersResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<GetAlertSendersResponse>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<GetAlertSendersResponse>(null as any);
-    }
-
-    /**
-     * @return OK
-     */
-    getAlertTypes(body: GetAlertTypesQuery, cancelToken?: CancelToken): Promise<GetAlertTypesResponse> {
-        let url_ = this.baseUrl + "/api/v1/Alerts/GetAlertTypes";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetAlertTypes(_response);
-        });
-    }
-
-    protected processGetAlertTypes(response: AxiosResponse): Promise<GetAlertTypesResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = JSON.parse(resultData200);
-            return Promise.resolve<GetAlertTypesResponse>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<GetAlertTypesResponse>(null as any);
-    }
 }
 
 export interface AddCurrentAlertsCommand {
@@ -252,22 +142,6 @@ export interface AddCurrentAlertsCommand {
 
 export interface AddCurrentAlertsResponse {
     currentAlerts: CurrentAlert[];
-
-    [key: string]: any;
-}
-
-export interface AlertSender {
-    code: string;
-    name: string;
-
-    [key: string]: any;
-}
-
-export interface AlertType {
-    code: string;
-    name: string;
-    description: string;
-    level: string;
 
     [key: string]: any;
 }
@@ -309,28 +183,6 @@ export interface CurrentAlertByType {
     urgency: number;
     response: number;
     zones: string[];
-
-    [key: string]: any;
-}
-
-export interface GetAlertSendersQuery {
-
-    [key: string]: any;
-}
-
-export interface GetAlertSendersResponse {
-    senders: AlertSender[];
-
-    [key: string]: any;
-}
-
-export interface GetAlertTypesQuery {
-
-    [key: string]: any;
-}
-
-export interface GetAlertTypesResponse {
-    types: AlertType[];
 
     [key: string]: any;
 }

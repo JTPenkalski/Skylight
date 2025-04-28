@@ -17,14 +17,14 @@ public enum AlertUrgency
 
 public static class AlertUrgencyExtensions
 {
-	public static Urgency ToCore(this AlertUrgency client) =>
+	public static Domain.Alerts.Entities.AlertUrgency ToCore(this AlertUrgency client) =>
 		client switch
 		{
-			AlertUrgency.Unknown => Urgency.Unknown,
-			AlertUrgency.Past => Urgency.Past,
-			AlertUrgency.Future => Urgency.Future,
-			AlertUrgency.Expected => Urgency.Expected,
-			AlertUrgency.Immediate => Urgency.Immediate,
-			_ => throw new InvalidEnumCastException<Urgency>(client)
+			AlertUrgency.Unknown => Domain.Alerts.Entities.AlertUrgency.Unknown,
+			AlertUrgency.Past => Domain.Alerts.Entities.AlertUrgency.Past,
+			AlertUrgency.Future => Domain.Alerts.Entities.AlertUrgency.Future,
+			AlertUrgency.Expected => Domain.Alerts.Entities.AlertUrgency.Expected,
+			AlertUrgency.Immediate => Domain.Alerts.Entities.AlertUrgency.Immediate,
+			_ => throw new InvalidEnumCastException<Domain.Alerts.Entities.AlertUrgency>(client)
 		};
 }

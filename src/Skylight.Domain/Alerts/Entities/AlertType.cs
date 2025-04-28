@@ -10,5 +10,5 @@ public class AlertType : BaseAuditableEntity
 
 	public required string Description { get; set; }
 
-	public required Level Level { get; set; }
+	public required AlertLevel Level { get; set; }
 }

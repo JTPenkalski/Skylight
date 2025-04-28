@@ -1,6 +1,6 @@
 ﻿namespace Skylight.Domain.Alerts.Entities;
 
-public enum Severity
+public enum AlertSeverity
 {
 	Unknown,
 	Minor,

@@ -17,14 +17,14 @@ public enum AlertCertainty
 
 public static class AlertCertaintyExtensions
 {
-	public static Certainty ToCore(this AlertCertainty client) =>
+	public static Domain.Alerts.Entities.AlertCertainty ToCore(this AlertCertainty client) =>
 		client switch
 		{
-			AlertCertainty.Unknown => Certainty.Unknown,
-			AlertCertainty.Unlikely => Certainty.Unlikely,
-			AlertCertainty.Possible => Certainty.Possible,
-			AlertCertainty.Likely => Certainty.Likely,
-			AlertCertainty.Observed => Certainty.Observed,
-			_ => throw new InvalidEnumCastException<Certainty>(client)
+			AlertCertainty.Unknown => Domain.Alerts.Entities.AlertCertainty.Unknown,
+			AlertCertainty.Unlikely => Domain.Alerts.Entities.AlertCertainty.Unlikely,
+			AlertCertainty.Possible => Domain.Alerts.Entities.AlertCertainty.Possible,
+			AlertCertainty.Likely => Domain.Alerts.Entities.AlertCertainty.Likely,
+			AlertCertainty.Observed => Domain.Alerts.Entities.AlertCertainty.Observed,
+			_ => throw new InvalidEnumCastException<Domain.Alerts.Entities.AlertCertainty>(client)
 		};
 }

@@ -1,6 +1,6 @@
 ﻿namespace Skylight.Domain.Alerts.Entities;
 
-public enum Response
+public enum AlertResponse
 {
 	None,
 	AllClear,

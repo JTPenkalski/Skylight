@@ -26,15 +26,15 @@ public class Alert : BaseAuditableEntity
 
 	public required DateTimeOffset EndsOn { get; set; }
 
-	public required MessageType MessageType { get; set; }
+	public required AlertMessageType MessageType { get; set; }
 
-	public required Severity Severity { get; set; }
+	public required AlertSeverity Severity { get; set; }
 
-	public required Certainty Certainty { get; set; }
+	public required AlertCertainty Certainty { get; set; }
 
-	public required Urgency Urgency { get; set; }
+	public required AlertUrgency Urgency { get; set; }
 
-	public required Response Response { get; set; }
+	public required AlertResponse Response { get; set; }
 
 	public string? ExternalId { get; set; }
 

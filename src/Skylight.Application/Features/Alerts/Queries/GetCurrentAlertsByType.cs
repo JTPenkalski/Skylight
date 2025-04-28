@@ -1,11 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Skylight.Application.Data;
+using Skylight.Application.Features.Alerts.Validators;
 using Skylight.Application.Features.Interfaces;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Exceptions;
 using Skylight.Domain.Common.Results;
 
-namespace Skylight.Application.Features.Alerts.GetCurrentAlertsByType;
+namespace Skylight.Application.Features.Alerts.Queries;
+
+public record GetCurrentAlertsByTypeQuery(string Code) : IQuery<GetCurrentAlertsByTypeResponse>;
+
+public class GetCurrentAlertsByTypeQueryValidator : AbstractValidator<GetCurrentAlertsByTypeQuery>
+{
+	public GetCurrentAlertsByTypeQueryValidator()
+	{
+		RuleFor(x => x.Code)
+			.IsSameEventCode();
+	}
+}
+
+public sealed record GetCurrentAlertsByTypeResponse(
+	int Count,
+	string AlertCode,
+	string AlertName,
+	AlertLevel AlertLevel,
+	IEnumerable<GetCurrentAlertsByTypeResponse.CurrentAlertByType> CurrentAlerts) : IResponse
+{
+	public sealed record CurrentAlertByType(
+		string SenderCode,
+		string SenderName,
+		string Headline,
+		string Description,
+		string Instruction,
+		DateTimeOffset Sent,
+		DateTimeOffset Effective,
+		DateTimeOffset Expires,
+		AlertMessageType Type,
+		AlertSeverity Severity,
+		AlertCertainty Certainty,
+		AlertUrgency Urgency,
+		AlertResponse Response,
+		IEnumerable<string> Zones);
+}
 
 public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQueryHandler<GetCurrentAlertsByTypeQuery, GetCurrentAlertsByTypeResponse>
 {

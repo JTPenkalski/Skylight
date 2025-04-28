@@ -1,6 +1,6 @@
 ﻿namespace Skylight.Domain.Alerts.Entities;
 
-public enum Urgency
+public enum AlertUrgency
 {
 	Unknown,
 	Past,

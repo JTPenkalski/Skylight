@@ -89,12 +89,12 @@ public class SkylightDbContext(
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
 	{
 		// Enum Value Converters
-		configurationBuilder.Properties<Certainty>().HaveConversion<string>();
-		configurationBuilder.Properties<Level>().HaveConversion<string>();
-		configurationBuilder.Properties<MessageType>().HaveConversion<string>();
-		configurationBuilder.Properties<Response>().HaveConversion<string>();
-		configurationBuilder.Properties<Severity>().HaveConversion<string>();
-		configurationBuilder.Properties<Urgency>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertCertainty>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertLevel>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertMessageType>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertResponse>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertSeverity>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertUrgency>().HaveConversion<string>();
 	}
 
 	protected static T ValidateFoundEntity<T>(Guid id, T? entity) where T : BaseEntity

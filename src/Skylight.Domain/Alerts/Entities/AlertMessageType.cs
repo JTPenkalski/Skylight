@@ -1,6 +1,6 @@
 ﻿namespace Skylight.Domain.Alerts.Entities;
 
-public enum MessageType
+public enum AlertMessageType
 {
 	Alert,
 	Update,

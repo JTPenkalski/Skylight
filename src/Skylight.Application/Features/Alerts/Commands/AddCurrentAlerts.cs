@@ -5,7 +5,31 @@ using Skylight.Application.Services;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Results;
 
-namespace Skylight.Application.Features.Alerts.AddCurrentAlerts;
+namespace Skylight.Application.Features.Alerts.Commands;
+
+public sealed record AddCurrentAlertsCommand : ICommand<AddCurrentAlertsResponse>;
+
+public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsResponse.CurrentAlert> CurrentAlerts) : IResponse
+{
+	public sealed record CurrentAlert(
+		string AlertCode,
+		string AlertName,
+		AlertLevel AlertLevel,
+		string SenderCode,
+		string SenderName,
+		string Headline,
+		string Description,
+		string Instruction,
+		DateTimeOffset Sent,
+		DateTimeOffset Effective,
+		DateTimeOffset Expires,
+		AlertMessageType Type,
+		AlertSeverity Severity,
+		AlertCertainty Certainty,
+		AlertUrgency Urgency,
+		AlertResponse Response,
+		IEnumerable<string> Zones);
+}
 
 public class AddCurrentAlertsHandler(
 	ISkylightDbContext dbContext,

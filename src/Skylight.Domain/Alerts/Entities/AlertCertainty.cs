@@ -1,6 +1,6 @@
 ﻿namespace Skylight.Domain.Alerts.Entities;
 
-public enum Certainty
+public enum AlertCertainty
 {
 	Unknown,
 	Unlikely,

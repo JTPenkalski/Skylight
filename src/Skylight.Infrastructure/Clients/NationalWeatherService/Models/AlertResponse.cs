@@ -21,18 +21,18 @@ public enum AlertResponse
 
 public static class AlertResponseExtensions
 {
-	public static Response ToCore(this AlertResponse client) =>
+	public static Domain.Alerts.Entities.AlertResponse ToCore(this AlertResponse client) =>
 		client switch
 		{
-			AlertResponse.None => Response.None,
-			AlertResponse.AllClear => Response.AllClear,
-			AlertResponse.Assess => Response.Assess,
-			AlertResponse.Monitor => Response.Monitor,
-			AlertResponse.Avoid => Response.Avoid,
-			AlertResponse.Execute => Response.Execute,
-			AlertResponse.Prepare => Response.Prepare,
-			AlertResponse.Evacuate => Response.Evacuate,
-			AlertResponse.Shelter => Response.Shelter,
-			_ => throw new InvalidEnumCastException<Response>(client)
+			AlertResponse.None => Domain.Alerts.Entities.AlertResponse.None,
+			AlertResponse.AllClear => Domain.Alerts.Entities.AlertResponse.AllClear,
+			AlertResponse.Assess => Domain.Alerts.Entities.AlertResponse.Assess,
+			AlertResponse.Monitor => Domain.Alerts.Entities.AlertResponse.Monitor,
+			AlertResponse.Avoid => Domain.Alerts.Entities.AlertResponse.Avoid,
+			AlertResponse.Execute => Domain.Alerts.Entities.AlertResponse.Execute,
+			AlertResponse.Prepare => Domain.Alerts.Entities.AlertResponse.Prepare,
+			AlertResponse.Evacuate => Domain.Alerts.Entities.AlertResponse.Evacuate,
+			AlertResponse.Shelter => Domain.Alerts.Entities.AlertResponse.Shelter,
+			_ => throw new InvalidEnumCastException<Domain.Alerts.Entities.AlertResponse>(client)
 		};
 }

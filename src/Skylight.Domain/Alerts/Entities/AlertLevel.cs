@@ -1,6 +1,6 @@
 ﻿namespace Skylight.Domain.Alerts.Entities;
 
-public enum Level
+public enum AlertLevel
 {
 	None,
 	Advisory,
