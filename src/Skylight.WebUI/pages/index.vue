@@ -1,35 +1,38 @@
 <script setup lang="ts">
-import type { GetCurrentAlertsByTypeResponse } from '~/clients/Skylight';
+import useSkylight from '~/composables/useSkylight';
 
-// Get Axios
-// Generate NSwag client using Axios
-// Create composable useSkylight() to initialize with baseURL from runtime config
-// const api = useSkylight();
-// const result = await useAsyncData(() => api.getCurrentAlertsByType({ code: 'SVR' }));
-// Then... figure out why SSR doesn't work???
+const { api } = useSkylight();
+const { data } = await useAsyncData(async () => {
+	const [sva, svs, toa, tor] = await Promise.all([
+		api.getCurrentAlertsByType({ code: 'SVA' }),
+		api.getCurrentAlertsByType({ code: 'SVR' }),
+		api.getCurrentAlertsByType({ code: 'TOA' }),
+		api.getCurrentAlertsByType({ code: 'TOR' }),
+	]);
 
-const config = useRuntimeConfig();
-const { data } = await useFetch<GetCurrentAlertsByTypeResponse>(
-	`${config.public.apiBaseSkylight}/api/v1/Alerts/GetCurrentAlertsByType`,
-	{
-		method: 'POST',
-		body: {
-			code: 'SVR',
-		},
-	},
-).then((x) => {
-	console.log(x.data);
-	return x;
+	return { sva, svs, toa, tor };
 });
 
-const currentAlerts = computed(() => {
-	return data.value?.currentAlerts;
+const currentSva = computed(() => {
+	return data.value?.sva.currentAlerts;
+});
+const currentSvs = computed(() => {
+	return data.value?.svs.currentAlerts;
+});
+const currentToa = computed(() => {
+	return data.value?.toa.currentAlerts;
+});
+const currentTor = computed(() => {
+	return data.value?.tor.currentAlerts;
 });
 </script>
 
 <template>
-  <div class="content">    
-    <AlertCounter :count="currentAlerts?.length ?? 0" :label="currentAlerts?.at(0)?.alertName ?? ''" />
+  <div class="content">
+    <AlertCounter :count="currentSva?.length ?? 0" :label="currentSva?.at(0)?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentSvs?.length ?? 0" :label="currentSvs?.at(0)?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentToa?.length ?? 0" :label="currentToa?.at(0)?.alertName ?? 'Alert'" />
+    <AlertCounter :count="currentTor?.length ?? 0" :label="currentTor?.at(0)?.alertName ?? 'Alert'" />
   </div>
 </template>
 

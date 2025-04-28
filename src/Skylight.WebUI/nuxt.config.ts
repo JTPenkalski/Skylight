@@ -2,7 +2,7 @@ import Lara from '@primeuix/themes/lara';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	ssr: false,
+	//ssr: false,
 	app: {
 		head: {
 			htmlAttrs: {
@@ -26,9 +26,6 @@ export default defineNuxtConfig({
 	},
 	compatibilityDate: '2024-11-01',
 	css: ['~/assets/scss/main.scss'],
-	devServer: {
-		port: Number.parseInt(process.env.PORT ?? '57107'),
-	},
 	devtools: {
 		enabled: true,
 	},

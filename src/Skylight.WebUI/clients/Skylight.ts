@@ -8,309 +8,380 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+import axios, { AxiosError } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
+
 export class SkylightClient {
-	private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-	private baseUrl: string;
-	protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+    protected instance: AxiosInstance;
+    protected baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-	constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-			this.http = http ? http : window as any;
-			this.baseUrl = baseUrl ?? "https://localhost:7266/";
-	}
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
 
-	/**
-	 * @return OK
-	 */
-	addCurrentAlerts(body: AddCurrentAlertsCommand): Promise<AddCurrentAlertsResponse> {
-			let url_ = this.baseUrl + "/api/v1/Alerts/AddCurrentAlerts";
-			url_ = url_.replace(/[?&]$/, "");
+        this.instance = instance || axios.create();
 
-			const content_ = JSON.stringify(body);
+        this.baseUrl = baseUrl ?? "https://localhost:7266/";
 
-			let options_: RequestInit = {
-					body: content_,
-					method: "POST",
-					headers: {
-							"Content-Type": "application/json",
-							"Accept": "application/json"
-					}
-			};
+    }
 
-			return this.http.fetch(url_, options_).then((_response: Response) => {
-					return this.processAddCurrentAlerts(_response);
-			});
-	}
+    /**
+     * @return OK
+     */
+    addCurrentAlerts(body: AddCurrentAlertsCommand, cancelToken?: CancelToken): Promise<AddCurrentAlertsResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/AddCurrentAlerts";
+        url_ = url_.replace(/[?&]$/, "");
 
-	protected processAddCurrentAlerts(response: Response): Promise<AddCurrentAlertsResponse> {
-			const status = response.status;
-			let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-			if (status === 200) {
-					return response.text().then((_responseText) => {
-					let result200: any = null;
-					result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AddCurrentAlertsResponse;
-					return result200;
-					});
-			} else if (status !== 200 && status !== 204) {
-					return response.text().then((_responseText) => {
-					return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-					});
-			}
-			return Promise.resolve<AddCurrentAlertsResponse>(null as any);
-	}
+        const content_ = JSON.stringify(body);
 
-	/**
-	 * @return OK
-	 */
-	getCurrentAlertsByType(body: GetCurrentAlertsByTypeQuery): Promise<GetCurrentAlertsByTypeResponse> {
-			let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertsByType";
-			url_ = url_.replace(/[?&]$/, "");
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
 
-			const content_ = JSON.stringify(body);
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddCurrentAlerts(_response);
+        });
+    }
 
-			let options_: RequestInit = {
-					body: content_,
-					method: "POST",
-					headers: {
-							"Content-Type": "application/json",
-							"Accept": "application/json"
-					}
-			};
+    protected processAddCurrentAlerts(response: AxiosResponse): Promise<AddCurrentAlertsResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<AddCurrentAlertsResponse>(result200);
 
-			return this.http.fetch(url_, options_).then((_response: Response) => {
-					return this.processGetCurrentAlertsByType(_response);
-			});
-	}
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<AddCurrentAlertsResponse>(null as any);
+    }
 
-	protected processGetCurrentAlertsByType(response: Response): Promise<GetCurrentAlertsByTypeResponse> {
-			const status = response.status;
-			let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-			if (status === 200) {
-					return response.text().then((_responseText) => {
-					let result200: any = null;
-					result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetCurrentAlertsByTypeResponse;
-					return result200;
-					});
-			} else if (status !== 200 && status !== 204) {
-					return response.text().then((_responseText) => {
-					return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-					});
-			}
-			return Promise.resolve<GetCurrentAlertsByTypeResponse>(null as any);
-	}
+    /**
+     * @return OK
+     */
+    getCurrentAlertsByType(body: GetCurrentAlertsByTypeQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertsByTypeResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertsByType";
+        url_ = url_.replace(/[?&]$/, "");
 
-	/**
-	 * @return OK
-	 */
-	getAlertSenders(body: GetAlertSendersQuery): Promise<GetAlertSendersResponse> {
-			let url_ = this.baseUrl + "/api/v1/Alerts/GetAlertSenders";
-			url_ = url_.replace(/[?&]$/, "");
+        const content_ = JSON.stringify(body);
 
-			const content_ = JSON.stringify(body);
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
 
-			let options_: RequestInit = {
-					body: content_,
-					method: "POST",
-					headers: {
-							"Content-Type": "application/json",
-							"Accept": "application/json"
-					}
-			};
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetCurrentAlertsByType(_response);
+        });
+    }
 
-			return this.http.fetch(url_, options_).then((_response: Response) => {
-					return this.processGetAlertSenders(_response);
-			});
-	}
+    protected processGetCurrentAlertsByType(response: AxiosResponse): Promise<GetCurrentAlertsByTypeResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+				
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetCurrentAlertsByTypeResponse>(result200);
 
-	protected processGetAlertSenders(response: Response): Promise<GetAlertSendersResponse> {
-			const status = response.status;
-			let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-			if (status === 200) {
-					return response.text().then((_responseText) => {
-					let result200: any = null;
-					result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAlertSendersResponse;
-					return result200;
-					});
-			} else if (status !== 200 && status !== 204) {
-					return response.text().then((_responseText) => {
-					return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-					});
-			}
-			return Promise.resolve<GetAlertSendersResponse>(null as any);
-	}
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetCurrentAlertsByTypeResponse>(null as any);
+    }
 
-	/**
-	 * @return OK
-	 */
-	getAlertTypes(body: GetAlertTypesQuery): Promise<GetAlertTypesResponse> {
-			let url_ = this.baseUrl + "/api/v1/Alerts/GetAlertTypes";
-			url_ = url_.replace(/[?&]$/, "");
+    /**
+     * @return OK
+     */
+    getAlertSenders(body: GetAlertSendersQuery, cancelToken?: CancelToken): Promise<GetAlertSendersResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetAlertSenders";
+        url_ = url_.replace(/[?&]$/, "");
 
-			const content_ = JSON.stringify(body);
+        const content_ = JSON.stringify(body);
 
-			let options_: RequestInit = {
-					body: content_,
-					method: "POST",
-					headers: {
-							"Content-Type": "application/json",
-							"Accept": "application/json"
-					}
-			};
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
 
-			return this.http.fetch(url_, options_).then((_response: Response) => {
-					return this.processGetAlertTypes(_response);
-			});
-	}
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetAlertSenders(_response);
+        });
+    }
 
-	protected processGetAlertTypes(response: Response): Promise<GetAlertTypesResponse> {
-			const status = response.status;
-			let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-			if (status === 200) {
-					return response.text().then((_responseText) => {
-					let result200: any = null;
-					result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetAlertTypesResponse;
-					return result200;
-					});
-			} else if (status !== 200 && status !== 204) {
-					return response.text().then((_responseText) => {
-					return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-					});
-			}
-			return Promise.resolve<GetAlertTypesResponse>(null as any);
-	}
+    protected processGetAlertSenders(response: AxiosResponse): Promise<GetAlertSendersResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetAlertSendersResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetAlertSendersResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    getAlertTypes(body: GetAlertTypesQuery, cancelToken?: CancelToken): Promise<GetAlertTypesResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetAlertTypes";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetAlertTypes(_response);
+        });
+    }
+
+    protected processGetAlertTypes(response: AxiosResponse): Promise<GetAlertTypesResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetAlertTypesResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetAlertTypesResponse>(null as any);
+    }
 }
 
 export interface AddCurrentAlertsCommand {
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface AddCurrentAlertsResponse {
-	currentAlerts: CurrentAlert[];
+    currentAlerts: CurrentAlert[];
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface AlertSender {
-	code: string;
-	name: string;
+    code: string;
+    name: string;
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface AlertType {
-	code: string;
-	name: string;
-	description: string;
-	level: string;
+    code: string;
+    name: string;
+    description: string;
+    level: string;
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface CurrentAlert {
-	alertCode: string;
-	alertName: string;
-	alertLevel: number;
-	senderCode: string;
-	senderName: string;
-	headline: string;
-	description: string;
-	instruction: string;
-	sent: Date;
-	effective: Date;
-	expires: Date;
-	type: number;
-	severity: number;
-	certainty: number;
-	urgency: number;
-	response: number;
-	zones: string[];
+    alertCode: string;
+    alertName: string;
+    alertLevel: number;
+    senderCode: string;
+    senderName: string;
+    headline: string;
+    description: string;
+    instruction: string;
+    sent: Date;
+    effective: Date;
+    expires: Date;
+    type: number;
+    severity: number;
+    certainty: number;
+    urgency: number;
+    response: number;
+    zones: string[];
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface CurrentAlertByType {
-	alertCode: string;
-	alertName: string;
-	alertLevel: number;
-	senderCode: string;
-	senderName: string;
-	headline: string;
-	description: string;
-	instruction: string;
-	sent: Date;
-	effective: Date;
-	expires: Date;
-	type: number;
-	severity: number;
-	certainty: number;
-	urgency: number;
-	response: number;
-	zones: string[];
+    alertCode: string;
+    alertName: string;
+    alertLevel: number;
+    senderCode: string;
+    senderName: string;
+    headline: string;
+    description: string;
+    instruction: string;
+    sent: Date;
+    effective: Date;
+    expires: Date;
+    type: number;
+    severity: number;
+    certainty: number;
+    urgency: number;
+    response: number;
+    zones: string[];
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface GetAlertSendersQuery {
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface GetAlertSendersResponse {
-	senders: AlertSender[];
+    senders: AlertSender[];
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface GetAlertTypesQuery {
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface GetAlertTypesResponse {
-	types: AlertType[];
+    types: AlertType[];
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface GetCurrentAlertsByTypeQuery {
-	code: string;
+    code: string;
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export interface GetCurrentAlertsByTypeResponse {
-	currentAlerts: CurrentAlertByType[];
+    currentAlerts: CurrentAlertByType[];
 
-	[key: string]: any;
+    [key: string]: any;
 }
 
 export class ApiException extends Error {
-	override message: string;
-	status: number;
-	response: string;
-	headers: { [key: string]: any; };
-	result: any;
+    override message: string;
+    status: number;
+    response: string;
+    headers: { [key: string]: any; };
+    result: any;
 
-	constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
-			super();
+    constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+        super();
 
-			this.message = message;
-			this.status = status;
-			this.response = response;
-			this.headers = headers;
-			this.result = result;
-	}
+        this.message = message;
+        this.status = status;
+        this.response = response;
+        this.headers = headers;
+        this.result = result;
+    }
 
-	protected isApiException = true;
+    protected isApiException = true;
 
-	static isApiException(obj: any): obj is ApiException {
-			return obj.isApiException === true;
-	}
+    static isApiException(obj: any): obj is ApiException {
+        return obj.isApiException === true;
+    }
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
-	if (result !== null && result !== undefined)
-			throw result;
-	else
-			throw new ApiException(message, status, response, headers, null);
+    if (result !== null && result !== undefined)
+        throw result;
+    else
+        throw new ApiException(message, status, response, headers, null);
+}
+
+function isAxiosError(obj: any): obj is AxiosError {
+    return obj && obj.isAxiosError === true;
 }
