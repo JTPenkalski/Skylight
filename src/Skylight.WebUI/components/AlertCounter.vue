@@ -2,10 +2,10 @@
 import Card from 'primevue/card';
 import { ref } from 'vue';
 
-const props = defineProps({
-	count: { type: Number, required: true },
-	label: { type: String, required: true },
-});
+const props = defineProps<{
+	count: number;
+	label: string;
+}>();
 
 const count = ref(props.count);
 const label = computed(() => {
@@ -33,7 +33,7 @@ const severity = computed(() => {
 </script>
 
 <template>
-  <Card>
+  <Card class="card">
     <template #title>
       <div :class="severity" class="counter">{{ count }}</div>
     </template>
@@ -44,6 +44,10 @@ const severity = computed(() => {
 </template>
 
 <style scoped lang="scss">
+.card {
+  flex: 1;
+}
+
 .marginal {
   background-color: var(--p-marginal-background);
   border-color: var(--p-marginal-color);

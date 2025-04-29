@@ -29,19 +29,31 @@ const currentTor = computed(() => {
 
 <template>
   <div class="content">
-    <AlertCounter :count="currentSva?.count ?? 0" :label="currentSva?.alertName ?? 'Alert'" />
-    <AlertCounter :count="currentSvs?.count ?? 0" :label="currentSvs?.alertName ?? 'Alert'" />
-    <AlertCounter :count="currentToa?.count ?? 0" :label="currentToa?.alertName ?? 'Alert'" />
-    <AlertCounter :count="currentTor?.count ?? 0" :label="currentTor?.alertName ?? 'Alert'" />
+    <div class="row">
+      <AlertCounter :count="currentSva?.count ?? 0" :label="currentSva?.alertName ?? 'Alert'" />
+      <AlertCounter :count="currentSvs?.count ?? 0" :label="currentSvs?.alertName ?? 'Alert'" />
+      <AlertCounter :count="currentToa?.count ?? 0" :label="currentToa?.alertName ?? 'Alert'" />
+      <AlertCounter :count="currentTor?.count ?? 0" :label="currentTor?.alertName ?? 'Alert'" />
+    </div>
+    <div class="row">
+      <AlertList label="Severe Thunderstorm Warnings"/>
+      <AlertList label="Tornado Warnings"/>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .content {
-  column-gap: 2vmin;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  row-gap: 2vmin;
+  display: flex;
+  flex-direction: column;
+  gap: 2vmin;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 2vmin;
+  justify-content: space-between;
 }
 
 @media (max-width: 767px) {
