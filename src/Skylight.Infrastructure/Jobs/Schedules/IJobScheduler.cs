@@ -18,5 +18,6 @@ public interface IJobScheduler
 	/// <summary>
 	/// Schedules an individual <see cref="IJob"/> process.
 	/// </summary>
-	void Schedule(IServiceProvider services);
+	/// <returns>If the job was successfully scheduled or not.</returns>
+	bool Schedule();
 }

@@ -13,11 +13,13 @@ public abstract class BaseJobScheduler<T> : IJobScheduler where T : IJob
 
 	public string Key => typeof(T).Name;
 
-	public void Schedule(IServiceProvider services)
+	public bool Schedule()
 	{
 		RecurringJob.AddOrUpdate<T>(
 			Key,
 			x => x.ProcessAsync(CancellationToken.None),
 			CronSchedule);
+
+		return CronSchedule != Cron.Never();
 	}
 }

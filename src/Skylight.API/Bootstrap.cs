@@ -123,9 +123,9 @@ public static class Bootstrap
 		IEnumerable<IJobScheduler> jobSchedulers = app.Services.GetServices<IJobScheduler>();
 		foreach (IJobScheduler jobScheduler in jobSchedulers)
 		{
-			jobScheduler.Schedule(app.Services);
+			bool scheduled = jobScheduler.Schedule();
 
-			if (jobScheduler.TriggerImmediate)
+			if (scheduled && jobScheduler.TriggerImmediate)
 			{
 				RecurringJob.TriggerJob(jobScheduler.Key);
 			}
