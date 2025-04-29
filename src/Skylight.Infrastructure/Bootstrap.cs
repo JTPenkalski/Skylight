@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -8,6 +10,8 @@ using Skylight.Application.Data;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Data.Initializers;
+using Skylight.Infrastructure.Jobs;
+using Skylight.Infrastructure.Jobs.Filters;
 using System.Reflection;
 
 namespace Skylight.Infrastructure;
@@ -26,9 +30,6 @@ public static class Bootstrap
 		services
 			.AddOptions<NationalWeatherServiceOptions>().Bind(configuration.GetSection(NationalWeatherServiceOptions.RootKey)).ValidateOnStart();
 
-		// Add Time Provider
-		services.AddSingleton(TimeProvider.System);
-
 		// Add EF Core Database
 		services
 			.AddDbContext<SkylightDbContext>((provider, options) =>
@@ -40,15 +41,45 @@ public static class Bootstrap
 				options.EnableSensitiveDataLogging(!isProduction);
 			});
 
+		// Add Hangfire
+		services
+			.AddHangfire((provider, options) =>
+			{
+				var filters = provider.GetServices<IJobFilter>();
+				foreach (IJobFilter filter in filters)
+				{
+					options.UseFilter(filter);
+				}
+
+				options
+					.UsePostgreSqlStorage(sqlOptions =>
+					{
+						sqlOptions
+							.UseNpgsqlConnection(configuration.GetConnectionString("skylight-postgres-db"));
+					});
+			})
+			.AddHangfireServer();
+
 		// Add Infrastructure Services
 		services
-			.AddValidatorsFromAssembly(assembly)
+			.AddSingleton(TimeProvider.System)
 			.AddScoped<ISkylightDbContextInitializer, DefaultSkylightDbContextInitializer>()
+			.AddValidatorsFromAssembly(assembly)
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
 					.AddClasses()
 					.AsMatchingInterface()
-					.WithScopedLifetime());
+					.WithScopedLifetime()
+				// Jobs
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJob)))
+					.WithScopedLifetime()
+				// Job Filters
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobFilter)))
+					.WithSingletonLifetime());
 
 		return services;
 	}

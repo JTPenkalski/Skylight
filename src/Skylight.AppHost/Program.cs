@@ -30,7 +30,11 @@ builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(
 			.WithBrowserCommand(
 				name: "scalar",
 				displayName: "Scalar UI",
-				url: $"{skylightApi.GetEndpoint("https").Url}/scalar");
+				url: $"{skylightApi.GetEndpoint("https").Url}/scalar")
+			.WithBrowserCommand(
+				name: "hangfire",
+				displayName: "Hangfire UI",
+				url: $"{skylightApi.GetEndpoint("https").Url}/jobs");
 
 		return Task.CompletedTask;
 	});
