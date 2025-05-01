@@ -6,5 +6,5 @@ public class AlertZone : BaseAuditableEntity
 {
 	public required string Code { get; set; }
 
-	public string? State { get; set; }
+	public required string Name { get; set; }
 }

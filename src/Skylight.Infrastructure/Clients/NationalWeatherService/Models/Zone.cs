@@ -7,4 +7,20 @@ public sealed record Zone(
 	UgcZone Id,
 	ZoneType Type,
 	string Name,
-	string? State);
+	string? State)
+{
+	public string FullName
+	{
+		get
+		{
+			string fullName = Name;
+
+			if (!string.IsNullOrWhiteSpace(State))
+			{
+				fullName += $", {State}";
+			}
+
+			return fullName;
+		}
+	}
+}

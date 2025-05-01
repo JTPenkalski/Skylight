@@ -9,9 +9,9 @@ namespace Skylight.Application.Features.Alerts.Commands;
 
 public sealed record AddCurrentAlertsCommand : ICommand<AddCurrentAlertsResponse>;
 
-public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsResponse.CurrentAlert> CurrentAlerts) : IResponse
+public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsResponse.AddedAlert> AddedAlerts) : IResponse
 {
-	public sealed record CurrentAlert(
+	public sealed record AddedAlert(
 		string AlertCode,
 		string AlertName,
 		AlertLevel AlertLevel,
@@ -38,7 +38,7 @@ public class AddCurrentAlertsHandler(
 {
 	public async ValueTask<Result<AddCurrentAlertsResponse>> Handle(AddCurrentAlertsCommand request, CancellationToken cancellationToken)
 	{
-		var currentAlerts = new List<AddCurrentAlertsResponse.CurrentAlert>();
+		var currentAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
 
 		List<Alert> activeAlerts = await weatherAlertService.GetActiveAlertsAsync(cancellationToken);
 
@@ -54,24 +54,24 @@ public class AddCurrentAlertsHandler(
 				await dbContext.Alerts.AddAsync(alert, cancellationToken);
 			}
 
-			var newWeatherEventAlert = new AddCurrentAlertsResponse.CurrentAlert(
-				AlertCode: alert.Type.Code,
-				AlertName: alert.Type.Name,
-				AlertLevel: alert.Type.Level,
-				SenderCode: alert.Sender.Code,
-				SenderName: alert.Sender.Name,
-				Headline: alert.Headline,
-				Description: alert.Description,
-				Instruction: alert.Instruction,
-				Sent: alert.SentOn,
-				Effective: alert.EffectiveOn,
-				Expires: alert.ExpiresOn,
-				Type: alert.MessageType,
-				Severity: alert.Severity,
-				Certainty: alert.Certainty,
-				Urgency: alert.Urgency,
-				Response: alert.Response,
-				Zones: [.. alert.Zones.Select(x => x.Code)]);
+			var newWeatherEventAlert = new AddCurrentAlertsResponse.AddedAlert(
+				alert.Type.Code,
+				alert.Type.Name,
+				alert.Type.Level,
+				alert.Sender.Code,
+				alert.Sender.Name,
+				alert.Headline,
+				alert.Description,
+				alert.Instruction,
+				alert.SentOn,
+				alert.EffectiveOn,
+				alert.ExpiresOn,
+				alert.MessageType,
+				alert.Severity,
+				alert.Certainty,
+				alert.Urgency,
+				alert.Response,
+				[.. alert.Zones.Select(x => x.Code)]);
 
 			currentAlerts.Add(newWeatherEventAlert);
 		}

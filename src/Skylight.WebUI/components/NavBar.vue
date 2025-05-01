@@ -15,7 +15,7 @@ const isDarkTheme: boolean = true;
     <div class="navbar-logo-container">
       <!-- <Button rounded icon="pi pi-bars" severity="contrast" variant="text" aria-label="Menu" /> -->
       <a href="/" class="navbar-logo">
-        <img alt="logo" src="../assets/logo_full.svg" />
+        <img alt="logo" src="~/assets/logo_full.svg" />
       </a>
     </div>
 

@@ -13,6 +13,8 @@ public class WeatherAlertService(
 	INationalWeatherServiceClient nwsClient)
 	: IWeatherAlertService
 {
+	public const int RequestChunkSize = 500;
+
 	public async Task<List<Core.Alert>> GetActiveAlertsAsync(CancellationToken cancellationToken)
 	{
 		var clientRequest = new GetActiveAlertsRequest(
@@ -59,7 +61,7 @@ public class WeatherAlertService(
 
 		IEnumerable<string[]> unknownZoneChunks = allZones
 			.Except(knownZones.Keys)
-			.Chunk(500);
+			.Chunk(RequestChunkSize);
 
 		foreach (string[] unknownZones in unknownZoneChunks)
 		{
@@ -74,7 +76,7 @@ public class WeatherAlertService(
 				var newZone = new Core.AlertZone
 				{
 					Code = zone.Id.ToString(),
-					State = zone.State,
+					Name = zone.FullName,
 				};
 
 				knownZones.Add(newZone.Code, newZone);

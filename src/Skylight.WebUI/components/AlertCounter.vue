@@ -1,30 +1,37 @@
 <script setup lang="ts">
-import Card from 'primevue/card';
-import { ref } from 'vue';
-
 const props = defineProps<{
-	count: number;
-	label: string;
+	code: string;
 }>();
 
-const count = ref(props.count);
+const { api } = useSkylight();
+const { data } = await useAsyncData(`alert-count/${props.code}`, () => {
+	return api.getCurrentAlertCountByType({ code: props.code });
+});
+
+const count = computed(() => {
+	return data.value?.count ?? 0;
+});
 const label = computed(() => {
-	return pluralize(props.label, count);
+	if (data.value) {
+		return pluralize(data.value.alertName, count);
+	}
+
+	return 'Alerts';
 });
 const severity = computed(() => {
-	if (props.count <= 0) {
+	if (count.value <= 0) {
 		return 'marginal';
 	}
 
-	if (props.count <= 2) {
+	if (count.value <= 2) {
 		return 'slight';
 	}
 
-	if (props.count <= 5) {
+	if (count.value <= 5) {
 		return 'enhanced';
 	}
 
-	if (props.count <= 8) {
+	if (count.value <= 8) {
 		return 'moderate';
 	}
 

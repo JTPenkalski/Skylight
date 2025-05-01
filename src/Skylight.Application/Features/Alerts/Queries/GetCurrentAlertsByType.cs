@@ -25,9 +25,12 @@ public sealed record GetCurrentAlertsByTypeResponse(
 	string AlertCode,
 	string AlertName,
 	AlertLevel AlertLevel,
-	IEnumerable<GetCurrentAlertsByTypeResponse.CurrentAlertByType> CurrentAlerts) : IResponse
+	IEnumerable<GetCurrentAlertsByTypeResponse.CurrentAlert> CurrentAlerts)
+	: IResponse
 {
-	public sealed record CurrentAlertByType(
+	public sealed record CurrentAlertLocation(string Zone, string Name);
+
+	public sealed record CurrentAlert(
 		string SenderCode,
 		string SenderName,
 		string Headline,
@@ -36,12 +39,11 @@ public sealed record GetCurrentAlertsByTypeResponse(
 		DateTimeOffset Sent,
 		DateTimeOffset Effective,
 		DateTimeOffset Expires,
-		AlertMessageType Type,
 		AlertSeverity Severity,
 		AlertCertainty Certainty,
 		AlertUrgency Urgency,
 		AlertResponse Response,
-		IEnumerable<string> Zones);
+		IEnumerable<CurrentAlertLocation> Locations);
 }
 
 public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQueryHandler<GetCurrentAlertsByTypeQuery, GetCurrentAlertsByTypeResponse>
@@ -60,7 +62,7 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 				x.Type.Code == request.Code
 				&& x.ExpiresOn > DateTimeOffset.UtcNow
 				&& !x.DeletedOn.HasValue)
-			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertByType(
+			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlert(
 				x.Sender.Code,
 				x.Sender.Name,
 				x.Headline,
@@ -69,12 +71,13 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 				x.SentOn,
 				x.EffectiveOn,
 				x.ExpiresOn,
-				x.MessageType,
 				x.Severity,
 				x.Certainty,
 				x.Urgency,
 				x.Response,
-				x.Zones.Select(x => x.Code)))
+				x.Zones.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertLocation(
+					x.Code,
+					x.Name))))
 			.ToListAsync(cancellationToken);
 
 		var response = new GetCurrentAlertsByTypeResponse(
