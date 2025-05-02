@@ -7,6 +7,12 @@
       <AlertCounter code="TOR" />
     </div>
     <div class="row">
+      <AlertCountHistory :codes="['SVA']" />
+      <AlertCountHistory :codes="['SVR']" />
+      <AlertCountHistory :codes="['TOA']" />
+      <AlertCountHistory :codes="['TOR']" />
+    </div>
+    <div class="row">
       <AlertList code="SVR"/>
       <AlertList code="TOR"/>
     </div>

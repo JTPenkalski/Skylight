@@ -38,14 +38,25 @@ public class AddCurrentAlertsHandler(
 {
 	public async ValueTask<Result<AddCurrentAlertsResponse>> Handle(AddCurrentAlertsCommand request, CancellationToken cancellationToken)
 	{
-		var currentAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
-
 		List<Alert> activeAlerts = await weatherAlertService.GetActiveAlertsAsync(cancellationToken);
 
 		HashSet<string?> activeAlertIds = [.. activeAlerts.Select(x => x.ExternalId)];
 		HashSet<Alert> existingAlerts = await dbContext.Alerts
 			.Where(x => activeAlertIds.Contains(x.ExternalId))
 			.ToHashSetAsync(cancellationToken);
+
+		List<AddCurrentAlertsResponse.AddedAlert> currentAlerts = await AddNewAlertsAsync(activeAlerts, existingAlerts, cancellationToken);
+
+		await dbContext.CommitAsync(cancellationToken);
+
+		var response = new AddCurrentAlertsResponse(currentAlerts);
+
+		return Result.Success(response);
+	}
+
+	private async Task<List<AddCurrentAlertsResponse.AddedAlert>> AddNewAlertsAsync(List<Alert> activeAlerts, HashSet<Alert> existingAlerts, CancellationToken cancellationToken)
+	{
+		var currentAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
 
 		foreach (Alert alert in activeAlerts)
 		{
@@ -76,10 +87,6 @@ public class AddCurrentAlertsHandler(
 			currentAlerts.Add(newWeatherEventAlert);
 		}
 
-		await dbContext.CommitAsync(cancellationToken);
-
-		var response = new AddCurrentAlertsResponse(currentAlerts);
-
-		return Result.Success(response);
+		return currentAlerts;
 	}
 }

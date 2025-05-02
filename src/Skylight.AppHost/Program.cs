@@ -7,6 +7,7 @@ var password = builder.AddParameter("password", secret: true);
 
 var postgres = builder
 	.AddPostgres("skylight-postgres", username, password)
+	.WithPgAdmin()
 	.AddDatabase("skylight-postgres-db");
 
 var skylightApi = builder

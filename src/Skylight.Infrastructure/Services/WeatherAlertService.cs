@@ -51,7 +51,7 @@ public class WeatherAlertService(
 		return senders;
 	}
 
-	internal async Task<Dictionary<string, Core.AlertZone>> GetAlertZonesAsync(IEnumerable<Alert> alerts, CancellationToken cancellationToken)
+	internal async Task<Dictionary<string, Core.AlertZone>> GetAlertZonesAsync(List<Alert> alerts, CancellationToken cancellationToken)
 	{
 		HashSet<string> allZones = [.. alerts.SelectMany(x => x.Zones.Select(x => x.ToString()))];
 

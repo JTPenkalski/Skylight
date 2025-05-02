@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
 	code: string;
+	rows?: number;
 }>();
 
 const { api } = useSkylight();
@@ -34,16 +35,16 @@ const locations = computed(() => {
       <div>{{ title }}</div>
     </template>
     <template #content>
-			<DataView v-if="hasAlerts" paginator data-key="headline" :value="alerts" :rows="2"> <!-- TODO: Figure out why pagination doesn't work -->
-				<template #list>
+			<DataView v-if="hasAlerts" paginator data-key="headline" :value="alerts" :rows="props.rows ?? 5">
+				<template #list="slotProps">
 					<div class="list">
-						<div v-for="(item, index) in alerts" :key="index" class="list-item" :class="{ 'list-divider': index !== 0 }">
+						<div v-for="(item, index) in slotProps.items" :key="index" class="list-item" :class="{ 'list-divider': index !== 0 }">
 							<div class="list-item-left">
 								<span class="list-item-header">Severe</span>
 
 								<div class="list-item-times">
-									<Tag icon="pi pi-play-circle" severity="info" :value="item.effective" />
-									<Tag icon="pi pi-stop-circle" severity="info" :value="item.expires" />
+									<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="formatDate(item.effective)" />
+									<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="formatDate(item.expires)" />
 								</div>
 
 								<div class="list-item-tags">
@@ -53,7 +54,7 @@ const locations = computed(() => {
 									<Tag severity="secondary" :value="`Response: ${item.response}`" />
 								</div>
 
-								<span class="list-item-locations">{{ locations[index] }}</span>
+								<span class="list-item-locations"><b>Locations:</b> {{ locations[index] }}</span>
 							</div>
 							<div class="list-item-right">
 								<div class="list-item-sender">
@@ -136,6 +137,7 @@ const locations = computed(() => {
 	align-items: center;
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	gap: 0.2rem;
 }
 
