@@ -1,30 +1,45 @@
 <script setup lang="ts">
-import type { ChartData, ChartOptions } from 'chart.js';
+import { type ChartData, type ChartDataset, type ChartOptions } from 'chart.js';
+import currentDate from '~/utils/currentDate';
 
 const props = defineProps<{
 	codes: string[];
 	hours?: number;
 }>();
 
+const { api } = useSkylight();
+const { data } = await useAsyncData(`alert-count-history/${props.codes.join(',')}`, async () => {
+	return await Promise.all(
+		props.codes.map((x) =>
+			api.getHourlyAlertCountsByType({
+				code: x,
+				start: currentDate(),
+				pastHours: props.hours ?? 6,
+			}),
+		),
+	);
+});
+
+const datasets: ComputedRef<ChartDataset<'line'>[]> = computed(() => {
+	return (
+		data.value?.map((x) => {
+			return {
+				label: pluralize(x.alertName, 2),
+				data: x.alertCounts.map((x) => x.count),
+				fill: false,
+			};
+		}) ?? []
+	);
+});
+
 const textColor = useThemeColor('text.muted.color').color;
 const gridColor = useThemeColor('content.border.color').color;
 
-const chart: Ref<ChartData<'line'>> = ref({
-	labels: pastHours(props.hours ?? 6),
-	datasets: [
-		{
-			label: 'Watches',
-			data: [65, 59, 80, 81, 56, 55, 40],
-			fill: false,
-			tension: 0.4,
-		},
-		{
-			label: 'Warnings',
-			data: [28, 48, 40, 19, 86, 27, 90],
-			fill: false,
-			tension: 0.4,
-		},
-	],
+const chart: ComputedRef<ChartData<'line'>> = computed(() => {
+	return {
+		labels: pastHours(props.hours ?? 6),
+		datasets: datasets.value,
+	};
 });
 
 const options: Ref<ChartOptions<'line'>> = ref({

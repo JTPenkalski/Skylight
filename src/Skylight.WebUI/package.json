@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "nuxt build",
 		"dev": "nuxt dev",
+		"release": "nuxt dev --envName=production",
 		"lint": "npx biome check --write"
 	},
 	"dependencies": {

@@ -188,6 +188,61 @@ export class SkylightClient {
         }
         return Promise.resolve<GetCurrentAlertsByTypeResponse>(null as any);
     }
+
+    /**
+     * @return OK
+     */
+    getHourlyAlertCountsByType(body: GetHourlyAlertCountsByTypeQuery, cancelToken?: CancelToken): Promise<GetHourlyAlertCountsByTypeResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetHourlyAlertCountsByType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetHourlyAlertCountsByType(_response);
+        });
+    }
+
+    protected processGetHourlyAlertCountsByType(response: AxiosResponse): Promise<GetHourlyAlertCountsByTypeResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetHourlyAlertCountsByTypeResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetHourlyAlertCountsByTypeResponse>(null as any);
+    }
 }
 
 export interface AddCurrentAlertsCommand {
@@ -210,9 +265,9 @@ export interface AddedAlert {
     headline: string;
     description: string;
     instruction: string;
-    sent: Date;
-    effective: Date;
-    expires: Date;
+    sent: string;
+    effective: string;
+    expires: string;
     type: number;
     severity: number;
     certainty: number;
@@ -229,9 +284,9 @@ export interface CurrentAlert {
     headline: string;
     description: string;
     instruction: string;
-    sent: Date;
-    effective: Date;
-    expires: Date;
+    sent: string;
+    effective: string;
+    expires: string;
     severity: number;
     certainty: number;
     urgency: number;
@@ -275,6 +330,29 @@ export interface GetCurrentAlertsByTypeResponse {
     alertName: string;
     alertLevel: number;
     currentAlerts: CurrentAlert[];
+
+    [key: string]: any;
+}
+
+export interface GetHourlyAlertCountsByTypeQuery {
+    code: string;
+    start: string;
+    pastHours: number;
+
+    [key: string]: any;
+}
+
+export interface GetHourlyAlertCountsByTypeResponse {
+    alertCode: string;
+    alertName: string;
+    alertCounts: HourlyCount[];
+
+    [key: string]: any;
+}
+
+export interface HourlyCount {
+    hour: number;
+    count: number;
 
     [key: string]: any;
 }

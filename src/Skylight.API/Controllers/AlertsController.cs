@@ -36,4 +36,12 @@ public class AlertsController(IMediator mediator)
 
 		return result.ToActionResult();
 	}
+
+	[HttpPost]
+	public async Task<ActionResult<GetHourlyAlertCountsByTypeResponse>> GetHourlyAlertCountsByType(GetHourlyAlertCountsByTypeQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
 }

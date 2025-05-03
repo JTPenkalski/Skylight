@@ -28,7 +28,9 @@ public static class Bootstrap
 		services
 			.AddControllers()
 			.AddJsonOptions(options =>
-				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+			{
+				options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			});
 
 		// Add API Versioning Services
 		services
