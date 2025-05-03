@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { format } from 'date-fns';
+
 const props = defineProps<{
 	code: string;
 	rows?: number;
@@ -22,7 +24,7 @@ const alerts = computed(() => {
 	return [];
 });
 const title = computed(() => {
-	return data.value ? `${pluralize(data.value.alertName, 2)} (${data.value.alertCode})` : 'Alerts';
+	return data.value ? `${plural(data.value.alertName)} (${data.value.alertCode})` : 'Alerts';
 });
 const locations = computed(() => {
 	return data.value?.currentAlerts.map((x) => x.locations.map((x) => x.name).join('; ')) ?? [];
@@ -40,11 +42,11 @@ const locations = computed(() => {
 					<div class="list">
 						<div v-for="(item, index) in slotProps.items" :key="index" class="list-item" :class="{ 'list-divider': index !== 0 }">
 							<div class="list-item-left">
-								<span class="list-item-header">Severe</span>
+								<span class="list-item-header">Alert</span>
 
 								<div class="list-item-times">
-									<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="formatDate(item.effective)" />
-									<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="formatDate(item.expires)" />
+									<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(item.effective, 'PPpp')" />
+									<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(item.expires, 'PPpp')" />
 								</div>
 
 								<div class="list-item-tags">

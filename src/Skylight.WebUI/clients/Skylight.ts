@@ -192,7 +192,7 @@ export class SkylightClient {
     /**
      * @return OK
      */
-    getHourlyAlertCountsByType(body: GetHourlyAlertCountsByTypeQuery, cancelToken?: CancelToken): Promise<GetHourlyAlertCountsByTypeResponse> {
+    getHourlyAlertCountsByType(body: GetHistoricalAlertCountsByTypeQuery, cancelToken?: CancelToken): Promise<GetHistoricalAlertCountsByTypeResponse> {
         let url_ = this.baseUrl + "/api/v1/Alerts/GetHourlyAlertCountsByType";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -220,7 +220,7 @@ export class SkylightClient {
         });
     }
 
-    protected processGetHourlyAlertCountsByType(response: AxiosResponse): Promise<GetHourlyAlertCountsByTypeResponse> {
+    protected processGetHourlyAlertCountsByType(response: AxiosResponse): Promise<GetHistoricalAlertCountsByTypeResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -235,13 +235,13 @@ export class SkylightClient {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = JSON.parse(resultData200);
-            return Promise.resolve<GetHourlyAlertCountsByTypeResponse>(result200);
+            return Promise.resolve<GetHistoricalAlertCountsByTypeResponse>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<GetHourlyAlertCountsByTypeResponse>(null as any);
+        return Promise.resolve<GetHistoricalAlertCountsByTypeResponse>(null as any);
     }
 }
 
@@ -259,23 +259,73 @@ export interface AddCurrentAlertsResponse {
 export interface AddedAlert {
     alertCode: string;
     alertName: string;
-    alertLevel: number;
+    alertLevel: AlertLevel;
     senderCode: string;
     senderName: string;
     headline: string;
     description: string;
     instruction: string;
-    sent: string;
-    effective: string;
-    expires: string;
-    type: number;
-    severity: number;
-    certainty: number;
-    urgency: number;
-    response: number;
+    sent: Date;
+    effective: Date;
+    expires: Date;
+    type: AlertMessageType;
+    severity: AlertSeverity;
+    certainty: AlertCertainty;
+    urgency: AlertUrgency;
+    response: AlertResponse;
     zones: string[];
 
     [key: string]: any;
+}
+
+export enum AlertCertainty {
+    Unknown = "Unknown",
+    Unlikely = "Unlikely",
+    Possible = "Possible",
+    Likely = "Likely",
+    Observed = "Observed",
+}
+
+export enum AlertLevel {
+    None = "None",
+    Advisory = "Advisory",
+    Watch = "Watch",
+    Warning = "Warning",
+}
+
+export enum AlertMessageType {
+    Alert = "Alert",
+    Update = "Update",
+    Cancellation = "Cancellation",
+    Error = "Error",
+}
+
+export enum AlertResponse {
+    None = "None",
+    AllClear = "AllClear",
+    Assess = "Assess",
+    Monitor = "Monitor",
+    Avoid = "Avoid",
+    Execute = "Execute",
+    Prepare = "Prepare",
+    Evacuate = "Evacuate",
+    Shelter = "Shelter",
+}
+
+export enum AlertSeverity {
+    Unknown = "Unknown",
+    Minor = "Minor",
+    Moderate = "Moderate",
+    Severe = "Severe",
+    Extreme = "Extreme",
+}
+
+export enum AlertUrgency {
+    Unknown = "Unknown",
+    Past = "Past",
+    Future = "Future",
+    Expected = "Expected",
+    Immediate = "Immediate",
 }
 
 export interface CurrentAlert {
@@ -284,13 +334,13 @@ export interface CurrentAlert {
     headline: string;
     description: string;
     instruction: string;
-    sent: string;
-    effective: string;
-    expires: string;
-    severity: number;
-    certainty: number;
-    urgency: number;
-    response: number;
+    sent: Date;
+    effective: Date;
+    expires: Date;
+    severity: AlertSeverity;
+    certainty: AlertCertainty;
+    urgency: AlertUrgency;
+    response: AlertResponse;
     locations: CurrentAlertLocation[];
 
     [key: string]: any;
@@ -313,7 +363,7 @@ export interface GetCurrentAlertCountByTypeResponse {
     count: number;
     alertCode: string;
     alertName: string;
-    alertLevel: number;
+    alertLevel: AlertLevel;
 
     [key: string]: any;
 }
@@ -328,30 +378,31 @@ export interface GetCurrentAlertsByTypeResponse {
     count: number;
     alertCode: string;
     alertName: string;
-    alertLevel: number;
+    alertLevel: AlertLevel;
     currentAlerts: CurrentAlert[];
 
     [key: string]: any;
 }
 
-export interface GetHourlyAlertCountsByTypeQuery {
+export interface GetHistoricalAlertCountsByTypeQuery {
     code: string;
-    start: string;
+    start: Date;
     pastHours: number;
 
     [key: string]: any;
 }
 
-export interface GetHourlyAlertCountsByTypeResponse {
+export interface GetHistoricalAlertCountsByTypeResponse {
     alertCode: string;
     alertName: string;
-    alertCounts: HourlyCount[];
+    alertLevel: AlertLevel;
+    alertCounts: HistoricalAlertCount[];
 
     [key: string]: any;
 }
 
-export interface HourlyCount {
-    hour: number;
+export interface HistoricalAlertCount {
+    dateTime: Date;
     count: number;
 
     [key: string]: any;

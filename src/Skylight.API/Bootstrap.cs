@@ -26,6 +26,10 @@ public static class Bootstrap
 
 		// Add MVC Services
 		services
+			.ConfigureHttpJsonOptions(options =>
+			{
+				options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			})
 			.AddControllers()
 			.AddJsonOptions(options =>
 			{

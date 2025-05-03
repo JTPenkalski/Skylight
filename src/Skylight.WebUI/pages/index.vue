@@ -7,9 +7,10 @@
       <AlertCounter code="TOR" />
     </div>
     <div class="row">
-      <AlertCountHistory :codes="['SVA', 'SVR']" />
-      <AlertCountHistory :codes="['TOA', 'TOR']" />
-      <AlertCountHistory :codes="['FFW']" />
+      <AlertCountHistory :codes="['SPS']" title="Special Weather Statement" />
+      <AlertCountHistory :codes="['FFW']" title="Flash Flood" />
+      <AlertCountHistory :codes="['SVA', 'SVR']" title="Severe Thunderstorm" />
+      <AlertCountHistory :codes="['TOA', 'TOR']" title="Tornado" />
     </div>
     <div class="row">
       <AlertList code="SVR"/>

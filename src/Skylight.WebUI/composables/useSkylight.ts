@@ -9,6 +9,12 @@ export default function (): { api: SkylightClient } {
 		transformResponse: (data) => data, // Axios might auto-parse the JSON, which would cause errors in the NSwag client when trying to parse again
 	});
 
+	client.interceptors.request.use((request) => {
+		console.log(`Sending HTTP request to ${request.url}: ${request.data}`);
+
+		return request;
+	});
+
 	if (config.public.logClients) {
 		client.interceptors.request.use(
 			(request) => {
@@ -26,7 +32,7 @@ export default function (): { api: SkylightClient } {
 		client.interceptors.response.use(
 			(response) => {
 				console.log(
-					`Receiving HTTP response from ${response.config.url}: ${response.status} ${response.statusText}`,
+					`Receiving HTTP response from ${response.config.url}: ${response.status} ${response.statusText} ${response.data}`,
 				);
 
 				return response;
