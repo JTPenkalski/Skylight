@@ -23,9 +23,9 @@ onMounted(() => {
 				<span v-if="!!data.instruction" class="instruction">{{ data.instruction }}</span>
 
 				<div class="times">
+					<Tag icon="pi pi-send" severity="info" v-tooltip.top="'Sent Date'" :value="format(data.sent, 'PPpp')" />
 					<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(data.effective, 'PPpp')" />
 					<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(data.expires, 'PPpp')" />
-					<Tag icon="pi pi-send" severity="info" v-tooltip.top="'Sent Date'" :value="format(data.sent, 'PPpp')" />
 				</div>
 
 				<div class="tags">
@@ -33,6 +33,7 @@ onMounted(() => {
 					<Tag severity="secondary" :value="`Urgency: ${data.urgency}`" />
 					<Tag severity="secondary" :value="`Certainty: ${data.certainty}`" />
 					<Tag severity="secondary" :value="`Response: ${data.response}`" />
+					<Tag v-for="parameter in data.parameters" severity="secondary" :value="`${insertSpaces(parameter.key)}: ${parameter.value}`" />
 				</div>
 
 				<div class="sender">
@@ -43,7 +44,7 @@ onMounted(() => {
 
 			<div class="section">
 				<Panel toggleable header="Description">
-					<span>{{ data.description }}</span>
+					<span class="description">{{ data.description }}</span>
 				</Panel>
 
 				<Panel collapsed toggleable header="Locations">
@@ -86,19 +87,6 @@ onMounted(() => {
 	padding-bottom: 0.4rem;
 }
 
-.sender {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	gap: 0.4rem;
-	padding-top: 0.4rem;
-
-	.sender-logo {
-		height: 3rem;
-		width: 3rem;
-	}
-}
-
 .times {
 	align-items: center;
 	display: flex;
@@ -112,5 +100,22 @@ onMounted(() => {
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 0.4rem;
+}
+
+.sender {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	gap: 0.4rem;
+	padding-top: 0.4rem;
+
+	.sender-logo {
+		height: 3rem;
+		width: 3rem;
+	}
+}
+
+.description {
+	white-space: pre;
 }
 </style>

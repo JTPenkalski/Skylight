@@ -11,6 +11,8 @@ public sealed record AddCurrentAlertsCommand : ICommand<AddCurrentAlertsResponse
 
 public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsResponse.AddedAlert> AddedAlerts) : IResponse
 {
+	public sealed record AddedAlertParameter(string Key, string Value);
+
 	public sealed record AddedAlert(
 		string AlertCode,
 		string AlertName,
@@ -28,7 +30,8 @@ public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsRespon
 		AlertCertainty Certainty,
 		AlertUrgency Urgency,
 		AlertResponse Response,
-		IEnumerable<string> Zones);
+		IEnumerable<string> Zones,
+		IEnumerable<AddedAlertParameter> Parameters);
 }
 
 public class AddCurrentAlertsHandler(
@@ -45,48 +48,49 @@ public class AddCurrentAlertsHandler(
 			.Where(x => activeAlertIds.Contains(x.ExternalId))
 			.ToHashSetAsync(cancellationToken);
 
-		List<AddCurrentAlertsResponse.AddedAlert> currentAlerts = await AddNewAlertsAsync(activeAlerts, existingAlerts, cancellationToken);
+		List<AddCurrentAlertsResponse.AddedAlert> addedAlerts = await AddNewAlertsAsync(activeAlerts, existingAlerts, cancellationToken);
 
 		await dbContext.CommitAsync(cancellationToken);
 
-		var response = new AddCurrentAlertsResponse(currentAlerts);
+		var response = new AddCurrentAlertsResponse(addedAlerts);
 
 		return Result.Success(response);
 	}
 
 	private async Task<List<AddCurrentAlertsResponse.AddedAlert>> AddNewAlertsAsync(List<Alert> activeAlerts, HashSet<Alert> existingAlerts, CancellationToken cancellationToken)
 	{
-		var currentAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
+		var addedAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
 
 		foreach (Alert alert in activeAlerts)
 		{
 			if (!existingAlerts.Contains(alert))
 			{
 				await dbContext.Alerts.AddAsync(alert, cancellationToken);
+
+				var newWeatherEventAlert = new AddCurrentAlertsResponse.AddedAlert(
+					alert.Type.Code,
+					alert.Type.Name,
+					alert.Type.Level,
+					alert.Sender.Code,
+					alert.Sender.Name,
+					alert.Headline,
+					alert.Description,
+					alert.Instruction,
+					alert.SentOn,
+					alert.EffectiveOn,
+					alert.ExpiresOn,
+					alert.MessageType,
+					alert.Severity,
+					alert.Certainty,
+					alert.Urgency,
+					alert.Response,
+					alert.Zones.Select(x => x.Zone.Code),
+					alert.Parameters.Select(x => new AddCurrentAlertsResponse.AddedAlertParameter(x.Key, x.Value)));
+
+				addedAlerts.Add(newWeatherEventAlert);
 			}
-
-			var newWeatherEventAlert = new AddCurrentAlertsResponse.AddedAlert(
-				alert.Type.Code,
-				alert.Type.Name,
-				alert.Type.Level,
-				alert.Sender.Code,
-				alert.Sender.Name,
-				alert.Headline,
-				alert.Description,
-				alert.Instruction,
-				alert.SentOn,
-				alert.EffectiveOn,
-				alert.ExpiresOn,
-				alert.MessageType,
-				alert.Severity,
-				alert.Certainty,
-				alert.Urgency,
-				alert.Response,
-				[.. alert.Zones.Select(x => x.Zone.Code)]);
-
-			currentAlerts.Add(newWeatherEventAlert);
 		}
 
-		return currentAlerts;
+		return addedAlerts;
 	}
 }

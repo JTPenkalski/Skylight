@@ -30,6 +30,16 @@ const alerts: ComputedRef<CurrentAlert[]> = computed(() => {
 const title: ComputedRef<string> = computed(() => {
 	return data.value ? `${plural(data.value.alertName)} (${data.value.alertCode})` : 'Alerts';
 });
+const headers: ComputedRef<string[]> = computed(() => {
+	return (
+		data.value?.currentAlerts.map((x) => {
+			const modifier = x.parameters.find((x) => x.key.includes('TypeModifier'));
+			const detection = x.parameters.find((x) => x.key.includes('Detection'));
+
+			return modifier?.value ?? detection?.value ?? 'Alert';
+		}) ?? []
+	);
+});
 const locations: ComputedRef<string[]> = computed(() => {
 	return (
 		data.value?.currentAlerts.map((x) =>
@@ -37,7 +47,6 @@ const locations: ComputedRef<string[]> = computed(() => {
 				.sort((x, y) => x.name.localeCompare(y.name))
 				.slice(0, 5)
 				.map((x) => x.name)
-				.concat('...')
 				.join('; '),
 		) ?? []
 	);
@@ -67,7 +76,7 @@ function onExpandAlert(alert: CurrentAlert) {
 					<div class="list">
 						<div v-for="(item, index) in slotProps.items" :key="index" class="list-item" :class="{ 'list-divider': index !== 0 }">
 							<div class="list-item-left">
-								<span class="list-item-header">Alert</span>
+								<span class="list-item-header">{{ headers[index] }}</span>
 
 								<div class="list-item-times">
 									<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(item.effective, 'PPpp')" />
@@ -79,6 +88,7 @@ function onExpandAlert(alert: CurrentAlert) {
 									<Tag severity="secondary" :value="`Urgency: ${item.urgency}`" />
 									<Tag severity="secondary" :value="`Certainty: ${item.certainty}`" />
 									<Tag severity="secondary" :value="`Response: ${item.response}`" />
+									<Tag v-for="parameter in item.parameters" severity="secondary" :value="`${insertSpaces(parameter.key)}: ${parameter.value}`" />
 								</div>
 
 								<span class="list-item-locations"><b>Locations:</b> {{ locations[index] }}</span>

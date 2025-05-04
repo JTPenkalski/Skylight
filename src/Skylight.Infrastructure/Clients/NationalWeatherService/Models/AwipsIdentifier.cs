@@ -1,7 +1,7 @@
 ﻿namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 
 /// <summary>
-/// Advanced Weather Interactive Processing System (AWIPS) identifier
+/// Advanced Weather Interactive Processing System (AWIPS) identifier.
 /// </summary>
 public sealed record AwipsIdentifier(string ProductCategory, string OfficeIdentifier)
 {

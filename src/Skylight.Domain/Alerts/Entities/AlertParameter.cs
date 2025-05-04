@@ -18,6 +18,12 @@ public static class AlertParameterKeys
 {
 	public const string TypeModifier = nameof(TypeModifier);
 
+	public const string EventMotionDescription = nameof(EventMotionDescription);
+	public const string Speed = nameof(Speed);
+	public const string Direction = nameof(Direction);
+	public const string Position = nameof(Position);
+	public const string EventEndingTime = nameof(EventEndingTime);
+
 	public const string WindThreat = nameof(WindThreat);
 	public const string MaxWindGust = nameof(MaxWindGust);
 

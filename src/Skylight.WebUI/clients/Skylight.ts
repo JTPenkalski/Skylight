@@ -274,6 +274,14 @@ export interface AddedAlert {
     urgency: AlertUrgency;
     response: AlertResponse;
     zones: string[];
+    parameters: AddedAlertParameter[];
+
+    [key: string]: any;
+}
+
+export interface AddedAlertParameter {
+    key: string;
+    value: string;
 
     [key: string]: any;
 }
@@ -342,6 +350,7 @@ export interface CurrentAlert {
     urgency: AlertUrgency;
     response: AlertResponse;
     locations: CurrentAlertLocation[];
+    parameters: CurrentAlertParameter[];
 
     [key: string]: any;
 }
@@ -349,6 +358,13 @@ export interface CurrentAlert {
 export interface CurrentAlertLocation {
     zone: string;
     name: string;
+
+    [key: string]: any;
+}
+
+export interface CurrentAlertParameter {
+    key: string;
+    value: string;
 
     [key: string]: any;
 }

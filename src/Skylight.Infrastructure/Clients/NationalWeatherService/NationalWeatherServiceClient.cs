@@ -86,7 +86,21 @@ public class NationalWeatherServiceClient(
 						Description: x.GetProperty("description").GetString()!,
 						Instruction: x.GetOptionalProperty("instruction")?.GetString()!,
 						Response: Enum.Parse<AlertResponse>(x.GetProperty("response").GetString()!),
-						AwipsId: AwipsIdentifier.Parse(x.GetProperty("parameters").GetProperty("AWIPSidentifier").EnumerateArray().Single().GetString()!)))
+						AwipsId: AwipsIdentifier.Parse(x.GetProperty("parameters").GetProperty("AWIPSidentifier").EnumerateArray().Single().GetString()!),
+						EventMotionDescription: EventMotionDescription.Parse(x.GetProperty("parameters").GetOptionalProperty("eventMotionDescription")?.EnumerateArray().Single().GetString()),
+						WindThreat: x.GetProperty("parameters").GetOptionalProperty("windThreat")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						MaxWindGust: x.GetProperty("parameters").GetOptionalProperty("maxWindGust")?.EnumerateArray().Single().GetString(),
+						HailThreat: x.GetProperty("parameters").GetOptionalProperty("hailThreat")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						MaxHailSize: x.GetProperty("parameters").GetOptionalProperty("maxHailSize")?.EnumerateArray().Single().GetString(),
+						ThunderstormDamageThreat: x.GetProperty("parameters").GetOptionalProperty("thunderstormDamageThreat")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						TornadoDetection: x.GetProperty("parameters").GetOptionalProperty("tornadoDetection")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						TornadoDamageThreat: x.GetProperty("parameters").GetOptionalProperty("tornadoDamageThreat")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						FlashFloodDetection: x.GetProperty("parameters").GetOptionalProperty("flashFloodDetection")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						FlashFloodDamageThreat: x.GetProperty("parameters").GetOptionalProperty("flashFloodDamageThreat")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						SnowSquallDetection: x.GetProperty("parameters").GetOptionalProperty("snowSquallDetection")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						SnowSquallImpact: x.GetProperty("parameters").GetOptionalProperty("snowSquallImpact")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						WaterspoutDetection: x.GetProperty("parameters").GetOptionalProperty("waterspoutDetection")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						EventEndingTime: x.GetOptionalProperty("eventEndingTime")?.GetDateTimeOffset().ToUniversalTime()))
 					.OrderByDescending(x => x.Effective)
 					.ToList()));
 	}

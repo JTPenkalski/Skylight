@@ -29,6 +29,7 @@ public sealed record GetCurrentAlertsByTypeResponse(
 	: IResponse
 {
 	public sealed record CurrentAlertLocation(string Zone, string Name);
+	public sealed record CurrentAlertParameter(string Key, string Value);
 
 	public sealed record CurrentAlert(
 		string SenderCode,
@@ -43,7 +44,8 @@ public sealed record GetCurrentAlertsByTypeResponse(
 		AlertCertainty Certainty,
 		AlertUrgency Urgency,
 		AlertResponse Response,
-		IEnumerable<CurrentAlertLocation> Locations);
+		IEnumerable<CurrentAlertLocation> Locations,
+		IEnumerable<CurrentAlertParameter> Parameters);
 }
 
 public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQueryHandler<GetCurrentAlertsByTypeQuery, GetCurrentAlertsByTypeResponse>
@@ -75,9 +77,10 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 				x.Certainty,
 				x.Urgency,
 				x.Response,
-				x.Zones.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertLocation(
-					x.Zone.Code,
-					x.Zone.Name))))
+				x.Zones
+					.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertLocation(x.Zone.Code, x.Zone.Name)),
+				x.Parameters
+					.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertParameter(x.Key, x.Value))))
 			.ToListAsync(cancellationToken);
 
 		var response = new GetCurrentAlertsByTypeResponse(

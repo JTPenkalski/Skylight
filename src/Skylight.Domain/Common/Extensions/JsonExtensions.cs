@@ -12,12 +12,8 @@ public static class JsonExtensions
 	/// </summary>
 	/// <param name="propertyName">The property to search for.</param>
 	/// <returns>The <see cref="JsonElement"/>, or null if not found.</returns>
-	public static JsonElement? GetOptionalProperty(this JsonElement element, string propertyName)
-	{
-		JsonElement json = element.GetProperty(propertyName);
-
-		return json.ValueKind is JsonValueKind.Undefined or JsonValueKind.Null
-			? null
-			: json;
-	}
+	public static JsonElement? GetOptionalProperty(this JsonElement element, string propertyName) =>
+		element.TryGetProperty(propertyName, out JsonElement value) && value.ValueKind is not JsonValueKind.Undefined and not JsonValueKind.Null
+			? value
+			: null;
 }

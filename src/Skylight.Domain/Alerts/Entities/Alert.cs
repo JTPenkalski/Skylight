@@ -5,7 +5,7 @@ namespace Skylight.Domain.Alerts.Entities;
 public class Alert : BaseAuditableEntity
 {
 	private readonly HashSet<AlertZone> _zones = [];
-	private readonly Dictionary<string, string> _parameters = [];
+	private readonly HashSet<AlertParameter> _parameters = [];
 
 	public required AlertType Type { get; set; }
 
@@ -41,7 +41,7 @@ public class Alert : BaseAuditableEntity
 
 	public IReadOnlySet<AlertZone> Zones => _zones;
 
-	public IReadOnlyDictionary<string, string> Parameters => _parameters;
+	public IReadOnlySet<AlertParameter> Parameters => _parameters;
 
 	public bool AddZone(Zone zone)
 	{
@@ -57,6 +57,27 @@ public class Alert : BaseAuditableEntity
 	public bool RemoveZone(Zone zone)
 	{
 		int removed = _zones.RemoveWhere(x => x.Zone == zone);
+
+		return removed > 0;
+	}
+
+	public bool AddParameter(string key, string? value)
+	{
+		if (string.IsNullOrWhiteSpace(value)) return false;
+
+		var alertParameter = new AlertParameter
+		{
+			Key = key,
+			Value = value,
+			Alert = this,
+		};
+
+		return _parameters.Add(alertParameter);
+	}
+
+	public bool RemoveParameter(string key)
+	{
+		int removed = _parameters.RemoveWhere(x => x.Key == key);
 
 		return removed > 0;
 	}
