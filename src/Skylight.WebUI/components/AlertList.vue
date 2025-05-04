@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
+import type { CurrentAlert } from '~/clients/Skylight';
+import AlertDetailsModal from './AlertDetailsModal.vue';
 
 const props = defineProps<{
 	code: string;
 	rows?: number;
 }>();
 
+const dialog = useDialog();
+
 const { api } = useSkylight();
 const { data } = await useAsyncData(`alerts/${props.code}`, () =>
 	api.getCurrentAlertsByType({ code: props.code }),
 );
 
-const hasAlerts = computed(() => {
-	return data.value && data.value.count > 0;
+const hasAlerts: ComputedRef<boolean> = computed(() => {
+	return !!data.value && data.value.count > 0;
 });
-const alerts = computed(() => {
+const alerts: ComputedRef<CurrentAlert[]> = computed(() => {
 	if (data.value) {
 		return data.value.currentAlerts.sort((x, y) => {
 			return new Date(x.effective).getTime() - new Date(y.effective).getTime();
@@ -23,12 +27,33 @@ const alerts = computed(() => {
 
 	return [];
 });
-const title = computed(() => {
+const title: ComputedRef<string> = computed(() => {
 	return data.value ? `${plural(data.value.alertName)} (${data.value.alertCode})` : 'Alerts';
 });
-const locations = computed(() => {
-	return data.value?.currentAlerts.map((x) => x.locations.map((x) => x.name).join('; ')) ?? [];
+const locations: ComputedRef<string[]> = computed(() => {
+	return (
+		data.value?.currentAlerts.map((x) =>
+			x.locations
+				.sort((x, y) => x.name.localeCompare(y.name))
+				.slice(0, 5)
+				.map((x) => x.name)
+				.concat('...')
+				.join('; '),
+		) ?? []
+	);
 });
+
+function onExpandAlert(alert: CurrentAlert) {
+	dialog.open(AlertDetailsModal, {
+		props: {
+			draggable: false,
+			header: data.value?.alertName ?? 'Alert',
+			maximizable: false,
+			modal: true,
+		},
+		data: alert,
+	});
+}
 </script>
 
 <template>
@@ -61,9 +86,9 @@ const locations = computed(() => {
 							<div class="list-item-right">
 								<div class="list-item-sender">
 									<span>{{ item.senderName }}</span>
-								<img alt="Sender Logo" class="sender-logo" src="assets/images/national-weather-service.png" />
+									<img alt="Sender Logo" class="sender-logo" src="assets/images/national-weather-service.png" />
 								</div>
-								<Button rounded aria-label="Details" class="list-item-expand" icon="pi pi-expand" severity="info" />
+								<Button rounded aria-label="Details" class="list-item-expand" icon="pi pi-expand" severity="info" @click="onExpandAlert(item)" />
 							</div>
 						</div>
 					</div>
@@ -75,6 +100,10 @@ const locations = computed(() => {
 </template>
 
 <style scoped lang="scss">
+.dialog {
+	width: 0.4rem;
+}
+
 .card {
   flex: 2;
 }

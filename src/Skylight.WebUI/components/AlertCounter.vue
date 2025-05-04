@@ -8,17 +8,17 @@ const { data } = await useAsyncData(`alert-count/${props.code}`, () => {
 	return api.getCurrentAlertCountByType({ code: props.code });
 });
 
-const count = computed(() => {
+const count: ComputedRef<number> = computed(() => {
 	return data.value?.count ?? 0;
 });
-const label = computed(() => {
+const label: ComputedRef<string> = computed(() => {
 	if (data.value) {
 		return pluralize(data.value.alertName, count);
 	}
 
 	return 'Alerts';
 });
-const severity = computed(() => {
+const severity: ComputedRef<string> = computed(() => {
 	if (count.value <= 0) {
 		return 'marginal';
 	}

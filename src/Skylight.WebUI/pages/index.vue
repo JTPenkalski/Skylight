@@ -16,6 +16,10 @@
       <AlertList code="SVR"/>
       <AlertList code="TOR"/>
     </div>
+    <div class="row">
+      <AlertList code="SPS"/>
+      <AlertList code="FFW"/>
+    </div>
   </div>
 </template>
 

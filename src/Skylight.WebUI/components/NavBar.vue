@@ -31,6 +31,7 @@ const isDarkTheme: boolean = true;
 .navbar {
   align-items: center;
   background-color: var(--p-content-background);
+  border-bottom: 1px solid var(--p-sky-500);
   display: flex;
   height: var(--navbar-height);
   left: 0;
@@ -38,6 +39,7 @@ const isDarkTheme: boolean = true;
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 100;
 }
 
 .navbar-logo-container {
