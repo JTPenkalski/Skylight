@@ -21,7 +21,9 @@ public interface ISkylightDbContext
 
 	DbSet<AlertSender> AlertSenders { get; }
 
-	DbSet<AlertZone> AlertZones { get; }
+	DbSet<AlertParameter> AlertParameters { get; }
+
+	DbSet<Zone> Zones { get; }
 
 	/// <summary>
 	/// Finds a <typeparamref name="T"/> in the database, throwing an <see cref="EntityNotFoundException"/> if not found.

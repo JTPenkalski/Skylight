@@ -31,7 +31,9 @@ public class SkylightDbContext(
 
 	public DbSet<AlertSender> AlertSenders => Set<AlertSender>();
 
-	public DbSet<AlertZone> AlertZones => Set<AlertZone>();
+	public DbSet<AlertParameter> AlertParameters => Set<AlertParameter>();
+
+	public DbSet<Zone> Zones => Set<Zone>();
 
 	public async Task<T> FindAsync<T>(Guid id, CancellationToken cancellationToken = default) where T : BaseEntity
 	{

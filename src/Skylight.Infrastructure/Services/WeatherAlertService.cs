@@ -26,9 +26,9 @@ public class WeatherAlertService(
 		List<Alert> alerts = [.. clientResponse.AlertCollection.Alerts];
 		Dictionary<string, Core.AlertType> alertTypes = await GetAlertTypesAsync(alerts, cancellationToken);
 		Dictionary<string, Core.AlertSender> alertSenders = await GetAlertSendersAsync(alerts, cancellationToken);
-		Dictionary<string, Core.AlertZone> alertZones = await GetAlertZonesAsync(alerts, cancellationToken);
+		Dictionary<string, Core.Zone> zones = await GetZonesAsync(alerts, cancellationToken);
 
-		return MapCurrentAlerts(clientResponse, alertTypes, alertSenders, alertZones);
+		return MapCurrentAlerts(clientResponse, alertTypes, alertSenders, zones);
 	}
 
 	internal async Task<Dictionary<string, Core.AlertType>> GetAlertTypesAsync(List<Alert> alerts, CancellationToken cancellationToken)
@@ -51,11 +51,11 @@ public class WeatherAlertService(
 		return senders;
 	}
 
-	internal async Task<Dictionary<string, Core.AlertZone>> GetAlertZonesAsync(List<Alert> alerts, CancellationToken cancellationToken)
+	internal async Task<Dictionary<string, Core.Zone>> GetZonesAsync(List<Alert> alerts, CancellationToken cancellationToken)
 	{
 		HashSet<string> allZones = [.. alerts.SelectMany(x => x.Zones.Select(x => x.ToString()))];
 
-		Dictionary<string, Core.AlertZone> knownZones = await dbContext.AlertZones
+		Dictionary<string, Core.Zone> knownZones = await dbContext.Zones
 			.Where(x => allZones.Contains(x.Code))
 			.ToDictionaryAsync(x => x.Code, cancellationToken);
 
@@ -73,7 +73,7 @@ public class WeatherAlertService(
 
 			foreach (Zone zone in response.Zones)
 			{
-				var newZone = new Core.AlertZone
+				var newZone = new Core.Zone
 				{
 					Code = zone.Id.ToString(),
 					Name = zone.FullName,
@@ -90,7 +90,7 @@ public class WeatherAlertService(
 		GetActiveAlertsResponse clientResponse,
 		Dictionary<string, Core.AlertType> alertTypes,
 		Dictionary<string, Core.AlertSender> alertSenders,
-		Dictionary<string, Core.AlertZone> alertZones)
+		Dictionary<string, Core.Zone> zones)
 	{
 		var currentAlerts = new List<Core.Alert>();
 
@@ -119,11 +119,11 @@ public class WeatherAlertService(
 					ExternalId = alert.Id,
 				};
 
-				foreach (UgcZone zone in alert.Zones)
+				foreach (UgcZone ugcZone in alert.Zones)
 				{
-					if (alertZones.TryGetValue(zone.ToString(), out Core.AlertZone? alertZone))
+					if (zones.TryGetValue(ugcZone.ToString(), out Core.Zone? zone))
 					{
-						currentAlert.AddZone(alertZone);
+						currentAlert.AddZone(zone);
 					}
 				}
 

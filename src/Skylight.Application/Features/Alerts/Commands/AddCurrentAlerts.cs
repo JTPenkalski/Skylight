@@ -82,7 +82,7 @@ public class AddCurrentAlertsHandler(
 				alert.Certainty,
 				alert.Urgency,
 				alert.Response,
-				[.. alert.Zones.Select(x => x.Code)]);
+				[.. alert.Zones.Select(x => x.Zone.Code)]);
 
 			currentAlerts.Add(newWeatherEventAlert);
 		}

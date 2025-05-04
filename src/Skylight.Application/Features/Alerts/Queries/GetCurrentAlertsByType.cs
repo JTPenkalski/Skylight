@@ -76,8 +76,8 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 				x.Urgency,
 				x.Response,
 				x.Zones.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertLocation(
-					x.Code,
-					x.Name))))
+					x.Zone.Code,
+					x.Zone.Name))))
 			.ToListAsync(cancellationToken);
 
 		var response = new GetCurrentAlertsByTypeResponse(
