@@ -10,7 +10,7 @@ using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Features.Alerts.Queries;
 
-public record GetHistoricalAlertCountsByTypeQuery(string Code, DateTimeOffset Start, int PastHours) : IQuery<GetHistoricalAlertCountsByTypeResponse>;
+public sealed record GetHistoricalAlertCountsByTypeQuery(string Code, DateTimeOffset Start, int PastHours) : IQuery<GetHistoricalAlertCountsByTypeResponse>;
 
 public class GetHistoricalAlertCountsByTypeQueryValidator : AbstractValidator<GetHistoricalAlertCountsByTypeQuery>
 {
@@ -31,7 +31,7 @@ public sealed record GetHistoricalAlertCountsByTypeResponse(
 	IEnumerable<GetHistoricalAlertCountsByTypeResponse.HistoricalAlertCount> AlertCounts)
 	: IResponse
 {
-	public record HistoricalAlertCount(DateTimeOffset DateTime, int Count);
+	public sealed record HistoricalAlertCount(DateTimeOffset DateTime, int Count);
 }
 
 public class GetHistoricalAlertCountsByTypeHandler(ISkylightDbContext dbContext) : IQueryHandler<GetHistoricalAlertCountsByTypeQuery, GetHistoricalAlertCountsByTypeResponse>

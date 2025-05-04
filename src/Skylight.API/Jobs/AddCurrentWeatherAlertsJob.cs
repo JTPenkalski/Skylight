@@ -27,7 +27,7 @@ public class AddCurrentWeatherAlertsJobScheduler(IOptions<AddCurrentWeatherAlert
 			: Cron.Never();
 }
 
-public class AddCurrentWeatherAlertsJob(IMediator mediator) : IJob
+public sealed class AddCurrentWeatherAlertsJob(IMediator mediator) : IJob
 {
 	public async Task ProcessAsync(CancellationToken cancellationToken)
 	{

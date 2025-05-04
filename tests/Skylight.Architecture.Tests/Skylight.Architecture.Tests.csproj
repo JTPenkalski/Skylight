@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.v3" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Skylight.API\Skylight.API.csproj" />
+    <ProjectReference Include="..\..\src\Skylight.Application\Skylight.Application.csproj" />
+    <ProjectReference Include="..\..\src\Skylight.Domain\Skylight.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Skylight.Infrastructure\Skylight.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="NetArchTest.Rules" />
+    <Using Include="NetArchTest.Rules.TestResult">
+      <Alias>TestResult</Alias>
+    </Using>
+    <Using Include="Skylight.Architecture.Tests.Rules" />
+    <Using Include="Skylight.Architecture.Tests.Utilities" />
+    <Using Include="Xunit" />
+    <Using Include="Xunit.Sdk" />
+  </ItemGroup>
+
+</Project>

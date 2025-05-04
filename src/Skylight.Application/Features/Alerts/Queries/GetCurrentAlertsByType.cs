@@ -9,7 +9,7 @@ using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Features.Alerts.Queries;
 
-public record GetCurrentAlertsByTypeQuery(string Code) : IQuery<GetCurrentAlertsByTypeResponse>;
+public sealed record GetCurrentAlertsByTypeQuery(string Code) : IQuery<GetCurrentAlertsByTypeResponse>;
 
 public class GetCurrentAlertsByTypeQueryValidator : AbstractValidator<GetCurrentAlertsByTypeQuery>
 {
