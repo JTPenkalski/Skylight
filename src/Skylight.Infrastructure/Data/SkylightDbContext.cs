@@ -97,6 +97,7 @@ public class SkylightDbContext(
 		configurationBuilder.Properties<AlertResponse>().HaveConversion<string>();
 		configurationBuilder.Properties<AlertSeverity>().HaveConversion<string>();
 		configurationBuilder.Properties<AlertUrgency>().HaveConversion<string>();
+		configurationBuilder.Properties<AlertParameterKey>().HaveConversion<string>();
 	}
 
 	protected static T ValidateFoundEntity<T>(Guid id, T? entity) where T : BaseEntity

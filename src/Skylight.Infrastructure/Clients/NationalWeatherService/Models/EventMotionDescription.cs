@@ -43,5 +43,5 @@ public sealed record EventMotionDescription(DateTimeOffset Time, string Event, s
 	}
 
 	public override string ToString() =>
-		$"{Time}...{Event}...{Degrees}...{Speed}...{LatLon}";
+		$"{Time:O}...{Event}...{Degrees}...{Speed}...{LatLon}";
 }

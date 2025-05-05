@@ -11,7 +11,7 @@ public sealed record AddCurrentAlertsCommand : ICommand<AddCurrentAlertsResponse
 
 public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsResponse.AddedAlert> AddedAlerts) : IResponse
 {
-	public sealed record AddedAlertParameter(string Key, string Value);
+	public sealed record AddedAlertParameter(AlertParameterKey Key, string Value);
 
 	public sealed record AddedAlert(
 		string AlertCode,
@@ -84,8 +84,12 @@ public class AddCurrentAlertsHandler(
 					alert.Certainty,
 					alert.Urgency,
 					alert.Response,
-					alert.Zones.Select(x => x.Zone.Code),
-					alert.Parameters.Select(x => new AddCurrentAlertsResponse.AddedAlertParameter(x.Key, x.Value)));
+					alert.Zones
+						.OrderBy(x => x.Zone.Name)
+						.Select(x => x.Zone.Code),
+					alert.Parameters
+						.OrderBy(x => x.Key)
+						.Select(x => new AddCurrentAlertsResponse.AddedAlertParameter(x.Key, x.Value)));
 
 				addedAlerts.Add(newWeatherEventAlert);
 			}

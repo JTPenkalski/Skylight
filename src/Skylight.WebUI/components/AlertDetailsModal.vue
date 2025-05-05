@@ -2,15 +2,21 @@
 import { format } from 'date-fns';
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
 import { inject, onMounted } from 'vue';
-import type { CurrentAlert } from '~/clients/Skylight';
+import { AlertParameterKey, type CurrentAlert } from '~/clients/Skylight';
 
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef');
 const data: Ref<CurrentAlert | undefined> = ref();
 
+const parameters: ComputedRef<string[]> = computed(() => {
+	return (
+		data.value?.parameters
+			.filter((x) => x.key !== AlertParameterKey.EventMotionDescription)
+			.map((x) => `${insertSpaces(x.key)}: ${x.value}`) ?? []
+	);
+});
+
 onMounted(() => {
 	data.value = dialogRef?.value.data;
-
-	console.log(`Opened with ${JSON.stringify(dialogRef?.value.data)}`);
 });
 </script>
 
@@ -33,7 +39,7 @@ onMounted(() => {
 					<Tag severity="secondary" :value="`Urgency: ${data.urgency}`" />
 					<Tag severity="secondary" :value="`Certainty: ${data.certainty}`" />
 					<Tag severity="secondary" :value="`Response: ${data.response}`" />
-					<Tag v-for="parameter in data.parameters" severity="secondary" :value="`${insertSpaces(parameter.key)}: ${parameter.value}`" />
+					<Tag v-for="parameter in parameters" severity="secondary" :value="parameter" />
 				</div>
 
 				<div class="sender">

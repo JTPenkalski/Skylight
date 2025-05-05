@@ -1,7 +1,23 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
-import type { CurrentAlert } from '~/clients/Skylight';
+import { AlertParameterKey, type CurrentAlert } from '~/clients/Skylight';
 import AlertDetailsModal from './AlertDetailsModal.vue';
+
+const allowedTags: AlertParameterKey[] = [
+	AlertParameterKey.TypeModifier,
+	AlertParameterKey.WindThreat,
+	AlertParameterKey.MaxWindGust,
+	AlertParameterKey.HailThreat,
+	AlertParameterKey.MaxHailSize,
+	AlertParameterKey.ThunderstormDamageThreat,
+	AlertParameterKey.TornadoDamageThreat,
+	AlertParameterKey.TornadoDetection,
+	AlertParameterKey.WaterspoutDetection,
+	AlertParameterKey.FlashFloodDamageThreat,
+	AlertParameterKey.FlashFloodDetection,
+	AlertParameterKey.SnowSquallDetection,
+	AlertParameterKey.SnowSquallImpact,
+];
 
 const props = defineProps<{
 	code: string;
@@ -33,8 +49,10 @@ const title: ComputedRef<string> = computed(() => {
 const headers: ComputedRef<string[]> = computed(() => {
 	return (
 		data.value?.currentAlerts.map((x) => {
-			const modifier = x.parameters.find((x) => x.key.includes('TypeModifier'));
-			const detection = x.parameters.find((x) => x.key.includes('Detection'));
+			const modifier = x.parameters.find((x) => x.key.includes(AlertParameterKey.TypeModifier));
+			const detection = x.parameters.find(
+				(x) => x.key.includes('Detection') || x.key.includes('Threat'),
+			);
 
 			return modifier?.value ?? detection?.value ?? 'Alert';
 		}) ?? []
@@ -44,10 +62,18 @@ const locations: ComputedRef<string[]> = computed(() => {
 	return (
 		data.value?.currentAlerts.map((x) =>
 			x.locations
-				.sort((x, y) => x.name.localeCompare(y.name))
 				.slice(0, 5)
 				.map((x) => x.name)
 				.join('; '),
+		) ?? []
+	);
+});
+const parameters: ComputedRef<string[][]> = computed(() => {
+	return (
+		data.value?.currentAlerts.map((x) =>
+			x.parameters
+				.filter((x) => allowedTags.includes(x.key))
+				.map((x) => `${insertSpaces(x.key)}: ${x.value}`),
 		) ?? []
 	);
 });
@@ -88,7 +114,7 @@ function onExpandAlert(alert: CurrentAlert) {
 									<Tag severity="secondary" :value="`Urgency: ${item.urgency}`" />
 									<Tag severity="secondary" :value="`Certainty: ${item.certainty}`" />
 									<Tag severity="secondary" :value="`Response: ${item.response}`" />
-									<Tag v-for="parameter in item.parameters" severity="secondary" :value="`${insertSpaces(parameter.key)}: ${parameter.value}`" />
+									<Tag v-for="parameter in parameters[index]" severity="secondary" :value="parameter" />
 								</div>
 
 								<span class="list-item-locations"><b>Locations:</b> {{ locations[index] }}</span>

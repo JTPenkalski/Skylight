@@ -42,10 +42,10 @@ const severity: ComputedRef<string> = computed(() => {
 <template>
   <Card class="card">
     <template #title>
-      <div :class="severity" class="counter">{{ count }}</div>
+      <span>{{ label }}</span>
     </template>
     <template #content>
-      <div class="label">{{ label }}</div>
+      <div :class="severity" class="counter">{{ count }}</div>
     </template>
   </Card>
 </template>
@@ -83,17 +83,12 @@ const severity: ComputedRef<string> = computed(() => {
 .counter {
   border-radius: var(--p-card-border-radius);
   border-style: solid;
-  border-width: 1px;
-  font-size: 3rem;
-  margin: auto;
-  max-width: 9rem;
-  padding: 1rem;
-  text-align: center;
-}
-
-.label {
-  font-size: 1.5rem;
+  border-width: 2px;
+  font-size: 2rem;
   font-weight: 500;
+  margin: auto;
+  max-width: 8rem;
+  padding: 0.8rem;
   text-align: center;
 }
 </style>

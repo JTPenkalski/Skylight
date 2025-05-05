@@ -280,7 +280,7 @@ export interface AddedAlert {
 }
 
 export interface AddedAlertParameter {
-    key: string;
+    key: AlertParameterKey;
     value: string;
 
     [key: string]: any;
@@ -306,6 +306,27 @@ export enum AlertMessageType {
     Update = "Update",
     Cancellation = "Cancellation",
     Error = "Error",
+}
+
+export enum AlertParameterKey {
+    TypeModifier = "TypeModifier",
+    EventMotionDescription = "EventMotionDescription",
+    EventSpeed = "EventSpeed",
+    EventDirection = "EventDirection",
+    EventPosition = "EventPosition",
+    EventEndingTime = "EventEndingTime",
+    WindThreat = "WindThreat",
+    MaxWindGust = "MaxWindGust",
+    HailThreat = "HailThreat",
+    MaxHailSize = "MaxHailSize",
+    ThunderstormDamageThreat = "ThunderstormDamageThreat",
+    TornadoDamageThreat = "TornadoDamageThreat",
+    TornadoDetection = "TornadoDetection",
+    WaterspoutDetection = "WaterspoutDetection",
+    FlashFloodDamageThreat = "FlashFloodDamageThreat",
+    FlashFloodDetection = "FlashFloodDetection",
+    SnowSquallDetection = "SnowSquallDetection",
+    SnowSquallImpact = "SnowSquallImpact",
 }
 
 export enum AlertResponse {
@@ -363,7 +384,7 @@ export interface CurrentAlertLocation {
 }
 
 export interface CurrentAlertParameter {
-    key: string;
+    key: AlertParameterKey;
     value: string;
 
     [key: string]: any;

@@ -61,7 +61,7 @@ public class Alert : BaseAuditableEntity
 		return removed > 0;
 	}
 
-	public bool AddParameter(string key, string? value)
+	public bool AddParameter(AlertParameterKey key, string? value)
 	{
 		if (string.IsNullOrWhiteSpace(value)) return false;
 
@@ -75,7 +75,7 @@ public class Alert : BaseAuditableEntity
 		return _parameters.Add(alertParameter);
 	}
 
-	public bool RemoveParameter(string key)
+	public bool RemoveParameter(AlertParameterKey key)
 	{
 		int removed = _parameters.RemoveWhere(x => x.Key == key);
 

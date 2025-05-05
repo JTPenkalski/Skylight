@@ -119,27 +119,27 @@ public class WeatherAlertService(
 					ExternalId = alert.Id,
 				};
 
-				currentAlert.AddParameter(Core.AlertParameterKeys.EventMotionDescription, alert.EventMotionDescription?.ToString());
-				currentAlert.AddParameter(Core.AlertParameterKeys.Speed, alert.EventMotionDescription?.Speed.ToString());
-				currentAlert.AddParameter(Core.AlertParameterKeys.Direction, alert.EventMotionDescription?.Degrees.ToString());
-				currentAlert.AddParameter(Core.AlertParameterKeys.Position, alert.EventMotionDescription?.LatLon.ToString());
-				currentAlert.AddParameter(Core.AlertParameterKeys.EventEndingTime, alert.EventEndingTime.ToString());
-				currentAlert.AddParameter(Core.AlertParameterKeys.MaxHailSize, alert.MaxHailSize);
-				currentAlert.AddParameter(Core.AlertParameterKeys.HailThreat, alert.HailThreat);
-				currentAlert.AddParameter(Core.AlertParameterKeys.MaxWindGust, alert.MaxWindGust);
-				currentAlert.AddParameter(Core.AlertParameterKeys.WindThreat, alert.WindThreat);
-				currentAlert.AddParameter(Core.AlertParameterKeys.ThunderstormDamageThreat, alert.ThunderstormDamageThreat);
-				currentAlert.AddParameter(Core.AlertParameterKeys.TornadoDetection, alert.TornadoDetection);
-				currentAlert.AddParameter(Core.AlertParameterKeys.TornadoDamageThreat, alert.TornadoDamageThreat);
-				currentAlert.AddParameter(Core.AlertParameterKeys.FlashFloodDetection, alert.FlashFloodDetection);
-				currentAlert.AddParameter(Core.AlertParameterKeys.FlashFloodDamageThreat, alert.FlashFloodDamageThreat);
-				currentAlert.AddParameter(Core.AlertParameterKeys.SnowSquallDetection, alert.SnowSquallDetection);
-				currentAlert.AddParameter(Core.AlertParameterKeys.SnowSquallImpact, alert.SnowSquallImpact);
-				currentAlert.AddParameter(Core.AlertParameterKeys.WaterspoutDetection, alert.WaterspoutDetection);
+				currentAlert.AddParameter(Core.AlertParameterKey.EventMotionDescription, alert.EventMotionDescription?.ToString());
+				currentAlert.AddParameter(Core.AlertParameterKey.EventSpeed, alert.EventMotionDescription?.Speed.ToString());
+				currentAlert.AddParameter(Core.AlertParameterKey.EventDirection, alert.EventMotionDescription?.Degrees.ToString());
+				currentAlert.AddParameter(Core.AlertParameterKey.EventPosition, alert.EventMotionDescription?.LatLon.ToString());
+				currentAlert.AddParameter(Core.AlertParameterKey.EventEndingTime, alert.EventEndingTime.ToString());
+				currentAlert.AddParameter(Core.AlertParameterKey.MaxHailSize, alert.MaxHailSize);
+				currentAlert.AddParameter(Core.AlertParameterKey.HailThreat, alert.HailThreat);
+				currentAlert.AddParameter(Core.AlertParameterKey.MaxWindGust, alert.MaxWindGust);
+				currentAlert.AddParameter(Core.AlertParameterKey.WindThreat, alert.WindThreat);
+				currentAlert.AddParameter(Core.AlertParameterKey.ThunderstormDamageThreat, alert.ThunderstormDamageThreat);
+				currentAlert.AddParameter(Core.AlertParameterKey.TornadoDetection, alert.TornadoDetection);
+				currentAlert.AddParameter(Core.AlertParameterKey.TornadoDamageThreat, alert.TornadoDamageThreat);
+				currentAlert.AddParameter(Core.AlertParameterKey.FlashFloodDetection, alert.FlashFloodDetection);
+				currentAlert.AddParameter(Core.AlertParameterKey.FlashFloodDamageThreat, alert.FlashFloodDamageThreat);
+				currentAlert.AddParameter(Core.AlertParameterKey.SnowSquallDetection, alert.SnowSquallDetection);
+				currentAlert.AddParameter(Core.AlertParameterKey.SnowSquallImpact, alert.SnowSquallImpact);
+				currentAlert.AddParameter(Core.AlertParameterKey.WaterspoutDetection, alert.WaterspoutDetection);
 
 				if (currentAlert.Description.Contains("THIS IS A PARTICULARLY DANGEROUS SITUATION"))
 				{
-					currentAlert.AddParameter(Core.AlertParameterKeys.TypeModifier, Core.AlertParameterValues.ParticularlyDangerousSituation);
+					currentAlert.AddParameter(Core.AlertParameterKey.TypeModifier, "PDS");
 				}
 
 				foreach (UgcZone ugcZone in alert.Zones)
