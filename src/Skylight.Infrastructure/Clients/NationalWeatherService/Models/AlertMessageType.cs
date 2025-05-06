@@ -1,5 +1,4 @@
-﻿using Skylight.Domain.Alerts.Entities;
-using Skylight.Domain.Common.Exceptions;
+﻿using Skylight.Domain.Common.Exceptions;
 
 namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 

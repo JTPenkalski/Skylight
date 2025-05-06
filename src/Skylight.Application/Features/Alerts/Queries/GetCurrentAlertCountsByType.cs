@@ -33,21 +33,21 @@ public class GetCurrentAlertCountByTypeHandler(ISkylightDbContext dbContext) : I
 	{
 		AlertType? alertType = await dbContext.AlertTypes
 			.AsNoTracking()
-			.SingleOrDefaultAsync(x => x.Code == request.Code, cancellationToken);
+			.SingleOrDefaultAsync(x => x.ProductCode == request.Code, cancellationToken);
 
 		EntityNotFoundException.ThrowIfNullOrDeleted(alertType, request.Code);
 
 		var alerts = await dbContext.Alerts
 			.AsNoTracking()
 			.Where(x =>
-				x.Type.Code == request.Code
+				x.Type.ProductCode == request.Code
 				&& x.ExpiresOn > DateTimeOffset.UtcNow
 				&& !x.DeletedOn.HasValue)
 			.ToListAsync(cancellationToken);
 
 		var response = new GetCurrentAlertCountByTypeResponse(
 			alerts.Count,
-			alertType.Code,
+			alertType.ProductCode,
 			alertType.Name,
 			alertType.Level);
 

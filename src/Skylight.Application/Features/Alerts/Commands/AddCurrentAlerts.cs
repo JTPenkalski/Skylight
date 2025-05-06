@@ -68,7 +68,7 @@ public class AddCurrentAlertsHandler(
 				await dbContext.Alerts.AddAsync(alert, cancellationToken);
 
 				var newWeatherEventAlert = new AddCurrentAlertsResponse.AddedAlert(
-					alert.Type.Code,
+					alert.Type.ProductCode,
 					alert.Type.Name,
 					alert.Type.Level,
 					alert.Sender.Code,

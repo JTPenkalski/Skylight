@@ -35,8 +35,8 @@ public class WeatherAlertService(
 	{
 		HashSet<string> typeNames = [.. alerts.Select(x => x.AwipsId.ProductCategory)];
 		Dictionary<string, Core.AlertType> types = await dbContext.AlertTypes
-			.Where(x => typeNames.Contains(x.Code))
-			.ToDictionaryAsync(x => x.Code, cancellationToken);
+			.Where(x => typeNames.Contains(x.ProductCode))
+			.ToDictionaryAsync(x => x.ProductCode, cancellationToken);
 
 		return types;
 	}

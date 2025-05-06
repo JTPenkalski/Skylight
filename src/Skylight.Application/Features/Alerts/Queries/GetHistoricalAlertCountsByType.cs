@@ -43,7 +43,7 @@ public class GetHistoricalAlertCountsByTypeHandler(ISkylightDbContext dbContext)
 	{
 		AlertType? alertType = await dbContext.AlertTypes
 			.AsNoTracking()
-			.SingleOrDefaultAsync(x => x.Code == request.Code, cancellationToken);
+			.SingleOrDefaultAsync(x => x.ProductCode == request.Code, cancellationToken);
 
 		EntityNotFoundException.ThrowIfNullOrDeleted(alertType, request.Code);
 
@@ -53,7 +53,7 @@ public class GetHistoricalAlertCountsByTypeHandler(ISkylightDbContext dbContext)
 		var alertTimings = await dbContext.Alerts
 			.AsNoTracking()
 			.Where(x =>
-				x.Type.Code == request.Code
+				x.Type.ProductCode == request.Code
 				&& x.ExpiresOn >= minTime
 				&& x.EffectiveOn < maxTime
 				&& !x.DeletedOn.HasValue)
@@ -63,7 +63,7 @@ public class GetHistoricalAlertCountsByTypeHandler(ISkylightDbContext dbContext)
 		var historicalAlertCounts = GetHistoricalAlertCounts(minTime, maxTime, alertTimings);
 
 		var response = new GetHistoricalAlertCountsByTypeResponse(
-			alertType.Code,
+			alertType.ProductCode,
 			alertType.Name,
 			alertType.Level,
 			historicalAlertCounts);

@@ -100,6 +100,7 @@ public class NationalWeatherServiceClient(
 						SnowSquallDetection: x.GetProperty("parameters").GetOptionalProperty("snowSquallDetection")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
 						SnowSquallImpact: x.GetProperty("parameters").GetOptionalProperty("snowSquallImpact")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
 						WaterspoutDetection: x.GetProperty("parameters").GetOptionalProperty("waterspoutDetection")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
+						// TODO: Parse VTEC and add params in service
 						EventEndingTime: x.GetOptionalProperty("eventEndingTime")?.GetDateTimeOffset().ToUniversalTime()))
 					.OrderByDescending(x => x.Effective)
 					.ToList()));

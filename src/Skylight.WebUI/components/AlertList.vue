@@ -64,6 +64,7 @@ const locations: ComputedRef<string[]> = computed(() => {
 			x.locations
 				.slice(0, 5)
 				.map((x) => x.name)
+				.concat('...')
 				.join('; '),
 		) ?? []
 	);

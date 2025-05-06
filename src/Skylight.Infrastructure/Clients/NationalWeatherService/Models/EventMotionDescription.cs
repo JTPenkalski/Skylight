@@ -33,6 +33,7 @@ public sealed record EventMotionDescription(DateTimeOffset Time, string Event, s
 		if (string.IsNullOrWhiteSpace(value)) return null;
 
 		DateTimeFormatInfo timeFormat = new CultureInfo("en-US").DateTimeFormat;
+
 		DateTimeOffset time = DateTimeOffset.Parse(value[0..24], timeFormat);
 		string @event = value[28..33];
 		string degrees = value[36..42];
