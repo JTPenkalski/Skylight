@@ -24,10 +24,12 @@ public sealed record ValidTimeEventCode(
 	string OfficeId,
 	string Phenomena,
 	string Significance,
-	string EventNumber,
-	string EventBeginDate,
-	string EventEndDate)
+	string EventTrackingNumber,
+	string EventBeginningDate,
+	string EventEndingDate)
 {
+	public string EventCode => $"{Phenomena}{Significance}";
+
 	[return: NotNullIfNotNull(nameof(value))]
 	public static ValidTimeEventCode? Parse(string? value)
 	{
@@ -46,5 +48,5 @@ public sealed record ValidTimeEventCode(
 	}
 
 	public override string ToString() =>
-		$"/{ProductClass}.{Action}.{OfficeId}.{Phenomena}.{Significance}.{EventNumber}.{EventBeginDate}-{EventEndDate}/";
+		$"/{ProductClass}.{Action}.{OfficeId}.{Phenomena}.{Significance}.{EventTrackingNumber}.{EventBeginningDate}-{EventEndingDate}/";
 }

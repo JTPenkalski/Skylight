@@ -42,4 +42,9 @@ public sealed record Alert(
 	string? SnowSquallDetection,
 	string? SnowSquallImpact,
 	string? WaterspoutDetection,
-	DateTimeOffset? EventEndingTime);
+	ValidTimeEventCode? ValidTimeEventCode,
+	DateTimeOffset? EventEndingTime)
+{
+	public string TypeCode =>
+		ValidTimeEventCode?.EventCode ?? AwipsId.ProductCategory;
+}

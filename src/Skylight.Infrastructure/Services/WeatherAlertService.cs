@@ -33,12 +33,20 @@ public class WeatherAlertService(
 
 	internal async Task<Dictionary<string, Core.AlertType>> GetAlertTypesAsync(List<Alert> alerts, CancellationToken cancellationToken)
 	{
-		HashSet<string> typeNames = [.. alerts.Select(x => x.AwipsId.ProductCategory)];
-		Dictionary<string, Core.AlertType> types = await dbContext.AlertTypes
-			.Where(x => typeNames.Contains(x.ProductCode))
-			.ToDictionaryAsync(x => x.ProductCode, cancellationToken);
+		HashSet<string> typeCodes = [.. alerts.Select(x => x.TypeCode)];
 
-		return types;
+		var typesByEventCode = dbContext.AlertTypes
+			.Where(x => x.EventCode != null && typeCodes.Contains(x.EventCode))
+			.Select(x => new { Key = x.EventCode!, Value = x });
+		var typesByProductCode = dbContext.AlertTypes
+			.Where(x => typeCodes.Contains(x.ProductCode))
+			.Select(x => new { Key = x.ProductCode, Value = x });
+
+		Dictionary<string, Core.AlertType> alertTypes = await typesByEventCode
+			.Union(typesByProductCode)
+			.ToDictionaryAsync(x => x.Key, x => x.Value, cancellationToken);
+
+		return alertTypes;
 	}
 
 	internal async Task<Dictionary<string, Core.AlertSender>> GetAlertSendersAsync(List<Alert> alerts, CancellationToken cancellationToken)
@@ -96,7 +104,7 @@ public class WeatherAlertService(
 
 		foreach (Alert alert in clientResponse.AlertCollection.Alerts)
 		{
-			if (alertTypes.TryGetValue(alert.AwipsId.ProductCategory, out Core.AlertType? alertType)
+			if (alertTypes.TryGetValue(alert.TypeCode, out Core.AlertType? alertType)
 				&& alertSenders.TryGetValue(alert.AwipsId.OfficeIdentifier, out Core.AlertSender? alertSender))
 			{
 				var currentAlert = new Core.Alert
@@ -136,6 +144,13 @@ public class WeatherAlertService(
 				currentAlert.AddParameter(Core.AlertParameterKey.SnowSquallDetection, alert.SnowSquallDetection);
 				currentAlert.AddParameter(Core.AlertParameterKey.SnowSquallImpact, alert.SnowSquallImpact);
 				currentAlert.AddParameter(Core.AlertParameterKey.WaterspoutDetection, alert.WaterspoutDetection);
+				currentAlert.AddParameter(Core.AlertParameterKey.ValidTimeEventCode, alert.ValidTimeEventCode?.ToString());
+				currentAlert.AddParameter(Core.AlertParameterKey.Action, alert.ValidTimeEventCode?.Action);
+				currentAlert.AddParameter(Core.AlertParameterKey.Phenomena, alert.ValidTimeEventCode?.Phenomena);
+				currentAlert.AddParameter(Core.AlertParameterKey.Significance, alert.ValidTimeEventCode?.Significance);
+				currentAlert.AddParameter(Core.AlertParameterKey.EventTrackingNumber, alert.ValidTimeEventCode?.EventTrackingNumber);
+				currentAlert.AddParameter(Core.AlertParameterKey.EventBeginningDate, alert.ValidTimeEventCode?.EventBeginningDate);
+				currentAlert.AddParameter(Core.AlertParameterKey.EventEndingDate, alert.ValidTimeEventCode?.EventEndingDate);
 
 				if (currentAlert.Description.Contains("THIS IS A PARTICULARLY DANGEROUS SITUATION"))
 				{

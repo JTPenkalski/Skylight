@@ -44,7 +44,7 @@ const alerts: ComputedRef<CurrentAlert[]> = computed(() => {
 	return [];
 });
 const title: ComputedRef<string> = computed(() => {
-	return data.value ? `${plural(data.value.alertName)} (${data.value.alertCode})` : 'Alerts';
+	return data.value ? `${plural(data.value.alertName)}` : 'Alerts';
 });
 const headers: ComputedRef<string[]> = computed(() => {
 	return (

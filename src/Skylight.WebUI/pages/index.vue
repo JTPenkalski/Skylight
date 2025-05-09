@@ -2,19 +2,19 @@
   <div class="content">
     <div class="row">
       <AlertCounter code="SVA" />
-      <AlertCounter code="SVR" />
+      <AlertCounter code="SVW" />
       <AlertCounter code="TOA" />
-      <AlertCounter code="TOR" />
+      <AlertCounter code="TOW" />
     </div>
     <div class="row">
       <AlertCountHistory :codes="['SPS']" title="Special Weather Statement" />
       <AlertCountHistory :codes="['FFW']" title="Flash Flood" />
-      <AlertCountHistory :codes="['SVA', 'SVR']" title="Severe Thunderstorm" />
-      <AlertCountHistory :codes="['TOA', 'TOR']" title="Tornado" />
+      <AlertCountHistory :codes="['SVA', 'SVW']" title="Severe Thunderstorm" />
+      <AlertCountHistory :codes="['TOA', 'TOW']" title="Tornado" />
     </div>
     <div class="row">
-      <AlertList code="SVR"/>
-      <AlertList code="TOR"/>
+      <AlertList code="SVW"/>
+      <AlertList code="TOW"/>
     </div>
     <div class="row">
       <AlertList code="SPS"/>

@@ -54,14 +54,14 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 	{
 		AlertType? alertType = await dbContext.AlertTypes
 			.AsNoTracking()
-			.SingleOrDefaultAsync(x => x.ProductCode == request.Code, cancellationToken);
+			.SingleOrDefaultAsync(x => (x.EventCode ?? x.ProductCode) == request.Code, cancellationToken);
 
 		EntityNotFoundException.ThrowIfNullOrDeleted(alertType, request.Code);
 
 		var alerts = await dbContext.Alerts
 			.AsNoTracking()
 			.Where(x =>
-				x.Type.ProductCode == request.Code
+				x.Type == alertType
 				&& x.ExpiresOn > DateTimeOffset.UtcNow
 				&& !x.DeletedOn.HasValue)
 			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlert(

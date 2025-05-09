@@ -20,4 +20,12 @@ public enum AlertParameterKey
 	FlashFloodDetection,
 	SnowSquallDetection,
 	SnowSquallImpact,
+	ValidTimeEventCode,
+	Action,
+	OfficeId,
+	Phenomena,
+	Significance,
+	EventTrackingNumber,
+	EventBeginningDate,
+	EventEndingDate,
 }

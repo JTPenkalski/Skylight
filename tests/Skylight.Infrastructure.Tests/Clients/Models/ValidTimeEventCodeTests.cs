@@ -31,9 +31,9 @@ public class ValidTimeEventCodeTests
 		Assert.Equal("KCTP", result.OfficeId);
 		Assert.Equal("SV", result.Phenomena);
 		Assert.Equal("A", result.Significance);
-		Assert.Equal("0123", result.EventNumber);
-		Assert.Equal("250504T2205Z", result.EventBeginDate);
-		Assert.Equal("250506T0030Z", result.EventEndDate);
+		Assert.Equal("0123", result.EventTrackingNumber);
+		Assert.Equal("250504T2205Z", result.EventBeginningDate);
+		Assert.Equal("250506T0030Z", result.EventEndingDate);
 	}
 
 	[Fact]

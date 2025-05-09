@@ -13,4 +13,7 @@ public class AlertType : BaseAuditableEntity
 	public required AlertLevel Level { get; set; }
 
 	public string? EventCode { get; set; }
+
+	public string TypeCode =>
+		EventCode ?? ProductCode;
 }

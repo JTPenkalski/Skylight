@@ -21,62 +21,6 @@ public class DefaultSkylightDbContextInitializer(ISkylightDbContext dbContext) :
 		[
 			new()
 			{
-				ProductCode = "FFW",
-				Name = "Flash Flood Warning",
-				Description = "Issued to inform the public, emergency management, and other cooperating agencies that flash flooding is in progress, imminent, or highly likely.",
-				Level = AlertLevel.Warning,
-			},
-			new()
-			{
-				ProductCode = "FFA",
-				Name = "Flash Flood Watch",
-				Description = "Issued to indicate current or developing hydrologic conditions that are favorable for flash flooding in and close to the watch area, but the occurrence is neither certain or imminent.",
-				Level = AlertLevel.Watch,
-			},
-			new()
-			{
-				ProductCode = "FFS",
-				Name = "Flash Flood Statement",
-				Description = "In hydrologic terms, a statement by the NWS which provides follow-up information on flash flood watches and warnings.",
-				Level = AlertLevel.Advisory,
-			},
-			new()
-			{
-				ProductCode = "EWW",
-				Name = "Extreme Wind Warning",
-				Description = "This product is issued by the National Weather Service for areas on land that will experience sustained surface winds 100 knots (115 mph, 185 km/h, 51 m/s) or greater within one hour.",
-				Level = AlertLevel.Warning,
-			},
-			new()
-			{
-				ProductCode = "HWW",
-				Name = "High Wind Warning",
-				Description = "This product is issued by the National Weather Service when high wind speeds may pose a hazard or is life threatening. The criteria for this warning varies from state to state. In Michigan, the criteria is sustained non-convective (not related to thunderstorms) winds greater than or equal to 40 mph lasting for one hour or longer, or winds greater than or equal to 58 mph for any duration.",
-				Level = AlertLevel.Warning,
-			},
-			new()
-			{
-				ProductCode = "HWA",
-				Name = "High Wind Watch",
-				Description = "This product is issued by the National Weather Service when there is the potential of high wind speeds developing that may pose a hazard or is life threatening. The criteria for this watch varies from state to state. In Michigan, the criteria is the potential for sustained non-convective (not related to thunderstorms) winds greater than or equal to 40 mph and/or gusts greater than or equal to 58 mph.",
-				Level = AlertLevel.Watch,
-			},
-			new()
-			{
-				ProductCode = "SVR",
-				Name = "Severe Thunderstorm Warning",
-				Description = "This is issued when either a severe thunderstorm is indicated by the WSR-88D radar or a spotter reports a thunderstorm producing hail one inch or larger in diameter and/or winds equal or exceed 58 miles an hour; therefore, people in the affected area should seek safe shelter immediately. Severe thunderstorms can produce tornadoes with little or no advance warning. Lightning frequency is not a criteria for issuing a severe thunderstorm warning. They are usually issued for a duration of one hour. They can be issued without a Severe Thunderstorm Watch being already in effect.",
-				Level = AlertLevel.Warning,
-			},
-			new()
-			{
-				ProductCode = "SVA",
-				Name = "Severe Thunderstorm Watch",
-				Description = "This is issued by the National Weather Service when conditions are favorable for the development of severe thunderstorms in and close to the watch area. A severe thunderstorm by definition is a thunderstorm that produces one inch hail or larger in diameter and/or winds equal or exceed 58 miles an hour. The size of the watch can vary depending on the weather situation. They are usually issued for a duration of 4 to 8 hours. They are normally issued well in advance of the actual occurrence of severe weather. During the watch, people should review severe thunderstorm safety rules and be prepared to move a place of safety if threatening weather approaches.",
-				Level = AlertLevel.Watch,
-			},
-			new()
-			{
 				ProductCode = "SVS",
 				Name = "Severe Weather Statement",
 				Description = "A National Weather Service product which provides follow up information on severe weather conditions (severe thunderstorm or tornadoes) which have occurred or are currently occurring.",
@@ -91,14 +35,56 @@ public class DefaultSkylightDbContextInitializer(ISkylightDbContext dbContext) :
 			},
 			new()
 			{
+				ProductCode = "FFW",
+				EventCode = "FFW",
+				Name = "Flash Flood Warning",
+				Description = "Issued to inform the public, emergency management, and other cooperating agencies that flash flooding is in progress, imminent, or highly likely.",
+				Level = AlertLevel.Warning,
+			},
+			new()
+			{
+				ProductCode = "FFA",
+				EventCode = "FFA",
+				Name = "Flash Flood Watch",
+				Description = "Issued to indicate current or developing hydrologic conditions that are favorable for flash flooding in and close to the watch area, but the occurrence is neither certain or imminent.",
+				Level = AlertLevel.Watch,
+			},
+			new()
+			{
+				ProductCode = "FFS",
+				EventCode = "FFS",
+				Name = "Flash Flood Statement",
+				Description = "In hydrologic terms, a statement by the NWS which provides follow-up information on flash flood watches and warnings.",
+				Level = AlertLevel.Advisory,
+			},
+			new()
+			{
+				ProductCode = "SVR",
+				EventCode = "SVW",
+				Name = "Severe Thunderstorm Warning",
+				Description = "This is issued when either a severe thunderstorm is indicated by the WSR-88D radar or a spotter reports a thunderstorm producing hail one inch or larger in diameter and/or winds equal or exceed 58 miles an hour; therefore, people in the affected area should seek safe shelter immediately. Severe thunderstorms can produce tornadoes with little or no advance warning. Lightning frequency is not a criteria for issuing a severe thunderstorm warning. They are usually issued for a duration of one hour. They can be issued without a Severe Thunderstorm Watch being already in effect.",
+				Level = AlertLevel.Warning,
+			},
+			new()
+			{
 				ProductCode = "TOR",
+				EventCode = "TOW",
 				Name = "Tornado Warning",
 				Description = "This is issued when a tornado is indicated by the WSR-88D radar or sighted by spotters; therefore, people in the affected area should seek safe shelter immediately. They can be issued without a Tornado Watch being already in effect. They are usually issued for a duration of around 30 minutes.",
 				Level = AlertLevel.Warning,
 			},
 			new()
 			{
-				ProductCode = "TOA",
+				ProductCode = "WOU",
+				EventCode = "SVA",
+				Name = "Severe Thunderstorm Watch",
+				Description = "This is issued by the National Weather Service when conditions are favorable for the development of severe thunderstorms in and close to the watch area. A severe thunderstorm by definition is a thunderstorm that produces one inch hail or larger in diameter and/or winds equal or exceed 58 miles an hour. The size of the watch can vary depending on the weather situation. They are usually issued for a duration of 4 to 8 hours. They are normally issued well in advance of the actual occurrence of severe weather. During the watch, people should review severe thunderstorm safety rules and be prepared to move a place of safety if threatening weather approaches.",
+				Level = AlertLevel.Watch,
+			},
+			new()
+			{
+				ProductCode = "WOU",
+				EventCode = "TOA",
 				Name = "Tornado Watch",
 				Description = "This is issued by the National Weather Service when conditions are favorable for the development of tornadoes in and close to the watch area. Their size can vary depending on the weather situation. They are usually issued for a duration of 4 to 8 hours. They normally are issued well in advance of the actual occurrence of severe weather. During the watch, people should review tornado safety rules and be prepared to move a place of safety if threatening weather approaches.",
 				Level = AlertLevel.Watch,
