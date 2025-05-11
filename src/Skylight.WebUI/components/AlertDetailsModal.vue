@@ -55,7 +55,7 @@ onMounted(() => {
 
 				<Panel collapsed toggleable header="Locations">
 					<DataTable size="small" sort-field="name" :sortOrder="1" :value="data.locations">
-						<Column sortable field="zone" header="UGC Zone ID" style="width: 20%"></Column>
+						<Column sortable field="zone" header="UGC Zone ID" style="width: 25%"></Column>
 						<Column sortable field="name" header="Name"></Column>
 					</DataTable>
 				</Panel>

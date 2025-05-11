@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import 'chartjs-adapter-date-fns';
-import { type ChartData, type ChartDataset, type ChartOptions } from 'chart.js';
+import type { ChartData, ChartOptions } from 'chart.js';
 import { subHours } from 'date-fns';
 
 interface TimePoint {
@@ -29,16 +29,13 @@ const hourOptions: Ref<HourOption[]> = ref([
 ]);
 const hours: Ref<HourOption> = ref(hourOptions.value[2]);
 
-const textColor = useThemeColor('text.muted.color').color;
-const gridColor = useThemeColor('content.border.color').color;
-
 const { api } = useSkylight();
 const { data, refresh } = await useAsyncData(
 	`alert-count-history/${props.codes.join(',')}`,
 	async () => {
 		return await Promise.all(
 			props.codes.map((x) =>
-				api.getHourlyAlertCountsByType({
+				api.getHistoricalAlertCountsByType({
 					code: x,
 					start: now.value,
 					pastHours: hours.value.code,
@@ -48,28 +45,27 @@ const { data, refresh } = await useAsyncData(
 	},
 );
 
-const datasets: ComputedRef<ChartDataset<'line', TimePoint[]>[]> = computed(() => {
-	return (
-		data.value?.map((x) => {
-			return {
-				label: plural(x.alertLevel.toString()),
-				data: x.alertCounts.map((x) => {
-					return {
-						x: x.dateTime,
-						y: x.count,
-					};
-				}),
-				fill: false,
-			};
-		}) ?? []
-	);
-});
-const chart: ComputedRef<ChartData<'line', TimePoint[]>> = computed(() => {
+const chartColors: ChartColors = useChartColors();
+const chartData: ComputedRef<ChartData<'line', TimePoint[]>> = computed(() => {
 	return {
-		datasets: datasets.value,
+		datasets:
+			data.value?.map((x, i) => {
+				return {
+					backgroundColor: chartColors.getBackgroundColor(i),
+					borderColor: chartColors.getBorderColor(i),
+					label: plural(x.alertLevel.toString()),
+					data: x.alertCounts.map((x) => {
+						return {
+							x: x.dateTime,
+							y: x.count,
+						};
+					}),
+					fill: false,
+				};
+			}) ?? [],
 	};
 });
-const options: Ref<ChartOptions<'line'>> = ref({
+const chartOptions: Ref<ChartOptions<'line'>> = ref({
 	maintainAspectRatio: false,
 	responsive: true,
 	scales: {
@@ -81,13 +77,13 @@ const options: Ref<ChartOptions<'line'>> = ref({
 				text: 'Time',
 			},
 			ticks: {
-				color: textColor,
+				color: chartColors.textColor,
 			},
 			time: {
 				unit: 'hour',
 			},
 			grid: {
-				color: gridColor,
+				color: chartColors.gridColor,
 			},
 		},
 		y: {
@@ -97,11 +93,11 @@ const options: Ref<ChartOptions<'line'>> = ref({
 				text: 'Alerts',
 			},
 			ticks: {
-				color: textColor,
+				color: chartColors.textColor,
 				stepSize: 1,
 			},
 			grid: {
-				color: gridColor,
+				color: chartColors.gridColor,
 			},
 		},
 	},
@@ -111,47 +107,18 @@ const options: Ref<ChartOptions<'line'>> = ref({
 <template>
 	<Card class="card">
     <template #title>
-			<div class="title">
-				<div>Alert History</div>
-			</div>
+			<div>Alert History</div>
     </template>
 		<template #subtitle>
-			<div class="title">
-				<div>{{ plural(props.title) }}</div>
-			</div>
+			<div>{{ plural(props.title) }}</div>
     </template>
     <template #content>
-      <Chart class="chart" type="line" :data="chart" :options="options" />
+      <Chart class="chart" type="line" :data="chartData" :options="chartOptions" />
     </template>
 		<template #footer>
-      <div class="footer">
+      <div class="card-footer">
 				<Select v-model="hours" inputId="dd-hours" optionLabel="name" size="small" :options="hourOptions" @value-change="refresh" />
 			</div>
     </template>
   </Card>
 </template>
-
-<style scoped lang="scss">
-.card {
-  flex: 1;
-	min-width: 0;
-}
-
-.title {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-}
-
-.footer {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	justify-content: end;
-}
-
-.chart {
-	height: 12rem;
-	position: relative;
-}
-</style>

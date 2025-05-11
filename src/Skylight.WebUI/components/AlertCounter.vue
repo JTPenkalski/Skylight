@@ -11,9 +11,9 @@ const { data } = await useAsyncData(`alert-count/${props.code}`, () => {
 const count: ComputedRef<number> = computed(() => {
 	return data.value?.count ?? 0;
 });
-const label: ComputedRef<string> = computed(() => {
+const title: ComputedRef<string> = computed(() => {
 	if (data.value) {
-		return pluralize(data.value.alertName, count);
+		return plural(data.value.alertName);
 	}
 
 	return 'Alerts';
@@ -42,7 +42,10 @@ const severity: ComputedRef<string> = computed(() => {
 <template>
   <Card class="card">
     <template #title>
-      <span>{{ label }}</span>
+      <span>Current Alerts</span>
+    </template>
+    <template #subtitle>
+      <span>{{ title }}</span>
     </template>
     <template #content>
       <div :class="severity" class="counter">{{ count }}</div>

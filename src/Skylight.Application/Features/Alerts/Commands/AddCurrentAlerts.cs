@@ -57,7 +57,7 @@ public class AddCurrentAlertsHandler(
 		return Result.Success(response);
 	}
 
-	private async Task<List<AddCurrentAlertsResponse.AddedAlert>> AddNewAlertsAsync(List<Alert> activeAlerts, HashSet<Alert> existingAlerts, CancellationToken cancellationToken)
+	internal virtual async Task<List<AddCurrentAlertsResponse.AddedAlert>> AddNewAlertsAsync(List<Alert> activeAlerts, HashSet<Alert> existingAlerts, CancellationToken cancellationToken)
 	{
 		var addedAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
 

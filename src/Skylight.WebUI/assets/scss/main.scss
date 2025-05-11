@@ -27,3 +27,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+// Global Styles
+.card {
+  flex: 1;
+  min-width: 0;
+
+  .card-footer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
+}
+
+.chart {
+  height: 12rem;
+  position: relative;
+}

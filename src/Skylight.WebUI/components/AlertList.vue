@@ -31,9 +31,6 @@ const { data } = await useAsyncData(`alerts/${props.code}`, () =>
 	api.getCurrentAlertsByType({ code: props.code }),
 );
 
-const hasAlerts: ComputedRef<boolean> = computed(() => {
-	return !!data.value && data.value.count > 0;
-});
 const alerts: ComputedRef<CurrentAlert[]> = computed(() => {
 	if (data.value) {
 		return data.value.currentAlerts.sort((x, y) => {
@@ -95,10 +92,15 @@ function onExpandAlert(alert: CurrentAlert) {
 <template>
 	<Card class="card">
     <template #title>
-      <div>{{ title }}</div>
+      <div>Alert List</div>
+    </template>
+		<template #subtitle>
+			<div>
+				<div>{{ title }}</div>
+			</div>
     </template>
     <template #content>
-			<DataView v-if="hasAlerts" paginator data-key="headline" :value="alerts" :rows="props.rows ?? 5">
+			<DataView v-if="alerts.length > 0" paginator data-key="headline" :value="alerts" :rows="props.rows ?? 5">
 				<template #list="slotProps">
 					<div class="list">
 						<div v-for="(item, index) in slotProps.items" :key="index" class="list-item" :class="{ 'list-divider': index !== 0 }">
@@ -131,7 +133,7 @@ function onExpandAlert(alert: CurrentAlert) {
 					</div>
 				</template>
 			</DataView>
-			<span v-else>No current alerts.</span>
+			<NoAlerts v-else />
     </template>
   </Card>
 </template>

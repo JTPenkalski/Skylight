@@ -17,3 +17,10 @@ public class AlertType : BaseAuditableEntity
 	public string TypeCode =>
 		EventCode ?? ProductCode;
 }
+
+public static class AlertTypeCodes
+{
+	public const string TornadoWarning = "TOW";
+	public const string SevereThunderstormWarning = "SVW";
+	public const string FlashFloodWarning = "FFW";
+}

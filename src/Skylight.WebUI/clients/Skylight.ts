@@ -137,6 +137,61 @@ export class SkylightClient {
     /**
      * @return OK
      */
+    getCurrentAlertObservationTypesByType(body: GetCurrentAlertObservationTypesByTypeQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertObservationTypesByTypeResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertObservationTypesByType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetCurrentAlertObservationTypesByType(_response);
+        });
+    }
+
+    protected processGetCurrentAlertObservationTypesByType(response: AxiosResponse): Promise<GetCurrentAlertObservationTypesByTypeResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetCurrentAlertObservationTypesByTypeResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetCurrentAlertObservationTypesByTypeResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getCurrentAlertsByType(body: GetCurrentAlertsByTypeQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertsByTypeResponse> {
         let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertsByType";
         url_ = url_.replace(/[?&]$/, "");
@@ -192,8 +247,8 @@ export class SkylightClient {
     /**
      * @return OK
      */
-    getHourlyAlertCountsByType(body: GetHistoricalAlertCountsByTypeQuery, cancelToken?: CancelToken): Promise<GetHistoricalAlertCountsByTypeResponse> {
-        let url_ = this.baseUrl + "/api/v1/Alerts/GetHourlyAlertCountsByType";
+    getHistoricalAlertCountsByType(body: GetHistoricalAlertCountsByTypeQuery, cancelToken?: CancelToken): Promise<GetHistoricalAlertCountsByTypeResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetHistoricalAlertCountsByType";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -216,11 +271,11 @@ export class SkylightClient {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processGetHourlyAlertCountsByType(_response);
+            return this.processGetHistoricalAlertCountsByType(_response);
         });
     }
 
-    protected processGetHourlyAlertCountsByType(response: AxiosResponse): Promise<GetHistoricalAlertCountsByTypeResponse> {
+    protected processGetHistoricalAlertCountsByType(response: AxiosResponse): Promise<GetHistoricalAlertCountsByTypeResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -327,6 +382,14 @@ export enum AlertParameterKey {
     FlashFloodDetection = "FlashFloodDetection",
     SnowSquallDetection = "SnowSquallDetection",
     SnowSquallImpact = "SnowSquallImpact",
+    ValidTimeEventCode = "ValidTimeEventCode",
+    Action = "Action",
+    OfficeId = "OfficeId",
+    Phenomena = "Phenomena",
+    Significance = "Significance",
+    EventTrackingNumber = "EventTrackingNumber",
+    EventBeginningDate = "EventBeginningDate",
+    EventEndingDate = "EventEndingDate",
 }
 
 export enum AlertResponse {
@@ -383,6 +446,13 @@ export interface CurrentAlertLocation {
     [key: string]: any;
 }
 
+export interface CurrentAlertObservationTypeCount {
+    observationType: string;
+    count: number;
+
+    [key: string]: any;
+}
+
 export interface CurrentAlertParameter {
     key: AlertParameterKey;
     value: string;
@@ -401,6 +471,21 @@ export interface GetCurrentAlertCountByTypeResponse {
     alertCode: string;
     alertName: string;
     alertLevel: AlertLevel;
+
+    [key: string]: any;
+}
+
+export interface GetCurrentAlertObservationTypesByTypeQuery {
+    code: string;
+
+    [key: string]: any;
+}
+
+export interface GetCurrentAlertObservationTypesByTypeResponse {
+    alertCode: string;
+    alertName: string;
+    observationTypes: string[];
+    observationTypeCounts: CurrentAlertObservationTypeCount[];
 
     [key: string]: any;
 }

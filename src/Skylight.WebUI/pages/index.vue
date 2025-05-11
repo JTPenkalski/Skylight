@@ -8,17 +8,29 @@
     </div>
     <div class="row">
       <AlertCountHistory :codes="['SPS']" title="Special Weather Statement" />
-      <AlertCountHistory :codes="['FFW']" title="Flash Flood" />
+      <AlertCountHistory :codes="['FFA', 'FFW']" title="Flash Flood" />
       <AlertCountHistory :codes="['SVA', 'SVW']" title="Severe Thunderstorm" />
       <AlertCountHistory :codes="['TOA', 'TOW']" title="Tornado" />
     </div>
     <div class="row">
-      <AlertList code="SVW"/>
+      <AlertTypeChart code="SVW" />
+      <AlertTypeChart code="TOW" />
+    </div>
+    <div class="row">
+      <AlertList code="TOA"/>
       <AlertList code="TOW"/>
     </div>
     <div class="row">
-      <AlertList code="SPS"/>
+      <AlertList code="SVA"/>
+      <AlertList code="SVW"/>
+    </div>
+    <div class="row">
+      <AlertList code="FFA"/>
       <AlertList code="FFW"/>
+    </div>
+    <div class="row">
+      <AlertList code="SPS"/>
+      <AlertList code="SVS"/>
     </div>
   </div>
 </template>

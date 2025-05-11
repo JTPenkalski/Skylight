@@ -30,6 +30,14 @@ public class AlertsController(IMediator mediator)
 	}
 
 	[HttpPost]
+	public async Task<ActionResult<GetCurrentAlertObservationTypesByTypeResponse>> GetCurrentAlertObservationTypesByType(GetCurrentAlertObservationTypesByTypeQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	[HttpPost]
 	public async Task<ActionResult<GetCurrentAlertsByTypeResponse>> GetCurrentAlertsByType(GetCurrentAlertsByTypeQuery request, CancellationToken cancellationToken)
 	{
 		var result = await mediator.Send(request, cancellationToken);
@@ -38,7 +46,7 @@ public class AlertsController(IMediator mediator)
 	}
 
 	[HttpPost]
-	public async Task<ActionResult<GetHistoricalAlertCountsByTypeResponse>> GetHourlyAlertCountsByType(GetHistoricalAlertCountsByTypeQuery request, CancellationToken cancellationToken)
+	public async Task<ActionResult<GetHistoricalAlertCountsByTypeResponse>> GetHistoricalAlertCountsByType(GetHistoricalAlertCountsByTypeQuery request, CancellationToken cancellationToken)
 	{
 		var result = await mediator.Send(request, cancellationToken);
 
