@@ -1,36 +1,36 @@
 <template>
   <div class="content">
     <div class="row">
-      <AlertCounter code="SVA" />
-      <AlertCounter code="SVW" />
-      <AlertCounter code="TOA" />
-      <AlertCounter code="TOW" />
+      <AlertTypeCurrentCountCard code="SVA" />
+      <AlertTypeCurrentCountCard code="SVW" />
+      <AlertTypeCurrentCountCard code="TOA" />
+      <AlertTypeCurrentCountCard code="TOW" />
     </div>
     <div class="row">
-      <AlertCountHistory :codes="['SPS']" title="Special Weather Statement" />
-      <AlertCountHistory :codes="['FFA', 'FFW']" title="Flash Flood" />
-      <AlertCountHistory :codes="['SVA', 'SVW']" title="Severe Thunderstorm" />
-      <AlertCountHistory :codes="['TOA', 'TOW']" title="Tornado" />
+      <AlertTypeHistoricalCountCard :codes="['SPS']" title="Special Weather Statement" />
+      <AlertTypeHistoricalCountCard :codes="['FFA', 'FFW']" title="Flash Flood" />
+      <AlertTypeHistoricalCountCard :codes="['SVA', 'SVW']" title="Severe Thunderstorm" />
+      <AlertTypeHistoricalCountCard :codes="['TOA', 'TOW']" title="Tornado" />
     </div>
     <div class="row">
-      <AlertTypeChart code="SVW" />
-      <AlertTypeChart code="TOW" />
+      <AlertTypeObservationTypesCard code="SVW" />
+      <AlertTypeObservationTypesCard code="TOW" />
     </div>
     <div class="row">
-      <AlertList code="TOA"/>
-      <AlertList code="TOW"/>
+      <AlertTypeCurrentListCard code="TOA"/>
+      <AlertTypeCurrentListCard code="TOW"/>
     </div>
     <div class="row">
-      <AlertList code="SVA"/>
-      <AlertList code="SVW"/>
+      <AlertTypeCurrentListCard code="SVA"/>
+      <AlertTypeCurrentListCard code="SVW"/>
     </div>
     <div class="row">
-      <AlertList code="FFA"/>
-      <AlertList code="FFW"/>
+      <AlertTypeCurrentListCard code="FFA"/>
+      <AlertTypeCurrentListCard code="FFW"/>
     </div>
     <div class="row">
-      <AlertList code="SPS"/>
-      <AlertList code="SVS"/>
+      <AlertTypeCurrentListCard code="SPS"/>
+      <AlertTypeCurrentListCard code="SVS"/>
     </div>
   </div>
 </template>

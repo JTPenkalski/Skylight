@@ -49,7 +49,7 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 				&& !x.DeletedOn.HasValue)
 			.ToListAsync(cancellationToken);
 
-		var counts = GetSevereThunderstormWarningCounts(alerts);
+		var counts = GetObservationTypeCounts(alerts);
 
 		var response = new GetCurrentAlertObservationTypesByTypeResponse(
 			alertType.ProductCode,
@@ -62,14 +62,49 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 		return Result.Success(response);
 	}
 
-	internal virtual List<GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount> GetSevereThunderstormWarningCounts(List<Alert> alerts)
+	internal virtual List<GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount> GetObservationTypeCounts(List<Alert> alerts)
 	{
-		AlertParameterKey[] observationTypes = [AlertParameterKey.HailThreat, AlertParameterKey.WindThreat, AlertParameterKey.TornadoDetection, AlertParameterKey.TypeModifier];
+		// Associate a priority with each observation type, from highest to lowest
+		var observationTypes = new[]
+		{
+			AlertParameterKey.TypeModifier,
+			AlertParameterKey.TornadoDetection,
+			AlertParameterKey.ThunderstormDamageThreat,
+			AlertParameterKey.FlashFloodDamageThreat,
+			AlertParameterKey.FlashFloodDetection,
+			AlertParameterKey.WindThreat,
+			AlertParameterKey.HailThreat,
+		}.Select((x, i) => new { Key = x, Priority = i });
 
 		var counts = alerts
-			.SelectMany(x => x.Parameters)
-			.Where(x => observationTypes.Contains(x.Key))
-			.CountBy(x => x.Value)
+			// Get a list of each Parameter for each Alert
+			.SelectMany(
+				x => x.Parameters,
+				(alert, parameter) =>
+					new
+					{
+						Alert = alert,
+						Parameter = parameter
+					})
+			// Associate each Parameter with the priority established above
+			.Join(
+				observationTypes,
+				x => x.Parameter.Key,
+				x => x.Key,
+				(alertParameter, observation) =>
+					new
+					{
+						alertParameter.Alert,
+						alertParameter.Parameter,
+						observation.Priority,
+					})
+			// Sort the Parameters according to their priority
+			.OrderBy(x => x.Priority)
+			// Group each Parameter with its Alert
+			.GroupBy(x => x.Alert.Id)
+			// Count how many of each observation type there is, based on the first Parameter from each Alert group (which should now have the highest priority)
+			.CountBy(x => x.First().Parameter.Value)
+			// Map to the output type
 			.Select(x => new GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount(x.Key.ToString(), x.Value))
 			.ToList();
 

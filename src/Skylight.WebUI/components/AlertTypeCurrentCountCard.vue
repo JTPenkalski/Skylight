@@ -23,15 +23,15 @@ const severity: ComputedRef<string> = computed(() => {
 		return 'marginal';
 	}
 
-	if (count.value <= 2) {
+	if (count.value <= 3) {
 		return 'slight';
 	}
 
-	if (count.value <= 5) {
+	if (count.value <= 8) {
 		return 'enhanced';
 	}
 
-	if (count.value <= 8) {
+	if (count.value <= 12) {
 		return 'moderate';
 	}
 
