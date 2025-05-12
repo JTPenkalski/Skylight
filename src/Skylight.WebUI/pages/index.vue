@@ -7,30 +7,30 @@
       <AlertTypeCurrentCountCard code="TOW" />
     </div>
     <div class="row">
-      <AlertTypeHistoricalCountCard :codes="['SPS']" title="Special Weather Statement" />
-      <AlertTypeHistoricalCountCard :codes="['FFA', 'FFW']" title="Flash Flood" />
-      <AlertTypeHistoricalCountCard :codes="['SVA', 'SVW']" title="Severe Thunderstorm" />
-      <AlertTypeHistoricalCountCard :codes="['TOA', 'TOW']" title="Tornado" />
+      <AlertTypeHistoricalCountChartCard :codes="['SPS']" title="Special Weather Statement" />
+      <AlertTypeHistoricalCountChartCard :codes="['FFA', 'FFW']" title="Flash Flood" />
+      <AlertTypeHistoricalCountChartCard :codes="['SVA', 'SVW']" title="Severe Thunderstorm" />
+      <AlertTypeHistoricalCountChartCard :codes="['TOA', 'TOW']" title="Tornado" />
     </div>
     <div class="row">
-      <AlertTypeObservationTypesCard code="SVW" />
-      <AlertTypeObservationTypesCard code="TOW" />
+      <AlertTypeObservationTypesChartCard code="SVW" />
+      <AlertTypeObservationTypesChartCard code="TOW" />
     </div>
     <div class="row">
-      <AlertTypeCurrentListCard code="TOA"/>
-      <AlertTypeCurrentListCard code="TOW"/>
+      <AlertTypeListCard code="TOA"/>
+      <AlertTypeListCard code="TOW"/>
     </div>
     <div class="row">
-      <AlertTypeCurrentListCard code="SVA"/>
-      <AlertTypeCurrentListCard code="SVW"/>
+      <AlertTypeListCard code="SVA"/>
+      <AlertTypeListCard code="SVW"/>
     </div>
     <div class="row">
-      <AlertTypeCurrentListCard code="FFA"/>
-      <AlertTypeCurrentListCard code="FFW"/>
+      <AlertTypeListCard code="FFA"/>
+      <AlertTypeListCard code="FFW"/>
     </div>
     <div class="row">
-      <AlertTypeCurrentListCard code="SPS"/>
-      <AlertTypeCurrentListCard code="SVS"/>
+      <AlertTypeListCard code="SPS"/>
+      <AlertTypeListCard code="SVS"/>
     </div>
   </div>
 </template>
