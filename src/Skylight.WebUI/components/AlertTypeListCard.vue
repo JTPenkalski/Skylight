@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { CurrentAlert } from '~/clients/Skylight';
-
 const props = defineProps<{
 	code: string;
 	rows?: number;
@@ -11,21 +9,12 @@ const { data } = await useAsyncData(`alerts/${props.code}`, () =>
 	api.getCurrentAlertsByType({ code: props.code }),
 );
 
+const title: ComputedRef<string> = computed(() =>
+	data.value ? `${plural(data.value.alertName)}` : 'Alerts',
+);
 const hasData: ComputedRef<boolean> = computed(
 	() => !!data.value && data.value.currentAlerts.length > 0,
 );
-const alerts: ComputedRef<CurrentAlert[]> = computed(() => {
-	if (data.value) {
-		return data.value.currentAlerts.sort((x, y) => {
-			return new Date(x.effective).getTime() - new Date(y.effective).getTime();
-		});
-	}
-
-	return [];
-});
-const title: ComputedRef<string> = computed(() => {
-	return data.value ? `${plural(data.value.alertName)}` : 'Alerts';
-});
 </script>
 
 <template>
@@ -39,7 +28,7 @@ const title: ComputedRef<string> = computed(() => {
 			</div>
     </template>
     <template #content>
-			<DataView v-if="hasData" paginator data-key="headline" :value="alerts" :rows="props.rows ?? 2">
+			<DataView v-if="hasData" paginator data-key="headline" :value="data?.currentAlerts" :rows="props.rows ?? 5">
 				<template #list="slotProps">
 					<div class="list">
 						<AlertListItem v-for="(item, index) in slotProps.items"

@@ -192,6 +192,61 @@ export class SkylightClient {
     /**
      * @return OK
      */
+    getCurrentAlertParameterValuesByParameter(body: GetCurrentAlertParameterValuesByParameterQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertParameterValuesByParameterResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertParameterValuesByParameter";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetCurrentAlertParameterValuesByParameter(_response);
+        });
+    }
+
+    protected processGetCurrentAlertParameterValuesByParameter(response: AxiosResponse): Promise<GetCurrentAlertParameterValuesByParameterResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetCurrentAlertParameterValuesByParameterResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetCurrentAlertParameterValuesByParameterResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getCurrentAlertsByType(body: GetCurrentAlertsByTypeQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertsByTypeResponse> {
         let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertsByType";
         url_ = url_.replace(/[?&]$/, "");
@@ -460,6 +515,13 @@ export interface CurrentAlertParameter {
     [key: string]: any;
 }
 
+export interface CurrentAlertParameterCount {
+    parameterValue: string;
+    count: number;
+
+    [key: string]: any;
+}
+
 export interface GetCurrentAlertCountByTypeQuery {
     code: string;
 
@@ -482,10 +544,22 @@ export interface GetCurrentAlertObservationTypesByTypeQuery {
 }
 
 export interface GetCurrentAlertObservationTypesByTypeResponse {
-    alertCode: string;
     alertName: string;
     observationTypes: string[];
     observationTypeCounts: CurrentAlertObservationTypeCount[];
+
+    [key: string]: any;
+}
+
+export interface GetCurrentAlertParameterValuesByParameterQuery {
+    parameterKey: AlertParameterKey;
+
+    [key: string]: any;
+}
+
+export interface GetCurrentAlertParameterValuesByParameterResponse {
+    parameterValues: string[];
+    parameterCounts: CurrentAlertParameterCount[];
 
     [key: string]: any;
 }
@@ -515,7 +589,6 @@ export interface GetHistoricalAlertCountsByTypeQuery {
 }
 
 export interface GetHistoricalAlertCountsByTypeResponse {
-    alertCode: string;
     alertName: string;
     alertLevel: AlertLevel;
     alertCounts: HistoricalAlertCount[];

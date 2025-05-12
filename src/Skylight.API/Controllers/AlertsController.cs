@@ -10,8 +10,7 @@ namespace Skylight.API.Controllers;
 
 [ApiController]
 [ApiVersion(SkylightApiVersion.Current)]
-public class AlertsController(IMediator mediator)
-	: BaseController
+public class AlertsController(IMediator mediator) : BaseController
 {
 	[HttpPost]
 	public async Task<ActionResult<AddCurrentAlertsResponse>> AddCurrentAlerts(AddCurrentAlertsCommand request, CancellationToken cancellationToken)
@@ -31,6 +30,14 @@ public class AlertsController(IMediator mediator)
 
 	[HttpPost]
 	public async Task<ActionResult<GetCurrentAlertObservationTypesByTypeResponse>> GetCurrentAlertObservationTypesByType(GetCurrentAlertObservationTypesByTypeQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	[HttpPost]
+	public async Task<ActionResult<GetCurrentAlertParameterValuesByParameterResponse>> GetCurrentAlertParameterValuesByParameter(GetCurrentAlertParameterValuesByParameterQuery request, CancellationToken cancellationToken)
 	{
 		var result = await mediator.Send(request, cancellationToken);
 

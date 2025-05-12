@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { AlertParameterKey } from '~/clients/Skylight';
+</script>
+
 <template>
   <div class="content">
     <div class="row">
@@ -15,6 +19,8 @@
     <div class="row">
       <AlertTypeObservationTypesChartCard code="SVW" />
       <AlertTypeObservationTypesChartCard code="TOW" />
+      <AlertTypeParametersChartCard :parameter="AlertParameterKey.MaxHailSize" />
+      <AlertTypeParametersChartCard :parameter="AlertParameterKey.MaxWindGust" />
     </div>
     <div class="row">
       <AlertTypeListCard code="TOA"/>

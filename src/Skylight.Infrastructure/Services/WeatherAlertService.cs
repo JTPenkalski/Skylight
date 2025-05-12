@@ -146,6 +146,7 @@ public class WeatherAlertService(
 				currentAlert.AddParameter(Core.AlertParameterKey.WaterspoutDetection, alert.WaterspoutDetection);
 				currentAlert.AddParameter(Core.AlertParameterKey.ValidTimeEventCode, alert.ValidTimeEventCode?.ToString());
 				currentAlert.AddParameter(Core.AlertParameterKey.Action, alert.ValidTimeEventCode?.Action);
+				currentAlert.AddParameter(Core.AlertParameterKey.OfficeId, alert.ValidTimeEventCode?.OfficeId);
 				currentAlert.AddParameter(Core.AlertParameterKey.Phenomena, alert.ValidTimeEventCode?.Phenomena);
 				currentAlert.AddParameter(Core.AlertParameterKey.Significance, alert.ValidTimeEventCode?.Significance);
 				currentAlert.AddParameter(Core.AlertParameterKey.EventTrackingNumber, alert.ValidTimeEventCode?.EventTrackingNumber);

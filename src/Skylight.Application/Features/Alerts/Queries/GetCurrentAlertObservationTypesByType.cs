@@ -21,7 +21,6 @@ public class GetCurrentAlertObservationTypesByTypeQueryValidator : AbstractValid
 }
 
 public sealed record GetCurrentAlertObservationTypesByTypeResponse(
-	string AlertCode,
 	string AlertName,
 	IEnumerable<string> ObservationTypes,
 	IEnumerable<GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount> ObservationTypeCounts)
@@ -52,7 +51,6 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 		var counts = GetObservationTypeCounts(alerts);
 
 		var response = new GetCurrentAlertObservationTypesByTypeResponse(
-			alertType.ProductCode,
 			alertType.Name,
 			counts
 				.Select(x => x.ObservationType)

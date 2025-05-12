@@ -25,11 +25,9 @@ public class GetHistoricalAlertCountsByTypeQueryValidator : AbstractValidator<Ge
 }
 
 public sealed record GetHistoricalAlertCountsByTypeResponse(
-	string AlertCode,
 	string AlertName,
 	AlertLevel AlertLevel,
-	IEnumerable<GetHistoricalAlertCountsByTypeResponse.HistoricalAlertCount> AlertCounts)
-	: IResponse
+	IEnumerable<GetHistoricalAlertCountsByTypeResponse.HistoricalAlertCount> AlertCounts) : IResponse
 {
 	public sealed record HistoricalAlertCount(DateTimeOffset DateTime, int Count);
 }
@@ -63,7 +61,6 @@ public class GetHistoricalAlertCountsByTypeHandler(ISkylightDbContext dbContext)
 		var historicalAlertCounts = GetHistoricalAlertCounts(minTime, maxTime, alertTimings);
 
 		var response = new GetHistoricalAlertCountsByTypeResponse(
-			alertType.ProductCode,
 			alertType.Name,
 			alertType.Level,
 			historicalAlertCounts);
