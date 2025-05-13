@@ -35,26 +35,32 @@ builder
 
 WebApplication application = builder.Build();
 
-// Add Route Mappings
-application
-	.MapDefaultEndpoints()
-	.MapControllers();
-
-// Add Development Registrations
+// Add Development Middleware
 if (application.Environment.IsDevelopment())
 {
 	application
 		.UseDevelopmentInfrastructure()
 		.UseDevelopmentApi();
+}
 
+// Add Middleware
+application
+	.UseHttpsRedirection()
+	.UseCors()
+	.UseAuthorization()
+	.UseBackgroundJobs(application.Services);
+
+// Add Development Route Mappings
+if (application.Environment.IsDevelopment())
+{
 	application
 		.MapDevelopmentApi();
 }
 
-// Add Middleware
-application.UseHttpsRedirection();
-application.UseCors();
-application.UseAuthorization();
-application.UseBackgroundJobs();
+// Add Route Mappings
+application
+	.MapDefaultEndpoints()
+	.MapHubs()
+	.MapControllers();
 
 await application.RunAsync();

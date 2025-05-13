@@ -19,26 +19,30 @@ public class GetCurrentAlertObservationTypesByTypeTests
 		// Arrange
 		List<Alert> alerts =
 		[
-			TestAlerts.SevereThunderstormWarning(
+			TestAlerts.Default(
+				code: "SVW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "RADAR INDICATED"),
 					(AlertParameterKey.WindThreat, "OBSERVED"),
 				]),
-			TestAlerts.SevereThunderstormWarning(
+			TestAlerts.Default(
+				code: "SVW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "OBSERVED"),
 					(AlertParameterKey.WindThreat, "RADAR INDICATED"),
 				]),
-			TestAlerts.SevereThunderstormWarning(
+			TestAlerts.Default(
+				code: "SVW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "RADAR INDICATED"),
 					(AlertParameterKey.WindThreat, "RADAR INDICATED"),
 					(AlertParameterKey.ThunderstormDamageThreat, "CONSIDERABLE"),
 				]),
-			TestAlerts.SevereThunderstormWarning(
+			TestAlerts.Default(
+				code: "SVW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "OBSERVED"),
@@ -63,33 +67,38 @@ public class GetCurrentAlertObservationTypesByTypeTests
 		// Arrange
 		List<Alert> alerts =
 		[
-			TestAlerts.TornadoWarning(
+			TestAlerts.Default(
+				code: "TOW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "RADAR INDICATED"),
 					(AlertParameterKey.WindThreat, "OBSERVED"),
 				]),
-			TestAlerts.TornadoWarning(
+			TestAlerts.Default(
+				code: "TOW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "OBSERVED"),
 					(AlertParameterKey.WindThreat, "RADAR INDICATED"),
 				]),
-			TestAlerts.TornadoWarning(
+			TestAlerts.Default(
+				code: "TOW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "RADAR INDICATED"),
 					(AlertParameterKey.WindThreat, "RADAR INDICATED"),
 					(AlertParameterKey.TornadoDetection, "OBSERVED"),
 				]),
-			TestAlerts.TornadoWarning(
+			TestAlerts.Default(
+				code: "TOW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "OBSERVED"),
 					(AlertParameterKey.WindThreat, "OBSERVED"),
 					(AlertParameterKey.TornadoDetection, "RADAR INDICATED"),
 				]),
-			TestAlerts.TornadoWarning(
+			TestAlerts.Default(
+				code: "TOW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "RADAR INDICATED"),
@@ -97,7 +106,8 @@ public class GetCurrentAlertObservationTypesByTypeTests
 					(AlertParameterKey.TornadoDetection, "RADAR INDICATED"),
 					(AlertParameterKey.TypeModifier, "PDS"),
 				]),
-			TestAlerts.TornadoWarning(
+			TestAlerts.Default(
+				code: "TOW",
 				parameters:
 				[
 					(AlertParameterKey.HailThreat, "OBSERVED"),

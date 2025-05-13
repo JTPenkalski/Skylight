@@ -3,6 +3,7 @@ using Hangfire;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Skylight.API.Configuration;
+using Skylight.API.Hubs;
 using Skylight.API.Jobs;
 using Skylight.Infrastructure.Jobs.Schedules;
 using System.Reflection;
@@ -77,6 +78,13 @@ public static class Bootstrap
 			}
 		});
 
+		// Add SignalR
+		services.AddSignalR()
+			.AddJsonProtocol(options =>
+			{
+				options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+			});
+
 		// Add API Services
 		services
 			.AddEndpointsApiExplorer()
@@ -122,11 +130,11 @@ public static class Bootstrap
 	/// <summary>
 	/// Adds background jobs for the <see cref="API"/> layer.
 	/// </summary>
-	/// <returns>The modified <see cref="WebApplication"/>.</returns>
-	public static WebApplication UseBackgroundJobs(this WebApplication app)
+	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
+	public static IApplicationBuilder UseBackgroundJobs(this IApplicationBuilder application, IServiceProvider serviceProvider)
 	{
 		// Add Hangfire Jobs
-		IEnumerable<IJobScheduler> jobSchedulers = app.Services.GetServices<IJobScheduler>();
+		IEnumerable<IJobScheduler> jobSchedulers = serviceProvider.GetServices<IJobScheduler>();
 		foreach (IJobScheduler jobScheduler in jobSchedulers)
 		{
 			bool scheduled = jobScheduler.Schedule();
@@ -137,7 +145,7 @@ public static class Bootstrap
 			}
 		}
 
-		return app;
+		return application;
 	}
 
 	/// <summary>
@@ -170,6 +178,18 @@ public static class Bootstrap
 				.WithTheme(ScalarTheme.Purple)
 				.AddDocuments($"v{SkylightApiVersion.Current}");
 		});
+
+		return application;
+	}
+
+	/// <summary>
+	/// Maps SignalR hubs for the <see cref="API"/> layer.
+	/// </summary>
+	/// <returns>The modified <see cref="IEndpointRouteBuilder"/>.</returns>
+	public static IEndpointRouteBuilder MapHubs(this IEndpointRouteBuilder application)
+	{
+		// Add Hubs
+		application.MapHub<AlertsHub>("/hub/alerts");
 
 		return application;
 	}

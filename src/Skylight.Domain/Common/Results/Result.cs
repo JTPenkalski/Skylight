@@ -1,4 +1,6 @@
-﻿namespace Skylight.Domain.Common.Results;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Skylight.Domain.Common.Results;
 
 public abstract class Result
 {
@@ -15,6 +17,9 @@ public abstract class Result
 
 	public static Result<T> Fail<T>(params IEnumerable<Error> errors) =>
 		new(errors);
+
+	public override string ToString() =>
+		$"IsSuccess = {IsSuccess}; Errors = {string.Join(',', Errors)}";
 
 	public void AddErrors(params IEnumerable<Error> errors) =>
 		_errors.AddRange(errors);
@@ -37,4 +42,19 @@ public class Result<T> : Result
 		new(value);
 
 	public T? Value { get; protected set; }
+
+	public override string ToString() =>
+		$"Value = {Value}; IsSuccess = {IsSuccess}; Errors = {string.Join(',', Errors)}";
+
+	public bool TryGetValue([NotNullWhen(true)] out T? value)
+	{
+		if (IsSuccess && Value is not null)
+		{
+			value = Value;
+			return true;
+		}
+
+		value = default;
+		return false;
+	}
 }

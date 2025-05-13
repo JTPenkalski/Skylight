@@ -48,7 +48,7 @@ public class AddCurrentAlertsHandler(
 			.Where(x => activeAlertIds.Contains(x.ExternalId))
 			.ToHashSetAsync(cancellationToken);
 
-		List<AddCurrentAlertsResponse.AddedAlert> addedAlerts = await AddNewAlertsAsync(activeAlerts, existingAlerts, cancellationToken);
+		List<AddCurrentAlertsResponse.AddedAlert> addedAlerts = AddNewAlerts(activeAlerts, existingAlerts);
 
 		await dbContext.CommitAsync(cancellationToken);
 
@@ -57,7 +57,7 @@ public class AddCurrentAlertsHandler(
 		return Result.Success(response);
 	}
 
-	internal virtual async Task<List<AddCurrentAlertsResponse.AddedAlert>> AddNewAlertsAsync(List<Alert> activeAlerts, HashSet<Alert> existingAlerts, CancellationToken cancellationToken)
+	internal virtual List<AddCurrentAlertsResponse.AddedAlert> AddNewAlerts(List<Alert> activeAlerts, HashSet<Alert> existingAlerts)
 	{
 		var addedAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
 
@@ -65,7 +65,7 @@ public class AddCurrentAlertsHandler(
 		{
 			if (!existingAlerts.Contains(alert))
 			{
-				await dbContext.Alerts.AddAsync(alert, cancellationToken);
+				dbContext.Alerts.Add(alert);
 
 				var newWeatherEventAlert = new AddCurrentAlertsResponse.AddedAlert(
 					alert.Type.ProductCode,
