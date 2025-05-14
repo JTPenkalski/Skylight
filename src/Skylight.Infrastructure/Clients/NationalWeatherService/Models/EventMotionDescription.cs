@@ -37,12 +37,12 @@ public sealed record EventMotionDescription(DateTimeOffset Time, string Event, s
 		DateTimeOffset time = DateTimeOffset.Parse(value[0..24], timeFormat);
 		string @event = value[28..33];
 		string degrees = value[36..42];
-		string speed = value[45..49];
+		string speed = value[45..49].Replace(".", string.Empty);
 		string latlon = value[52..];
 
 		return new(time, @event, degrees, speed, latlon);
 	}
 
 	public override string ToString() =>
-		$"{Time:O}...{Event}...{Degrees}...{Speed}...{LatLon}";
+		$"{Time:O}...{Event}...{Degrees}...{Speed.PadRight(4, '.')}...{LatLon}";
 }

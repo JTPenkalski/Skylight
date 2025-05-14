@@ -11,12 +11,14 @@ public static class TestAlerts
 	public static Alert Default(
 		Guid? id = null,
 		string? code = null,
+		string? externalId = null,
 		Zone[]? zones = null,
 		ParameterKeyValue[]? parameters = null)
 	{
 		var alert = new Alert
 		{
 			Id = id ?? Guid.NewGuid(),
+			ExternalId = externalId,
 			Type = new()
 			{
 				ProductCode = code ?? "TST",

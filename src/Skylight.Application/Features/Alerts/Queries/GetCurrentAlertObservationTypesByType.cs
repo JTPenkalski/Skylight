@@ -65,10 +65,10 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 		// Associate a priority with each observation type, from highest to lowest
 		var observationTypes = new[]
 		{
-			AlertParameterKey.TypeModifier,
-			AlertParameterKey.TornadoDetection,
+			AlertParameterKey.TornadoDamageThreat,
 			AlertParameterKey.ThunderstormDamageThreat,
 			AlertParameterKey.FlashFloodDamageThreat,
+			AlertParameterKey.TornadoDetection,
 			AlertParameterKey.FlashFloodDetection,
 			AlertParameterKey.WindThreat,
 			AlertParameterKey.HailThreat,
@@ -104,6 +104,8 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 			.CountBy(x => x.First().Parameter.Value)
 			// Map to the output type
 			.Select(x => new GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount(x.Key.ToString(), x.Value))
+			// Reverse so that lower priority observation types are ordered first, for consistency
+			.Reverse()
 			.ToList();
 
 		return counts;

@@ -17,6 +17,11 @@ export default function (): ChartColors {
 		$dt('orange.600').value,
 		$dt('yellow.600').value,
 		$dt('green.600').value,
+		$dt('blue.600').value,
+		$dt('rose.600').value,
+		$dt('lime.600').value,
+		$dt('teal.600').value,
+		$dt('slate.600').value,
 	]);
 
 	const borderColors: Ref<string[]> = ref([
@@ -25,6 +30,11 @@ export default function (): ChartColors {
 		$dt('orange.500').value,
 		$dt('yellow.500').value,
 		$dt('green.500').value,
+		$dt('blue.500').value,
+		$dt('rose.500').value,
+		$dt('lime.500').value,
+		$dt('teal.500').value,
+		$dt('slate.500').value,
 	]);
 
 	const gridColor = useThemeColor('content.border.color').color;

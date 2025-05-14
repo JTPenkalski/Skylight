@@ -419,7 +419,6 @@ export enum AlertMessageType {
 }
 
 export enum AlertParameterKey {
-    TypeModifier = "TypeModifier",
     EventMotionDescription = "EventMotionDescription",
     EventSpeed = "EventSpeed",
     EventDirection = "EventDirection",

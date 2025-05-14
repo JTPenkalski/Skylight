@@ -12,7 +12,6 @@ const props = defineProps<{
 }>();
 
 const parameterOptions: Ref<ParameterOption[]> = ref([
-	{ name: 'Event Speed', code: AlertParameterKey.EventSpeed },
 	{ name: 'Hail Threat', code: AlertParameterKey.HailThreat },
 	{ name: 'Max Hail Size', code: AlertParameterKey.MaxHailSize },
 	{ name: 'Max Wind Gust', code: AlertParameterKey.MaxWindGust },
@@ -47,7 +46,8 @@ const chartData: ComputedRef<ChartData<'doughnut'>> = computed(() => {
 });
 const chartOptions: Ref<ChartOptions<'doughnut'>> = ref({
 	backgroundColor: chartColors.backgroundColors,
-	borderWidth: 0,
+	borderColor: chartColors.textColor,
+	borderWidth: 1,
 	maintainAspectRatio: false,
 	responsive: true,
 });

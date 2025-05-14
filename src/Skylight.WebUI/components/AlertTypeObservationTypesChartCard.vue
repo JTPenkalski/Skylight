@@ -30,7 +30,8 @@ const chartData: ComputedRef<ChartData<'doughnut'>> = computed(() => {
 });
 const chartOptions: Ref<ChartOptions<'doughnut'>> = ref({
 	backgroundColor: chartColors.backgroundColors,
-	borderWidth: 0,
+	borderColor: chartColors.textColor,
+	borderWidth: 1,
 	maintainAspectRatio: false,
 	responsive: true,
 });

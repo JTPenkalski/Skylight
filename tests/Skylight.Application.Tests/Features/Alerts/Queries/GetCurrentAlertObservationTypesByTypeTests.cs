@@ -104,7 +104,7 @@ public class GetCurrentAlertObservationTypesByTypeTests
 					(AlertParameterKey.HailThreat, "RADAR INDICATED"),
 					(AlertParameterKey.WindThreat, "RADAR INDICATED"),
 					(AlertParameterKey.TornadoDetection, "RADAR INDICATED"),
-					(AlertParameterKey.TypeModifier, "PDS"),
+					(AlertParameterKey.TornadoDamageThreat, "CONSIDERABLE"),
 				]),
 			TestAlerts.Default(
 				code: "TOW",
@@ -113,7 +113,7 @@ public class GetCurrentAlertObservationTypesByTypeTests
 					(AlertParameterKey.HailThreat, "OBSERVED"),
 					(AlertParameterKey.WindThreat, "OBSERVED"),
 					(AlertParameterKey.TornadoDetection, "OBSERVED"),
-					(AlertParameterKey.TypeModifier, "EMERGENCY"),
+					(AlertParameterKey.TornadoDamageThreat, "CATASTROPHIC"),
 				]),
 		];
 
@@ -124,8 +124,8 @@ public class GetCurrentAlertObservationTypesByTypeTests
 		Assert.Equal(4, result.Count);
 		Assert.Equal(2, result.Single(x => x.ObservationType == "RADAR INDICATED").Count);
 		Assert.Equal(2, result.Single(x => x.ObservationType == "OBSERVED").Count);
-		Assert.Equal(1, result.Single(x => x.ObservationType == "PDS").Count);
-		Assert.Equal(1, result.Single(x => x.ObservationType == "EMERGENCY").Count);
+		Assert.Equal(1, result.Single(x => x.ObservationType == "CONSIDERABLE").Count);
+		Assert.Equal(1, result.Single(x => x.ObservationType == "CATASTROPHIC").Count);
 	}
 
 	#endregion

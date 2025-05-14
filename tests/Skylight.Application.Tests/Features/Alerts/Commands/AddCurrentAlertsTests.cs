@@ -21,16 +21,16 @@ public class AddCurrentAlertsTests
 	public void AddNewAlerts_ShouldNotAddAlert_WhenExisting()
 	{
 		// Arrange
-		Guid sharedAlertId = Guid.NewGuid();
-		List<Alert> currentAlerts = [TestAlerts.Default(id: sharedAlertId)];
-		HashSet<Alert> existingAlerts = [TestAlerts.Default(id: sharedAlertId)];
+		string sharedAlertId = Guid.NewGuid().ToString();
+		List<Alert> currentAlerts = [TestAlerts.Default(externalId: sharedAlertId)];
+		HashSet<string> existingAlertIds = [sharedAlertId];
 
 		dbContext
 			.SetupGet(x => x.Alerts)
 			.Returns(Mock.Of<DbSet<Alert>>());
 
 		// Act
-		var result = Handler.AddNewAlerts(currentAlerts, existingAlerts);
+		var result = Handler.AddNewAlerts(currentAlerts, existingAlertIds);
 
 		// Assert
 		Assert.Empty(result);
@@ -41,14 +41,14 @@ public class AddCurrentAlertsTests
 	{
 		// Arrange
 		List<Alert> currentAlerts = [TestAlerts.Default()];
-		HashSet<Alert> existingAlerts = [];
+		HashSet<string> existingAlertIds = [];
 
 		dbContext
 			.SetupGet(x => x.Alerts)
 			.Returns(Mock.Of<DbSet<Alert>>());
 
 		// Act
-		var result = Handler.AddNewAlerts(currentAlerts, existingAlerts);
+		var result = Handler.AddNewAlerts(currentAlerts, existingAlertIds);
 
 		// Assert
 		Assert.Single(result);
@@ -60,16 +60,16 @@ public class AddCurrentAlertsTests
 	public void AddNewAlerts_ShouldAddAlert_WhenNewAndExisting()
 	{
 		// Arrange
-		Guid sharedAlertId = Guid.NewGuid();
-		List<Alert> currentAlerts = [TestAlerts.Default(id: sharedAlertId), TestAlerts.Default()];
-		HashSet<Alert> existingAlerts = [TestAlerts.Default(id: sharedAlertId)];
+		string sharedAlertId = Guid.NewGuid().ToString();
+		List<Alert> currentAlerts = [TestAlerts.Default(externalId: sharedAlertId), TestAlerts.Default()];
+		HashSet<string> existingAlertIds = [sharedAlertId];
 
 		dbContext
 			.SetupGet(x => x.Alerts)
 			.Returns(Mock.Of<DbSet<Alert>>());
 
 		// Act
-		var result = Handler.AddNewAlerts(currentAlerts, existingAlerts);
+		var result = Handler.AddNewAlerts(currentAlerts, existingAlertIds);
 
 		// Assert
 		Assert.Single(result);

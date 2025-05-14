@@ -23,15 +23,14 @@ public class WeatherAlertService(
 
 		GetActiveAlertsResponse clientResponse = await nwsClient.GetActiveAlertsAsync(clientRequest, cancellationToken);
 
-		List<Alert> alerts = [.. clientResponse.AlertCollection.Alerts];
-		Dictionary<string, Core.AlertType> alertTypes = await GetAlertTypesAsync(alerts, cancellationToken);
-		Dictionary<string, Core.AlertSender> alertSenders = await GetAlertSendersAsync(alerts, cancellationToken);
-		Dictionary<string, Core.Zone> zones = await GetZonesAsync(alerts, cancellationToken);
+		Dictionary<string, Core.AlertType> alertTypes = await GetAlertTypesAsync(clientResponse.AlertCollection.Alerts, cancellationToken);
+		Dictionary<string, Core.AlertSender> alertSenders = await GetAlertSendersAsync(clientResponse.AlertCollection.Alerts, cancellationToken);
+		Dictionary<string, Core.Zone> zones = await GetZonesAsync(clientResponse.AlertCollection.Alerts, cancellationToken);
 
 		return MapCurrentAlerts(clientResponse, alertTypes, alertSenders, zones);
 	}
 
-	internal async Task<Dictionary<string, Core.AlertType>> GetAlertTypesAsync(List<Alert> alerts, CancellationToken cancellationToken)
+	internal async Task<Dictionary<string, Core.AlertType>> GetAlertTypesAsync(IEnumerable<Alert> alerts, CancellationToken cancellationToken)
 	{
 		HashSet<string> typeCodes = [.. alerts.Select(x => x.TypeCode)];
 
@@ -49,7 +48,7 @@ public class WeatherAlertService(
 		return alertTypes;
 	}
 
-	internal async Task<Dictionary<string, Core.AlertSender>> GetAlertSendersAsync(List<Alert> alerts, CancellationToken cancellationToken)
+	internal async Task<Dictionary<string, Core.AlertSender>> GetAlertSendersAsync(IEnumerable<Alert> alerts, CancellationToken cancellationToken)
 	{
 		HashSet<string> senderNames = [.. alerts.Select(x => x.AwipsId.OfficeIdentifier)];
 		Dictionary<string, Core.AlertSender> senders = await dbContext.AlertSenders
@@ -59,7 +58,7 @@ public class WeatherAlertService(
 		return senders;
 	}
 
-	internal async Task<Dictionary<string, Core.Zone>> GetZonesAsync(List<Alert> alerts, CancellationToken cancellationToken)
+	internal async Task<Dictionary<string, Core.Zone>> GetZonesAsync(IEnumerable<Alert> alerts, CancellationToken cancellationToken)
 	{
 		HashSet<string> allZones = [.. alerts.SelectMany(x => x.Zones.Select(x => x.ToString()))];
 
@@ -152,11 +151,6 @@ public class WeatherAlertService(
 				currentAlert.AddParameter(Core.AlertParameterKey.EventTrackingNumber, alert.ValidTimeEventCode?.EventTrackingNumber);
 				currentAlert.AddParameter(Core.AlertParameterKey.EventBeginningDate, alert.ValidTimeEventCode?.EventBeginningDate);
 				currentAlert.AddParameter(Core.AlertParameterKey.EventEndingDate, alert.ValidTimeEventCode?.EventEndingDate);
-
-				if (currentAlert.Description.Contains("THIS IS A PARTICULARLY DANGEROUS SITUATION"))
-				{
-					currentAlert.AddParameter(Core.AlertParameterKey.TypeModifier, "PDS");
-				}
 
 				foreach (UgcZone ugcZone in alert.Zones)
 				{

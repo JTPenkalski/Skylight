@@ -13,17 +13,14 @@ const props = defineProps<{
 const dialog = useDialog();
 
 const header: ComputedRef<string> = computed(() => {
-	const specialHeaderTypes = ['SVW', 'TOW'];
+	const specialHeaderTypes = ['SVA', 'SVW', 'TOA', 'TOW'];
 
-	if (specialHeaderTypes.includes(props.item.code)) {
-		const modifier = props.item.parameters.find((x) =>
-			x.key.includes(AlertParameterKey.TypeModifier),
-		);
+	if (specialHeaderTypes.includes(props.code)) {
 		const detection = props.item.parameters.find(
-			(x) => x.key.includes('Detection') || x.key.includes('Threat'),
+			(x) => x.key.includes('Detection') || x.key.includes('DamageThreat'),
 		);
 
-		return modifier?.value ?? detection?.value ?? 'Alert';
+		return detection?.value ?? 'Alert';
 	}
 
 	return 'Alert';
@@ -37,7 +34,6 @@ const locations: ComputedRef<string> = computed(() =>
 );
 const parameters: ComputedRef<string[]> = computed(() => {
 	const visibleParameters: AlertParameterKey[] = [
-		AlertParameterKey.TypeModifier,
 		AlertParameterKey.WindThreat,
 		AlertParameterKey.MaxWindGust,
 		AlertParameterKey.HailThreat,
