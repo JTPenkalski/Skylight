@@ -67,13 +67,19 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			apiBaseSkylight: 'https://localhost:7266/api/',
-			logClients: true,
+			logging: {
+				clients: true,
+				hubs: true,
+			},
 		},
 	},
 	$production: {
 		runtimeConfig: {
 			public: {
-				logClients: false,
+				logging: {
+					clients: false,
+					hubs: false,
+				},
 			},
 		},
 	},

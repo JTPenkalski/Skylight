@@ -67,8 +67,13 @@ public sealed class AddCurrentWeatherAlertsJob(
 
 	internal async Task NotifyClientsAsync(AddCurrentAlertsResponse currentAlerts)
 	{
-		var input = new NotifyNewAlertsInput(currentAlerts.AddedAlerts.Count());
+		int addedAlerts = currentAlerts.AddedAlerts.Count();
 
-		await hub.Clients.All.NotifyNewAlertsAsync(input);
+		if (addedAlerts > 0)
+		{
+			var input = new NotifyNewAlertsInput(addedAlerts);
+
+			await hub.Clients.All.NotifyNewAlertsAsync(input);
+		}
 	}
 }

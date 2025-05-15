@@ -1,5 +1,21 @@
 <script setup lang="ts">
+import type { ToastServiceMethods } from 'primevue';
 import { AlertParameterKey } from '~/clients/Skylight';
+
+const toast: ToastServiceMethods = useToast();
+
+useAlertsHub({
+	notifyNewAlerts: onNotifyNewAlerts,
+});
+
+function onNotifyNewAlerts(input: NotifyNewAlertsInput): void {
+	toast.add({
+		severity: 'info',
+		summary: 'New Alerts',
+		detail: `${input.count} new ${pluralize('alert', input.count)} issued. Refresh this page to get the latest data.`,
+		life: 5000,
+	});
+}
 </script>
 
 <template>
@@ -39,6 +55,7 @@ import { AlertParameterKey } from '~/clients/Skylight';
       <AlertTypeListCard code="SVS"/>
     </div>
   </div>
+  <Toast />
 </template>
 
 <style scoped lang="scss">
