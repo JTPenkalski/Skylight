@@ -95,6 +95,10 @@ public class SkylightDbContext(
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		builder.ConfigureIdentity();
+
+		builder.Entity<AlertType>()
+			.Property(x => x.TypeCode)
+			.HasComputedColumnSql(@$"COALESCE(""{nameof(AlertType.EventCode)}"", ""{nameof(AlertType.ProductCode)}"")", stored: true);
 	}
 
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

@@ -13,9 +13,28 @@ public class AddCurrentAlertsTests
 
 	private readonly Mock<IWeatherAlertService> weatherAlertService = new();
 
-	private AddCurrentAlertsHandler Handler => new(dbContext.Object, weatherAlertService.Object);
+	private AddNewAlertsHandler Handler => new(dbContext.Object, weatherAlertService.Object);
 
 	#region AddNewAlerts
+
+	[Fact]
+	public void AddNewAlerts_ShouldNotAddAlert_WhenNoLocations()
+	{
+		// Arrange
+		string sharedAlertId = Guid.NewGuid().ToString();
+		List<Alert> currentAlerts = [TestAlerts.Default(externalId: sharedAlertId, zones: [])];
+		HashSet<string> existingAlertIds = [sharedAlertId];
+
+		dbContext
+			.SetupGet(x => x.Alerts)
+			.Returns(Mock.Of<DbSet<Alert>>());
+
+		// Act
+		var result = Handler.AddNewAlerts(currentAlerts, existingAlertIds);
+
+		// Assert
+		Assert.Empty(result);
+	}
 
 	[Fact]
 	public void AddNewAlerts_ShouldNotAddAlert_WhenExisting()

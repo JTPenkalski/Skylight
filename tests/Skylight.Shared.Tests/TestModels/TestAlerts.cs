@@ -47,7 +47,7 @@ public static class TestAlerts
 			Response = AlertResponse.Shelter,
 		};
 
-		foreach (Zone zone in zones ?? [])
+		foreach (Zone zone in zones ?? [TestZones.Default()])
 		{
 			alert.AddZone(zone);
 		}

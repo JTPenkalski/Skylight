@@ -16,13 +16,16 @@ public class DomainEventService(IMediator mediator) : IDomainEventService
 
 	public async Task SaveDomainEventsAsync(IEnumerable<BaseEntity> entities, DbContext dbContext, CancellationToken cancellationToken)
 	{
-		IEnumerable<Event> events = entities
+		List<Event> events =
+		[
+			.. entities
 			.SelectMany(x => x.Events)
 			.Select(x => new Event
 			{
 				Type = x.GetType().Name,
 				Payload = JsonSerializer.Serialize(x, domainEventSerializerOptions)
-			});
+			})
+		];
 
 		await dbContext.Set<Event>().AddRangeAsync(events, cancellationToken);
 	}

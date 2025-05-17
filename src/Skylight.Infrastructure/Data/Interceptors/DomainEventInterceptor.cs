@@ -26,7 +26,7 @@ public class DomainEventInterceptor(IDomainEventService domainEventService) : Sa
 
 	internal virtual async ValueTask SaveDomainEventsAsync(DbContext? context, CancellationToken cancellationToken = default)
 	{
-		if (context == null) return;
+		if (context is null) return;
 
 		IEnumerable<BaseEntity> entities = context.ChangeTracker.Entries<BaseEntity>()
 			.Select(x => x.Entity);

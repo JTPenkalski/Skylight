@@ -1,4 +1,5 @@
-﻿using Skylight.Domain.Common.Entities;
+﻿using Skylight.Domain.Alerts.Events;
+using Skylight.Domain.Common.Entities;
 
 namespace Skylight.Domain.Alerts.Entities;
 
@@ -37,11 +38,27 @@ public class Alert : BaseAuditableEntity
 
 	public required AlertResponse Response { get; set; }
 
+	public bool IsEffectuated { get; set; }
+
+	public bool IsExpired { get; set; }
+
 	public string? ExternalId { get; set; }
 
 	public IReadOnlySet<AlertZone> Zones => _zones;
 
 	public IReadOnlySet<AlertParameter> Parameters => _parameters;
+
+	public void Effectuate()
+	{
+		IsEffectuated = true;
+		AddEvent(new AlertEffectuatedEvent(Id));
+	}
+
+	public void Expire()
+	{
+		IsExpired = true;
+		AddEvent(new AlertExpiredEvent(Id));
+	}
 
 	public bool AddZone(Zone zone)
 	{

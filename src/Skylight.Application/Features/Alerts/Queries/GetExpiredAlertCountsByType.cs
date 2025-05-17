@@ -9,27 +9,31 @@ using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Features.Alerts.Queries;
 
-public sealed record GetCurrentAlertCountByTypeQuery(string Code) : IQuery<GetCurrentAlertCountByTypeResponse>;
+public sealed record GetExpiredAlertCountByTypeQuery(string Code, DateTimeOffset BeginDate, DateTimeOffset? EndDate) : IQuery<GetExpiredAlertCountByTypeResponse>;
 
-public class GetCurrentAlertCountByTypeQueryValidator : AbstractValidator<GetCurrentAlertCountByTypeQuery>
+public class GetExpiredAlertCountByTypeQueryValidator : AbstractValidator<GetExpiredAlertCountByTypeQuery>
 {
-	public GetCurrentAlertCountByTypeQueryValidator()
+	public GetExpiredAlertCountByTypeQueryValidator()
 	{
 		RuleFor(x => x.Code)
 			.IsSameEventCode();
+
+		RuleFor(x => x.EndDate)
+			.GreaterThanOrEqualTo(x => x.BeginDate)
+			.When(x => x.EndDate.HasValue);
 	}
 }
 
-public sealed record GetCurrentAlertCountByTypeResponse(
+public sealed record GetExpiredAlertCountByTypeResponse(
 	int Count,
 	string AlertCode,
 	string AlertName,
 	AlertLevel AlertLevel)
 	: IResponse;
 
-public class GetCurrentAlertCountByTypeHandler(ISkylightDbContext dbContext) : IQueryHandler<GetCurrentAlertCountByTypeQuery, GetCurrentAlertCountByTypeResponse>
+public class GetExpiredAlertCountByTypeHandler(ISkylightDbContext dbContext) : IQueryHandler<GetExpiredAlertCountByTypeQuery, GetExpiredAlertCountByTypeResponse>
 {
-	public async ValueTask<Result<GetCurrentAlertCountByTypeResponse>> Handle(GetCurrentAlertCountByTypeQuery request, CancellationToken cancellationToken)
+	public async ValueTask<Result<GetExpiredAlertCountByTypeResponse>> Handle(GetExpiredAlertCountByTypeQuery request, CancellationToken cancellationToken)
 	{
 		AlertType? alertType = await dbContext.AlertTypes
 			.AsNoTracking()
@@ -41,11 +45,17 @@ public class GetCurrentAlertCountByTypeHandler(ISkylightDbContext dbContext) : I
 			.AsNoTracking()
 			.Where(x =>
 				x.Type == alertType
-				&& x.ExpiresOn > DateTimeOffset.UtcNow
+				&& x.ExpiresOn >= request.BeginDate
+				&& x.ExpiresOn <= request.EndDate
 				&& !x.DeletedOn.HasValue)
 			.ToListAsync(cancellationToken);
 
-		var response = new GetCurrentAlertCountByTypeResponse(
+		foreach (Alert alert in alerts)
+		{
+			alert.Expire();
+		}
+
+		var response = new GetExpiredAlertCountByTypeResponse(
 			alerts.Count,
 			alertType.ProductCode,
 			alertType.Name,

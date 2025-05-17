@@ -9,4 +9,6 @@ namespace Skylight.Infrastructure.Hubs;
 public interface IAlertsHubClient
 {
 	Task NotifyNewAlertsAsync(NotifyNewAlertsInput input);
+
+	Task NotifyExpiredAlertsAsync(NotifyExpiredAlertsInput input);
 }

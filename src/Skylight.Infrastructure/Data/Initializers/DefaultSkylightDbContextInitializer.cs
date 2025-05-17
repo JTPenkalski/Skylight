@@ -286,7 +286,7 @@ public class DefaultSkylightDbContextInitializer(
 			new()
 			{
 				Code = "BIS",
-				Name = "NWS Bismarc",
+				Name = "NWS Bismarck",
 			},
 			new()
 			{
@@ -301,7 +301,7 @@ public class DefaultSkylightDbContextInitializer(
 			new()
 			{
 				Code = "UNR",
-				Name = "NWS Rapid Cit",
+				Name = "NWS Rapid City",
 			},
 			new()
 			{
@@ -351,32 +351,32 @@ public class DefaultSkylightDbContextInitializer(
 			new()
 			{
 				Code = "PHI",
-				Name = "NWS Mount Holly/Philadelphi",
+				Name = "NWS Mount Holly/Philadelphia",
 			},
 			new()
 			{
 				Code = "ALY",
-				Name = "NWS Alban",
+				Name = "NWS Albany",
 			},
 			new()
 			{
 				Code = "BGM",
-				Name = "NWS Binghamto",
+				Name = "NWS Binghamton",
 			},
 			new()
 			{
 				Code = "BUF",
-				Name = "NWS Buffal",
+				Name = "NWS Buffalo",
 			},
 			new()
 			{
 				Code = "OKX",
-				Name = "NWS New Yor",
+				Name = "NWS New York",
 			},
 			new()
 			{
 				Code = "MHX",
-				Name = "NWS Newport/Morehead Cit",
+				Name = "NWS Newport/Morehead City",
 			},
 			new()
 			{
@@ -386,7 +386,7 @@ public class DefaultSkylightDbContextInitializer(
 			new()
 			{
 				Code = "ILM",
-				Name = "NWS Wilmingto",
+				Name = "NWS Wilmington",
 			},
 			new()
 			{
@@ -416,12 +416,12 @@ public class DefaultSkylightDbContextInitializer(
 			new()
 			{
 				Code = "CAE",
-				Name = "NWS Columbi",
+				Name = "NWS Columbia",
 			},
 			new()
 			{
 				Code = "GSP",
-				Name = "NWS Greenville/Spartanbur",
+				Name = "NWS Greenville/Spartanburg",
 			},
 			new()
 			{

@@ -27,6 +27,16 @@ public class Result
 	public static Result<T> Fail<T>(params IEnumerable<Error> errors) =>
 		new(errors);
 
+	public static Result<IEnumerable<T?>> Merge<T>(params IEnumerable<Result<T>> results)
+	{
+		IEnumerable<T?> values = results.Select(x => x.Value);
+		IEnumerable<Error> errors = results.SelectMany(x => x.Errors);
+
+		var result = new Result<IEnumerable<T?>>(values, errors);
+
+		return result;
+	}
+
 	public override string ToString() =>
 		$"IsSuccess = {IsSuccess}; Errors = {string.Join(',', Errors)}";
 
@@ -39,6 +49,9 @@ public class Result<T> : Result
 	public Result() : base() { }
 
 	internal Result(T? value) : base() =>
+		Value = value;
+
+	internal Result(T? value, params IEnumerable<Error> errors) : base(errors) =>
 		Value = value;
 
 	internal Result(params IEnumerable<Error> errors) : base(errors) { }

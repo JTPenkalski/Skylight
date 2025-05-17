@@ -6,6 +6,7 @@ const toast: ToastServiceMethods = useToast();
 
 useAlertsHub({
 	notifyNewAlerts: onNotifyNewAlerts,
+	notifyExpiredAlerts: onNotifyExpiredAlerts,
 });
 
 function onNotifyNewAlerts(input: NotifyNewAlertsInput): void {
@@ -14,6 +15,14 @@ function onNotifyNewAlerts(input: NotifyNewAlertsInput): void {
 		summary: 'New Alerts',
 		detail: `${input.count} new ${pluralize('alert', input.count)} issued. Refresh this page to get the latest data.`,
 		life: 5000,
+	});
+}
+
+function onNotifyExpiredAlerts(input: NotifyNewAlertsInput): void {
+	toast.add({
+		severity: 'warn',
+		summary: 'Expired Alerts',
+		detail: `${input.count} ${pluralize('alert', input.count)} expired. Refresh this page to get the latest data.`,
 	});
 }
 </script>

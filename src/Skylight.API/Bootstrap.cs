@@ -29,7 +29,9 @@ public static class Bootstrap
 
 		// Add Configuration
 		services
-			.AddOptions<AddCurrentWeatherAlertsJobSchedulerOptions>().Bind(configuration.GetSection(AddCurrentWeatherAlertsJobSchedulerOptions.RootKey)).ValidateOnStart();
+			.AddOptions<UpdateCurrentAlertsJobSchedulerOptions>().Bind(configuration.GetSection(UpdateCurrentAlertsJobSchedulerOptions.RootKey)).ValidateOnStart();
+		services
+			.AddOptions<PublishDomainEventsJobSchedulerOptions>().Bind(configuration.GetSection(PublishDomainEventsJobSchedulerOptions.RootKey)).ValidateOnStart();
 
 		// Add API Services
 		services

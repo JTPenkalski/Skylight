@@ -2,4 +2,4 @@
 
 namespace Skylight.Domain.Alerts.Events;
 
-public record AlertUpdatedEvent(Guid Id) : DomainEvent;
+public record AlertExpiredEvent(Guid Id) : DomainEvent;

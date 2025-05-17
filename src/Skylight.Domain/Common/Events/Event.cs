@@ -14,4 +14,14 @@ public class Event : BaseEntity
 	public int Failures { get; set; }
 
 	public DateTimeOffset? HandledOn { get; set; }
+
+	public void Succeed()
+	{
+		HandledOn = DateTimeOffset.UtcNow;
+	}
+
+	public void Fail()
+	{
+		Failures++;
+	}
 }

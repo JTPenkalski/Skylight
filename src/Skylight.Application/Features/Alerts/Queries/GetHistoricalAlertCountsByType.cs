@@ -41,7 +41,7 @@ public class GetHistoricalAlertCountsByTypeHandler(ISkylightDbContext dbContext)
 	{
 		AlertType? alertType = await dbContext.AlertTypes
 			.AsNoTracking()
-			.SingleOrDefaultAsync(x => (x.EventCode ?? x.ProductCode) == request.Code, cancellationToken);
+			.SingleOrDefaultAsync(x => x.TypeCode == request.Code, cancellationToken);
 
 		EntityNotFoundException.ThrowIfNullOrDeleted(alertType, request.Code);
 

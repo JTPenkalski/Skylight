@@ -7,9 +7,9 @@ using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Features.Alerts.Commands;
 
-public sealed record AddCurrentAlertsCommand : ICommand<AddCurrentAlertsResponse>;
+public sealed record AddNewAlertsCommand : ICommand<AddNewAlertsResponse>;
 
-public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsResponse.AddedAlert> AddedAlerts) : IResponse
+public sealed record AddNewAlertsResponse(IEnumerable<AddNewAlertsResponse.AddedAlert> AddedAlerts) : IResponse
 {
 	public sealed record AddedAlertParameter(AlertParameterKey Key, string Value);
 
@@ -34,12 +34,12 @@ public sealed record AddCurrentAlertsResponse(IEnumerable<AddCurrentAlertsRespon
 		IEnumerable<AddedAlertParameter> Parameters);
 }
 
-public class AddCurrentAlertsHandler(
+public class AddNewAlertsHandler(
 	ISkylightDbContext dbContext,
 	IWeatherAlertService weatherAlertService)
-	: ICommandHandler<AddCurrentAlertsCommand, AddCurrentAlertsResponse>
+	: ICommandHandler<AddNewAlertsCommand, AddNewAlertsResponse>
 {
-	public async ValueTask<Result<AddCurrentAlertsResponse>> Handle(AddCurrentAlertsCommand request, CancellationToken cancellationToken)
+	public async ValueTask<Result<AddNewAlertsResponse>> Handle(AddNewAlertsCommand request, CancellationToken cancellationToken)
 	{
 		List<Alert> activeAlerts = await weatherAlertService.GetActiveAlertsAsync(cancellationToken);
 
@@ -49,26 +49,31 @@ public class AddCurrentAlertsHandler(
 			.Select(x => x.ExternalId!)
 			.ToHashSetAsync(cancellationToken);
 
-		List<AddCurrentAlertsResponse.AddedAlert> addedAlerts = AddNewAlerts(activeAlerts, existingAlerts);
+		List<AddNewAlertsResponse.AddedAlert> addedAlerts = AddNewAlerts(activeAlerts, existingAlerts);
 
 		await dbContext.CommitAsync(cancellationToken);
 
-		var response = new AddCurrentAlertsResponse(addedAlerts);
+		var response = new AddNewAlertsResponse(addedAlerts);
 
 		return Result.Success(response);
 	}
 
-	internal virtual List<AddCurrentAlertsResponse.AddedAlert> AddNewAlerts(List<Alert> activeAlerts, HashSet<string> existingAlertIds)
+	internal virtual List<AddNewAlertsResponse.AddedAlert> AddNewAlerts(List<Alert> activeAlerts, HashSet<string> existingAlertIds)
 	{
-		var addedAlerts = new List<AddCurrentAlertsResponse.AddedAlert>();
+		var addedAlerts = new List<AddNewAlertsResponse.AddedAlert>();
 
 		foreach (Alert alert in activeAlerts)
 		{
-			if (alert.ExternalId is null || !existingAlertIds.Contains(alert.ExternalId))
+			bool hasLocations = alert.Zones.Any();
+			bool isNewExternalId = alert.ExternalId is null || !existingAlertIds.Contains(alert.ExternalId);
+
+			if (hasLocations && isNewExternalId)
 			{
 				dbContext.Alerts.Add(alert);
 
-				var newWeatherEventAlert = new AddCurrentAlertsResponse.AddedAlert(
+				alert.Effectuate();
+
+				var newWeatherEventAlert = new AddNewAlertsResponse.AddedAlert(
 					alert.Type.ProductCode,
 					alert.Type.Name,
 					alert.Type.Level,
@@ -90,7 +95,7 @@ public class AddCurrentAlertsHandler(
 						.Select(x => x.Zone.Code),
 					alert.Parameters
 						.OrderBy(x => x.Key)
-						.Select(x => new AddCurrentAlertsResponse.AddedAlertParameter(x.Key, x.Value)));
+						.Select(x => new AddNewAlertsResponse.AddedAlertParameter(x.Key, x.Value)));
 
 				addedAlerts.Add(newWeatherEventAlert);
 			}

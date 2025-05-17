@@ -14,8 +14,11 @@ public class AlertType : BaseAuditableEntity
 
 	public string? EventCode { get; set; }
 
-	public string TypeCode =>
-		EventCode ?? ProductCode;
+	public string TypeCode
+	{
+		get => EventCode ?? ProductCode;
+		protected set => EventCode ??= value;
+	}
 }
 
 public static class AlertTypeCodes
