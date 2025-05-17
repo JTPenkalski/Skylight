@@ -1,4 +1,4 @@
-﻿namespace Skylight.API.Configuration;
+﻿namespace Skylight.API.Controllers;
 
 /// <summary>
 /// Version information for the API.

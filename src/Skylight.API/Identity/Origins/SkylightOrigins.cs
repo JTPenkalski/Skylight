@@ -1,4 +1,4 @@
-﻿namespace Skylight.API.Configuration;
+﻿namespace Skylight.API.Identity.Origins;
 
 /// <summary>
 /// Stores CORS information about the API.

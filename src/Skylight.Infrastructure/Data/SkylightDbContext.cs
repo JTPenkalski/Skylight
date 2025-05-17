@@ -1,17 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Skylight.Application.Data;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Entities;
 using Skylight.Domain.Common.Events;
 using Skylight.Domain.Common.Exceptions;
+using Skylight.Infrastructure.Extensions;
+using Skylight.Infrastructure.Identity.Roles;
+using Skylight.Infrastructure.Identity.Users;
 
 namespace Skylight.Infrastructure.Data;
 
 public class SkylightDbContext(
 	DbContextOptions<SkylightDbContext> options,
 	ILogger<SkylightDbContext> logger)
-	: DbContext(options),
+	: IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>(options),
 	ISkylightDbContext
 {
 	public string ChangeTrackingStatus
@@ -86,6 +90,11 @@ public class SkylightDbContext(
 	{
 		await Database.EnsureDeletedAsync(cancellationToken);
 		await Database.EnsureCreatedAsync(cancellationToken);
+	}
+
+	protected override void OnModelCreating(ModelBuilder builder)
+	{
+		builder.ConfigureIdentity();
 	}
 
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

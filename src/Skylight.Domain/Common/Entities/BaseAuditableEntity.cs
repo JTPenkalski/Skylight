@@ -19,4 +19,17 @@ public abstract class BaseAuditableEntity : BaseEntity
 
 	public bool IsDeleted =>
 		DeletedOn.HasValue;
+
+	/// <summary>
+	/// Soft-deletes this entity from the data store.
+	/// </summary>
+	/// <returns>True if the entity was successfully deleted, false otherwise.</returns>
+	public bool Delete()
+	{
+		if (IsDeleted) return false;
+
+		DeletedOn = DateTimeOffset.UtcNow;
+
+		return true;
+	}
 }

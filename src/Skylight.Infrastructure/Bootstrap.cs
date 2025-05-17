@@ -10,6 +10,7 @@ using Skylight.Application.Data;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Data.Initializers;
+using Skylight.Infrastructure.Identity;
 using Skylight.Infrastructure.Jobs;
 using Skylight.Infrastructure.Jobs.Filters;
 using System.Reflection;
@@ -29,6 +30,34 @@ public static class Bootstrap
 		// Add Configuration
 		services
 			.AddOptions<NationalWeatherServiceOptions>().Bind(configuration.GetSection(NationalWeatherServiceOptions.RootKey)).ValidateOnStart();
+		services
+			.AddOptions<SkylightIdentityOptions>().Bind(configuration.GetSection(SkylightIdentityOptions.RootKey)).ValidateOnStart();
+
+		// Add Infrastructure Services
+		services
+			.AddSingleton(TimeProvider.System)
+			.AddScoped<ISkylightDbContextInitializer, DefaultSkylightDbContextInitializer>()
+			.AddValidatorsFromAssembly(assembly)
+			.Scan(scan => scan
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsMatchingInterface()
+					.WithScopedLifetime()
+				// EF Core Interceptors
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IInterceptor)))
+					.WithScopedLifetime()
+				// Jobs
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJob)))
+					.WithScopedLifetime()
+				// Job Filters
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobFilter)))
+					.WithSingletonLifetime());
 
 		// Add EF Core Database
 		services
@@ -59,27 +88,6 @@ public static class Bootstrap
 					});
 			})
 			.AddHangfireServer();
-
-		// Add Infrastructure Services
-		services
-			.AddSingleton(TimeProvider.System)
-			.AddScoped<ISkylightDbContextInitializer, DefaultSkylightDbContextInitializer>()
-			.AddValidatorsFromAssembly(assembly)
-			.Scan(scan => scan
-				.FromAssemblies(assembly)
-					.AddClasses()
-					.AsMatchingInterface()
-					.WithScopedLifetime()
-				// Jobs
-				.FromAssemblies(assembly)
-					.AddClasses()
-					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJob)))
-					.WithScopedLifetime()
-				// Job Filters
-				.FromAssemblies(assembly)
-					.AddClasses()
-					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobFilter)))
-					.WithSingletonLifetime());
 
 		return services;
 	}

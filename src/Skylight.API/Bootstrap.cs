@@ -1,10 +1,16 @@
 ﻿using Asp.Versioning;
 using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
-using Skylight.API.Configuration;
+using Skylight.API.Controllers;
 using Skylight.API.Hubs;
+using Skylight.API.Identity.Configuration;
+using Skylight.API.Identity.Origins;
 using Skylight.API.Jobs;
+using Skylight.Infrastructure.Data;
+using Skylight.Infrastructure.Identity.Roles;
+using Skylight.Infrastructure.Identity.Users;
 using Skylight.Infrastructure.Jobs.Schedules;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -24,6 +30,16 @@ public static class Bootstrap
 		// Add Configuration
 		services
 			.AddOptions<AddCurrentWeatherAlertsJobSchedulerOptions>().Bind(configuration.GetSection(AddCurrentWeatherAlertsJobSchedulerOptions.RootKey)).ValidateOnStart();
+
+		// Add API Services
+		services
+			.AddEndpointsApiExplorer()
+			.Scan(scan => scan
+				// Job Schedulers
+				.FromAssemblies(assembly)
+					.AddClasses()
+					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobScheduler)))
+					.WithSingletonLifetime());
 
 		// Add MVC Services
 		services
@@ -55,6 +71,20 @@ public static class Bootstrap
 				options.SubstituteApiVersionInUrl = true;
 			});
 
+		// Add Authentication
+		services
+			.AddAuthentication()
+			.AddBearerToken(IdentityConstants.BearerScheme);
+
+		// Add Authorization
+		services
+			.AddAuthorization()
+			.AddIdentityCore<User>()
+			.AddRoles<Role>()
+			.AddSignInManager()
+			.AddDefaultTokenProviders()
+			.AddEntityFrameworkStores<SkylightDbContext>();
+
 		// Add CORS
 		services.AddCors(options =>
 		{
@@ -85,15 +115,10 @@ public static class Bootstrap
 				options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 			});
 
-		// Add API Services
+		// Configure Services
 		services
-			.AddEndpointsApiExplorer()
-			.Scan(scan => scan
-				// Job Schedulers
-				.FromAssemblies(assembly)
-					.AddClasses()
-					.AsImplementedInterfaces(t => t.IsAssignableTo(typeof(IJobScheduler)))
-					.WithSingletonLifetime());
+			.ConfigureOptions<ConfigureAuthorizationOptions>()
+			.ConfigureOptions<ConfigureIdentityOptions>();
 
 		return services;
 	}

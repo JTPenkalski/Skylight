@@ -1,18 +1,48 @@
-﻿using Skylight.Application.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Skylight.Application.Data;
+using Skylight.Application.Identity;
 using Skylight.Domain.Alerts.Entities;
+using Skylight.Infrastructure.Identity.Roles;
+using Skylight.Infrastructure.Identity.Users;
 
 namespace Skylight.Infrastructure.Data.Initializers;
 
-public class DefaultSkylightDbContextInitializer(ISkylightDbContext dbContext) : ISkylightDbContextInitializer
+public class DefaultSkylightDbContextInitializer(
+	ISkylightDbContext dbContext,
+	UserManager<User> userManager,
+	RoleManager<Role> roleManager)
+	: ISkylightDbContextInitializer
 {
 	public async Task InitializeAsync()
 	{
 		await dbContext.ResetAsync();
 
+		await AddRolesAsync();
+		await AddUsersAsync();
 		await AddAlertTypesAsync();
 		await AddAlertSendersAsync();
 
 		await dbContext.CommitAsync();
+	}
+
+	private async Task AddRolesAsync()
+	{
+		var admin = new Role { Name = SkylightRoles.Admin };
+
+		await roleManager.CreateAsync(admin);
+	}
+
+	private async Task AddUsersAsync()
+	{
+		var system = new User
+		{
+			UserName = SkylightUsers.System,
+			Email = "system@skylight.com",
+			SecurityStamp = Guid.NewGuid().ToString(),
+		};
+
+		await userManager.CreateAsync(system);
+		await userManager.AddToRoleAsync(system, SkylightRoles.Admin);
 	}
 
 	private async Task AddAlertTypesAsync()

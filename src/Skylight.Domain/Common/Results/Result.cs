@@ -2,7 +2,7 @@
 
 namespace Skylight.Domain.Common.Results;
 
-public abstract class Result
+public class Result
 {
 	private readonly List<Error> _errors = [];
 
@@ -12,8 +12,17 @@ public abstract class Result
 
 	public IReadOnlyList<Error> Errors => _errors;
 
+	internal Result(params IEnumerable<Error> errors) =>
+		AddErrors(errors);
+
+	public static Result Success() =>
+		new();
+
 	public static Result<T> Success<T>(T? value) =>
 		new(value);
+
+	public static Result Fail(params IEnumerable<Error> errors) =>
+		new(errors);
 
 	public static Result<T> Fail<T>(params IEnumerable<Error> errors) =>
 		new(errors);
@@ -32,8 +41,7 @@ public class Result<T> : Result
 	internal Result(T? value) : base() =>
 		Value = value;
 
-	internal Result(params IEnumerable<Error> errors) : base() =>
-		AddErrors(errors);
+	internal Result(params IEnumerable<Error> errors) : base(errors) { }
 
 	public static implicit operator T?(Result<T> result) =>
 		result.Value;
