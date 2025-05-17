@@ -27,8 +27,8 @@ export class SkylightClient {
     /**
      * @return OK
      */
-    addCurrentAlerts(body: AddCurrentAlertsCommand, cancelToken?: CancelToken): Promise<AddCurrentAlertsResponse> {
-        let url_ = this.baseUrl + "/api/v1/Alerts/AddCurrentAlerts";
+    addNewAlerts(body: AddNewAlertsCommand, cancelToken?: CancelToken): Promise<AddNewAlertsResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/AddNewAlerts";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(body);
@@ -51,11 +51,11 @@ export class SkylightClient {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processAddCurrentAlerts(_response);
+            return this.processAddNewAlerts(_response);
         });
     }
 
-    protected processAddCurrentAlerts(response: AxiosResponse): Promise<AddCurrentAlertsResponse> {
+    protected processAddNewAlerts(response: AxiosResponse): Promise<AddNewAlertsResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -70,13 +70,68 @@ export class SkylightClient {
             let result200: any = null;
             let resultData200  = _responseText;
             result200 = JSON.parse(resultData200);
-            return Promise.resolve<AddCurrentAlertsResponse>(result200);
+            return Promise.resolve<AddNewAlertsResponse>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<AddCurrentAlertsResponse>(null as any);
+        return Promise.resolve<AddNewAlertsResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
+    expireCurrentAlerts(body: ExpireCurrentAlertsCommand, cancelToken?: CancelToken): Promise<ExpireCurrentAlertsResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/ExpireCurrentAlerts";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processExpireCurrentAlerts(_response);
+        });
+    }
+
+    protected processExpireCurrentAlerts(response: AxiosResponse): Promise<ExpireCurrentAlertsResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<ExpireCurrentAlertsResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ExpireCurrentAlertsResponse>(null as any);
     }
 
     /**
@@ -355,17 +410,6 @@ export class SkylightClient {
     }
 }
 
-export interface AddCurrentAlertsCommand {
-
-    [key: string]: any;
-}
-
-export interface AddCurrentAlertsResponse {
-    addedAlerts: AddedAlert[];
-
-    [key: string]: any;
-}
-
 export interface AddedAlert {
     alertCode: string;
     alertName: string;
@@ -392,6 +436,17 @@ export interface AddedAlert {
 export interface AddedAlertParameter {
     key: AlertParameterKey;
     value: string;
+
+    [key: string]: any;
+}
+
+export interface AddNewAlertsCommand {
+
+    [key: string]: any;
+}
+
+export interface AddNewAlertsResponse {
+    addedAlerts: AddedAlert[];
 
     [key: string]: any;
 }
@@ -516,6 +571,17 @@ export interface CurrentAlertParameter {
 
 export interface CurrentAlertParameterCount {
     parameterValue: string;
+    count: number;
+
+    [key: string]: any;
+}
+
+export interface ExpireCurrentAlertsCommand {
+
+    [key: string]: any;
+}
+
+export interface ExpireCurrentAlertsResponse {
     count: number;
 
     [key: string]: any;
