@@ -14,6 +14,7 @@ using Skylight.Infrastructure.Identity.Users;
 using Skylight.Infrastructure.Jobs.Schedules;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 namespace Skylight.API;
 
@@ -73,20 +74,6 @@ public static class Bootstrap
 				options.SubstituteApiVersionInUrl = true;
 			});
 
-		// Add Authentication
-		services
-			.AddAuthentication()
-			.AddBearerToken(IdentityConstants.BearerScheme);
-
-		// Add Authorization
-		services
-			.AddAuthorization()
-			.AddIdentityCore<User>()
-			.AddRoles<Role>()
-			.AddSignInManager()
-			.AddDefaultTokenProviders()
-			.AddEntityFrameworkStores<SkylightDbContext>();
-
 		// Add CORS
 		services.AddCors(options =>
 		{
@@ -94,7 +81,7 @@ public static class Bootstrap
 			{
 				options.AddDefaultPolicy(builder =>
 					builder
-						.WithOrigins("" /* TODO */)
+						.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Host)
 						.AllowAnyHeader()
 						.AllowAnyMethod()
 						.AllowCredentials());
@@ -109,6 +96,38 @@ public static class Bootstrap
 						.AllowCredentials());
 			}
 		});
+
+		// Add Authentication
+		services
+			.AddAuthentication()
+			.AddBearerToken(IdentityConstants.BearerScheme);
+
+		// Add Authorization
+		services
+			.AddAuthorization()
+			.AddIdentityCore<User>()
+			.AddRoles<Role>()
+			.AddSignInManager()
+			.AddDefaultTokenProviders()
+			.AddEntityFrameworkStores<SkylightDbContext>();
+
+		// Add Rate Limiting
+		services
+			.AddRateLimiter(options =>
+			{
+				options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+				options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+					RateLimitPartition.GetFixedWindowLimiter(
+						partitionKey: httpContext.User.Identity?.Name
+							?? httpContext.Connection.RemoteIpAddress?.ToString()
+							?? SkylightOrigins.Anonymous,
+						factory: partition => new FixedWindowRateLimiterOptions
+						{
+							AutoReplenishment = true,
+							PermitLimit = 128,
+							Window = TimeSpan.FromMinutes(1)
+						}));
+			});
 
 		// Add SignalR
 		services.AddSignalR()

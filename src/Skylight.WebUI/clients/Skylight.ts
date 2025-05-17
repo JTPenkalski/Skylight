@@ -72,6 +72,27 @@ export class SkylightClient {
             result200 = JSON.parse(resultData200);
             return Promise.resolve<AddNewAlertsResponse>(result200);
 
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -126,6 +147,27 @@ export class SkylightClient {
             let resultData200  = _responseText;
             result200 = JSON.parse(resultData200);
             return Promise.resolve<ExpireCurrentAlertsResponse>(result200);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -182,6 +224,27 @@ export class SkylightClient {
             result200 = JSON.parse(resultData200);
             return Promise.resolve<GetCurrentAlertCountByTypeResponse>(result200);
 
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -236,6 +299,27 @@ export class SkylightClient {
             let resultData200  = _responseText;
             result200 = JSON.parse(resultData200);
             return Promise.resolve<GetCurrentAlertObservationTypesByTypeResponse>(result200);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -292,6 +376,27 @@ export class SkylightClient {
             result200 = JSON.parse(resultData200);
             return Promise.resolve<GetCurrentAlertParameterValuesByParameterResponse>(result200);
 
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -347,6 +452,27 @@ export class SkylightClient {
             result200 = JSON.parse(resultData200);
             return Promise.resolve<GetCurrentAlertsByTypeResponse>(result200);
 
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
+
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -401,6 +527,27 @@ export class SkylightClient {
             let resultData200  = _responseText;
             result200 = JSON.parse(resultData200);
             return Promise.resolve<GetHistoricalAlertCountsByTypeResponse>(result200);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
@@ -666,6 +813,16 @@ export interface GetHistoricalAlertCountsByTypeResponse {
 export interface HistoricalAlertCount {
     dateTime: Date;
     count: number;
+
+    [key: string]: any;
+}
+
+export interface ProblemDetails {
+    type?: string | undefined;
+    title?: string | undefined;
+    status?: number | undefined;
+    detail?: string | undefined;
+    instance?: string | undefined;
 
     [key: string]: any;
 }

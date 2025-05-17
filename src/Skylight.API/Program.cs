@@ -47,7 +47,9 @@ if (application.Environment.IsDevelopment())
 application
 	.UseHttpsRedirection()
 	.UseCors()
+	.UseAuthentication()
 	.UseAuthorization()
+	.UseRateLimiter()
 	.UseBackgroundJobs(application.Services);
 
 // Add Development Route Mappings

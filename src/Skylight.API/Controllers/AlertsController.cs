@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Skylight.API.Extensions;
+using Skylight.API.Identity.Attributes;
 using Skylight.Application.Features.Alerts.Commands;
 using Skylight.Application.Features.Alerts.Queries;
 
@@ -11,6 +12,7 @@ namespace Skylight.API.Controllers;
 [ApiVersion(SkylightApiVersion.Current)]
 public class AlertsController(IMediator mediator) : BaseController
 {
+	[AdminAuthorize]
 	[HttpPost]
 	public async Task<ActionResult<AddNewAlertsResponse>> AddNewAlerts(AddNewAlertsCommand request, CancellationToken cancellationToken)
 	{
@@ -19,6 +21,7 @@ public class AlertsController(IMediator mediator) : BaseController
 		return result.ToActionResult();
 	}
 
+	[AdminAuthorize]
 	[HttpPost]
 	public async Task<ActionResult<ExpireCurrentAlertsResponse>> ExpireCurrentAlerts(ExpireCurrentAlertsCommand request, CancellationToken cancellationToken)
 	{
