@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skylight.Application.Data;
 using Skylight.Application.Services;
+using Skylight.Domain.Common.Extensions;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Endpoints;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;
@@ -135,6 +136,7 @@ public class WeatherAlertService(
 				currentAlert.AddParameter(Core.AlertParameterKey.HailThreat, alert.HailThreat);
 				currentAlert.AddParameter(Core.AlertParameterKey.MaxWindGust, alert.MaxWindGust);
 				currentAlert.AddParameter(Core.AlertParameterKey.WindThreat, alert.WindThreat);
+				currentAlert.AddParameter(Core.AlertParameterKey.ThunderstormThreat, alert.ThunderstormThreat?.ToTitleCase());
 				currentAlert.AddParameter(Core.AlertParameterKey.ThunderstormDamageThreat, alert.ThunderstormDamageThreat);
 				currentAlert.AddParameter(Core.AlertParameterKey.TornadoDetection, alert.TornadoDetection);
 				currentAlert.AddParameter(Core.AlertParameterKey.TornadoDamageThreat, alert.TornadoDamageThreat);

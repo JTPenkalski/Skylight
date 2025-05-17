@@ -32,6 +32,7 @@ public sealed record GetCurrentAlertsByTypeResponse(
 	public sealed record CurrentAlertParameter(AlertParameterKey Key, string Value);
 
 	public sealed record CurrentAlert(
+		string ObservationType,
 		string SenderCode,
 		string SenderName,
 		string Headline,
@@ -60,12 +61,15 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 
 		var alerts = await dbContext.Alerts
 			.AsNoTracking()
+			.Include(x => x.Type)
+			.Include(x => x.Parameters)
 			.Where(x =>
 				x.Type == alertType
 				&& x.ExpiresOn > DateTimeOffset.UtcNow
 				&& !x.DeletedOn.HasValue)
 			.OrderBy(x => x.EffectiveOn)
 			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlert(
+				x.ObservationType,
 				x.Sender.Code,
 				x.Sender.Name,
 				x.Headline,

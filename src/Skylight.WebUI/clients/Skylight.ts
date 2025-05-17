@@ -483,6 +483,7 @@ export enum AlertParameterKey {
     MaxWindGust = "MaxWindGust",
     HailThreat = "HailThreat",
     MaxHailSize = "MaxHailSize",
+    ThunderstormThreat = "ThunderstormThreat",
     ThunderstormDamageThreat = "ThunderstormDamageThreat",
     TornadoDamageThreat = "TornadoDamageThreat",
     TornadoDetection = "TornadoDetection",
@@ -530,6 +531,7 @@ export enum AlertUrgency {
 }
 
 export interface CurrentAlert {
+    observationType: string;
     senderCode: string;
     senderName: string;
     headline: string;

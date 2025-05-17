@@ -41,6 +41,7 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 
 		var alerts = await dbContext.Alerts
 			.AsNoTracking()
+			.Include(x => x.Type)
 			.Include(x => x.Parameters)
 			.Where(x =>
 				x.Type == alertType
@@ -62,46 +63,9 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 
 	internal virtual List<GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount> GetObservationTypeCounts(List<Alert> alerts)
 	{
-		// Associate a priority with each observation type, from highest to lowest
-		var observationTypes = new[]
-		{
-			AlertParameterKey.TornadoDamageThreat,
-			AlertParameterKey.ThunderstormDamageThreat,
-			AlertParameterKey.FlashFloodDamageThreat,
-			AlertParameterKey.TornadoDetection,
-			AlertParameterKey.FlashFloodDetection,
-			AlertParameterKey.WindThreat,
-			AlertParameterKey.HailThreat,
-		}.Select((x, i) => new { Key = x, Priority = i });
-
 		var counts = alerts
-			// Get a list of each Parameter for each Alert
-			.SelectMany(
-				x => x.Parameters,
-				(alert, parameter) =>
-					new
-					{
-						Alert = alert,
-						Parameter = parameter
-					})
-			// Associate each Parameter with the priority established above
-			.Join(
-				observationTypes,
-				x => x.Parameter.Key,
-				x => x.Key,
-				(alertParameter, observation) =>
-					new
-					{
-						alertParameter.Alert,
-						alertParameter.Parameter,
-						observation.Priority,
-					})
-			// Sort the Parameters according to their priority
-			.OrderBy(x => x.Priority)
-			// Group each Parameter with its Alert
-			.GroupBy(x => x.Alert.Id)
 			// Count how many of each observation type there is, based on the first Parameter from each Alert group (which should now have the highest priority)
-			.CountBy(x => x.First().Parameter.Value)
+			.CountBy(x => x.ObservationType)
 			// Map to the output type
 			.Select(x => new GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount(x.Key.ToString(), x.Value))
 			// Reverse so that lower priority observation types are ordered first, for consistency

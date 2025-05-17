@@ -27,6 +27,8 @@ public class ExpireCurrentAlertsHandler(ISkylightDbContext dbContext, TimeProvid
 			alert.Expire();
 		}
 
+		await dbContext.CommitAsync(cancellationToken);
+
 		var response = new ExpireCurrentAlertsResponse(alerts.Count);
 
 		return Result.Success(response);

@@ -12,19 +12,6 @@ const props = defineProps<{
 
 const dialog = useDialog();
 
-const header: ComputedRef<string> = computed(() => {
-	const specialHeaderTypes = ['SVA', 'SVW', 'TOA', 'TOW'];
-
-	if (specialHeaderTypes.includes(props.code)) {
-		const detection = props.item.parameters.find(
-			(x) => x.key.includes('Detection') || x.key.includes('DamageThreat'),
-		);
-
-		return detection?.value ?? 'Alert';
-	}
-
-	return 'Alert';
-});
 const locations: ComputedRef<string> = computed(() =>
 	props.item.locations
 		.slice(0, 5)
@@ -69,7 +56,7 @@ function onExpandAlert(alert: CurrentAlert) {
 <template>
 	<div class="list-item" :class="{ 'list-divider': !props.first }">
 		<div class="list-item-left">
-			<span class="list-item-header">{{ header }}</span>
+			<span class="list-item-header">{{ props.item.observationType }}</span>
 
 			<div class="list-item-times">
 				<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(item.effective, 'PPpp')" />

@@ -23,6 +23,7 @@ function onNotifyExpiredAlerts(input: NotifyNewAlertsInput): void {
 		severity: 'warn',
 		summary: 'Expired Alerts',
 		detail: `${input.count} ${pluralize('alert', input.count)} expired. Refresh this page to get the latest data.`,
+		life: 10000,
 	});
 }
 </script>
@@ -56,12 +57,7 @@ function onNotifyExpiredAlerts(input: NotifyNewAlertsInput): void {
       <AlertTypeListCard code="SVW"/>
     </div>
     <div class="row">
-      <AlertTypeListCard code="FFA"/>
-      <AlertTypeListCard code="FFW"/>
-    </div>
-    <div class="row">
       <AlertTypeListCard code="SPS"/>
-      <AlertTypeListCard code="SVS"/>
     </div>
   </div>
   <Toast />

@@ -1,4 +1,6 @@
-﻿namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
+﻿using Skylight.Domain.Alerts.Entities;
+
+namespace Skylight.Infrastructure.Clients.NationalWeatherService.Models;
 
 /// <summary>
 /// A public alert message.
@@ -47,4 +49,12 @@ public sealed record Alert(
 {
 	public string TypeCode =>
 		ValidTimeEventCode?.EventCode ?? AwipsId.ProductCategory;
+
+	public string? ThunderstormThreat =>
+		(HailThreat?.ToUpperInvariant(), WindThreat?.ToUpperInvariant()) switch
+		{
+			(AlertParameterValues.Observed, _) or (_, AlertParameterValues.Observed) => AlertParameterValues.Observed,
+			(AlertParameterValues.RadarIndicated, _) or (_, AlertParameterValues.RadarIndicated) => AlertParameterValues.RadarIndicated,
+			_ => null,
+		};
 }

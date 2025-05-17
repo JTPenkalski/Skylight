@@ -42,5 +42,5 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <returns>The new string value.</returns>
 	public static string ToTitleCase(this string value) =>
-		TextInfo.ToTitleCase(value);
+		TextInfo.ToTitleCase(value.ToLower());
 }

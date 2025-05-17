@@ -11,6 +11,7 @@ public enum AlertParameterKey
 	MaxWindGust,
 	HailThreat,
 	MaxHailSize,
+	ThunderstormThreat,
 	ThunderstormDamageThreat,
 	TornadoDamageThreat,
 	TornadoDetection,

@@ -13,3 +13,14 @@ public class AlertParameter : BaseAuditableEntity
 	public T As<T>() =>
 		(T)Convert.ChangeType(Value, typeof(T));
 }
+
+public static class AlertParameterValues
+{
+	public const string Catastrophic = "CATASTROPHIC";
+	public const string Destructive = "DESTRUCTIVE";
+	public const string Considerable = "CONSIDERABLE";
+	public const string Observed = "OBSERVED";
+	public const string RadarIndicated = "RADAR INDICATED";
+	public const string RadarAndGaugeIndicated = "RADAR AND GAUGE INDICATED";
+	public const string Possible = "POSSIBLE";
+}

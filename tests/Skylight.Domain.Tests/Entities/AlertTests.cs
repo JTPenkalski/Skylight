@@ -1,117 +1,156 @@
-﻿using Skylight.Application.Data;
-using Skylight.Application.Features.Alerts.Queries;
-using Skylight.Domain.Alerts.Entities;
+﻿using Skylight.Domain.Alerts.Entities;
 using Skylight.Shared.Tests.TestModels;
 
-namespace Skylight.Application.Tests.Features.Alerts.Queries;
+namespace Skylight.Domain.Tests.Entities;
 
-public class GetCurrentAlertObservationTypesByTypeTests
+public class AlertTests
 {
-	private readonly Mock<ISkylightDbContext> dbContext = new();
-
-	private GetCurrentAlertObservationTypesByTypeHandler Handler => new(dbContext.Object);
-
-	#region GetObservationTypeCounts
-
-	[Fact]
-	public void GetObservationTypeCounts_ShouldReturnObservationTypeCounts()
-	{
-		// Arrange
-		List<Alert> alerts =
-		[
-			TestAlerts.Default(
-				parameters:
+	public static TheoryData<(AlertParameterKey, string)[], string> ObservationType_ShouldReturnExpectedType_TestData =>
+		new()
+		{
+			// TOR EMERGENCY
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Catastrophic),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Catastrophic"
+			},
+
+			// TOR PDS
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Considerable),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Considerable"
+			},
+
+			// TOR OBSERVED
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Observed"
+			},
+
+			// TOR RADAR INDICATED
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.RadarIndicated),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Radar Indicated"
+			},
+
+			// SVR DESTRUCTIVE
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
 					(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Destructive),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Destructive"
+			},
+
+			// SVR CONSIDERABLE
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
 					(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Considerable),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Considerable"
+			},
+
+			// SVR OBSERVED
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Observed"
+			},
+
+			// SVR RADAR INDICATED
+			{
 				[
 					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.RadarIndicated),
 					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Radar Indicated"
+			},
+
+			// FFW CATASTROPHIC
+			{
 				[
 					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
 					(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Catastrophic),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Catastrophic"
+			},
+
+			// FFW CONSIDERABLE
+			{
 				[
 					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
 					(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Considerable),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Considerable"
+			},
+
+			// FFW OBSERVED
+			{
 				[
 					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Observed"
+			},
+
+			// FFW RADAR AND GAUGE INDICATED
+			{
 				[
 					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarAndGaugeIndicated),
-				]),
-			TestAlerts.Default(
-				parameters:
+				],
+				"Radar And Gauge Indicated"
+			},
+
+			// FFW RADAR INDICATED
+			{
 				[
 					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarIndicated),
-				])
-		];
+				],
+				"Radar Indicated"
+			},
+		};
+
+	[Theory]
+	[MemberData(nameof(ObservationType_ShouldReturnExpectedType_TestData))]
+	public void ObservationType_ShouldReturnExpectedType_WhenGivenParameters((AlertParameterKey, string)[] parameters, string expectedType)
+	{
+		// Arrange
+		var alert = TestAlerts.Default(parameters: parameters);
 
 		// Act
-		var result = Handler.GetObservationTypeCounts(alerts);
+		string result = alert.ObservationType;
 
 		// Assert
-		Assert.Equal(6, result.Count);
-		Assert.Equal(2, result.Single(x => x.ObservationType == "Catastrophic").Count);
-		Assert.Equal(1, result.Single(x => x.ObservationType == "Destructive").Count);
-		Assert.Equal(3, result.Single(x => x.ObservationType == "Considerable").Count);
-		Assert.Equal(3, result.Single(x => x.ObservationType == "Observed").Count);
-		Assert.Equal(3, result.Single(x => x.ObservationType == "Radar Indicated").Count);
-		Assert.Equal(1, result.Single(x => x.ObservationType == "Radar And Gauge Indicated").Count);
+		Assert.Equal(expectedType, result);
 	}
 
-	#endregion
+	[Fact]
+	public void ObservationType_ShouldReturnExpectedType_WhenGivenNoParameters()
+	{
+		// Arrange
+		var alert = TestAlerts.Default();
+
+		// Act
+		string result = alert.ObservationType;
+
+		// Assert
+		Assert.Equal(alert.Type.Level.ToString(), result);
+	}
 }

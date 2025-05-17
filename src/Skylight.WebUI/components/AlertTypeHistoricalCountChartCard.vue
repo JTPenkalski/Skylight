@@ -27,7 +27,7 @@ const hourOptions: Ref<HourOption[]> = ref([
 	{ name: '12 Hours', code: 12 },
 	{ name: '24 Hours', code: 24 },
 ]);
-const hours: Ref<HourOption> = ref(hourOptions.value[2]);
+const hours: Ref<HourOption> = ref(hourOptions.value[1]);
 
 const { api } = useSkylight();
 const { data, refresh } = await useAsyncData(
