@@ -68,7 +68,7 @@ public class Alert : BaseAuditableEntity
 
 			string? observationType = Parameters
 				// Ignore certain Pararmeter values
-				.Where(x => x.Value != AlertParameterValues.Possible)
+				.Where(x => !x.Value.Equals(AlertParameterValues.Possible, StringComparison.CurrentCultureIgnoreCase))
 				// Associate each of this Alert's Parameters with the priority established above
 				.Join(
 					observationTypes,

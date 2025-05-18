@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AxiosInstance } from 'axios';
 import type { RuntimeConfig } from 'nuxt/schema';
-import { SkylightClient } from '~/clients/Skylight';
+import { SkylightClient } from '~/clients/skylight';
 
 export const SkylightApi = Symbol() as InjectionKey<SkylightClient>;
 

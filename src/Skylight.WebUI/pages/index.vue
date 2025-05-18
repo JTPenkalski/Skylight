@@ -1,31 +1,27 @@
 <script setup lang="ts">
 import type { ToastServiceMethods } from 'primevue';
-import { AlertParameterKey } from '~/clients/Skylight';
+import { AlertParameterKey } from '~/clients/skylight';
 
 const toast: ToastServiceMethods = useToast();
 
 useAlertsHub({
-	notifyNewAlerts: onNotifyNewAlerts,
-	notifyExpiredAlerts: onNotifyExpiredAlerts,
+	notifyNewAlerts: (input: NotifyNewAlertsInput) => {
+		toast.add({
+			severity: 'info',
+			summary: 'New Alerts',
+			detail: `${input.count} new ${pluralize('alert', input.count)} issued. Refresh this page to get the latest data.`,
+			life: 5000,
+		});
+	},
+	notifyExpiredAlerts: (input: NotifyNewAlertsInput) => {
+		toast.add({
+			severity: 'warn',
+			summary: 'Expired Alerts',
+			detail: `${input.count} ${pluralize('alert', input.count)} expired. Refresh this page to get the latest data.`,
+			life: 10000,
+		});
+	},
 });
-
-function onNotifyNewAlerts(input: NotifyNewAlertsInput): void {
-	toast.add({
-		severity: 'info',
-		summary: 'New Alerts',
-		detail: `${input.count} new ${pluralize('alert', input.count)} issued. Refresh this page to get the latest data.`,
-		life: 5000,
-	});
-}
-
-function onNotifyExpiredAlerts(input: NotifyNewAlertsInput): void {
-	toast.add({
-		severity: 'warn',
-		summary: 'Expired Alerts',
-		detail: `${input.count} ${pluralize('alert', input.count)} expired. Refresh this page to get the latest data.`,
-		life: 10000,
-	});
-}
 </script>
 
 <template>
@@ -49,12 +45,15 @@ function onNotifyExpiredAlerts(input: NotifyNewAlertsInput): void {
       <AlertTypeParametersChartCard :parameter="AlertParameterKey.MaxWindGust" />
     </div>
     <div class="row">
-      <AlertTypeListCard code="TOA"/>
+      <AlertTypeListCard code="SVW"/>
       <AlertTypeListCard code="TOW"/>
     </div>
     <div class="row">
       <AlertTypeListCard code="SVA"/>
-      <AlertTypeListCard code="SVW"/>
+      <AlertTypeListCard code="TOA"/>
+    </div>
+    <div class="row">
+      <AlertLocationsTableCard />
     </div>
     <div class="row">
       <AlertTypeListCard code="SPS"/>

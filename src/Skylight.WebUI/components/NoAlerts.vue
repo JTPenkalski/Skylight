@@ -5,7 +5,7 @@
 <style scoped lang="scss">
 .message {
 	font-size: 0.8rem;
-	padding-top: 0.6rem;
+	padding-top: 4rem;
 	text-align: center;
 	text-transform: uppercase;
 	width: 100%;

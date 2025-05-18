@@ -54,10 +54,6 @@ const severity: ComputedRef<string> = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.card {
-  flex: 1;
-}
-
 .marginal {
   background-color: var(--p-marginal-background);
   border-color: var(--p-marginal-color);

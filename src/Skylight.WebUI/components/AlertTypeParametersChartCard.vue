@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ChartData, ChartOptions } from 'chart.js';
-import { AlertParameterKey } from '~/clients/Skylight';
+import { AlertParameterKey } from '~/clients/skylight';
 
 interface ParameterOption {
 	name: string;

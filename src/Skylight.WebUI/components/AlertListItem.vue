@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
-import { AlertParameterKey, type CurrentAlert } from '~/clients/Skylight';
+import { AlertParameterKey, type CurrentAlert } from '~/clients/skylight';
 import { AlertDetailsModal } from '#components';
 
 const props = defineProps<{
@@ -25,14 +25,10 @@ const parameters: ComputedRef<string[]> = computed(() => {
 		AlertParameterKey.MaxWindGust,
 		AlertParameterKey.HailThreat,
 		AlertParameterKey.MaxHailSize,
-		AlertParameterKey.ThunderstormDamageThreat,
-		AlertParameterKey.TornadoDamageThreat,
 		AlertParameterKey.TornadoDetection,
 		AlertParameterKey.WaterspoutDetection,
-		AlertParameterKey.FlashFloodDamageThreat,
-		AlertParameterKey.FlashFloodDetection,
-		AlertParameterKey.SnowSquallDetection,
 		AlertParameterKey.SnowSquallImpact,
+		AlertParameterKey.EventTrackingNumber,
 	];
 
 	return props.item.parameters

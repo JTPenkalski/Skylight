@@ -5,7 +5,7 @@ namespace Skylight.Architecture.Tests.Domain;
 public class NamingTests(ITestOutputHelper outputHelper)
 {
 	[Fact]
-	public void DomainEvents_ShouldHaveDomainEventSuffix()
+	public void DomainEvents_ShouldHaveEventSuffix()
 	{
 		TestResult result = Types
 			.InAssembly(Assemblies.Domain)

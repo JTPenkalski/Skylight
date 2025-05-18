@@ -2,15 +2,34 @@
 import { format } from 'date-fns';
 import type { DynamicDialogInstance } from 'primevue/dynamicdialogoptions';
 import { inject, onMounted } from 'vue';
-import { AlertParameterKey, type CurrentAlert } from '~/clients/Skylight';
+import { AlertParameterKey, type CurrentAlert } from '~/clients/skylight';
 
 const dialogRef = inject<Ref<DynamicDialogInstance>>('dialogRef');
 const data: Ref<CurrentAlert | undefined> = ref();
 
 const parameters: ComputedRef<string[]> = computed(() => {
+	const visibleParameters: AlertParameterKey[] = [
+		AlertParameterKey.WindThreat,
+		AlertParameterKey.MaxWindGust,
+		AlertParameterKey.HailThreat,
+		AlertParameterKey.MaxHailSize,
+		AlertParameterKey.ThunderstormDamageThreat,
+		AlertParameterKey.TornadoDamageThreat,
+		AlertParameterKey.TornadoDetection,
+		AlertParameterKey.WaterspoutDetection,
+		AlertParameterKey.FlashFloodDamageThreat,
+		AlertParameterKey.FlashFloodDetection,
+		AlertParameterKey.SnowSquallDetection,
+		AlertParameterKey.SnowSquallImpact,
+		AlertParameterKey.EventSpeed,
+		AlertParameterKey.EventDirection,
+		AlertParameterKey.EventPosition,
+		AlertParameterKey.EventTrackingNumber,
+	];
+
 	return (
 		data.value?.parameters
-			.filter((x) => x.key !== AlertParameterKey.EventMotionDescription)
+			.filter((x) => visibleParameters.includes(x.key))
 			.map((x) => `${insertSpaces(x.key)}: ${x.value}`) ?? []
 	);
 });
@@ -54,7 +73,7 @@ onMounted(() => {
 				</Panel>
 
 				<Panel collapsed toggleable header="Locations">
-					<DataTable size="small" sort-field="name" :sortOrder="1" :value="data.locations">
+					<DataTable size="small" sort-field="name" :sort-order="1" :value="data.locations">
 						<Column sortable field="zone" header="UGC Zone ID" style="width: 25%"></Column>
 						<Column sortable field="name" header="Name"></Column>
 					</DataTable>

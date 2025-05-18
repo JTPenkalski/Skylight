@@ -68,6 +68,7 @@ const chartData: ComputedRef<ChartData<'line', TimePoint[]>> = computed(() => {
 const chartOptions: Ref<ChartOptions<'line'>> = ref({
 	maintainAspectRatio: false,
 	responsive: true,
+	tension: 0.1,
 	scales: {
 		x: {
 			type: 'time',

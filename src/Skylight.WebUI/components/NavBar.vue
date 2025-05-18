@@ -20,9 +20,9 @@ const isDarkTheme: boolean = true;
     </div>
 
     <div class="navbar-action-container hello">
-      <Button rounded :icon="getThemeIcon()" severity="contrast" variant="text" aria-label="Theme" />
-      <!-- <Button rounded icon="pi pi-inbox" severity="contrast" variant="text" aria-label="Notifications" />
-      <Button rounded icon="pi pi-user" severity="contrast" variant="text" aria-label="Profile" /> -->
+      <!-- <Button rounded :icon="getThemeIcon()" severity="contrast" variant="text" aria-label="Theme" /> -->
+      <!-- <Button rounded icon="pi pi-inbox" severity="contrast" variant="text" aria-label="Notifications" /> -->
+      <!-- <Button rounded icon="pi pi-user" severity="contrast" variant="text" aria-label="Profile" /> -->
     </div>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import { SkylightClient } from '~/clients/Skylight';
+import { SkylightClient } from '~/clients/skylight';
 import { SkylightApi } from '~/plugins/skylight';
 
 export default function (): { api: SkylightClient } {
