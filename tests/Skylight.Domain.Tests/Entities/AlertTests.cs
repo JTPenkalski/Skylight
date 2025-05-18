@@ -5,15 +5,15 @@ namespace Skylight.Domain.Tests.Entities;
 
 public class AlertTests
 {
-	public static TheoryData<(AlertParameterKey, string)[], string> ObservationType_ShouldReturnExpectedType_TestData =>
+	public static TheoryData<AlertParameterKeyValue[], string> ObservationType_ShouldReturnExpectedType_TestData =>
 		new()
 		{
 			// TOR EMERGENCY
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Catastrophic),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Catastrophic),
 				],
 				"Catastrophic"
 			},
@@ -21,9 +21,9 @@ public class AlertTests
 			// TOR PDS
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Considerable),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Considerable),
 				],
 				"Considerable"
 			},
@@ -31,8 +31,8 @@ public class AlertTests
 			// TOR OBSERVED
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
 				],
 				"Observed"
 			},
@@ -40,8 +40,8 @@ public class AlertTests
 			// TOR RADAR INDICATED
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.RadarIndicated),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.RadarIndicated),
 				],
 				"Radar Indicated"
 			},
@@ -49,9 +49,9 @@ public class AlertTests
 			// SVR DESTRUCTIVE
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
-					(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Destructive),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Destructive),
 				],
 				"Destructive"
 			},
@@ -59,9 +59,9 @@ public class AlertTests
 			// SVR CONSIDERABLE
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
-					(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Considerable),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Considerable),
 				],
 				"Considerable"
 			},
@@ -69,8 +69,8 @@ public class AlertTests
 			// SVR OBSERVED
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
 				],
 				"Observed"
 			},
@@ -78,8 +78,8 @@ public class AlertTests
 			// SVR RADAR INDICATED
 			{
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.RadarIndicated),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.RadarIndicated),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
 				],
 				"Radar Indicated"
 			},
@@ -87,8 +87,8 @@ public class AlertTests
 			// FFW CATASTROPHIC
 			{
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Catastrophic),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Catastrophic),
 				],
 				"Catastrophic"
 			},
@@ -96,8 +96,8 @@ public class AlertTests
 			// FFW CONSIDERABLE
 			{
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Considerable),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Considerable),
 				],
 				"Considerable"
 			},
@@ -105,7 +105,7 @@ public class AlertTests
 			// FFW OBSERVED
 			{
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
 				],
 				"Observed"
 			},
@@ -113,7 +113,7 @@ public class AlertTests
 			// FFW RADAR AND GAUGE INDICATED
 			{
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarAndGaugeIndicated),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarAndGaugeIndicated),
 				],
 				"Radar And Gauge Indicated"
 			},
@@ -121,7 +121,7 @@ public class AlertTests
 			// FFW RADAR INDICATED
 			{
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarIndicated),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarIndicated),
 				],
 				"Radar Indicated"
 			},
@@ -129,7 +129,7 @@ public class AlertTests
 
 	[Theory]
 	[MemberData(nameof(ObservationType_ShouldReturnExpectedType_TestData))]
-	public void ObservationType_ShouldReturnExpectedType_WhenGivenParameters((AlertParameterKey, string)[] parameters, string expectedType)
+	public void ObservationType_ShouldReturnExpectedType_WhenGivenParameters(AlertParameterKeyValue[] parameters, string expectedType)
 	{
 		// Arrange
 		var alert = TestAlerts.Default(parameters: parameters);

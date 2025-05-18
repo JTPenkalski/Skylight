@@ -2,82 +2,18 @@
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 import { format } from 'date-fns';
 import type { DataTableFilterMeta, DataTableFilterMetaData } from 'primevue';
+import { AlertThreat } from '~/clients/skylight';
 
 type DataTableGlobalFilterMetaData = DataTableFilterMeta & { global: DataTableFilterMetaData };
 
-const data = ref([
-	{
-		code: 'OKC103',
-		name: 'Noble, OK',
-		totalAlerts: 5,
-		tornadoWarnings: 1,
-		thunderstormWarnings: 1,
-		flashFloodWarnings: 0,
-		specialWeatherStatements: 3,
-		effectiveTime: new Date(),
-		expirationTime: new Date(),
-		maxHail: 0.88,
-		maxWind: 60,
-		tornadoes: true,
-		maxThreat: 'PDS',
-		senderCode: 'TSA',
-		senderName: 'NWS Tulsa',
-	},
-	{
-		code: 'OKC104',
-		name: 'Norman, OK',
-		totalAlerts: 7,
-		tornadoWarnings: 1,
-		thunderstormWarnings: 1,
-		flashFloodWarnings: 2,
-		specialWeatherStatements: 3,
-		effectiveTime: new Date(),
-		expirationTime: new Date(),
-		maxHail: 1.25,
-		maxWind: 70,
-		tornadoes: false,
-		maxThreat: 'Observed',
-		senderCode: 'TSA',
-		senderName: 'NWS Tulsa',
-	},
-	{
-		code: 'OKC103',
-		name: 'Noble, OK',
-		totalAlerts: 5,
-		tornadoWarnings: 1,
-		thunderstormWarnings: 1,
-		flashFloodWarnings: 0,
-		specialWeatherStatements: 3,
-		effectiveTime: new Date(),
-		expirationTime: new Date(),
-		maxHail: 0.88,
-		maxWind: 60,
-		tornadoes: true,
-		maxThreat: 'PDS',
-		senderCode: 'TSA',
-		senderName: 'NWS Tulsa',
-	},
-	{
-		code: 'OKC104',
-		name: 'Norman, OK',
-		totalAlerts: 7,
-		tornadoWarnings: 1,
-		thunderstormWarnings: 1,
-		flashFloodWarnings: 2,
-		specialWeatherStatements: 3,
-		effectiveTime: new Date(),
-		expirationTime: new Date(),
-		maxHail: 1.25,
-		maxWind: 70,
-		tornadoes: false,
-		maxThreat: 'Observed',
-		senderCode: 'TSA',
-		senderName: 'NWS Tulsa',
-	},
-]);
+const { api } = useSkylight();
+const { data } = await useAsyncData('alert-locations-summary', () =>
+	api.getCurrentAlertLocationSummaries({}),
+);
 
 const filters: Ref<DataTableGlobalFilterMetaData> = ref(defaultFilters());
-const maxAlertOptions: Ref<string[]> = ref(['Radar Indicated', 'Observed', 'PDS', 'Emergency']);
+const maxAlertOptions: Ref<string[]> = ref(['RadarIndicated', 'Observed', 'PDS', 'Emergency']);
+const pageOptions: Ref<number[]> = ref([5, 10, 25, 50]);
 
 function defaultFilters(): DataTableGlobalFilterMetaData {
 	return {
@@ -110,7 +46,7 @@ function defaultFilters(): DataTableGlobalFilterMetaData {
 			operator: FilterOperator.AND,
 			constraints: [{ value: null, matchMode: FilterMatchMode.GREATER_THAN_OR_EQUAL_TO }],
 		},
-		thunderstormWarnings: {
+		severeThunderstormWarnings: {
 			operator: FilterOperator.AND,
 			constraints: [{ value: null, matchMode: FilterMatchMode.GREATER_THAN_OR_EQUAL_TO }],
 		},
@@ -145,15 +81,15 @@ function clearFilters(): void {
 	filters.value = defaultFilters();
 }
 
-function getMaxThreatSeverity(maxThreat: string): string {
+function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 	switch (maxThreat) {
-		case 'Radar Indicated':
+		case AlertThreat.RadarIndicated:
 			return 'info';
-		case 'Observed':
+		case AlertThreat.Observed:
 			return 'warn';
-		case 'PDS':
+		case AlertThreat.PDS:
 			return 'danger';
-		case 'Emergency':
+		case AlertThreat.Emergency:
 			return 'danger';
 	}
 
@@ -173,12 +109,12 @@ function getMaxThreatSeverity(maxThreat: string): string {
 				paginator
 				filter-display="menu"
 				size="small"
-				sort-field="name"
-				:globalFilterFields="['code', 'name', 'effectiveDate', 'expirationDate', 'maxThreat', 'senderName']"
-				:rows="5"
-				:rowsPerPageOptions="[5, 10, 25]"
+				sort-field="code"
+				:globalFilterFields="['code', 'name', 'effectiveDate', 'expirationDate', 'maxThreat']"
+				:rows="10"
+				:rowsPerPageOptions="pageOptions"
 				:sort-order="1"
-				:value="data">
+				:value="data?.locations">
 
 				<template #header>
 					<div class="table-header">
@@ -236,7 +172,7 @@ function getMaxThreatSeverity(maxThreat: string): string {
 					sortable
 					field="name"
 					header="Name"
-					style="min-width: 10rem">
+					style="min-width: 16rem">
 					<template #body="{ data }">
 						{{ data.name }}
 					</template>
@@ -335,7 +271,7 @@ function getMaxThreatSeverity(maxThreat: string): string {
 					sortable
 					field="maxThreat"
 					header="Max Threat"
-					style="min-width: 8rem"
+					style="min-width: 12rem"
 					:filter-match-mode-options="[
 						{
 							label: 'Equals',
@@ -347,7 +283,7 @@ function getMaxThreatSeverity(maxThreat: string): string {
 						}
 					]">
 					<template #body="{ data }">
-						<Tag :value="data.maxThreat" :severity="getMaxThreatSeverity(data.maxThreat)" />
+						<Tag :value="insertSpaces(data.maxThreat)" :severity="getMaxThreatSeverity(data.maxThreat)" />
 					</template>
 					<template #filter="{ filterModel, filterCallback }">
 						<Select
@@ -357,7 +293,7 @@ function getMaxThreatSeverity(maxThreat: string): string {
 							:options="maxAlertOptions"
 							@change="filterCallback()">
 							<template #option="slotProps">
-								<Tag :value="slotProps.option" :severity="getMaxThreatSeverity(slotProps.option)" />
+								<Tag :value="insertSpaces(slotProps.option)" :severity="getMaxThreatSeverity(slotProps.option)" />
 							</template>
 						</Select>
 					</template>
@@ -450,11 +386,11 @@ function getMaxThreatSeverity(maxThreat: string): string {
 				<Column
 					sortable
 					dataType="numeric"
-					field="thunderstormWarnings"
+					field="severeThunderstormWarnings"
 					header="SVR Alerts"
 					style="min-width: 8rem">
 					<template #body="{ data }">
-						{{ data.thunderstormWarnings }}
+						{{ data.severeThunderstormWarnings }}
 					</template>
 					<template #filter="{ filterModel, filterCallback }">
 						<InputNumber
@@ -551,74 +487,6 @@ function getMaxThreatSeverity(maxThreat: string): string {
 
 				<Column
 					sortable
-					dataType="numeric"
-					field="maxHail"
-					header="Max Hail Size"
-					style="min-width: 12rem">
-					<template #body="{ data }">
-						{{ data.maxHail }}
-					</template>
-					<template #filter="{ filterModel, filterCallback }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="10"
-							@input="filterCallback()" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="maxWind"
-					header="Max Wind Speed"
-					style="min-width: 14rem">
-					<template #body="{ data }">
-						{{ data.maxWind }}
-					</template>
-					<template #filter="{ filterModel, filterCallback }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100"
-							@input="filterCallback()" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
 					field="tornadoes"
 					header="Tornadoes"
 					style="min-width: 8rem"
@@ -662,20 +530,52 @@ function getMaxThreatSeverity(maxThreat: string): string {
 
 				<Column
 					sortable
-					field="senderName"
-					header="Sender"
+					dataType="numeric"
+					field="maxHail"
+					header="Max Hail Size"
 					style="min-width: 12rem">
 					<template #body="{ data }">
-						<div class="sender">
-							<img alt="Sender Logo" class="sender-logo" src="assets/images/national-weather-service.png" />
-							<span>{{ data.senderName }}</span>
-						</div>
+						{{ data.maxHail.toFixed(2) }}"
 					</template>
 					<template #filter="{ filterModel, filterCallback }">
-						<InputText
+						<InputNumber
 							v-model="filterModel.value"
-							placeholder="Search By Sender"
-							type="text"
+							:min="0"
+							:max="10"
+							@input="filterCallback()" />
+					</template>
+					<template #filterclear="{ filterCallback }">
+						<Button
+							v-tooltip.top="'Clear'"
+							icon="pi pi-times"
+							severity="danger"
+							type="button"
+							@click="filterCallback()" />
+					</template>
+					<template #filterapply="{ filterCallback }">
+						<Button
+							v-tooltip.top="'Apply'"
+							icon="pi pi-check"
+							severity="success"
+							type="button"
+							@click="filterCallback()" />
+					</template>
+				</Column>
+
+				<Column
+					sortable
+					dataType="numeric"
+					field="maxWind"
+					header="Max Wind Speed"
+					style="min-width: 14rem">
+					<template #body="{ data }">
+						{{ data.maxWind }} MPH
+					</template>
+					<template #filter="{ filterModel, filterCallback }">
+						<InputNumber
+							v-model="filterModel.value"
+							:min="0"
+							:max="100"
 							@input="filterCallback()" />
 					</template>
 					<template #filterclear="{ filterCallback }">

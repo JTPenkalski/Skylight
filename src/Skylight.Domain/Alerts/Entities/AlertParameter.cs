@@ -23,4 +23,5 @@ public static class AlertParameterValues
 	public const string RadarIndicated = "RADAR INDICATED";
 	public const string RadarAndGaugeIndicated = "RADAR AND GAUGE INDICATED";
 	public const string Possible = "POSSIBLE";
+	public const string Significant = "SIGNIFICANT";
 }

@@ -92,7 +92,7 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 
 		var response = new GetCurrentAlertsByTypeResponse(
 			alerts.Count,
-			alertType.ProductCode,
+			alertType.TypeCode,
 			alertType.Name,
 			alertType.Level,
 			alerts);

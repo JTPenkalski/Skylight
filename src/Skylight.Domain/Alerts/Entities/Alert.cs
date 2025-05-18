@@ -68,7 +68,7 @@ public class Alert : BaseAuditableEntity
 
 			string? observationType = Parameters
 				// Ignore certain Pararmeter values
-				.Where(x => !x.Value.Equals(AlertParameterValues.Possible, StringComparison.CurrentCultureIgnoreCase))
+				.Where(x => !x.Value.Equals(AlertParameterValues.Possible, StringComparison.InvariantCultureIgnoreCase))
 				// Associate each of this Alert's Parameters with the priority established above
 				.Join(
 					observationTypes,
@@ -87,6 +87,20 @@ public class Alert : BaseAuditableEntity
 			return observationType.ToTitleCase();
 		}
 	}
+
+	[NotMapped]
+	public AlertThreat Threat =>
+		ObservationType.ToUpper() switch
+		{
+			AlertParameterValues.Catastrophic when
+				Type.TypeCode is AlertTypeCodes.TornadoWarning => AlertThreat.Emergency,
+			AlertParameterValues.Considerable when
+				Type.TypeCode is AlertTypeCodes.TornadoWarning => AlertThreat.PDS,
+			AlertParameterValues.Catastrophic or AlertParameterValues.Destructive => AlertThreat.PDS,
+			AlertParameterValues.Observed or AlertParameterValues.Considerable => AlertThreat.Observed,
+			AlertParameterValues.RadarIndicated => AlertThreat.RadarIndicated,
+			_ => AlertThreat.Unknown,
+		};
 
 	public void Effectuate()
 	{
@@ -138,4 +152,7 @@ public class Alert : BaseAuditableEntity
 
 		return removed > 0;
 	}
+
+	public bool HasParameter(AlertParameterKey key) =>
+		_parameters.Any(x => x.Key == key);
 }

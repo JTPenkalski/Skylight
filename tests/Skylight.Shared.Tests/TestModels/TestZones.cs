@@ -5,7 +5,7 @@ namespace Skylight.Shared.Tests.TestModels;
 public static class TestZones
 {
 	/// <summary>
-	/// Creates a basic test zone.
+	/// Creates a basic test <see cref="Zone"/>.
 	/// </summary>
 	public static Zone Default(Guid? id = null)
 	{

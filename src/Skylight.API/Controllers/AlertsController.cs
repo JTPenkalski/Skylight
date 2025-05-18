@@ -39,6 +39,14 @@ public class AlertsController(IMediator mediator) : BaseController
 	}
 
 	[HttpPost]
+	public async Task<ActionResult<GetCurrentAlertLocationSummariesResponse>> GetCurrentAlertLocationSummaries(GetCurrentAlertLocationSummariesQuery request, CancellationToken cancellationToken)
+	{
+		var result = await mediator.Send(request, cancellationToken);
+
+		return result.ToActionResult();
+	}
+
+	[HttpPost]
 	public async Task<ActionResult<GetCurrentAlertObservationTypesByTypeResponse>> GetCurrentAlertObservationTypesByType(GetCurrentAlertObservationTypesByTypeQuery request, CancellationToken cancellationToken)
 	{
 		var result = await mediator.Send(request, cancellationToken);

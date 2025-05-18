@@ -26,4 +26,5 @@ public static class AlertTypeCodes
 	public const string TornadoWarning = "TOW";
 	public const string SevereThunderstormWarning = "SVW";
 	public const string FlashFloodWarning = "FFW";
+	public const string SpecialWeatherStatement = "SPS";
 }

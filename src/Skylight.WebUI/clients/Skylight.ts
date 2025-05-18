@@ -255,6 +255,82 @@ export class SkylightClient {
     /**
      * @return OK
      */
+    getCurrentAlertLocationSummaries(body: GetCurrentAlertLocationSummariesQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertLocationSummariesResponse> {
+        let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertLocationSummaries";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetCurrentAlertLocationSummaries(_response);
+        });
+    }
+
+    protected processGetCurrentAlertLocationSummaries(response: AxiosResponse): Promise<GetCurrentAlertLocationSummariesResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = JSON.parse(resultData200);
+            return Promise.resolve<GetCurrentAlertLocationSummariesResponse>(result200);
+
+        } else if (status === 401) {
+            const _responseText = response.data;
+            let result401: any = null;
+            let resultData401  = _responseText;
+            result401 = JSON.parse(resultData401);
+            return throwException("Unauthorized", status, _responseText, _headers, result401);
+
+        } else if (status === 403) {
+            const _responseText = response.data;
+            let result403: any = null;
+            let resultData403  = _responseText;
+            result403 = JSON.parse(resultData403);
+            return throwException("Forbidden", status, _responseText, _headers, result403);
+
+        } else if (status === 429) {
+            const _responseText = response.data;
+            let result429: any = null;
+            let resultData429  = _responseText;
+            result429 = JSON.parse(resultData429);
+            return throwException("Too Many Requests", status, _responseText, _headers, result429);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetCurrentAlertLocationSummariesResponse>(null as any);
+    }
+
+    /**
+     * @return OK
+     */
     getCurrentAlertObservationTypesByType(body: GetCurrentAlertObservationTypesByTypeQuery, cancelToken?: CancelToken): Promise<GetCurrentAlertObservationTypesByTypeResponse> {
         let url_ = this.baseUrl + "/api/v1/Alerts/GetCurrentAlertObservationTypesByType";
         url_ = url_.replace(/[?&]$/, "");
@@ -669,6 +745,14 @@ export enum AlertSeverity {
     Extreme = "Extreme",
 }
 
+export enum AlertThreat {
+    Unknown = "Unknown",
+    RadarIndicated = "RadarIndicated",
+    Observed = "Observed",
+    PDS = "PDS",
+    Emergency = "Emergency",
+}
+
 export enum AlertUrgency {
     Unknown = "Unknown",
     Past = "Past",
@@ -700,6 +784,24 @@ export interface CurrentAlert {
 export interface CurrentAlertLocation {
     zone: string;
     name: string;
+
+    [key: string]: any;
+}
+
+export interface CurrentAlertLocationSummary {
+    code: string;
+    name: string;
+    effectiveTime: Date;
+    expirationTime: Date;
+    maxThreat: AlertThreat;
+    totalAlerts: number;
+    tornadoWarnings: number;
+    severeThunderstormWarnings: number;
+    flashFloodWarnings: number;
+    specialWeatherStatements: number;
+    maxHail: number;
+    maxWind: number;
+    tornadoes: boolean;
 
     [key: string]: any;
 }
@@ -747,6 +849,17 @@ export interface GetCurrentAlertCountByTypeResponse {
     alertCode: string;
     alertName: string;
     alertLevel: AlertLevel;
+
+    [key: string]: any;
+}
+
+export interface GetCurrentAlertLocationSummariesQuery {
+
+    [key: string]: any;
+}
+
+export interface GetCurrentAlertLocationSummariesResponse {
+    locations: CurrentAlertLocationSummary[];
 
     [key: string]: any;
 }

@@ -116,16 +116,27 @@ public static class Bootstrap
 			.AddRateLimiter(options =>
 			{
 				options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+				options.OnRejected = (ctx, ct) =>
+				{
+					ctx.HttpContext.RequestServices.GetRequiredService<ILogger>()
+						.LogWarning(
+							"{User} has exceeded the rate limiting policy for {Endpoint}!",
+							ctx.HttpContext.User.Identity?.Name ?? "Anonymous",
+							ctx.HttpContext.Request.Path);
+					return ValueTask.CompletedTask;
+				};
+
 				options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-					RateLimitPartition.GetFixedWindowLimiter(
+					RateLimitPartition.GetSlidingWindowLimiter(
 						partitionKey: httpContext.User.Identity?.Name
 							?? httpContext.Connection.RemoteIpAddress?.ToString()
 							?? SkylightOrigins.Anonymous,
-						factory: partition => new FixedWindowRateLimiterOptions
+						factory: partition => new SlidingWindowRateLimiterOptions
 						{
 							AutoReplenishment = true,
-							PermitLimit = 128,
-							Window = TimeSpan.FromMinutes(1)
+							PermitLimit = 512,
+							SegmentsPerWindow = 2,
+							Window = TimeSpan.FromMinutes(1),
 						}));
 			});
 

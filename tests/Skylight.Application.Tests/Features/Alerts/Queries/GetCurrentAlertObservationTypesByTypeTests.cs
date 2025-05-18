@@ -22,81 +22,81 @@ public class GetCurrentAlertObservationTypesByTypeTests
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Catastrophic),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Catastrophic),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Considerable),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDamageThreat, AlertParameterValues.Considerable),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Observed),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.RadarIndicated),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.RadarIndicated),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
-					(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Destructive),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Destructive),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
-					(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Considerable),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormDamageThreat, AlertParameterValues.Considerable),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.Observed),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.ThunderstormThreat, AlertParameterValues.RadarIndicated),
-					(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
+					new(AlertParameterKey.ThunderstormThreat, AlertParameterValues.RadarIndicated),
+					new(AlertParameterKey.TornadoDetection, AlertParameterValues.Possible),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Catastrophic),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Catastrophic),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
-					(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Considerable),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.FlashFloodDamageThreat, AlertParameterValues.Considerable),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.Observed),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarAndGaugeIndicated),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarAndGaugeIndicated),
 				]),
 			TestAlerts.Default(
 				parameters:
 				[
-					(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarIndicated),
+					new(AlertParameterKey.FlashFloodDetection, AlertParameterValues.RadarIndicated),
 				])
 		];
 

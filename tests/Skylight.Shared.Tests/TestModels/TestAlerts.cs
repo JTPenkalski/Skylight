@@ -1,19 +1,29 @@
 ﻿using Skylight.Domain.Alerts.Entities;
-using ParameterKeyValue = (Skylight.Domain.Alerts.Entities.AlertParameterKey Key, string Value);
 
 namespace Skylight.Shared.Tests.TestModels;
 
 public static class TestAlerts
 {
 	/// <summary>
-	/// Creates a basic test alert.
+	/// Modifies an <see cref="Alert"/> in-place, for easier instantiation in tests.
+	/// </summary>
+	/// <param name="modifier">The modifications to make to <paramref name="alert"/>.</param>
+	/// <returns>The modified alert.</returns>
+	public static Alert With(this Alert alert, Action<Alert> modifier)
+	{
+		modifier(alert);
+
+		return alert;
+	}
+
+	/// <summary>
+	/// Creates a basic test <see cref="Alert"/>.
 	/// </summary>
 	public static Alert Default(
 		Guid? id = null,
-		string? code = null,
 		string? externalId = null,
 		Zone[]? zones = null,
-		ParameterKeyValue[]? parameters = null)
+		AlertParameterKeyValue[]? parameters = null)
 	{
 		var alert = new Alert
 		{
@@ -21,11 +31,11 @@ public static class TestAlerts
 			ExternalId = externalId,
 			Type = new()
 			{
-				ProductCode = code ?? "TST",
+				ProductCode = "TST",
 				Name = "Test Alert Name",
 				Description = "Test Alert Description",
 				Level = AlertLevel.Warning,
-				EventCode = code ?? "TST",
+				EventCode = "TST",
 			},
 			Sender = new()
 			{
@@ -35,11 +45,11 @@ public static class TestAlerts
 			Headline = "Test Headline",
 			Description = "Test Description",
 			Instruction = "Test Instruction",
-			SentOn = DateTimeOffset.UtcNow,
-			EffectiveOn = DateTimeOffset.UtcNow,
-			BeginsOn = DateTimeOffset.UtcNow,
-			ExpiresOn = DateTimeOffset.UtcNow,
-			EndsOn = DateTimeOffset.UtcNow,
+			SentOn = new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
+			EffectiveOn = new(2000, 1, 1, 2, 2, 2, TimeSpan.Zero),
+			BeginsOn = new(2000, 1, 1, 3, 3, 3, TimeSpan.Zero),
+			ExpiresOn = new(2000, 1, 1, 4, 4, 4, TimeSpan.Zero),
+			EndsOn = new(2000, 1, 1, 5, 5, 5, TimeSpan.Zero),
 			MessageType = AlertMessageType.Alert,
 			Severity = AlertSeverity.Extreme,
 			Certainty = AlertCertainty.Observed,

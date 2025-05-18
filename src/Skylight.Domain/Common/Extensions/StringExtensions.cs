@@ -14,6 +14,9 @@ public static partial class StringExtensions
 	[GeneratedRegex(@"^(-?[1-9]\d*|0)(\.\d+)?$")]
 	private static partial Regex NumberRegex();
 
+	[GeneratedRegex(@"[^0-9.-]")]
+	private static partial Regex NonNumeric();
+
 	private static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
 
 	/// <summary>
@@ -36,6 +39,13 @@ public static partial class StringExtensions
 	/// <returns>The new string value.</returns>
 	public static string CapitalizeFirst(this string value) =>
 		string.Concat(value[0].ToString().ToUpper(), value.AsSpan(1));
+
+	/// <summary>
+	/// Converts a string to its numeric representation, removing all non-numeric characters.
+	/// </summary>
+	/// <returns>The new string vbalue, with only numeric characters.</returns>
+	public static string ToNumeric(this string value) =>
+		NonNumeric().Replace(value, string.Empty);
 
 	/// <summary>
 	/// Converts a string to Title Case.
