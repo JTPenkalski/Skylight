@@ -68,8 +68,8 @@ public class GetCurrentAlertObservationTypesByTypeHandler(ISkylightDbContext dbC
 			.CountBy(x => x.ObservationType)
 			// Map to the output type
 			.Select(x => new GetCurrentAlertObservationTypesByTypeResponse.CurrentAlertObservationTypeCount(x.Key.ToString(), x.Value))
-			// Reverse so that lower priority observation types are ordered first, for consistency
-			.Reverse()
+			// Order for display
+			.OrderBy(x => x.ObservationType)
 			.ToList();
 
 		return counts;

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Skylight.Domain.Common.Extensions;
@@ -32,6 +33,20 @@ public static partial class StringExtensions
 	/// <returns>True if the string is a number, false otherwise.</returns>
 	public static bool IsNumber(this string value) =>
 		NumberRegex().IsMatch(value);
+
+	/// <summary>
+	/// Tests the string for null, whitespace, or zero values.
+	/// </summary>
+	/// <returns>True if the string meets any of these conditions, false otherwise.</returns>
+	public static bool IsNullOrWhiteSpaceOrZero([NotNullWhen(true)] this string? value)
+	{
+		bool isNullOrWhiteSpace = string.IsNullOrWhiteSpace(value);
+		bool isZero = float.TryParse(value, out float number)
+			&& number > -float.Epsilon
+			&& number < float.Epsilon;
+
+		return isNullOrWhiteSpace || isZero;
+	}
 
 	/// <summary>
 	/// Capitalizes the first character of a string.

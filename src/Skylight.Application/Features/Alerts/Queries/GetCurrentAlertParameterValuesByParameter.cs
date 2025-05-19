@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Skylight.Application.Data;
 using Skylight.Application.Features.Interfaces;
 using Skylight.Domain.Alerts.Entities;
+using Skylight.Domain.Common.Extensions;
 using Skylight.Domain.Common.Results;
 
 namespace Skylight.Application.Features.Alerts.Queries;
@@ -44,6 +45,7 @@ public class GetCurrentAlertParameterValuesByParameterHandler(ISkylightDbContext
 	internal virtual List<GetCurrentAlertParameterValuesByParameterResponse.CurrentAlertParameterCount> GetObservationTypeCounts(List<AlertParameter> alertParameters)
 	{
 		var counts = alertParameters
+			.Where(x => !x.Value.IsNullOrWhiteSpaceOrZero())
 			.CountBy(x => x.Value)
 			.Select(x => new GetCurrentAlertParameterValuesByParameterResponse.CurrentAlertParameterCount(x.Key.ToString(), x.Value))
 			.OrderBy(x => x.ParameterValue)

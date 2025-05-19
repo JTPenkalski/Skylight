@@ -56,6 +56,7 @@ useAlertsHub({
       <AlertLocationsTableCard />
     </div>
     <div class="row">
+      <AlertTypeListCard code="FFW"/>
       <AlertTypeListCard code="SPS"/>
     </div>
   </div>

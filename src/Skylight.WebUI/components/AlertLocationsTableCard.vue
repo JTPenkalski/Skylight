@@ -83,17 +83,26 @@ function clearFilters(): void {
 
 function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 	switch (maxThreat) {
-		case AlertThreat.RadarIndicated:
-			return 'info';
-		case AlertThreat.Observed:
-			return 'warn';
-		case AlertThreat.PDS:
-			return 'danger';
 		case AlertThreat.Emergency:
 			return 'danger';
+		case AlertThreat.PDS:
+			return 'warn';
+		case AlertThreat.Observed:
+			return 'info';
+		case AlertThreat.RadarIndicated:
+			return 'success';
 	}
 
 	return 'secondary';
+}
+
+function getMaxThreatIcon(maxThreat: AlertThreat): string {
+	switch (maxThreat) {
+		case AlertThreat.Emergency:
+			return 'pi pi-exclamation-triangle';
+	}
+
+	return '';
 }
 </script>
 
@@ -105,12 +114,13 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
     <template #content>
       <DataTable
 				v-model:filters="filters"
+				data-key="code"
 				striped-rows
 				paginator
 				filter-display="menu"
 				size="small"
 				sort-field="code"
-				:globalFilterFields="['code', 'name', 'effectiveDate', 'expirationDate', 'maxThreat']"
+				:globalFilterFields="['code', 'name', 'effectiveTime', 'expirationTime', 'maxThreat']"
 				:rows="10"
 				:rowsPerPageOptions="pageOptions"
 				:sort-order="1"
@@ -143,12 +153,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.code }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputText
 							v-model="filterModel.value"
 							placeholder="Search By Code"
-							type="text"
-							@input="filterCallback()" />
+							type="text" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -176,12 +185,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.name }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputText
 							v-model="filterModel.value"
 							placeholder="Search By Name"
-							type="text"
-							@input="filterCallback()" />
+							type="text" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -283,17 +291,25 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 						}
 					]">
 					<template #body="{ data }">
-						<Tag :value="insertSpaces(data.maxThreat)" :severity="getMaxThreatSeverity(data.maxThreat)" />
+						<Tag
+							:icon="getMaxThreatIcon(data.maxThreat)"
+							:severity="getMaxThreatSeverity(data.maxThreat)"
+							:value="insertSpaces(data.maxThreat)" />
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<Select
 							v-model="filterModel.value"
-							showClear
+							show-clear
 							placeholder="Select Status"
-							:options="maxAlertOptions"
-							@change="filterCallback()">
+							:options="maxAlertOptions">
+							<template #value="slotProps">
+								{{ insertSpaces(slotProps.value ?? slotProps.placeholder) }}
+							</template>
 							<template #option="slotProps">
-								<Tag :value="insertSpaces(slotProps.option)" :severity="getMaxThreatSeverity(slotProps.option)" />
+								<Tag
+									:icon="getMaxThreatIcon(slotProps.option)"
+									:severity="getMaxThreatSeverity(slotProps.option)"
+									:value="insertSpaces(slotProps.option)" />
 							</template>
 						</Select>
 					</template>
@@ -324,12 +340,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.totalAlerts }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="100"
-							@input="filterCallback()" />
+							:max="100" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -358,12 +373,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.tornadoWarnings }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="100"
-							@input="filterCallback()" />
+							:max="100" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -392,12 +406,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.severeThunderstormWarnings }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="100"
-							@input="filterCallback()" />
+							:max="100" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -426,12 +439,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.flashFloodWarnings }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="100"
-							@input="filterCallback()" />
+							:max="100" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -460,12 +472,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.specialWeatherStatements }}
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="100"
-							@input="filterCallback()" />
+							:max="100" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -498,14 +509,13 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 							<i class="pi pi-check" />
 						</template>
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<div>
 							<Checkbox
 							v-model="filterModel.value"
 							binary
 							inputId="filter-tornadoes"
-							:indeterminate="filterModel.value === null"
-							@value-change="filterCallback()" />
+							:indeterminate="filterModel.value === null" />
 
 							<label for="filter-tornadoes"> Has Tornadoes</label>
 						</div>
@@ -537,12 +547,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.maxHail.toFixed(2) }}"
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="10"
-							@input="filterCallback()" />
+							:max="10" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button
@@ -571,12 +580,11 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 					<template #body="{ data }">
 						{{ data.maxWind }} MPH
 					</template>
-					<template #filter="{ filterModel, filterCallback }">
+					<template #filter="{ filterModel }">
 						<InputNumber
 							v-model="filterModel.value"
 							:min="0"
-							:max="100"
-							@input="filterCallback()" />
+							:max="100" />
 					</template>
 					<template #filterclear="{ filterCallback }">
 						<Button

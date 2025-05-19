@@ -22,7 +22,7 @@ const theme: Preset = definePreset(Aura, {
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	//ssr: false,
+	// ssr: false,
 	app: {
 		head: {
 			htmlAttrs: {

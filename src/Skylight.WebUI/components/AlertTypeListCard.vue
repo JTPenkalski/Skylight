@@ -1,13 +1,14 @@
 <script setup lang="ts">
 const props = defineProps<{
 	code: string;
-	rows?: number;
 }>();
 
 const { api } = useSkylight();
 const { data } = await useAsyncData(`alerts/${props.code}`, () =>
 	api.getCurrentAlertsByType({ code: props.code }),
 );
+
+const pageOptions: Ref<number[]> = ref([3, 5, 10]);
 
 const title: ComputedRef<string> = computed(() =>
 	data.value ? `${plural(data.value.alertName)}` : 'Alerts',
@@ -28,7 +29,13 @@ const hasData: ComputedRef<boolean> = computed(
 			</div>
     </template>
     <template #content>
-			<DataView v-if="hasData" paginator data-key="headline" :value="data?.currentAlerts" :rows="props.rows ?? 5">
+			<DataView
+				v-if="hasData"
+				paginator
+				data-key="headline"
+				:value="data?.currentAlerts"
+				:rows="3"
+				:rowsPerPageOptions="pageOptions">
 				<template #list="slotProps">
 					<div class="list">
 						<AlertListItem v-for="(item, index) in slotProps.items"
