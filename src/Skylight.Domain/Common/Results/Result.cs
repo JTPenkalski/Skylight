@@ -37,8 +37,12 @@ public class Result
 		return result;
 	}
 
-	public override string ToString() =>
-		$"IsSuccess = {IsSuccess}; Errors = {string.Join(',', Errors)}";
+	public override string ToString()
+	{
+		string errors = IsSuccess ? "None" : string.Join(',', Errors);
+
+		return $"IsSuccess = {IsSuccess}; Errors = {errors}";
+	}
 
 	public void AddErrors(params IEnumerable<Error> errors) =>
 		_errors.AddRange(errors);
@@ -64,8 +68,12 @@ public class Result<T> : Result
 
 	public T? Value { get; protected set; }
 
-	public override string ToString() =>
-		$"Value = {Value}; IsSuccess = {IsSuccess}; Errors = {string.Join(',', Errors)}";
+	public override string ToString()
+	{
+		string value = Value?.ToString() ?? "None";
+
+		return $"Value = {value}; {base.ToString()}";
+	}
 
 	public bool TryGetValue([NotNullWhen(true)] out T? value)
 	{

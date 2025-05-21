@@ -67,8 +67,9 @@ public class NationalWeatherServiceClient(
 					.Select(x => new Alert(
 						Id: x.GetProperty("id").GetString()!,
 						AreaDescription: x.GetProperty("areaDesc").GetString()!,
-						Zones: [.. x.GetProperty("geocode").GetProperty("UGC").EnumerateArray()
-							.Select(x => UgcZone.Parse(x.GetString()!))],
+						Zones: x.GetProperty("geocode").GetOptionalProperty("UGC")?.EnumerateArray()
+							.Select(x => UgcZone.Parse(x.GetString()!))
+							.ToArray() ?? [],
 						Sent: x.GetProperty("sent").GetDateTimeOffset().ToUniversalTime(),
 						Effective: x.GetProperty("effective").GetDateTimeOffset().ToUniversalTime(),
 						Onset: x.GetOptionalProperty("onset")?.GetDateTimeOffset().ToUniversalTime(),
@@ -85,8 +86,8 @@ public class NationalWeatherServiceClient(
 						Headline: x.GetOptionalProperty("headline")?.GetString()!,
 						Description: x.GetProperty("description").GetString()!,
 						Instruction: x.GetOptionalProperty("instruction")?.GetString()!,
-						Response: Enum.Parse<AlertResponse>(x.GetProperty("response").GetString()!),
-						AwipsId: AwipsIdentifier.Parse(x.GetProperty("parameters").GetProperty("AWIPSidentifier").EnumerateArray().Single().GetString()!),
+						Response: Enum.Parse<AlertResponse>(x.GetProperty("response").GetString() ?? "None"),
+						AwipsId: AwipsIdentifier.Parse(x.GetProperty("parameters").GetOptionalProperty("AWIPSidentifier")?.EnumerateArray().Single().GetString()),
 						EventMotionDescription: EventMotionDescription.Parse(x.GetProperty("parameters").GetOptionalProperty("eventMotionDescription")?.EnumerateArray().Single().GetString()),
 						WindThreat: x.GetProperty("parameters").GetOptionalProperty("windThreat")?.EnumerateArray().Single().GetString()?.ToLower().ToTitleCase(),
 						MaxWindGust: x.GetProperty("parameters").GetOptionalProperty("maxWindGust")?.EnumerateArray().Single().GetString(),

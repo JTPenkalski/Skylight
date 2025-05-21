@@ -36,7 +36,7 @@ public class ValidationBehaviour<TMessage, TResponse>(IEnumerable<IValidator<TMe
 		catch (ValidationException ex)
 		{
 			var result = new TResponse();
-			result.AddErrors(new Error(ex.Message));
+			result.AddErrors(new Error(ex));
 
 			return result;
 		}

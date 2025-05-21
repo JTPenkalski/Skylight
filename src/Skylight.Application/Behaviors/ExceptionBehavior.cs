@@ -21,7 +21,7 @@ public class ExceptionBehavior<TMessage, TResponse>(ILogger<ExceptionBehavior<TM
 		catch (Exception ex)
 		{
 			var result = new TResponse();
-			result.AddErrors(new Error(ex.Message));
+			result.AddErrors(new Error(ex));
 
 			logger.LogError(ex, "An unexpected error occurred processing a {RequestType} request. {RequestValue}",
 				typeof(TMessage).Name,

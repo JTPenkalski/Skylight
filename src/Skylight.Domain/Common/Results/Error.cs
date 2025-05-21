@@ -8,5 +8,8 @@ public class Error
 		Message = message;
 
 	public Error(Exception exception) =>
-		Message = exception.Message;
+		Message = $"{exception.Message} => {exception.StackTrace}";
+
+	public override string ToString() =>
+		Message;
 }

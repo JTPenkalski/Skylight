@@ -1,3 +1,5 @@
+#pragma warning disable S1481
+
 using Skylight.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -41,3 +43,5 @@ builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(
 	});
 
 await builder.Build().RunAsync();
+
+#pragma warning restore S1481

@@ -8,8 +8,14 @@
 /// </remarks>
 public sealed record AwipsIdentifier(string ProductCategory, string OfficeIdentifier)
 {
-	public static AwipsIdentifier Parse(string value)
+	public const string Unknown = "UNK";
+
+	public static AwipsIdentifier Default => new(Unknown, Unknown);
+
+	public static AwipsIdentifier Parse(string? value)
 	{
+		if (string.IsNullOrWhiteSpace(value)) return Default;
+
 		string productCategory = value[0..3];
 		string officeIdentifier = value[3..];
 
