@@ -7,8 +7,7 @@ namespace Skylight.Infrastructure.Clients.NationalWeatherService.Endpoints;
 public sealed record GetZonesRequest(
 	string[]? ZoneIds = null,
 	ZoneType[]? ZoneTypes = null,
-	bool IncludeGeometry = false,
-	int Limit = 1000)
+	bool IncludeGeometry = false)
 	: IClientRequest;
 
 public sealed record GetZonesResponse(
@@ -21,8 +20,5 @@ public class GetZonesRequestValidator : AbstractValidator<GetZonesRequest>
 	{
 		RuleForEach(x => x.ZoneIds)
 			.IsZoneId();
-
-		RuleFor(x => x.Limit)
-			.GreaterThan(0);
 	}
 }

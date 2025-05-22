@@ -11,8 +11,7 @@ public sealed record GetActiveAlertsRequest(
 	AlertLocation? Location = null,
 	AlertUrgency[]? Urgencies = null,
 	AlertSeverity[]? Severities = null,
-	AlertCertainty[]? Certainties = null,
-	int Limit = 100)
+	AlertCertainty[]? Certainties = null)
 	: IClientRequest;
 
 public sealed record GetActiveAlertsResponse(AlertCollection AlertCollection)
@@ -31,8 +30,5 @@ public class GetActiveAlertsRequestValidator : AbstractValidator<GetActiveAlerts
 				v.Add(new AreaAlertLocationValidator());
 				v.Add(new ZoneAlertLocationValidator());
 			});
-
-		RuleFor(x => x.Limit)
-			.GreaterThan(0);
 	}
 }

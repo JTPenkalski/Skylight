@@ -48,7 +48,6 @@ public class NationalWeatherServiceClient(
 				urgency = request.Urgencies.ToCsv(),
 				severity = request.Severities.ToCsv(),
 				certainty = request.Certainties.ToCsv(),
-				limit = request.Limit,
 			})
 			.AppendQueryParam(request.Location?.QueryName, request.Location?.QueryValue);
 	}
@@ -128,7 +127,6 @@ public class NationalWeatherServiceClient(
 				id = request.ZoneIds.ToCsv(),
 				type = request.ZoneTypes.ToLower().ToCsv(),
 				include_geometry = request.IncludeGeometry.ToString().ToLower(),
-				limit = request.Limit,
 			});
 	}
 
