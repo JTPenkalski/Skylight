@@ -1,8 +1,8 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
-import type { Preset } from '@primeuix/themes/types';
+import tailwindcss from '@tailwindcss/vite';
 
-const theme: Preset = definePreset(Aura, {
+const theme = definePreset(Aura, {
 	semantic: {
 		primary: {
 			50: '{blue.50}',
@@ -16,6 +16,33 @@ const theme: Preset = definePreset(Aura, {
 			800: '{blue.800}',
 			900: '{blue.900}',
 			950: '{blue.950}',
+		},
+	},
+	extend: {
+		navbar: {
+			height: '3rem',
+		},
+		severity: {
+			high: {
+				color: '{fuchsia.600}',
+				background: 'color-mix(in srgb, {fuchsia.400}, transparent 60%)',
+			},
+			moderate: {
+				color: '{red.600}',
+				background: 'color-mix(in srgb, {red.400}, transparent 60%)',
+			},
+			enhanced: {
+				color: '{orange.600}',
+				background: 'color-mix(in srgb, {orange.400}, transparent 60%)',
+			},
+			slight: {
+				color: '{yellow.600}',
+				background: 'color-mix(in srgb, {yellow.400}, transparent 60%)',
+			},
+			marginal: {
+				color: '{green.600}',
+				background: 'color-mix(in srgb, {green.400}, transparent 60%)',
+			},
 		},
 	},
 });
@@ -45,7 +72,7 @@ export default defineNuxtConfig({
 		},
 	},
 	compatibilityDate: '2024-11-01',
-	css: ['~/assets/scss/main.scss'],
+	css: ['~/assets/css/main.css'],
 	devtools: {
 		enabled: true,
 	},
@@ -59,7 +86,10 @@ export default defineNuxtConfig({
 				options: {
 					prefix: 'p',
 					darkModeSelector: 'system',
-					cssLayer: false,
+					cssLayer: {
+						name: 'primevue',
+						order: 'theme, base, primevue',
+					},
 				},
 			},
 		},
@@ -73,6 +103,12 @@ export default defineNuxtConfig({
 			},
 		},
 	},
+	vite: {
+		plugins: [tailwindcss()],
+	},
+	typescript: {
+		typeCheck: true,
+	},
 	$production: {
 		runtimeConfig: {
 			public: {
@@ -82,8 +118,5 @@ export default defineNuxtConfig({
 				},
 			},
 		},
-	},
-	typescript: {
-		typeCheck: true,
 	},
 });

@@ -1,13 +1,5 @@
 <template>
-	<div class="message">No current alerts</div>
+	<div class="flex items-center justify-center h-full p-4 text-center w-full">
+		<span class="text-sm uppercase">No Current Alerts</span>
+	</div>
 </template>
-
-<style scoped lang="scss">
-.message {
-	font-size: 0.8rem;
-	padding-top: 2rem;
-	text-align: center;
-	text-transform: uppercase;
-	width: 100%;
-}
-</style>

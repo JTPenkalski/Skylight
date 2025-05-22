@@ -106,20 +106,13 @@ const chartOptions: Ref<ChartOptions<'line'>> = ref({
 </script>
 
 <template>
-	<Card class="card">
-    <template #title>
-			<div>Alert History</div>
-    </template>
-		<template #subtitle>
-			<div>{{ plural(props.title) }}</div>
-    </template>
-    <template #content>
-      <Chart class="chart" type="line" :data="chartData" :options="chartOptions" />
-    </template>
-		<template #footer>
-      <div class="card-footer">
-				<Select v-model="hours" inputId="dd-hours" optionLabel="name" size="small" :options="hourOptions" @value-change="refresh" />
-			</div>
-    </template>
-  </Card>
+	<DashboardCard
+		class="card-md md:card"
+		title="Alert History"
+		:subtitle="plural(props.title)">
+		<div class="flex flex-col">
+			<Chart class="chart" type="line" :data="chartData" :options="chartOptions" />
+			<Select v-model="hours" inputId="dd-hours" optionLabel="name" size="small" :options="hourOptions" @value-change="refresh" />
+		</div>
+	</DashboardCard>
 </template>

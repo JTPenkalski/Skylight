@@ -10,7 +10,7 @@ const { data } = await useAsyncData(`alert-observation-types/${props.code}`, () 
 	api.getCurrentAlertObservationTypesByType({ code: props.code }),
 );
 
-const title: ComputedRef<string> = computed(() =>
+const name: ComputedRef<string> = computed(() =>
 	data.value ? `${plural(data.value.alertName)}` : 'Alert',
 );
 const hasData: ComputedRef<boolean> = computed(
@@ -38,16 +38,11 @@ const chartOptions: Ref<ChartOptions<'doughnut'>> = ref({
 </script>
 
 <template>
-	<Card class="card">
-    <template #title>
-			<div>Alert Types</div>
-    </template>
-		<template #subtitle>
-			<div>{{ title }}</div>
-    </template>
-    <template #content>
-      <Chart v-if="hasData" class="chart" type="doughnut" :data="chartData" :options="chartOptions" />
-			<NoAlerts v-else />
-    </template>
-  </Card>
+	<DashboardCard
+		class="card"
+		title="Alert Types"
+		:subtitle="name">
+		<Chart v-if="hasData" class="chart" type="doughnut" :data="chartData" :options="chartOptions" />
+		<NoAlerts v-else />
+	</DashboardCard>
 </template>

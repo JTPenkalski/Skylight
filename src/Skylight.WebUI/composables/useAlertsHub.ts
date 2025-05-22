@@ -1,5 +1,5 @@
 import * as SignalR from '@microsoft/signalr';
-import { AlertsHub } from '~/plugins/signal-r';
+import { AlertsHub } from '~/plugins/signalr';
 
 export interface AlertsHubCallbacks {
 	notifyNewAlerts?: (input: NotifyNewAlertsInput) => void;

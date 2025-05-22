@@ -41,8 +41,8 @@ onMounted(() => {
 
 <template>
 	<template v-if="!!data">
-		<div class="modal">
-			<div class="section">
+		<div class="flex flex-col gap-2 w-[70vw]">
+			<div class="section flex flex-col gap-1 p-4 w-full">
 				<span class="headline">{{ data.headline }}</span>
 
 				<span v-if="!!data.instruction" class="instruction">{{ data.instruction }}</span>
@@ -67,14 +67,14 @@ onMounted(() => {
 				</div>
 			</div>
 
-			<div class="section">
+			<div class="section flex flex-col gap-1 p-4 w-full">
 				<Panel toggleable header="Description">
 					<span class="description">{{ data.description }}</span>
 				</Panel>
 
 				<Panel collapsed toggleable header="Locations">
 					<DataTable size="small" sort-field="name" :sort-order="1" :value="data.locations">
-						<Column sortable field="zone" header="UGC Zone ID" style="width: 25%"></Column>
+						<Column sortable field="zone" header="Code" style="width: 25%"></Column>
 						<Column sortable field="name" header="Name"></Column>
 					</DataTable>
 				</Panel>
@@ -83,23 +83,10 @@ onMounted(() => {
 	</template>
 </template>
 
-<style scoped lang="scss">
-.modal {
-	display: flex;
-	flex-direction: column;
-	gap: 0.4rem;
-	width: 60vw;
-}
-
+<style scoped lang="css">
 .section {
-	align-items: stretch;
 	background-color: var(--p-form-field-background);
 	border-radius: var(--p-card-border-radius);
-	display: flex;
-	flex-direction: column;
-	gap: 0.4rem;
-	padding: 1rem;
-	width: 100%;
 }
 
 .headline {

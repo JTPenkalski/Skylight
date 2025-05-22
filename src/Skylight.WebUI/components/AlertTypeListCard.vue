@@ -10,7 +10,7 @@ const { data } = await useAsyncData(`alerts/${props.code}`, () =>
 
 const pageOptions: Ref<number[]> = ref([3, 5, 10]);
 
-const title: ComputedRef<string> = computed(() =>
+const name: ComputedRef<string> = computed(() =>
 	data.value ? `${plural(data.value.alertName)}` : 'Alerts',
 );
 const hasData: ComputedRef<boolean> = computed(
@@ -19,17 +19,11 @@ const hasData: ComputedRef<boolean> = computed(
 </script>
 
 <template>
-	<Card class="card">
-    <template #title>
-      <div>Alert List</div>
-    </template>
-		<template #subtitle>
-			<div>
-				<div>{{ title }}</div>
-			</div>
-    </template>
-    <template #content>
-			<DataView
+	<DashboardCard
+		class="card-md"
+		title="Alert List"
+		:subtitle="name">
+		<DataView
 				v-if="hasData"
 				paginator
 				data-key="headline"
@@ -37,7 +31,7 @@ const hasData: ComputedRef<boolean> = computed(
 				:rows="3"
 				:rowsPerPageOptions="pageOptions">
 				<template #list="slotProps">
-					<div class="list">
+					<div class="flex flex-col gap-2">
 						<AlertListItem v-for="(item, index) in slotProps.items"
 							:key="index"
 							:item="item"
@@ -48,14 +42,5 @@ const hasData: ComputedRef<boolean> = computed(
 				</template>
 			</DataView>
 			<NoAlerts v-else />
-    </template>
-  </Card>
+	</DashboardCard>
 </template>
-
-<style scoped lang="scss">
-.list {
-	display: flex;
-	flex-direction: column;
-	padding: 0.5rem;
-}
-</style>

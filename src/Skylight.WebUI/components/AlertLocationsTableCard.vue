@@ -15,6 +15,10 @@ const filters: Ref<DataTableGlobalFilterMetaData> = ref(defaultFilters());
 const maxAlertOptions: Ref<string[]> = ref(['RadarIndicated', 'Observed', 'PDS', 'Emergency']);
 const pageOptions: Ref<number[]> = ref([5, 10, 25, 50]);
 
+const hasData: ComputedRef<boolean> = computed(
+	() => !!data.value && data.value.locations.length > 0,
+);
+
 function defaultFilters(): DataTableGlobalFilterMetaData {
 	return {
 		global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -107,508 +111,507 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 </script>
 
 <template>
-	<Card class="card">
-    <template #title>
-      <span>Current Locations</span>
-    </template>
-    <template #content>
-      <DataTable
-				v-model:filters="filters"
-				data-key="code"
-				striped-rows
-				paginator
-				filter-display="menu"
-				size="small"
-				sort-field="code"
-				:globalFilterFields="['code', 'name', 'effectiveTime', 'expirationTime', 'maxThreat']"
-				:rows="10"
-				:rowsPerPageOptions="pageOptions"
-				:sort-order="1"
-				:value="data?.locations">
+	<DashboardCard
+		class="card-lg"
+		title="Current Locations">
+		<DataTable
+			v-if="hasData"
+			v-model:filters="filters"
+			data-key="code"
+			striped-rows
+			paginator
+			filter-display="menu"
+			size="small"
+			sort-field="code"
+			:globalFilterFields="['code', 'name', 'effectiveTime', 'expirationTime', 'maxThreat']"
+			:rows="10"
+			:rowsPerPageOptions="pageOptions"
+			:sort-order="1"
+			:value="data?.locations">
 
-				<template #header>
-					<div class="table-header">
-						<IconField class="table-search">
-							<InputIcon>
-								<i class="pi pi-search" />
-							</InputIcon>
-							<InputText fluid v-model="filters.global.value" placeholder="Keyword Search" />
-						</IconField>
+			<template #header>
+				<div class="table-header">
+					<IconField class="table-search">
+						<InputIcon>
+							<i class="pi pi-search" />
+						</InputIcon>
+						<InputText fluid v-model="filters.global.value" id="location-search" placeholder="Search..." />
+					</IconField>
 
-						<Button
-							outlined
-							icon="pi pi-filter-slash"
-							label="Clear"
-							type="button"
-							severity="danger"
-							@click="clearFilters()" />
+					<Button
+						outlined
+						icon="pi pi-filter-slash"
+						label="Clear"
+						type="button"
+						severity="danger"
+						@click="clearFilters()" />
+				</div>
+			</template>
+
+			<Column
+				sortable
+				field="code"
+				header="Code"
+				style="min-width: 8rem">
+				<template #body="{ data }">
+					{{ data.code }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputText
+						v-model="filterModel.value"
+						placeholder="Search By Code"
+						type="text" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				field="name"
+				header="Name"
+				style="min-width: 16rem">
+				<template #body="{ data }">
+					{{ data.name }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputText
+						v-model="filterModel.value"
+						placeholder="Search By Name"
+						type="text" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="date"
+				field="effectiveTime"
+				header="Start Time"
+				style="min-width: 12rem">
+				<template #body="{ data }">
+					{{ format(data.effectiveTime, 'Pp') }}
+				</template>
+				<template #filter="{ filterModel }">
+					<DatePicker
+						v-model="filterModel.value"
+						dateFormat="yyyy/mm/dd"
+						placeholder="yyyy/mm/dd" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="date"
+				field="expirationTime"
+				header="Stop Time"
+				style="min-width: 12rem">
+				<template #body="{ data }">
+					{{ format(data.expirationTime, 'Pp') }}
+				</template>
+				<template #filter="{ filterModel }">
+					<DatePicker
+						v-model="filterModel.value"
+						dateFormat="yyyy/mm/dd"
+						placeholder="yyyy/mm/dd" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				field="maxThreat"
+				header="Max Threat"
+				style="min-width: 12rem"
+				:filter-match-mode-options="[
+					{
+						label: 'Equals',
+						value: FilterMatchMode.EQUALS
+					},
+					{
+						label:'Not equals',
+						value: FilterMatchMode.NOT_EQUALS
+					}
+				]">
+				<template #body="{ data }">
+					<Tag
+						:icon="getMaxThreatIcon(data.maxThreat)"
+						:severity="getMaxThreatSeverity(data.maxThreat)"
+						:value="insertSpaces(data.maxThreat)" />
+				</template>
+				<template #filter="{ filterModel }">
+					<Select
+						v-model="filterModel.value"
+						show-clear
+						placeholder="Select Status"
+						:options="maxAlertOptions">
+						<template #value="slotProps">
+							{{ insertSpaces(slotProps.value ?? slotProps.placeholder) }}
+						</template>
+						<template #option="slotProps">
+							<Tag
+								:icon="getMaxThreatIcon(slotProps.option)"
+								:severity="getMaxThreatSeverity(slotProps.option)"
+								:value="insertSpaces(slotProps.option)" />
+						</template>
+					</Select>
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="numeric"
+				field="totalAlerts"
+				header="Total Alerts"
+				style="min-width: 8rem">
+				<template #body="{ data }">
+					{{ data.totalAlerts }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="100" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="numeric"
+				field="tornadoWarnings"
+				header="TOR Alerts"
+				style="min-width: 8rem">
+				<template #body="{ data }">
+					{{ data.tornadoWarnings }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="100" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="numeric"
+				field="severeThunderstormWarnings"
+				header="SVR Alerts"
+				style="min-width: 8rem">
+				<template #body="{ data }">
+					{{ data.severeThunderstormWarnings }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="100" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="numeric"
+				field="flashFloodWarnings"
+				header="FFW Alerts"
+				style="min-width: 8rem">
+				<template #body="{ data }">
+					{{ data.flashFloodWarnings }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="100" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				dataType="numeric"
+				field="specialWeatherStatements"
+				header="SPS Alerts"
+				style="min-width: 8rem">
+				<template #body="{ data }">
+					{{ data.specialWeatherStatements }}
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="100" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+
+			<Column
+				sortable
+				field="tornadoes"
+				header="Tornadoes"
+				style="min-width: 8rem"
+				:max-constraints="0"
+				:show-filter-match-modes="false"
+				:show-filter-operator="false">
+				<template #body="{ data }">
+					<template v-if="data.tornadoes">
+						<i class="pi pi-check" />
+					</template>
+				</template>
+				<template #filter="{ filterModel }">
+					<div>
+						<Checkbox
+						v-model="filterModel.value"
+						binary
+						inputId="filter-tornadoes"
+						:indeterminate="filterModel.value === null" />
+
+						<label for="filter-tornadoes"> Has Tornadoes</label>
 					</div>
 				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
 
-				<Column
-					sortable
-					field="code"
-					header="Code"
-					style="min-width: 8rem">
-					<template #body="{ data }">
-						{{ data.code }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputText
-							v-model="filterModel.value"
-							placeholder="Search By Code"
-							type="text" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
+			<Column
+				sortable
+				dataType="numeric"
+				field="maxHail"
+				header="Max Hail Size"
+				style="min-width: 12rem">
+				<template #body="{ data }">
+					{{ data.maxHail.toFixed(2) }}"
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="10" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
 
-				<Column
-					sortable
-					field="name"
-					header="Name"
-					style="min-width: 16rem">
-					<template #body="{ data }">
-						{{ data.name }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputText
-							v-model="filterModel.value"
-							placeholder="Search By Name"
-							type="text" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="date"
-					field="effectiveTime"
-					header="Start Time"
-					style="min-width: 12rem">
-					<template #body="{ data }">
-						{{ format(data.effectiveTime, 'yyyy/MM/dd hh:mm bb') }}
-					</template>
-					<template #filter="{ filterModel }">
-						<DatePicker
-							v-model="filterModel.value"
-							dateFormat="yyyy/mm/dd"
-							placeholder="yyyy/mm/dd" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="date"
-					field="expirationTime"
-					header="Stop Time"
-					style="min-width: 12rem">
-					<template #body="{ data }">
-						{{ format(data.expirationTime, 'yyyy/MM/dd hh:mm bb') }}
-					</template>
-					<template #filter="{ filterModel }">
-						<DatePicker
-							v-model="filterModel.value"
-							dateFormat="yyyy/mm/dd"
-							placeholder="yyyy/mm/dd" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					field="maxThreat"
-					header="Max Threat"
-					style="min-width: 12rem"
-					:filter-match-mode-options="[
-						{
-							label: 'Equals',
-							value: FilterMatchMode.EQUALS
-						},
-						{
-							label:'Not equals',
-							value: FilterMatchMode.NOT_EQUALS
-						}
-					]">
-					<template #body="{ data }">
-						<Tag
-							:icon="getMaxThreatIcon(data.maxThreat)"
-							:severity="getMaxThreatSeverity(data.maxThreat)"
-							:value="insertSpaces(data.maxThreat)" />
-					</template>
-					<template #filter="{ filterModel }">
-						<Select
-							v-model="filterModel.value"
-							show-clear
-							placeholder="Select Status"
-							:options="maxAlertOptions">
-							<template #value="slotProps">
-								{{ insertSpaces(slotProps.value ?? slotProps.placeholder) }}
-							</template>
-							<template #option="slotProps">
-								<Tag
-									:icon="getMaxThreatIcon(slotProps.option)"
-									:severity="getMaxThreatSeverity(slotProps.option)"
-									:value="insertSpaces(slotProps.option)" />
-							</template>
-						</Select>
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="totalAlerts"
-					header="Total Alerts"
-					style="min-width: 8rem">
-					<template #body="{ data }">
-						{{ data.totalAlerts }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="tornadoWarnings"
-					header="TOR Alerts"
-					style="min-width: 8rem">
-					<template #body="{ data }">
-						{{ data.tornadoWarnings }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="severeThunderstormWarnings"
-					header="SVR Alerts"
-					style="min-width: 8rem">
-					<template #body="{ data }">
-						{{ data.severeThunderstormWarnings }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="flashFloodWarnings"
-					header="FFW Alerts"
-					style="min-width: 8rem">
-					<template #body="{ data }">
-						{{ data.flashFloodWarnings }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="specialWeatherStatements"
-					header="SPS Alerts"
-					style="min-width: 8rem">
-					<template #body="{ data }">
-						{{ data.specialWeatherStatements }}
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					field="tornadoes"
-					header="Tornadoes"
-					style="min-width: 8rem"
-					:max-constraints="0"
-					:show-filter-match-modes="false"
-					:show-filter-operator="false">
-					<template #body="{ data }">
-						<template v-if="data.tornadoes">
-							<i class="pi pi-check" />
-						</template>
-					</template>
-					<template #filter="{ filterModel }">
-						<div>
-							<Checkbox
-							v-model="filterModel.value"
-							binary
-							inputId="filter-tornadoes"
-							:indeterminate="filterModel.value === null" />
-
-							<label for="filter-tornadoes"> Has Tornadoes</label>
-						</div>
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="maxHail"
-					header="Max Hail Size"
-					style="min-width: 12rem">
-					<template #body="{ data }">
-						{{ data.maxHail.toFixed(2) }}"
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="10" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-
-				<Column
-					sortable
-					dataType="numeric"
-					field="maxWind"
-					header="Max Wind Speed"
-					style="min-width: 14rem">
-					<template #body="{ data }">
-						{{ data.maxWind }} MPH
-					</template>
-					<template #filter="{ filterModel }">
-						<InputNumber
-							v-model="filterModel.value"
-							:min="0"
-							:max="100" />
-					</template>
-					<template #filterclear="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Clear'"
-							icon="pi pi-times"
-							severity="danger"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-					<template #filterapply="{ filterCallback }">
-						<Button
-							v-tooltip.top="'Apply'"
-							icon="pi pi-check"
-							severity="success"
-							type="button"
-							@click="filterCallback()" />
-					</template>
-				</Column>
-			</DataTable>
-    </template>
-  </Card>
+			<Column
+				sortable
+				dataType="numeric"
+				field="maxWind"
+				header="Max Wind Speed"
+				style="min-width: 14rem">
+				<template #body="{ data }">
+					{{ data.maxWind }} MPH
+				</template>
+				<template #filter="{ filterModel }">
+					<InputNumber
+						v-model="filterModel.value"
+						:min="0"
+						:max="100" />
+				</template>
+				<template #filterclear="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Clear'"
+						icon="pi pi-times"
+						severity="danger"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+				<template #filterapply="{ filterCallback }">
+					<Button
+						v-tooltip.top="'Apply'"
+						icon="pi pi-check"
+						severity="success"
+						type="button"
+						@click="filterCallback()" />
+				</template>
+			</Column>
+		</DataTable>
+		<NoAlerts v-else />
+	</DashboardCard>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .table-header {
 	display: flex;
 	flex-direction: row;

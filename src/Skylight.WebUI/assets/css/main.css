@@ -1,0 +1,47 @@
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@import 'primeicons/primeicons.css';
+
+body {
+  font-family: "Sunflower", sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* NavBar */
+@utility m-navbar {
+  margin: calc(var(--p-navbar-height) + 2rem) 2rem;
+}
+
+@utility m-navbar-sm {
+  margin: calc(var(--p-navbar-height) + 1rem) 1rem;
+}
+
+/* Cards */
+@utility card {
+  @apply col-span-1;
+  min-width: 0;
+}
+
+@utility card-md {
+  @apply col-span-2;
+  min-width: 0;
+}
+
+@utility card-lg {
+  @apply col-span-full;
+  min-width: 0;
+}
+
+/* Charts */
+@utility chart {
+  height: 12rem;
+  position: relative;
+}
+
+@layer components {
+
+}

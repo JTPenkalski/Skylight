@@ -55,8 +55,8 @@ function onExpandAlert(alert: CurrentAlert) {
 			<span class="list-item-header">{{ props.item.observationType }}</span>
 
 			<div class="list-item-times">
-				<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(item.effective, 'PPpp')" />
-				<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(item.expires, 'PPpp')" />
+				<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(item.effective, 'Pp')" />
+				<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(item.expires, 'Pp')" />
 			</div>
 
 			<div class="list-item-tags">
@@ -79,7 +79,7 @@ function onExpandAlert(alert: CurrentAlert) {
 	</div>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .sender-logo {
 	height: 3rem;
 	width: 3rem;

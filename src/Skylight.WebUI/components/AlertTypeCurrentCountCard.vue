@@ -8,10 +8,8 @@ const { data } = await useAsyncData(`alert-count/${props.code}`, () => {
 	return api.getCurrentAlertCountByType({ code: props.code });
 });
 
-const count: ComputedRef<number> = computed(() => {
-	return data.value?.count ?? 0;
-});
-const title: ComputedRef<string> = computed(() => {
+const count: ComputedRef<number> = computed(() => data.value?.count ?? 0);
+const type: ComputedRef<string> = computed(() => {
 	if (data.value) {
 		return plural(data.value.alertName);
 	}
@@ -40,54 +38,47 @@ const severity: ComputedRef<string> = computed(() => {
 </script>
 
 <template>
-  <Card class="card">
-    <template #title>
-      <span>Current Alerts</span>
-    </template>
-    <template #subtitle>
-      <span>{{ title }}</span>
-    </template>
-    <template #content>
-      <div :class="severity" class="counter">{{ count }}</div>
-    </template>
-  </Card>
+  <DashboardCard
+    class="card"
+    title="Current Alerts"
+    :subtitle="type">
+    <div :class="severity" class="
+      border-2 font-semibold m-auto max-w-32 text-center
+      p-2 md:p-4
+      text-2xl md:text-4xl">
+      {{ count }}
+    </div>
+  </DashboardCard>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .marginal {
-  background-color: var(--p-marginal-background);
-  border-color: var(--p-marginal-color);
+  background-color: var(--p-severity-marginal-background);
+  border-color: var(--p-severity-marginal-color);
+  border-radius: var(--p-card-border-radius);
 }
 
 .slight {
-  background-color: var(--p-slight-background);
-  border-color: var(--p-slight-color);
+  background-color: var(--p-severity-slight-background);
+  border-color: var(--p-severity-slight-color);
+  border-radius: var(--p-card-border-radius);
 }
 
 .enhanced {
-  background-color: var(--p-enhanced-background);
-  border-color: var(--p-enhanced-color);
+  background-color: var(--p-severity-enhanced-background);
+  border-color: var(--p-severity-enhanced-color);
+  border-radius: var(--p-card-border-radius);
 }
 
 .moderate {
-  background-color: var(--p-moderate-background);
-  border-color: var(--p-moderate-color);
+  background-color: var(--p-severity-moderate-background);
+  border-color: var(--p-severity-moderate-color);
+  border-radius: var(--p-card-border-radius);
 }
 
 .high {
-  background-color: var(--p-high-background);
-  border-color: var(--p-high-color);
-}
-
-.counter {
+  background-color: var(--p-severity-high-background);
+  border-color: var(--p--severityhigh-color);
   border-radius: var(--p-card-border-radius);
-  border-style: solid;
-  border-width: 2px;
-  font-size: 2rem;
-  font-weight: 500;
-  margin: auto;
-  max-width: 8rem;
-  padding: 0.8rem;
-  text-align: center;
 }
 </style>

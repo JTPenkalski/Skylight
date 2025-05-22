@@ -1,18 +1,6 @@
 <template>
 	<NavBar />
-	<main>
+	<main class="m-navbar-sm md:m-navbar">
 		<slot />
 	</main>
 </template>
-
-<style scoped lang="scss">
-main {
-  margin: calc(var(--navbar-height) + 2rem) 2rem;
-}
-
-@media (max-width: 767px) {
-  main {
-    margin: calc(var(--navbar-height) + 1rem) 1rem;
-  }
-}
-</style>

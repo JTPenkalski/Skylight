@@ -11,90 +11,29 @@ const isDarkTheme: boolean = true;
 </script>
 
 <template>
-  <div class="navbar">
-    <div class="navbar-logo-container">
-      <!-- <Button rounded icon="pi pi-bars" severity="contrast" variant="text" aria-label="Menu" /> -->
-      <a href="/" class="navbar-logo">
-        <img alt="logo" src="~/assets/logo_full.svg" />
+  <div class="navbar flex flex-row items-center justify-between
+    fixed left-0 top-0 p-2
+    w-full z-10">
+    <div class="flex flex-row items-center gap-1">
+      <a href="/">
+        <img alt="logo" class="
+          w-[8rem]
+          md:w-[12rem]"
+          src="~/assets/logo_full.svg" />
       </a>
     </div>
 
-    <div class="navbar-action-container hello">
-      <!-- <Button rounded :icon="getThemeIcon()" severity="contrast" variant="text" aria-label="Theme" /> -->
+    <div class="flex flex-row items-center">
       <!-- <Button rounded icon="pi pi-inbox" severity="contrast" variant="text" aria-label="Notifications" /> -->
-      <!-- <Button rounded icon="pi pi-user" severity="contrast" variant="text" aria-label="Profile" /> -->
+      <!-- <Button rounded :icon="getThemeIcon()" severity="contrast" variant="text" aria-label="Theme" /> -->
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang="css">
 .navbar {
-  align-items: center;
   background-color: var(--p-content-background);
-  border-bottom: 1px solid var(--p-sky-500);
-  display: flex;
-  height: var(--navbar-height);
-  left: 0;
-  padding: 0 1rem;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-}
-
-.navbar-logo-container {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-
-  .navbar-logo {
-    display: flex;
-
-    img {
-      width: 10rem;
-    }
-  }
-}
-
-.navbar-action-container {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-  margin-left: auto;
-}
-
-@media (max-width: 767px) {
-  .navbar {
-    align-items: center;
-    background-color: var(--p-content-background);
-    display: flex;
-    height: var(--navbar-height);
-    left: 0;
-    padding: 0 1rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-  }
-
-  .navbar-logo-container {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-
-    .navbar-logo {
-      display: flex;
-
-      img {
-        width: 8rem;
-      }
-    }
-  }
-
-  .navbar-action-container {
-    align-items: center;
-    display: flex;
-    gap: 1rem;
-    margin-left: auto;
-  }
+  border-bottom: 2px solid var(--p-sky-500);
+  height: var(--p-navbar-height);
 }
 </style>

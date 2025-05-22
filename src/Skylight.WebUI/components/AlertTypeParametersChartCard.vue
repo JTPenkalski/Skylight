@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ChartData, ChartOptions } from 'chart.js';
 import { AlertParameterKey } from '~/clients/skylight';
+import DashboardCard from './DashboardCard.vue';
 
 interface ParameterOption {
 	name: string;
@@ -54,12 +55,19 @@ const chartOptions: Ref<ChartOptions<'doughnut'>> = ref({
 </script>
 
 <template>
-	<Card class="card">
+	<!-- TODO: Migrate to new DashboardCard -->
+	<Card>
     <template #title>
 			<div>Alert Parameter</div>
     </template>
 		<template #subtitle>
-			<Select v-model="parameter" inputId="dd-parameter" optionLabel="name" size="small" :options="parameterOptions" @value-change="refresh" />
+			<Select
+				v-model="parameter"
+				inputId="dd-parameter"
+				optionLabel="name"
+				size="small"
+				:options="parameterOptions"
+				@value-change="refresh" />
     </template>
     <template #content>
       <Chart v-if="hasData" class="chart" type="doughnut" :data="chartData" :options="chartOptions" />
