@@ -62,12 +62,19 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 		var alerts = await dbContext.Alerts
 			.AsNoTracking()
 			.Include(x => x.Type)
+			.Include(x => x.Sender)
 			.Include(x => x.Parameters)
+			.Include(x => x.Zones)
+				.ThenInclude(x => x.Zone)
+				.AsSplitQuery()
 			.Where(x =>
 				x.Type == alertType
 				&& x.ExpiresOn > DateTimeOffset.UtcNow
 				&& !x.DeletedOn.HasValue)
 			.OrderBy(x => x.EffectiveOn)
+			.ToListAsync(cancellationToken);
+
+		var currentAlerts = alerts
 			.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlert(
 				x.ObservationType,
 				x.Sender.Code,
@@ -83,19 +90,19 @@ public class GetCurrentAlertsByTypeHandler(ISkylightDbContext dbContext) : IQuer
 				x.Urgency,
 				x.Response,
 				x.Zones
-					.OrderBy(x => x.Zone.Code)
-					.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertLocation(x.Zone.Code, x.Zone.Name)),
+					.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertLocation(x.Zone.Code, x.Zone.Name))
+					.OrderBy(x => x.Zone),
 				x.Parameters
-					.OrderBy(x => x.Key)
-					.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertParameter(x.Key, x.Value))))
-			.ToListAsync(cancellationToken);
+					.Select(x => new GetCurrentAlertsByTypeResponse.CurrentAlertParameter(x.Key, x.Value))
+					.OrderBy(x => x.Key)))
+			.ToList();
 
 		var response = new GetCurrentAlertsByTypeResponse(
-			alerts.Count,
+			currentAlerts.Count,
 			alertType.TypeCode,
 			alertType.Name,
 			alertType.Level,
-			alerts);
+			currentAlerts);
 
 		return Result.Success(response);
 	}
