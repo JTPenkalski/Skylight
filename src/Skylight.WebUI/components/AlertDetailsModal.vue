@@ -42,34 +42,36 @@ onMounted(() => {
 <template>
 	<template v-if="!!data">
 		<div class="flex flex-col gap-2 w-[70vw]">
-			<div class="section flex flex-col gap-1 p-4 w-full">
-				<span class="headline">{{ data.headline }}</span>
+			<div class="section">
+				<span class="text-xl font-semibold">{{ data.headline }}</span>
 
-				<span v-if="!!data.instruction" class="instruction">{{ data.instruction }}</span>
+				<span v-if="!!data.instruction">{{ data.instruction }}</span>
 
-				<div class="times">
-					<Tag icon="pi pi-send" severity="info" v-tooltip.top="'Sent Date'" :value="format(data.sent, 'PPpp')" />
-					<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(data.effective, 'PPpp')" />
-					<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(data.expires, 'PPpp')" />
+				<div class="flex flex-col md:flex-row gap-1 items-center">
+					<Tag class="w-full md:w-auto text-center" icon="pi pi-send" severity="info" v-tooltip.top="'Sent Date'" :value="format(data.sent, 'Pp')" />
+					<Tag class="w-full md:w-auto text-center" icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(data.effective, 'Pp')" />
+					<Tag class="w-full md:w-auto text-center" icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(data.expires, 'Pp')" />
 				</div>
 
-				<div class="tags">
-					<Tag severity="secondary" :value="`Severity: ${data.severity}`" />
-					<Tag severity="secondary" :value="`Urgency: ${data.urgency}`" />
-					<Tag severity="secondary" :value="`Certainty: ${data.certainty}`" />
-					<Tag severity="secondary" :value="`Response: ${data.response}`" />
-					<Tag v-for="parameter in parameters" severity="secondary" :value="parameter" />
+				<div class="flex flex-col md:flex-row flex-wrap gap-1 items-center">
+					<Tag class="w-full md:w-auto text-center" severity="secondary" :value="`Severity: ${data.severity}`" />
+					<Tag class="w-full md:w-auto text-center" severity="secondary" :value="`Urgency: ${data.urgency}`" />
+					<Tag class="w-full md:w-auto text-center" severity="secondary" :value="`Certainty: ${data.certainty}`" />
+					<Tag class="w-full md:w-auto text-center mb-1 md:mb-0" severity="secondary" :value="`Response: ${data.response}`" />
+					<Tag v-for="parameter in parameters" class="w-full md:w-auto text-center" severity="secondary" :value="parameter" />
 				</div>
 
-				<div class="sender">
-					<img alt="Sender Logo" class="sender-logo" src="assets/images/national-weather-service.png" />
+				<div class="flex flex-row gap-2 items-center">
+					<img alt="Sender Logo" class="profile" src="assets/images/national-weather-service.png" />
 					<span>{{ data.senderName }}</span>
 				</div>
 			</div>
 
-			<div class="section flex flex-col gap-1 p-4 w-full">
+			<div class="section">
 				<Panel toggleable header="Description">
-					<span class="description">{{ data.description }}</span>
+					<ScrollPanel class="w-full h-full">
+						<span class="alert">{{ data.description }}</span>
+					</ScrollPanel>
 				</Panel>
 
 				<Panel collapsed toggleable header="Locations">
@@ -82,52 +84,3 @@ onMounted(() => {
 		</div>
 	</template>
 </template>
-
-<style scoped lang="css">
-.section {
-	background-color: var(--p-form-field-background);
-	border-radius: var(--p-card-border-radius);
-}
-
-.headline {
-	font-size: 1.2rem;
-	font-weight: 500;
-	padding-bottom: 0.4rem;
-}
-
-.instruction {
-	padding-bottom: 0.4rem;
-}
-
-.times {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	gap: 0.2rem;
-}
-
-.tags {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 0.4rem;
-}
-
-.sender {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	gap: 0.4rem;
-	padding-top: 0.4rem;
-
-	.sender-logo {
-		height: 3rem;
-		width: 3rem;
-	}
-}
-
-.description {
-	white-space: pre;
-}
-</style>

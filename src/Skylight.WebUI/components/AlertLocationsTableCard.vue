@@ -92,9 +92,9 @@ function getMaxThreatSeverity(maxThreat: AlertThreat): string {
 		case AlertThreat.PDS:
 			return 'warn';
 		case AlertThreat.Observed:
-			return 'info';
-		case AlertThreat.RadarIndicated:
 			return 'success';
+		case AlertThreat.RadarIndicated:
+			return 'info';
 	}
 
 	return 'secondary';
@@ -123,25 +123,30 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 			filter-display="menu"
 			size="small"
 			sort-field="code"
-			:globalFilterFields="['code', 'name', 'effectiveTime', 'expirationTime', 'maxThreat']"
+			:global-filter-fields="['code', 'name', 'effectiveTime', 'expirationTime', 'maxThreat']"
 			:rows="10"
-			:rowsPerPageOptions="pageOptions"
+			:rows-per-page-options="pageOptions"
 			:sort-order="1"
 			:value="data?.locations">
 
 			<template #header>
-				<div class="table-header">
-					<IconField class="table-search">
+				<div class="flex flex-row gap-2">
+					<IconField class="grow">
 						<InputIcon>
 							<i class="pi pi-search" />
 						</InputIcon>
-						<InputText fluid v-model="filters.global.value" id="location-search" placeholder="Search..." />
+						<InputText
+							v-model="filters.global.value"
+							fluid
+							id="location-search"
+							placeholder="Search..." />
 					</IconField>
 
 					<Button
 						outlined
+						class="min-w-32"
 						icon="pi pi-filter-slash"
-						label="Clear"
+						label="Clear All"
 						type="button"
 						severity="danger"
 						@click="clearFilters()" />
@@ -210,18 +215,25 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="date"
+				data-type="date"
 				field="effectiveTime"
 				header="Start Time"
 				style="min-width: 12rem">
 				<template #body="{ data }">
 					{{ format(data.effectiveTime, 'Pp') }}
 				</template>
-				<template #filter="{ filterModel }">
+				<!-- <template #filter="{ filterModel }">
 					<DatePicker
 						v-model="filterModel.value"
-						dateFormat="yyyy/mm/dd"
-						placeholder="yyyy/mm/dd" />
+						show-button-bar
+						show-icon
+						show-time
+						hour-format="12"
+						dateFormat="mm/dd/yy"
+						placeholder="MM/DD/YYYY HH:MM TT"/>
+						<p>{{ typeof filterModel.value }}</p>
+						<p>{{ filterModel.value instanceof String }}</p>
+						<p>{{ JSON.stringify(filterModel.value) }}</p>
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
@@ -236,23 +248,30 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 						severity="success"
 						type="button"
 						@click="filterCallback()" />
-				</template>
+				</template> -->
 			</Column>
 
 			<Column
 				sortable
-				dataType="date"
+				data-type="date"
 				field="expirationTime"
 				header="Stop Time"
 				style="min-width: 12rem">
 				<template #body="{ data }">
 					{{ format(data.expirationTime, 'Pp') }}
 				</template>
-				<template #filter="{ filterModel }">
+				<!-- <template #filter="{ filterModel }">
 					<DatePicker
 						v-model="filterModel.value"
-						dateFormat="yyyy/mm/dd"
-						placeholder="yyyy/mm/dd" />
+						show-button-bar
+						show-icon
+						show-time
+						hour-format="12"
+						dateFormat="mm/dd/yy"
+						placeholder="MM/DD/YYYY HH:MM TT"/>
+						<p>{{ typeof filterModel.value }}</p>
+						<p>{{ filterModel.value instanceof String }}</p>
+						<p>{{ JSON.stringify(filterModel.value) }}</p>
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
@@ -267,7 +286,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 						severity="success"
 						type="button"
 						@click="filterCallback()" />
-				</template>
+				</template> -->
 			</Column>
 
 			<Column
@@ -326,7 +345,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="totalAlerts"
 				header="Total Alerts"
 				style="min-width: 8rem">
@@ -357,7 +376,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="tornadoWarnings"
 				header="TOR Alerts"
 				style="min-width: 8rem">
@@ -388,7 +407,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="severeThunderstormWarnings"
 				header="SVR Alerts"
 				style="min-width: 8rem">
@@ -419,7 +438,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="flashFloodWarnings"
 				header="FFW Alerts"
 				style="min-width: 8rem">
@@ -450,7 +469,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="specialWeatherStatements"
 				header="SPS Alerts"
 				style="min-width: 8rem">
@@ -521,7 +540,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="maxHail"
 				header="Max Hail Size"
 				style="min-width: 12rem">
@@ -552,7 +571,7 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 
 			<Column
 				sortable
-				dataType="numeric"
+				data-type="numeric"
 				field="maxWind"
 				header="Max Wind Speed"
 				style="min-width: 14rem">
@@ -580,31 +599,10 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 						@click="filterCallback()" />
 				</template>
 			</Column>
+			<template #empty>
+				No locations found.
+			</template>
 		</DataTable>
 		<NoAlerts v-else />
 	</DashboardCard>
 </template>
-
-<style scoped lang="css">
-.table-header {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
-
-.table-search {
-	width: 50%;
-}
-
-.sender {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	gap: 0.4rem;
-
-	.sender-logo {
-		height: 2rem;
-		width: 2rem;
-	}
-}
-</style>

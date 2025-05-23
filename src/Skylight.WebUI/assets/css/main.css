@@ -11,28 +11,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* NavBar */
-@utility m-navbar {
-  margin: calc(var(--p-navbar-height) + 2rem) 2rem;
-}
-
-@utility m-navbar-sm {
-  margin: calc(var(--p-navbar-height) + 1rem) 1rem;
-}
-
 /* Cards */
 @utility card {
-  @apply col-span-1;
+  grid-column: span 1 / span 1;
   min-width: 0;
 }
 
 @utility card-md {
-  @apply col-span-2;
+  grid-column: span 2 / span 2;
   min-width: 0;
 }
 
 @utility card-lg {
-  @apply col-span-full;
+  grid-column: 1 / -1;
   min-width: 0;
 }
 
@@ -42,6 +33,39 @@ body {
   position: relative;
 }
 
-@layer components {
+/* Profiles */
+@utility profile-sm {
+  height: 2rem;
+  width: 2rem;
+}
 
+@utility profile {
+  height: 3rem;
+  width: 3rem;
+}
+
+/* NavBar */
+@utility m-navbar {
+  margin: calc(var(--p-navbar-height) + 2rem) 2rem;
+}
+
+@utility m-navbar-sm {
+  margin: calc(var(--p-navbar-height) + 1rem) 1rem;
+}
+
+@layer components {
+  .alert {
+    font-family: monospace;
+    white-space: pre;
+  }
+
+  .section {
+    background-color: var(--p-form-field-background);
+	  border-radius: var(--p-card-border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    width: 100%;
+  }
 }

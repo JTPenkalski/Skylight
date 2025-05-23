@@ -21,13 +21,10 @@ const locations: ComputedRef<string> = computed(() =>
 );
 const parameters: ComputedRef<string[]> = computed(() => {
 	const visibleParameters: AlertParameterKey[] = [
-		AlertParameterKey.WindThreat,
 		AlertParameterKey.MaxWindGust,
-		AlertParameterKey.HailThreat,
 		AlertParameterKey.MaxHailSize,
 		AlertParameterKey.TornadoDetection,
 		AlertParameterKey.WaterspoutDetection,
-		AlertParameterKey.SnowSquallImpact,
 		AlertParameterKey.EventTrackingNumber,
 	];
 
@@ -40,7 +37,7 @@ function onExpandAlert(alert: CurrentAlert) {
 	dialog.open(AlertDetailsModal, {
 		props: {
 			draggable: false,
-			header: props.name,
+			header: 'Alert Details',
 			maximizable: false,
 			modal: true,
 		},
@@ -50,16 +47,21 @@ function onExpandAlert(alert: CurrentAlert) {
 </script>
 
 <template>
-	<div class="list-item" :class="{ 'list-divider': !props.first }">
-		<div class="list-item-left">
-			<span class="list-item-header">{{ props.item.observationType }}</span>
+	<div class="flex flex-row justify-between py-2 w-full" :class="{ 'list-divider': !props.first }">
+		<div class="flex flex-col gap-2 items-start max-w-[80%] text-left">
+			<span class="text-lg md:text-2xl font-semibold uppercase">{{ props.item.observationType }}</span>
 
-			<div class="list-item-times">
+			<div class="flex flex-row items-center gap-1">
+				<img alt="Sender Logo" class="profile-sm" src="assets/images/national-weather-service.png" />
+				<span>{{ item.senderName }}</span>
+			</div>
+
+			<div class="flex flex-col md:flex-row gap-1">
 				<Tag icon="pi pi-play-circle" severity="info" v-tooltip.top="'Effective Date'" :value="format(item.effective, 'Pp')" />
 				<Tag icon="pi pi-stop-circle" severity="info" v-tooltip.top="'Expiration Date'" :value="format(item.expires, 'Pp')" />
 			</div>
 
-			<div class="list-item-tags">
+			<div class="flex flex-row flex-wrap gap-1">
 				<Tag severity="secondary" :value="`Severity: ${item.severity}`" />
 				<Tag severity="secondary" :value="`Urgency: ${item.urgency}`" />
 				<Tag severity="secondary" :value="`Certainty: ${item.certainty}`" />
@@ -67,93 +69,17 @@ function onExpandAlert(alert: CurrentAlert) {
 				<Tag v-for="(parameter, index) in parameters" severity="secondary" :key="index" :value="parameter" />
 			</div>
 
-			<span class="list-item-locations"><b>Locations:</b> {{ locations }}</span>
+			<span><b>Locations:</b> {{ locations }}</span>
 		</div>
-		<div class="list-item-right">
-			<div class="list-item-sender">
-				<span>{{ item.senderName }}</span>
-				<img alt="Sender Logo" class="sender-logo" src="assets/images/national-weather-service.png" />
-			</div>
-			<Button rounded aria-label="Details" class="list-item-expand" icon="pi pi-expand" severity="info" @click="onExpandAlert(item)" />
+		<div class="flex flex-col gap-1 items-end justify-between text-right">
+			<Button rounded aria-label="Details" icon="pi pi-expand" severity="info" @click="onExpandAlert(item)" />
 		</div>
 	</div>
 </template>
 
 <style scoped lang="css">
-.sender-logo {
-	height: 3rem;
-	width: 3rem;
-}
 
 .list-divider {
 	border-top: 1px solid;
-	padding-top: 0.4rem;
-	margin-top: 0.6rem;
-}
-
-.list-item {
-	align-items: stretch;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-}
-
-.list-item-left {
-	align-items: start;
-	display: flex;
-	flex-direction: column;
-	gap: 0.2rem;
-	max-width: 75%;
-	text-align: left;
-}
-
-.list-item-right {
-	align-items: end;
-	display: flex;
-	flex-direction: column;
-	gap: 0.2rem;
-	justify-content: space-between;
-	text-align: right;
-}
-
-.list-item-header {
-	font-size: 1.4rem;
-	font-weight: 500;
-	text-transform: uppercase;
-}
-
-.list-item-times {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	gap: 0.2rem;
-}
-
-.list-item-tags {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 0.2rem;
-}
-
-.list-item-locations {
-	align-items: center;
-	display: flex;
-	flex-direction: row;
-	gap: 0.2rem;
-	margin-top: 0.6rem;
-}
-
-.list-item-sender {
-	align-items: end;
-	display: flex;
-	flex-direction: column;
-	gap: 0.2rem;
-}
-
-.list-item-expand {
-	margin-top: 0.6rem;
 }
 </style>
