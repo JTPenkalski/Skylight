@@ -78,7 +78,6 @@ function onExpandAlert(alert: CurrentAlert) {
 </template>
 
 <style scoped lang="css">
-
 .list-divider {
 	border-top: 1px solid;
 }

@@ -16,10 +16,7 @@ const isDarkTheme: boolean = true;
     w-full z-10">
     <div class="flex flex-row items-center gap-1">
       <a href="/">
-        <img alt="logo" class="
-          w-[8rem]
-          md:w-[12rem]"
-          src="~/assets/logo_full.svg" />
+        <img alt="logo" class="w-[8rem] md:w-[12rem]" src="~/assets/logo_full.svg" />
       </a>
     </div>
 
