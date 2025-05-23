@@ -112,7 +112,14 @@ const chartOptions: Ref<ChartOptions<'line'>> = ref({
 		:subtitle="plural(props.title)">
 		<div class="flex flex-col">
 			<Chart class="chart" type="line" :data="chartData" :options="chartOptions" />
-			<Select v-model="hours" inputId="dd-hours" optionLabel="name" size="small" :options="hourOptions" @value-change="refresh" />
+			<Select
+				v-model="hours"
+				fluid
+				input-id="dd-hours"
+				option-label="name"
+				size="small"
+				:options="hourOptions"
+				@value-change="refresh" />
 		</div>
 	</DashboardCard>
 </template>

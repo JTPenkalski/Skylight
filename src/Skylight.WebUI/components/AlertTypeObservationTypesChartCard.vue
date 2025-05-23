@@ -39,7 +39,7 @@ const chartOptions: Ref<ChartOptions<'doughnut'>> = ref({
 
 <template>
 	<DashboardCard
-		class="card"
+		class="card-md md:card"
 		title="Alert Types"
 		:subtitle="name">
 		<Chart v-if="hasData" class="chart" type="doughnut" :data="chartData" :options="chartOptions" />

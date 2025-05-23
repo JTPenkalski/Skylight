@@ -164,7 +164,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -172,7 +171,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -196,7 +194,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -204,7 +201,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -229,7 +225,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -237,7 +232,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -262,7 +256,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -270,7 +263,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -318,7 +310,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -326,7 +317,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -351,7 +341,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -359,7 +348,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -384,7 +372,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -392,7 +379,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -417,7 +403,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -425,7 +410,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -450,7 +434,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -458,7 +441,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -483,7 +465,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -491,7 +472,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -525,7 +505,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -533,7 +512,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -558,7 +536,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -566,7 +543,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"
@@ -591,7 +567,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterclear="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Clear'"
 						icon="pi pi-times"
 						severity="danger"
 						type="button"
@@ -599,7 +574,6 @@ function getMaxThreatIcon(maxThreat: AlertThreat): string {
 				</template>
 				<template #filterapply="{ filterCallback }">
 					<Button
-						v-tooltip.top="'Apply'"
 						icon="pi pi-check"
 						severity="success"
 						type="button"

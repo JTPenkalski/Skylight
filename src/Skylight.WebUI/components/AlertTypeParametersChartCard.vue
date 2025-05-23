@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import type { ChartData, ChartOptions } from 'chart.js';
 import { AlertParameterKey } from '~/clients/skylight';
-import DashboardCard from './DashboardCard.vue';
-
-interface ParameterOption {
-	name: string;
-	code: AlertParameterKey;
-}
+import type { SubtitleOption } from './DashboardCard.vue';
 
 const props = defineProps<{
 	parameter?: AlertParameterKey;
 }>();
 
-const parameterOptions: Ref<ParameterOption[]> = ref([
+const parameterOptions: Ref<SubtitleOption<AlertParameterKey>[]> = ref([
 	{ name: 'Hail Threat', code: AlertParameterKey.HailThreat },
 	{ name: 'Max Hail Size', code: AlertParameterKey.MaxHailSize },
 	{ name: 'Max Wind Gust', code: AlertParameterKey.MaxWindGust },
@@ -21,7 +16,7 @@ const parameterOptions: Ref<ParameterOption[]> = ref([
 	{ name: 'Waterspout Detection', code: AlertParameterKey.WaterspoutDetection },
 	{ name: 'Wind Threat', code: AlertParameterKey.WindThreat },
 ]);
-const parameter: Ref<ParameterOption> = ref(
+const parameter: Ref<SubtitleOption<AlertParameterKey>> = ref(
 	parameterOptions.value.find((x) => x.code === props.parameter) ?? parameterOptions.value[0],
 );
 
@@ -55,23 +50,13 @@ const chartOptions: Ref<ChartOptions<'doughnut'>> = ref({
 </script>
 
 <template>
-	<!-- TODO: Migrate to new DashboardCard -->
-	<Card>
-    <template #title>
-			<div>Alert Parameter</div>
-    </template>
-		<template #subtitle>
-			<Select
-				v-model="parameter"
-				inputId="dd-parameter"
-				optionLabel="name"
-				size="small"
-				:options="parameterOptions"
-				@value-change="refresh" />
-    </template>
-    <template #content>
-      <Chart v-if="hasData" class="chart" type="doughnut" :data="chartData" :options="chartOptions" />
+	 <DashboardCard
+	 	v-model:subtitle-option="parameter"
+	 	class="card-md md:card"
+		title="Alert Parameter"
+		:subtitle-options="parameterOptions"
+		@subtitle-option-changed="refresh">
+			<Chart v-if="hasData" class="chart" type="doughnut" :data="chartData" :options="chartOptions" />
 			<NoAlerts v-else />
-    </template>
-  </Card>
+	 </DashboardCard>
 </template>
