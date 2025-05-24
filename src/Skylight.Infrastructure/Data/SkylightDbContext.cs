@@ -6,9 +6,9 @@ using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Entities;
 using Skylight.Domain.Common.Events;
 using Skylight.Domain.Common.Exceptions;
-using Skylight.Infrastructure.Extensions;
 using Skylight.Infrastructure.Identity.Roles;
 using Skylight.Infrastructure.Identity.Users;
+using System.Reflection;
 
 namespace Skylight.Infrastructure.Data;
 
@@ -94,11 +94,9 @@ public class SkylightDbContext(
 
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
-		builder.ConfigureIdentity();
+		base.OnModelCreating(builder);
 
-		builder.Entity<AlertType>()
-			.Property(x => x.TypeCode)
-			.HasComputedColumnSql(@$"COALESCE(""{nameof(AlertType.EventCode)}"", ""{nameof(AlertType.ProductCode)}"")", stored: true);
+		builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

@@ -1,14 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Skylight.Application.Common.Identity;
+using System.Security.Claims;
 
 namespace Skylight.Infrastructure.Identity.Users;
 
 public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
 {
-	public string GetCurrentUser()
+	public Guid GetCurrentUserId()
 	{
-		string? currentUserName = httpContextAccessor.HttpContext?.User.Identity?.Name;
+		string? user = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+		bool isValidUser = Guid.TryParse(user, out Guid userId);
 
-		return currentUserName ?? SkylightUsers.System;
+		return isValidUser
+			? userId
+			: SkylightUsers.SystemId;
 	}
 }

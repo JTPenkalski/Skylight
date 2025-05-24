@@ -13,7 +13,6 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
 {
 	private readonly List<DomainEvent> events = [];
 
-	[DatabaseGenerated(DatabaseGeneratedOption.None)]
 	public Guid Id { get; set; } = Guid.NewGuid();
 
 	[NotMapped]

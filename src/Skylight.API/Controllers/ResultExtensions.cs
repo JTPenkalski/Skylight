@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Skylight.Application.Common.Results;
 
-namespace Skylight.API.Extensions;
+namespace Skylight.API.Controllers;
 
 public static class ResultExtensions
 {

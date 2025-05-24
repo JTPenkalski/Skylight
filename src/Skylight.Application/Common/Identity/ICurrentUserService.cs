@@ -6,8 +6,8 @@
 public interface ICurrentUserService
 {
 	/// <summary>
-	/// Gets the current application user.
+	/// Gets the current application user ID.
 	/// </summary>
-	/// <returns>The unique username associated to the current user.</returns>
-	string GetCurrentUser();
+	/// <returns>The unique ID associated to the current user.</returns>
+	Guid GetCurrentUserId();
 }

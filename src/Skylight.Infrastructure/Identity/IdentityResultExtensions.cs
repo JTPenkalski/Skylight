@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Skylight.Application.Common.Results;
 
-namespace Skylight.Infrastructure.Extensions;
+namespace Skylight.Infrastructure.Identity;
 
 /// <summary>
 /// Extension methods for <see cref="IdentityResult"/>.
