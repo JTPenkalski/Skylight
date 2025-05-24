@@ -16,7 +16,7 @@ public static class DbContextExtensions
 	{
 		builder.Entity<User>(b =>
 		{
-			// Primary key
+			// Primary Key
 			b.HasKey(u => u.Id);
 
 			// Indexes for "normalized" username and email, to allow efficient lookups
@@ -53,7 +53,7 @@ public static class DbContextExtensions
 
 		builder.Entity<UserClaim>(b =>
 		{
-			// Primary key
+			// Primary Key
 			b.HasKey(uc => uc.Id);
 
 			// Maps to the UserClaims table
@@ -62,7 +62,7 @@ public static class DbContextExtensions
 
 		builder.Entity<UserLogin>(b =>
 		{
-			// Composite primary key consisting of the LoginProvider and the key to use
+			// Composite Primary Key consisting of the LoginProvider and the key to use
 			// with that provider
 			b.HasKey(l => new { l.LoginProvider, l.ProviderKey });
 
@@ -76,7 +76,7 @@ public static class DbContextExtensions
 
 		builder.Entity<UserToken>(b =>
 		{
-			// Composite primary key consisting of the UserId, LoginProvider and Name
+			// Composite Primary Key consisting of the UserId, LoginProvider and Name
 			b.HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
 
 			// Limit the size of the composite key columns due to common DB restrictions
@@ -89,7 +89,7 @@ public static class DbContextExtensions
 
 		builder.Entity<Role>(b =>
 		{
-			// Primary key
+			// Primary Key
 			b.HasKey(r => r.Id);
 
 			// Index for "normalized" role name to allow efficient lookups
@@ -117,7 +117,7 @@ public static class DbContextExtensions
 
 		builder.Entity<RoleClaim>(b =>
 		{
-			// Primary key
+			// Primary Key
 			b.HasKey(rc => rc.Id);
 
 			// Maps to the RoleClaims table
@@ -126,7 +126,7 @@ public static class DbContextExtensions
 
 		builder.Entity<UserRole>(b =>
 		{
-			// Primary key
+			// Primary Key
 			b.HasKey(r => new { r.UserId, r.RoleId });
 
 			// Maps to the UserRoles table

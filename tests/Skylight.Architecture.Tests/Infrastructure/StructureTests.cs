@@ -1,5 +1,5 @@
-﻿using Skylight.Infrastructure.Clients;
-using Skylight.Infrastructure.Hubs;
+﻿using Skylight.API.Hubs;
+using Skylight.Infrastructure.Clients;
 
 namespace Skylight.Architecture.Tests.Infrastructure;
 

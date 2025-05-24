@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Skylight.API.Controllers;
-using Skylight.API.Hubs;
+using Skylight.API.Hubs.Alerts;
 using Skylight.API.Identity.Configuration;
 using Skylight.API.Identity.Origins;
 using Skylight.API.Jobs;

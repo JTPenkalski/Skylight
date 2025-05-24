@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Skylight.Application.Data;
-using Skylight.Application.Features.Alerts.Commands;
-using Skylight.Application.Services;
+using Skylight.Application.Alerts.Commands;
+using Skylight.Application.Common.Data;
+using Skylight.Application.Common.Services;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Shared.Tests.TestModels;
 

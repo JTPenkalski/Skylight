@@ -1,4 +1,4 @@
-﻿using Skylight.Application.Features.Interfaces;
+﻿using Skylight.Application.Common.Features;
 
 namespace Skylight.Architecture.Tests.Application;
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Skylight.Domain.Common.Results;
+using Skylight.Application.Common.Results;
 
 namespace Skylight.API.Extensions;
 

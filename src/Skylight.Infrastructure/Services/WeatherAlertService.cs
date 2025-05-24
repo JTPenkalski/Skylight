@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Skylight.Application.Data;
-using Skylight.Application.Services;
+using Skylight.Application.Common.Data;
+using Skylight.Application.Common.Services;
 using Skylight.Domain.Common.Extensions;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Endpoints;

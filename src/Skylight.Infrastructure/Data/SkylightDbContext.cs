@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Skylight.Application.Data;
+using Skylight.Application.Common.Data;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Entities;
 using Skylight.Domain.Common.Events;

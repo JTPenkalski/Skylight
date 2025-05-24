@@ -3,8 +3,8 @@ using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Skylight.API.Extensions;
 using Skylight.API.Identity.Attributes;
-using Skylight.Application.Features.Alerts.Commands;
-using Skylight.Application.Features.Alerts.Queries;
+using Skylight.Application.Alerts.Commands;
+using Skylight.Application.Alerts.Queries;
 
 namespace Skylight.API.Controllers;
 

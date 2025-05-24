@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Skylight.Application.Identity;
+using Skylight.Application.Common.Identity;
 
 namespace Skylight.API.Identity.Attributes;
 

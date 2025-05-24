@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Skylight.Application.Identity;
+using Skylight.Application.Common.Identity;
 using Skylight.Domain.Common.Entities;
 
 namespace Skylight.Infrastructure.Data.Interceptors;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Skylight.Application.Identity;
+using Skylight.Application.Common.Identity;
 
 namespace Skylight.Infrastructure.Identity.Users;
 

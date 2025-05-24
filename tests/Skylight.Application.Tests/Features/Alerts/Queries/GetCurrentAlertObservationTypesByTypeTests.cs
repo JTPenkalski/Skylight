@@ -1,5 +1,5 @@
-﻿using Skylight.Application.Data;
-using Skylight.Application.Features.Alerts.Queries;
+﻿using Skylight.Application.Alerts.Queries;
+using Skylight.Application.Common.Data;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Shared.Tests.TestModels;
 

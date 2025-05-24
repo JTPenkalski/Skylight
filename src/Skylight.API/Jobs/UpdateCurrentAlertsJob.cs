@@ -2,10 +2,9 @@
 using Mediator;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
-using Skylight.API.Hubs;
-using Skylight.Application.Features.Alerts.Commands;
-using Skylight.Infrastructure.Hubs;
-using Skylight.Infrastructure.Hubs.Events;
+using Skylight.API.Hubs.Alerts;
+using Skylight.API.Hubs.Alerts.Events;
+using Skylight.Application.Alerts.Commands;
 using Skylight.Infrastructure.Jobs;
 using Skylight.Infrastructure.Jobs.Schedules;
 

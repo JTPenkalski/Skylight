@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Skylight.Application.Data;
-using Skylight.Application.Identity;
+using Skylight.Application.Common.Data;
+using Skylight.Application.Common.Identity;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Infrastructure.Identity.Roles;
 using Skylight.Infrastructure.Identity.Users;
