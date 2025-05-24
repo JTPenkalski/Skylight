@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Skylight.Application.Common.Data;
+using Skylight.Application.Common.Identity;
 using Skylight.Infrastructure.Identity.Roles;
 using Skylight.Infrastructure.Identity.Users;
 
@@ -50,5 +51,26 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 			.WithOne()
 			.HasForeignKey(rc => rc.RoleId)
 			.IsRequired();
+
+		builder
+			.HasData(GetSeed());
+	}
+
+	private static Role[] GetSeed()
+	{
+		Role[] roles =
+		[
+			new Role
+			{
+				Id = Guid.NewGuid(),
+				Name = SkylightRoles.Admin,
+				CreatedOn = new DateTimeOffset(2025, 05, 25, 00, 00, 00, TimeSpan.Zero),
+				CreatedBy = SkylightUsers.SystemId,
+				ModifiedOn = new DateTimeOffset(2025, 05, 25, 00, 00, 00, TimeSpan.Zero),
+				ModifiedBy = SkylightUsers.SystemId,
+			}
+		];
+
+		return roles;
 	}
 }

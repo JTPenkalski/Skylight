@@ -9,7 +9,7 @@ namespace Skylight.Application.Common.Data;
 /// <summary>
 /// Represents the core database entities persisted in the application.
 /// </summary>
-public interface ISkylightDbContext
+public interface ISkylightDbContext : IDisposable
 {
 	string ChangeTrackingStatus { get; }
 

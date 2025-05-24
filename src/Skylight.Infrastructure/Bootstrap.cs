@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Skylight.Application.Common.Data;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
-using Skylight.Infrastructure.Data.Initializers;
 using Skylight.Infrastructure.Identity;
 using Skylight.Infrastructure.Jobs;
 using Skylight.Infrastructure.Jobs.Filters;
@@ -36,7 +35,6 @@ public static class Bootstrap
 		// Add Infrastructure Services
 		services
 			.AddSingleton(TimeProvider.System)
-			.AddScoped<ISkylightDbContextInitializer, DefaultSkylightDbContextInitializer>()
 			.AddValidatorsFromAssembly(assembly)
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
@@ -101,11 +99,8 @@ public static class Bootstrap
 		// Use EF Core Context Initializer
 		using IServiceScope scope = app.ApplicationServices.CreateScope();
 
-		scope.ServiceProvider
-			.GetRequiredService<ISkylightDbContextInitializer>()
-			.InitializeAsync()
-			.GetAwaiter()
-			.GetResult();
+		using ISkylightDbContext dbContext = scope.ServiceProvider.GetRequiredService<ISkylightDbContext>();
+		dbContext.ResetAsync().GetAwaiter().GetResult();
 
 		return app;
 	}
