@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Identity;
@@ -30,6 +31,8 @@ public static class Bootstrap
 			.AddOptions<NationalWeatherServiceOptions>().Bind(configuration.GetSection(NationalWeatherServiceOptions.RootKey)).ValidateOnStart();
 		services
 			.AddOptions<SkylightIdentityOptions>().Bind(configuration.GetSection(SkylightIdentityOptions.RootKey)).ValidateOnStart();
+		services
+			.AddOptions<JobStorageOptions>().Bind(configuration.GetSection(JobStorageOptions.RootKey)).ValidateOnStart();
 
 		// Add Infrastructure Services
 		services
@@ -78,11 +81,17 @@ public static class Bootstrap
 					options.UseFilter(filter);
 				}
 
+				JobStorageOptions storageOptions = provider.GetRequiredService<IOptions<JobStorageOptions>>().Value;
 				options
 					.UsePostgreSqlStorage(sqlOptions =>
 					{
 						sqlOptions
 							.UseNpgsqlConnection(configuration.GetConnectionString("skylight-postgres-db"));
+					},
+					new PostgreSqlStorageOptions
+					{
+						QueuePollInterval = TimeSpan.FromSeconds(storageOptions.QueuePollInterval),
+						InvisibilityTimeout = TimeSpan.FromMinutes(storageOptions.InvisibilityTimeout),
 					});
 			});
 
