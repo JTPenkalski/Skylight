@@ -62,7 +62,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 		[
 			new Role
 			{
-				Id = Guid.NewGuid(),
+				Id = Guid.Parse("951eb04f-9b26-4f6d-a807-57edfa277efa"),
 				Name = SkylightRoles.Admin,
 				CreatedOn = new DateTimeOffset(2025, 05, 25, 00, 00, 00, TimeSpan.Zero),
 				CreatedBy = SkylightUsers.SystemId,

@@ -63,7 +63,8 @@ public static class Bootstrap
 			{
 				options
 					.AddInterceptors(provider.GetServices<IInterceptor>())
-					.UseNpgsql(configuration.GetConnectionString("skylight-postgres-db"));
+					.UseNpgsql(
+						configuration.GetConnectionString("skylight-postgres-db"));
 
 				options.EnableSensitiveDataLogging(!isProduction);
 			});
