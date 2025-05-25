@@ -92,6 +92,11 @@ public class SkylightDbContext(
 		await Database.EnsureCreatedAsync(cancellationToken);
 	}
 
+	public async Task MigrateAsync(CancellationToken cancellationToken = default)
+	{
+		await Database.MigrateAsync(cancellationToken);
+	}
+
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
 		base.OnModelCreating(builder);

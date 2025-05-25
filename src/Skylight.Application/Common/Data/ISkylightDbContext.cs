@@ -64,4 +64,9 @@ public interface ISkylightDbContext : IDisposable
 	/// Resets all data in the database.
 	/// </summary>
 	Task ResetAsync(CancellationToken cancellationToken = default);
+
+	/// <summary>
+	/// Applies a migration to the database.
+	/// </summary>
+	Task MigrateAsync(CancellationToken cancellationToken = default);
 }
