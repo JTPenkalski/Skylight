@@ -78,27 +78,28 @@ public static class Bootstrap
 			});
 
 		// Add CORS
-		services.AddCors(options =>
-		{
-			if (isProduction)
+		services
+			.AddCors(options =>
 			{
-				options.AddDefaultPolicy(builder =>
-					builder
-						.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Host)
-						.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowCredentials());
-			}
-			else
-			{
-				options.AddDefaultPolicy(builder =>
-					builder
-						.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.LocalHost)
-						.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowCredentials());
-			}
-		});
+				if (isProduction)
+				{
+					options.AddDefaultPolicy(builder =>
+						builder
+							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Host)
+							.AllowAnyHeader()
+							.AllowAnyMethod()
+							.AllowCredentials());
+				}
+				else
+				{
+					options.AddDefaultPolicy(builder =>
+						builder
+							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.LocalHost)
+							.AllowAnyHeader()
+							.AllowAnyMethod()
+							.AllowCredentials());
+				}
+			});
 
 		// Add Authentication
 		services
@@ -144,11 +145,16 @@ public static class Bootstrap
 			});
 
 		// Add SignalR
-		services.AddSignalR()
+		services
+			.AddSignalR()
 			.AddJsonProtocol(options =>
 			{
 				options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 			});
+
+		// Add Hangfire Server
+		services
+			.AddHangfireServer();
 
 		// Configure Services
 		services

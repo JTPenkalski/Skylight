@@ -4,10 +4,17 @@ using Skylight.AppHost.Extensions;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+var postgressUsername = builder.AddParameter("username", secret: true);
+var postgressPassword = builder.AddParameter("password", secret: true);
 var postgres = builder
-	.AddPostgres("skylight-postgres")
+	.AddPostgres("skylight-postgres", postgressUsername, postgressPassword)
 		.WithPgAdmin()
 	.AddDatabase("skylight-postgres-db");
+
+var migrationWorker = builder
+	.AddProject<Projects.Skylight_Infrastructure_MigrationWorker>("skylight-worker-migration")
+	.WithReference(postgres)
+	.WaitFor(postgres);
 
 var skylightApi = builder
 	.AddProject<Projects.Skylight_API>("skylight-api")
@@ -22,11 +29,6 @@ var webUi = builder
 		.WithEnvironment("NUXT_PUBLIC_API_BASE_SKYLIGHT", skylightApi.GetEndpoint("https"))
 		.WithExternalHttpEndpoints()
 	.PublishAsDockerFile();
-
-var migrationWorker = builder
-	.AddProject<Projects.Skylight_Infrastructure_MigrationWorker>("skylight-worker-migration")
-	.WithReference(postgres)
-	.WaitFor(postgres);
 
 builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(
 	(@event, cancellationToken) =>

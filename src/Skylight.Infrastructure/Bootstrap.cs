@@ -84,8 +84,7 @@ public static class Bootstrap
 						sqlOptions
 							.UseNpgsqlConnection(configuration.GetConnectionString("skylight-postgres-db"));
 					});
-			})
-			.AddHangfireServer();
+			});
 
 		return services;
 	}

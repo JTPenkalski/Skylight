@@ -18,14 +18,14 @@ public sealed class Worker(
 
 		try
 		{
-			logger.LogInformation("Starting database migration...");
+			logger.LogInformation("Starting database migration.");
 
 			using var scope = serviceProvider.CreateScope();
 			ISkylightDbContext dbContext = scope.ServiceProvider.GetRequiredService<ISkylightDbContext>();
 
 			await dbContext.MigrateAsync(stoppingToken);
 
-			logger.LogInformation("Database migration completed.");
+			logger.LogInformation("Completed database migration.");
 		}
 		catch (Exception ex)
 		{
