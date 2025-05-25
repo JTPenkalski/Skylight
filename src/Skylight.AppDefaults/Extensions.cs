@@ -45,17 +45,17 @@ public static class Extensions
 
 		builder.Services
 			.AddOpenTelemetry()
-			.WithMetrics(metrics =>
-			{
-				metrics
-					.AddHttpClientInstrumentation()
-					.AddRuntimeInstrumentation();
-			})
-			.WithTracing(tracing =>
-			{
-				tracing
-					.AddHttpClientInstrumentation();
-			});
+				.WithMetrics(metrics =>
+				{
+					metrics
+						.AddHttpClientInstrumentation()
+						.AddRuntimeInstrumentation();
+				})
+				.WithTracing(tracing =>
+				{
+					tracing
+						.AddHttpClientInstrumentation();
+				});
 
 		builder
 			.AddOpenTelemetryExporters();

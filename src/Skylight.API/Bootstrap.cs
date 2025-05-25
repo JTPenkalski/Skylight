@@ -7,7 +7,9 @@ using Skylight.API.Controllers;
 using Skylight.API.Hubs.Alerts;
 using Skylight.API.Identity.Configuration;
 using Skylight.API.Identity.Origins;
+using Skylight.API.Identity.Users;
 using Skylight.API.Jobs;
+using Skylight.Application.Common.Identity;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Identity.Roles;
 using Skylight.Infrastructure.Identity.Users;
@@ -37,6 +39,7 @@ public static class Bootstrap
 		// Add API Services
 		services
 			.AddEndpointsApiExplorer()
+			.AddScoped<ICurrentUserService, CurrentUserService>()
 			.Scan(scan => scan
 				// Job Schedulers
 				.FromAssemblies(assembly)

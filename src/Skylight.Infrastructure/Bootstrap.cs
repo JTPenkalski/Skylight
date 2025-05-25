@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Skylight.Application.Common.Data;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Identity;
@@ -97,12 +96,6 @@ public static class Bootstrap
 	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
 	public static IApplicationBuilder UseDevelopmentInfrastructure(this IApplicationBuilder app)
 	{
-		// Use EF Core Context Initializer
-		using IServiceScope scope = app.ApplicationServices.CreateScope();
-
-		using ISkylightDbContext dbContext = scope.ServiceProvider.GetRequiredService<ISkylightDbContext>();
-		dbContext.ResetAsync().GetAwaiter().GetResult();
-
 		return app;
 	}
 }

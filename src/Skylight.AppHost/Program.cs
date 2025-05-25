@@ -6,22 +6,27 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder
 	.AddPostgres("skylight-postgres")
-	.WithPgAdmin()
+		.WithPgAdmin()
 	.AddDatabase("skylight-postgres-db");
 
 var skylightApi = builder
 	.AddProject<Projects.Skylight_API>("skylight-api")
-	.WithReference(postgres)
-	.WaitFor(postgres);
+		.WithReference(postgres)
+		.WaitFor(postgres);
 
 var webUi = builder
 	.AddNpmApp("skylight-webui", "../Skylight.WebUI", "dev")
-	.WithReference(skylightApi)
-	.WaitFor(skylightApi)
-	.WithHttpEndpoint(env: "PORT")
-	.WithEnvironment("NUXT_PUBLIC_API_BASE_SKYLIGHT", skylightApi.GetEndpoint("https"))
-	.WithExternalHttpEndpoints()
+		.WithReference(skylightApi)
+		.WaitFor(skylightApi)
+		.WithHttpEndpoint(env: "PORT")
+		.WithEnvironment("NUXT_PUBLIC_API_BASE_SKYLIGHT", skylightApi.GetEndpoint("https"))
+		.WithExternalHttpEndpoints()
 	.PublishAsDockerFile();
+
+var migrationWorker = builder
+	.AddProject<Projects.Skylight_Infrastructure_MigrationWorker>("skylight-worker-migration")
+	.WithReference(postgres)
+	.WaitFor(postgres);
 
 builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(
 	(@event, cancellationToken) =>

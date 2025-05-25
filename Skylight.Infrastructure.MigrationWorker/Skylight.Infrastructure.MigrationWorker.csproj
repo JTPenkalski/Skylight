@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Skylight.Infrastructure.MigrationWorker-3d8d231a-a63d-4504-9b82-81787ffa824e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Skylight.AppDefaults\Skylight.AppDefaults.csproj" />
+    <ProjectReference Include="..\src\Skylight.Infrastructure\Skylight.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

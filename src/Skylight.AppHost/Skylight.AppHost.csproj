@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Skylight.Infrastructure.MigrationWorker\Skylight.Infrastructure.MigrationWorker.csproj" />
     <ProjectReference Include="..\Skylight.API\Skylight.API.csproj" />
   </ItemGroup>
 

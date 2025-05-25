@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Skylight.Application.Common.Identity;
+﻿using Skylight.Application.Common.Identity;
 using System.Security.Claims;
 
-namespace Skylight.Infrastructure.Identity.Users;
+namespace Skylight.API.Identity.Users;
 
 public class CurrentUserService(IHttpContextAccessor httpContextAccessor) : ICurrentUserService
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Skylight.Application.Common.Data;
 using Skylight.Domain.Alerts.Entities;
@@ -94,7 +95,13 @@ public class SkylightDbContext(
 
 	public async Task MigrateAsync(CancellationToken cancellationToken = default)
 	{
-		await Database.MigrateAsync(cancellationToken);
+		IExecutionStrategy strategy = Database.CreateExecutionStrategy();
+
+		await strategy.ExecuteAsync(async () =>
+		{
+			// Run migration in a transaction to avoid a partial migration, if it fails
+			await Database.MigrateAsync(cancellationToken);
+		});
 	}
 
 	protected override void OnModelCreating(ModelBuilder builder)
