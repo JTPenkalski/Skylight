@@ -1,7 +1,7 @@
 using Skylight.Application.Common.Data;
 using System.Diagnostics;
 
-namespace Skylight.Infrastructure.MigrationWorker;
+namespace Skylight.Worker.Migration;
 
 public sealed class Worker(
 	IServiceProvider serviceProvider,
@@ -9,7 +9,7 @@ public sealed class Worker(
 	ILogger<Worker> logger)
 	: BackgroundService
 {
-	public const string ActivitySourceName = nameof(MigrationWorker);
+	public const string ActivitySourceName = "MigrationWorker";
 	private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
 
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)

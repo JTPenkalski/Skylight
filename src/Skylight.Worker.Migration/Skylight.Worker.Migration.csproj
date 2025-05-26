@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-Skylight.Infrastructure.MigrationWorker-3d8d231a-a63d-4504-9b82-81787ffa824e</UserSecretsId>
+    <UserSecretsId>dotnet-Skylight.Worker.Migration-f34fd9e4-7869-409b-b482-6f6b7d4fccde</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Skylight.AppDefaults\Skylight.AppDefaults.csproj" />
-    <ProjectReference Include="..\src\Skylight.Infrastructure\Skylight.Infrastructure.csproj" />
+    <ProjectReference Include="..\Skylight.AppDefaults\Skylight.AppDefaults.csproj" />
+    <ProjectReference Include="..\Skylight.Infrastructure\Skylight.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

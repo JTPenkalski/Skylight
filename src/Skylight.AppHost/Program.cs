@@ -9,10 +9,11 @@ var postgressPassword = builder.AddParameter("password", secret: true);
 var postgres = builder
 	.AddPostgres("skylight-postgres", postgressUsername, postgressPassword)
 		.WithPgAdmin()
+		.PublishAsConnectionString()
 	.AddDatabase("skylight-postgres-db");
 
 var migrationWorker = builder
-	.AddProject<Projects.Skylight_Infrastructure_MigrationWorker>("skylight-worker-migration")
+	.AddProject<Projects.Skylight_Worker_Migration>("skylight-worker-migration")
 	.WithReference(postgres)
 	.WaitFor(postgres);
 

@@ -3,7 +3,7 @@ using Skylight.Application;
 using Skylight.Application.Common.Identity;
 using Skylight.Infrastructure;
 using Skylight.Infrastructure.Identity.Users;
-using Skylight.Infrastructure.MigrationWorker;
+using Skylight.Worker.Migration;
 
 var builder = Host.CreateApplicationBuilder(args);
 bool isProduction = builder.Environment.IsProduction();

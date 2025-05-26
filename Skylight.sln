@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Infrastructure.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Domain.Tests", "tests\Skylight.Domain.Tests\Skylight.Domain.Tests.csproj", "{282BDB86-9DD2-40B8-89C4-6D3A92A362D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Infrastructure.MigrationWorker", "Skylight.Infrastructure.MigrationWorker\Skylight.Infrastructure.MigrationWorker.csproj", "{052705D6-815D-DBC3-A27F-1497020BF6B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skylight.Worker.Migration", "src\Skylight.Worker.Migration\Skylight.Worker.Migration.csproj", "{AD40D363-E076-BB78-598E-959A1EB58EED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +107,10 @@ Global
 		{282BDB86-9DD2-40B8-89C4-6D3A92A362D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{282BDB86-9DD2-40B8-89C4-6D3A92A362D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{282BDB86-9DD2-40B8-89C4-6D3A92A362D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{052705D6-815D-DBC3-A27F-1497020BF6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{052705D6-815D-DBC3-A27F-1497020BF6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{052705D6-815D-DBC3-A27F-1497020BF6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{052705D6-815D-DBC3-A27F-1497020BF6B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD40D363-E076-BB78-598E-959A1EB58EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD40D363-E076-BB78-598E-959A1EB58EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD40D363-E076-BB78-598E-959A1EB58EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD40D363-E076-BB78-598E-959A1EB58EED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,7 +129,7 @@ Global
 		{DE71F71A-25C7-41E8-9A44-C95D8B7F96BC} = {9526B652-04E5-48CE-A8EB-4DEA79595650}
 		{A7580F80-25F4-4493-A53E-C27087CBDC76} = {9526B652-04E5-48CE-A8EB-4DEA79595650}
 		{282BDB86-9DD2-40B8-89C4-6D3A92A362D2} = {9526B652-04E5-48CE-A8EB-4DEA79595650}
-		{052705D6-815D-DBC3-A27F-1497020BF6B3} = {75A01C89-7C29-4F58-9C65-12E7939F2AA5}
+		{AD40D363-E076-BB78-598E-959A1EB58EED} = {75A01C89-7C29-4F58-9C65-12E7939F2AA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C2B3B4D7-C279-4751-8470-AF350FB2FE52}
