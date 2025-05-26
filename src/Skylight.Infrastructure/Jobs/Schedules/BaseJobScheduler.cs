@@ -13,9 +13,9 @@ public abstract class BaseJobScheduler<T> : IJobScheduler where T : IJob
 
 	public string Key => typeof(T).Name;
 
-	public bool Schedule()
+	public bool Schedule(IRecurringJobManager manager)
 	{
-		RecurringJob.AddOrUpdate<T>(
+		manager.AddOrUpdate<T>(
 			Key,
 			x => x.ProcessAsync(CancellationToken.None),
 			CronSchedule);

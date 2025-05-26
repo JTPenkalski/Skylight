@@ -197,17 +197,18 @@ public static class Bootstrap
 	/// Adds background jobs for the <see cref="API"/> layer.
 	/// </summary>
 	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
-	public static IApplicationBuilder UseBackgroundJobs(this IApplicationBuilder application, IServiceProvider serviceProvider)
+	public static IApplicationBuilder UseBackgroundJobs(this IApplicationBuilder application)
 	{
 		// Add Hangfire Jobs
-		IEnumerable<IJobScheduler> jobSchedulers = serviceProvider.GetServices<IJobScheduler>();
+		IRecurringJobManager jobManager = application.ApplicationServices.GetRequiredService<IRecurringJobManager>();
+		IEnumerable<IJobScheduler> jobSchedulers = application.ApplicationServices.GetServices<IJobScheduler>();
 		foreach (IJobScheduler jobScheduler in jobSchedulers)
 		{
-			bool scheduled = jobScheduler.Schedule();
+			bool scheduled = jobScheduler.Schedule(jobManager);
 
 			if (scheduled && jobScheduler.TriggerImmediate)
 			{
-				RecurringJob.TriggerJob(jobScheduler.Key);
+				jobManager.Trigger(jobScheduler.Key);
 			}
 		}
 

@@ -50,7 +50,7 @@ application
 	.UseAuthentication()
 	.UseAuthorization()
 	.UseRateLimiter()
-	.UseBackgroundJobs(application.Services);
+	.UseBackgroundJobs();
 
 // Add Development Route Mappings
 if (application.Environment.IsDevelopment())
