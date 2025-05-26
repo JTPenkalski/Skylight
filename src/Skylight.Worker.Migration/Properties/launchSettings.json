@@ -1,7 +1,14 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "Skylight.Worker.Migration": {
+    "Skylight-STAGING": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Staging"
+      }
+    },
+    "Skylight-DEV": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "environmentVariables": {

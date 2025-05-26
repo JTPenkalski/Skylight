@@ -2,15 +2,15 @@
 
 using Skylight.AppHost.Extensions;
 
-var builder = DistributedApplication.CreateBuilder(args);
+IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-var postgressUsername = builder.AddParameter("username", secret: true);
-var postgressPassword = builder.AddParameter("password", secret: true);
+var postgressUsername = builder.AddParameter("pg-username", secret: true);
+var postgressPassword = builder.AddParameter("pg-password", secret: true);
 var postgres = builder
 	.AddPostgres("skylight-postgres", postgressUsername, postgressPassword)
 		.WithPgAdmin()
 		.PublishAsConnectionString()
-	.AddDatabase("skylight-postgres-db");
+	.AddDatabase("skylight-postgres-db", "skylight");
 
 var migrationWorker = builder
 	.AddProject<Projects.Skylight_Worker_Migration>("skylight-worker-migration")
