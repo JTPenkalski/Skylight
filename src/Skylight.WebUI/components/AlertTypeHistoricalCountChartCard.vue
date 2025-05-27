@@ -18,8 +18,6 @@ const props = defineProps<{
 	title: string;
 }>();
 
-const now: Ref<Date> = ref(new Date());
-
 const hourOptions: Ref<HourOption[]> = ref([
 	{ name: '1 Hour', code: 1 },
 	{ name: '3 Hours', code: 3 },
@@ -37,7 +35,7 @@ const { data, refresh } = await useAsyncData(
 			props.codes.map((x) =>
 				api.getHistoricalAlertCountsByType({
 					code: x,
-					start: now.value,
+					start: new Date(),
 					pastHours: hours.value.code,
 				}),
 			),
@@ -72,7 +70,7 @@ const chartOptions: Ref<ChartOptions<'line'>> = ref({
 	scales: {
 		x: {
 			type: 'time',
-			min: subHours(now.value, hours.value.code).toString(),
+			min: subHours(new Date(), hours.value.code).toString(),
 			title: {
 				display: true,
 				text: 'Time',
