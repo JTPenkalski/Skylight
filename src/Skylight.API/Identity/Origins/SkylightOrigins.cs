@@ -7,5 +7,5 @@ public static class SkylightOrigins
 {
 	public const string Anonymous = "anonymous";
 	public const string Local = "localhost";
-	public const string Host = "www.skylight-weather.app";
+	public const string Domain = "https://www.skylight-weather.app";
 }
