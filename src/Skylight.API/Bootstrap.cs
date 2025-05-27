@@ -85,7 +85,7 @@ public static class Bootstrap
 				{
 					options.AddDefaultPolicy(builder =>
 						builder
-							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Host)
+							.WithOrigins(SkylightOrigins.Host)
 							.AllowAnyHeader()
 							.AllowAnyMethod()
 							.AllowCredentials());
@@ -94,7 +94,7 @@ public static class Bootstrap
 				{
 					options.AddDefaultPolicy(builder =>
 						builder
-							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.LocalHost)
+							.WithOrigins(SkylightOrigins.Local)
 							.AllowAnyHeader()
 							.AllowAnyMethod()
 							.AllowCredentials());
