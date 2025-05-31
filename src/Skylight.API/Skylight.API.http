@@ -1,0 +1,9 @@
+@Skylight.BaseAddress = http://localhost:5171/api
+@Skylight.CurrentVersion = v1
+
+POST {{Skylight.BaseAddress}}/{{Skylight.CurrentVersion}}/Alerts/AddCurrentAlerts
+Accept: application/json
+Content-Type: application/json
+{}
+
+###

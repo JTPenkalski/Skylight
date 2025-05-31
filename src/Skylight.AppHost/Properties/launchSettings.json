@@ -1,0 +1,33 @@
+{
+	"$schema": "https://json.schemastore.org/launchsettings.json",
+	"profiles": {
+		"Skylight-PROD": {
+			"commandName": "Project",
+			"dotnetRunMessages": true,
+			"launchBrowser": true,
+			"applicationUrl": "https://localhost:17242;http://localhost:15056",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production",
+				"DOTNET_ENVIRONMENT": "Production",
+				"DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21042",
+				"DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22236",
+				"NODE_SCRIPT": "release",
+				"NODE_TLS_REJECT_UNAUTHORIZED": "0"
+			}
+		},
+		"Skylight-DEV": {
+			"commandName": "Project",
+			"dotnetRunMessages": true,
+			"launchBrowser": true,
+			"applicationUrl": "https://localhost:17242;http://localhost:15056",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development",
+				"DOTNET_ENVIRONMENT": "Development",
+				"DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21042",
+				"DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22236",
+				"NODE_SCRIPT": "dev",
+				"NODE_TLS_REJECT_UNAUTHORIZED": "0"
+			}
+		}
+	}
+}

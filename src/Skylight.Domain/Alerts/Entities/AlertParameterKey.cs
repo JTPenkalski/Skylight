@@ -1,0 +1,31 @@
+﻿namespace Skylight.Domain.Alerts.Entities;
+
+public enum AlertParameterKey
+{
+	EventMotionDescription,
+	EventSpeed,
+	EventDirection,
+	EventPosition,
+	EventEndingTime,
+	WindThreat,
+	MaxWindGust,
+	HailThreat,
+	MaxHailSize,
+	ThunderstormThreat,
+	ThunderstormDamageThreat,
+	TornadoDamageThreat,
+	TornadoDetection,
+	WaterspoutDetection,
+	FlashFloodDamageThreat,
+	FlashFloodDetection,
+	SnowSquallDetection,
+	SnowSquallImpact,
+	ValidTimeEventCode,
+	Action,
+	OfficeId,
+	Phenomena,
+	Significance,
+	EventTrackingNumber,
+	EventBeginningDate,
+	EventEndingDate,
+}
