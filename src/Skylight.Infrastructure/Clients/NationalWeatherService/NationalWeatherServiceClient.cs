@@ -3,7 +3,7 @@ using Flurl.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
-using Skylight.Application.Serialization;
+using Skylight.Application.Common.Serialization;
 using Skylight.Domain.Common.Extensions;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Endpoints;
 using Skylight.Infrastructure.Clients.NationalWeatherService.Models;

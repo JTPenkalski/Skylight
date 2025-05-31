@@ -2,28 +2,34 @@
 
 using Skylight.AppHost.Extensions;
 
-var builder = DistributedApplication.CreateBuilder(args);
+IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
-var username = builder.AddParameter("username", secret: true);
-var password = builder.AddParameter("password", secret: true);
-
+var postgressUsername = builder.AddParameter("pg-username", secret: true);
+var postgressPassword = builder.AddParameter("pg-password", secret: true);
 var postgres = builder
-	.AddPostgres("skylight-postgres", username, password)
-	.WithPgAdmin()
-	.AddDatabase("skylight-postgres-db");
+	.AddPostgres("skylight-postgres", postgressUsername, postgressPassword)
+		.WithPgAdmin()
+		.PublishAsConnectionString()
+	.AddDatabase("skylight-postgres-db", "skylight");
 
-var skylightApi = builder
-	.AddProject<Projects.Skylight_API>("skylight-api")
+var migrationWorker = builder
+	.AddProject<Projects.Skylight_Worker_Migration>("skylight-worker-migration")
 	.WithReference(postgres)
 	.WaitFor(postgres);
 
+var skylightApi = builder
+	.AddProject<Projects.Skylight_API>("skylight-api")
+		.WithReference(postgres)
+		.WaitForCompletion(migrationWorker)
+	.WithExternalHttpEndpoints();
+
 var webUi = builder
-	.AddNpmApp("skylight-webui", "../Skylight.WebUI", "dev")
-	.WithReference(skylightApi)
-	.WaitFor(skylightApi)
-	.WithHttpEndpoint(env: "PORT")
-	.WithEnvironment("NUXT_PUBLIC_API_BASE_SKYLIGHT", skylightApi.GetEndpoint("https"))
-	.WithExternalHttpEndpoints()
+	.AddNpmApp("skylight-webui", "../Skylight.WebUI", builder.Configuration["NODE_SCRIPT"] ?? "dev")
+		.WithReference(skylightApi)
+		.WaitFor(skylightApi)
+		.WithHttpEndpoint(env: "PORT")
+		.WithEnvironment("NUXT_PUBLIC_API_BASE_SKYLIGHT", skylightApi.GetEndpoint("https"))
+		.WithExternalHttpEndpoints()
 	.PublishAsDockerFile();
 
 builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(

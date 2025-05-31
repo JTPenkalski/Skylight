@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "nuxt build",
 		"dev": "nuxt dev",
 		"release": "nuxt dev --envName=production",
+		"build": "nuxt build",
 		"lint": "npx biome check --write"
 	},
 	"dependencies": {

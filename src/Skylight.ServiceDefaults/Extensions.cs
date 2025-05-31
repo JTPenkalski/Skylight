@@ -18,21 +18,15 @@ namespace Skylight.ServiceDefaults;
 /// </remarks>
 public static class Extensions
 {
+	private const string HealthEndpointPath = "/health";
+	private const string AliveEndpointPath = "/alive";
+
 	public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
 	{
 		builder
 			.AddAppDefaults()
 			.AddDefaultHealthChecks()
 			.ConfigureServiceOpenTelemetry();
-
-		return builder;
-	}
-
-	public static IHostApplicationBuilder ConfigureServiceOpenTelemetry(this IHostApplicationBuilder builder)
-	{
-		builder.Services
-			.ConfigureOpenTelemetryMeterProvider(metrics => metrics.AddAspNetCoreInstrumentation())
-			.ConfigureOpenTelemetryTracerProvider(tracing => tracing.AddAspNetCoreInstrumentation());
 
 		return builder;
 	}
@@ -46,15 +40,32 @@ public static class Extensions
 		return builder;
 	}
 
+	public static IHostApplicationBuilder ConfigureServiceOpenTelemetry(this IHostApplicationBuilder builder)
+	{
+		builder.Services
+			.AddOpenTelemetry()
+				.WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation())
+				.WithTracing(tracing =>
+				{
+					tracing.AddAspNetCoreInstrumentation(tracing =>
+						// Don't trace requests to the health check endpoints to avoid filling the Dashboard with noise
+						tracing.Filter = httpContext =>
+							!(httpContext.Request.Path.StartsWithSegments(HealthEndpointPath)
+							|| httpContext.Request.Path.StartsWithSegments(AliveEndpointPath)));
+				});
+
+		return builder;
+	}
+
 	public static WebApplication MapDefaultEndpoints(this WebApplication app)
 	{
 		if (app.Environment.IsDevelopment())
 		{
 			// All health checks must pass for app to be considered ready to accept traffic after starting
-			app.MapHealthChecks("/health");
+			app.MapHealthChecks(HealthEndpointPath);
 
 			// Only health checks tagged with the "live" tag must pass for app to be considered alive
-			app.MapHealthChecks("/alive", new HealthCheckOptions
+			app.MapHealthChecks(AliveEndpointPath, new HealthCheckOptions
 			{
 				Predicate = r => r.Tags.Contains("live")
 			});

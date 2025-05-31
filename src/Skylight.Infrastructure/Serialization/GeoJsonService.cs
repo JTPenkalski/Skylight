@@ -1,4 +1,4 @@
-﻿using Skylight.Application.Serialization;
+﻿using Skylight.Application.Common.Serialization;
 using System.Text.Json;
 
 namespace Skylight.Infrastructure.Serialization;

@@ -1,0 +1,14 @@
+# Git
+.git
+README.md
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Node
+node_modules
+npm-debug.log
+.nitro
+.output
+dist

@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Skylight.API.Controllers;
-using Skylight.API.Hubs;
+using Skylight.API.Hubs.Alerts;
 using Skylight.API.Identity.Configuration;
 using Skylight.API.Identity.Origins;
+using Skylight.API.Identity.Users;
 using Skylight.API.Jobs;
+using Skylight.Application.Common.Identity;
 using Skylight.Infrastructure.Data;
 using Skylight.Infrastructure.Identity.Roles;
 using Skylight.Infrastructure.Identity.Users;
@@ -37,6 +39,7 @@ public static class Bootstrap
 		// Add API Services
 		services
 			.AddEndpointsApiExplorer()
+			.AddScoped<ICurrentUserService, CurrentUserService>()
 			.Scan(scan => scan
 				// Job Schedulers
 				.FromAssemblies(assembly)
@@ -75,27 +78,26 @@ public static class Bootstrap
 			});
 
 		// Add CORS
-		services.AddCors(options =>
-		{
-			if (isProduction)
+		services
+			.AddCors(options =>
 			{
-				options.AddDefaultPolicy(builder =>
-					builder
-						.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Host)
-						.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowCredentials());
-			}
-			else
-			{
-				options.AddDefaultPolicy(builder =>
-					builder
-						.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.LocalHost)
-						.AllowAnyHeader()
-						.AllowAnyMethod()
-						.AllowCredentials());
-			}
-		});
+				if (isProduction)
+				{
+					options.AddDefaultPolicy(builder =>
+						builder
+							.WithOrigins(SkylightOrigins.Domains)
+							.AllowAnyHeader()
+							.AllowAnyMethod());
+				}
+				else
+				{
+					options.AddDefaultPolicy(builder =>
+						builder
+							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Local)
+							.AllowAnyHeader()
+							.AllowAnyMethod());
+				}
+			});
 
 		// Add Authentication
 		services
@@ -141,11 +143,16 @@ public static class Bootstrap
 			});
 
 		// Add SignalR
-		services.AddSignalR()
+		services
+			.AddSignalR()
 			.AddJsonProtocol(options =>
 			{
 				options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 			});
+
+		// Add Hangfire Server
+		services
+			.AddHangfireServer();
 
 		// Configure Services
 		services
@@ -188,17 +195,18 @@ public static class Bootstrap
 	/// Adds background jobs for the <see cref="API"/> layer.
 	/// </summary>
 	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
-	public static IApplicationBuilder UseBackgroundJobs(this IApplicationBuilder application, IServiceProvider serviceProvider)
+	public static IApplicationBuilder UseBackgroundJobs(this IApplicationBuilder application)
 	{
 		// Add Hangfire Jobs
-		IEnumerable<IJobScheduler> jobSchedulers = serviceProvider.GetServices<IJobScheduler>();
+		IRecurringJobManager jobManager = application.ApplicationServices.GetRequiredService<IRecurringJobManager>();
+		IEnumerable<IJobScheduler> jobSchedulers = application.ApplicationServices.GetServices<IJobScheduler>();
 		foreach (IJobScheduler jobScheduler in jobSchedulers)
 		{
-			bool scheduled = jobScheduler.Schedule();
+			bool scheduled = jobScheduler.Schedule(jobManager);
 
 			if (scheduled && jobScheduler.TriggerImmediate)
 			{
-				RecurringJob.TriggerJob(jobScheduler.Key);
+				jobManager.Trigger(jobScheduler.Key);
 			}
 		}
 

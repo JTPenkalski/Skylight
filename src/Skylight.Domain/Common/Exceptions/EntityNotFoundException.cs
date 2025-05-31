@@ -48,7 +48,7 @@ public class EntityNotFoundException : Exception
 	{
 		ThrowIfNull(entity, expectedId);
 
-		if (entity.IsDeleted)
+		if (entity.DeletedOn.HasValue)
 		{
 			throw new EntityNotFoundException($"{GetBaseExceptionMessage<T>(expectedId)} is deleted!");
 		}
@@ -60,7 +60,7 @@ public class EntityNotFoundException : Exception
 	{
 		ThrowIfNull(entity, expectedCode);
 
-		if (entity.IsDeleted)
+		if (entity.DeletedOn.HasValue)
 		{
 			throw new EntityNotFoundException($"{GetBaseExceptionMessage<T>(expectedCode)} is deleted!");
 		}

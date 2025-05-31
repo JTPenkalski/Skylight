@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Skylight.Application.Data;
+using Microsoft.Extensions.Options;
 using Skylight.Infrastructure.Clients.NationalWeatherService;
 using Skylight.Infrastructure.Data;
-using Skylight.Infrastructure.Data.Initializers;
 using Skylight.Infrastructure.Identity;
 using Skylight.Infrastructure.Jobs;
 using Skylight.Infrastructure.Jobs.Filters;
@@ -32,11 +31,12 @@ public static class Bootstrap
 			.AddOptions<NationalWeatherServiceOptions>().Bind(configuration.GetSection(NationalWeatherServiceOptions.RootKey)).ValidateOnStart();
 		services
 			.AddOptions<SkylightIdentityOptions>().Bind(configuration.GetSection(SkylightIdentityOptions.RootKey)).ValidateOnStart();
+		services
+			.AddOptions<JobStorageOptions>().Bind(configuration.GetSection(JobStorageOptions.RootKey)).ValidateOnStart();
 
 		// Add Infrastructure Services
 		services
 			.AddSingleton(TimeProvider.System)
-			.AddScoped<ISkylightDbContextInitializer, DefaultSkylightDbContextInitializer>()
 			.AddValidatorsFromAssembly(assembly)
 			.Scan(scan => scan
 				.FromAssemblies(assembly)
@@ -65,7 +65,8 @@ public static class Bootstrap
 			{
 				options
 					.AddInterceptors(provider.GetServices<IInterceptor>())
-					.UseNpgsql(configuration.GetConnectionString("skylight-postgres-db"));
+					.UseNpgsql(
+						configuration.GetConnectionString("skylight-postgres-db"));
 
 				options.EnableSensitiveDataLogging(!isProduction);
 			});
@@ -80,14 +81,19 @@ public static class Bootstrap
 					options.UseFilter(filter);
 				}
 
+				JobStorageOptions storageOptions = provider.GetRequiredService<IOptions<JobStorageOptions>>().Value;
 				options
 					.UsePostgreSqlStorage(sqlOptions =>
 					{
 						sqlOptions
 							.UseNpgsqlConnection(configuration.GetConnectionString("skylight-postgres-db"));
+					},
+					new PostgreSqlStorageOptions
+					{
+						QueuePollInterval = TimeSpan.FromSeconds(storageOptions.QueuePollInterval),
+						InvisibilityTimeout = TimeSpan.FromMinutes(storageOptions.InvisibilityTimeout),
 					});
-			})
-			.AddHangfireServer();
+			});
 
 		return services;
 	}
@@ -98,15 +104,6 @@ public static class Bootstrap
 	/// <returns>The modified <see cref="IApplicationBuilder"/>.</returns>
 	public static IApplicationBuilder UseDevelopmentInfrastructure(this IApplicationBuilder app)
 	{
-		// Use EF Core Context Initializer
-		using IServiceScope scope = app.ApplicationServices.CreateScope();
-
-		scope.ServiceProvider
-			.GetRequiredService<ISkylightDbContextInitializer>()
-			.InitializeAsync()
-			.GetAwaiter()
-			.GetResult();
-
 		return app;
 	}
 }

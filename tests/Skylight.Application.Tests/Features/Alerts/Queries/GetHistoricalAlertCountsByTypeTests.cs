@@ -1,5 +1,5 @@
-﻿using Skylight.Application.Data;
-using Skylight.Application.Features.Alerts.Queries;
+﻿using Skylight.Application.Alerts.Queries;
+using Skylight.Application.Common.Data;
 
 namespace Skylight.Application.Tests.Features.Alerts.Queries;
 

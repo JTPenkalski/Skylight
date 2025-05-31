@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
-using Skylight.Application.Behaviors;
+using Skylight.Application.Common.Behaviors;
 using System.Reflection;
 
 namespace Skylight.Application;

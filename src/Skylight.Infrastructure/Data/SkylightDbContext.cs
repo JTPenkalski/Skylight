@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
-using Skylight.Application.Data;
+using Skylight.Application.Common.Data;
 using Skylight.Domain.Alerts.Entities;
 using Skylight.Domain.Common.Entities;
 using Skylight.Domain.Common.Events;
 using Skylight.Domain.Common.Exceptions;
-using Skylight.Infrastructure.Extensions;
 using Skylight.Infrastructure.Identity.Roles;
 using Skylight.Infrastructure.Identity.Users;
+using System.Reflection;
 
 namespace Skylight.Infrastructure.Data;
 
@@ -92,13 +93,22 @@ public class SkylightDbContext(
 		await Database.EnsureCreatedAsync(cancellationToken);
 	}
 
+	public async Task MigrateAsync(CancellationToken cancellationToken = default)
+	{
+		IExecutionStrategy strategy = Database.CreateExecutionStrategy();
+
+		await strategy.ExecuteAsync(async () =>
+		{
+			// Run migration in a transaction to avoid a partial migration, if it fails
+			await Database.MigrateAsync(cancellationToken);
+		});
+	}
+
 	protected override void OnModelCreating(ModelBuilder builder)
 	{
-		builder.ConfigureIdentity();
+		base.OnModelCreating(builder);
 
-		builder.Entity<AlertType>()
-			.Property(x => x.TypeCode)
-			.HasComputedColumnSql(@$"COALESCE(""{nameof(AlertType.EventCode)}"", ""{nameof(AlertType.ProductCode)}"")", stored: true);
+		builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 
 	protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

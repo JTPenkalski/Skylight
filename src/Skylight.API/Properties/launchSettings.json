@@ -1,16 +1,16 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "http": {
+    "Skylight-STAGING": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "http://localhost:5171",
+      "applicationUrl": "https://localhost:7266;http://localhost:5171",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Staging"
       }
     },
-    "https": {
+    "Skylight-DEV": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

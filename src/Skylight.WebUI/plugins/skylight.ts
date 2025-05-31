@@ -10,13 +10,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const config: RuntimeConfig = useRuntimeConfig();
 		const client: AxiosInstance = axios.create({
 			timeout: 10000,
+			withCredentials: false,
 			transformResponse: (data) => data, // Axios might auto-parse the JSON, which would cause errors in the NSwag client when trying to parse again
-		});
-
-		client.interceptors.request.use((request) => {
-			console.log(`Sending HTTP request to ${request.url}: ${request.data}`);
-
-			return request;
 		});
 
 		if (config.public.logging.clients) {

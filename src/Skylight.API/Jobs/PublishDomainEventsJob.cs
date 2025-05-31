@@ -1,8 +1,8 @@
 ﻿using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Skylight.Application.Data;
-using Skylight.Application.Events;
+using Skylight.Application.Common.Data;
+using Skylight.Application.Common.Events;
 using Skylight.Domain.Common.Events;
 using Skylight.Infrastructure.Jobs;
 using Skylight.Infrastructure.Jobs.Schedules;

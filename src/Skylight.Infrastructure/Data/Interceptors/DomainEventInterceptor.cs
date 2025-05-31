@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Skylight.Application.Events;
+using Skylight.Application.Common.Events;
 using Skylight.Domain.Common.Entities;
 
 namespace Skylight.Infrastructure.Data.Interceptors;

@@ -46,11 +46,12 @@ if (application.Environment.IsDevelopment())
 // Add Middleware
 application
 	.UseHttpsRedirection()
+	.UseRouting()
 	.UseCors()
 	.UseAuthentication()
 	.UseAuthorization()
 	.UseRateLimiter()
-	.UseBackgroundJobs(application.Services);
+	.UseBackgroundJobs();
 
 // Add Development Route Mappings
 if (application.Environment.IsDevelopment())

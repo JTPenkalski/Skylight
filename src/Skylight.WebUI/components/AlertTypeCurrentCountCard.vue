@@ -78,7 +78,7 @@ const severity: ComputedRef<string> = computed(() => {
 
 .high {
   background-color: var(--p-severity-high-background);
-  border-color: var(--p--severityhigh-color);
+  border-color: var(--p-severity-high-color);
   border-radius: var(--p-card-border-radius);
 }
 </style>

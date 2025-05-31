@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Skylight.Application.Identity;
+using Skylight.Application.Common.Identity;
 using Skylight.Domain.Common.Entities;
 
 namespace Skylight.Infrastructure.Data.Interceptors;
@@ -32,26 +32,26 @@ public class AuditInterceptor(
 	{
 		if (context is null) return;
 
-		var updatedEntities = context.ChangeTracker.Entries<BaseAuditableEntity>()
+		var updatedEntities = context.ChangeTracker.Entries<IAuditable>()
 			.Where(HasEntityUpdated);
 
-		foreach (EntityEntry<BaseAuditableEntity> entry in updatedEntities)
+		foreach (EntityEntry<IAuditable> entry in updatedEntities)
 		{
 			DateTimeOffset utcNow = timeProvider.GetUtcNow();
-			string user = currentUserService.GetCurrentUser();
+			Guid userId = currentUserService.GetCurrentUserId();
 
 			if (entry.State == EntityState.Added)
 			{
-				entry.Entity.CreatedBy = user;
+				entry.Entity.CreatedBy = userId;
 				entry.Entity.CreatedOn = utcNow;
 			}
 			else if (entry.State == EntityState.Deleted)
 			{
-				entry.Entity.DeletedBy = user;
+				entry.Entity.DeletedBy = userId;
 				entry.Entity.DeletedOn = utcNow;
 			}
 
-			entry.Entity.ModifiedBy = user;
+			entry.Entity.ModifiedBy = userId;
 			entry.Entity.ModifiedOn = utcNow;
 		}
 	}
