@@ -85,7 +85,7 @@ public static class Bootstrap
 				{
 					options.AddDefaultPolicy(builder =>
 						builder
-							.AllowAnyOrigin()
+							.WithOrigins(SkylightOrigins.Domains)
 							.AllowAnyHeader()
 							.AllowAnyMethod());
 				}

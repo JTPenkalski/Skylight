@@ -24,16 +24,6 @@ builder.AddServiceDefaults();
 
 builder.Services
 	.AddLogging()
-	.AddHttpLogging(x =>
-	{
-		x.CombineLogs = true;
-		x.RequestHeaders.Add("Origin");
-		x.RequestHeaders.Add("Access-Control-Request-Headers");
-		x.RequestHeaders.Add("Access-Control-Request-Method");
-		x.ResponseHeaders.Add("Access-Control-Allow-Headers");
-		x.ResponseHeaders.Add("Access-Control-Allow-Methods");
-		x.ResponseHeaders.Add("Access-Control-Allow-Origin");
-	})
 	.AddOptions()
 	.AddApplication()
 	.AddInfrastructure(builder.Configuration, isProduction)
@@ -56,7 +46,6 @@ if (application.Environment.IsDevelopment())
 // Add Middleware
 application
 	.UseHttpsRedirection()
-	.UseHttpLogging()
 	.UseRouting()
 	.UseCors()
 	.UseAuthentication()

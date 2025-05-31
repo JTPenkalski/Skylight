@@ -114,7 +114,7 @@ export default defineNuxtConfig({
 			public: {
 				logging: {
 					clients: false,
-					hubs: true,
+					hubs: false,
 				},
 			},
 		},
