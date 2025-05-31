@@ -9,7 +9,9 @@ export default defineNuxtPlugin((nuxtApp) => {
 		const hubUrl: string = `${config.public.apiBaseSkylight}/hub/alerts`;
 
 		const hub: SignalR.HubConnection = new SignalR.HubConnectionBuilder()
-			.withUrl(hubUrl)
+			.withUrl(hubUrl, {
+				withCredentials: true,
+			})
 			.withAutomaticReconnect()
 			.configureLogging(SignalR.LogLevel.Information)
 			.build();

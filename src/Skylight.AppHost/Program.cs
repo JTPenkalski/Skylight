@@ -23,7 +23,7 @@ var skylightApi = builder
 		.WaitForCompletion(migrationWorker);
 
 var webUi = builder
-	.AddNpmApp("skylight-webui", "../Skylight.WebUI", "dev")
+	.AddNpmApp("skylight-webui", "../Skylight.WebUI", builder.Configuration["NODE_SCRIPT"] ?? "dev")
 		.WithReference(skylightApi)
 		.WaitFor(skylightApi)
 		.WithHttpEndpoint(env: "PORT")

@@ -83,9 +83,11 @@ public static class Bootstrap
 			{
 				if (isProduction)
 				{
+					Console.WriteLine($"Adding PROD CORS for {string.Join(',', SkylightOrigins.Domains)}");
+
 					options.AddDefaultPolicy(builder =>
 						builder
-							.WithOrigins(SkylightOrigins.Domain)
+							.WithOrigins(SkylightOrigins.Domains)
 							.AllowAnyHeader()
 							.AllowAnyMethod()
 							.AllowCredentials());
