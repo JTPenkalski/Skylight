@@ -83,14 +83,11 @@ public static class Bootstrap
 			{
 				if (isProduction)
 				{
-					Console.WriteLine($"Adding PROD CORS for {string.Join(',', SkylightOrigins.Domains)}");
-
 					options.AddDefaultPolicy(builder =>
 						builder
-							.WithOrigins(SkylightOrigins.Domains)
+							.AllowAnyOrigin()
 							.AllowAnyHeader()
-							.AllowAnyMethod()
-							.AllowCredentials());
+							.AllowAnyMethod());
 				}
 				else
 				{
@@ -98,8 +95,7 @@ public static class Bootstrap
 						builder
 							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Local)
 							.AllowAnyHeader()
-							.AllowAnyMethod()
-							.AllowCredentials());
+							.AllowAnyMethod());
 				}
 			});
 

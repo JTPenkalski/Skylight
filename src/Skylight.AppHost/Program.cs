@@ -20,7 +20,8 @@ var migrationWorker = builder
 var skylightApi = builder
 	.AddProject<Projects.Skylight_API>("skylight-api")
 		.WithReference(postgres)
-		.WaitForCompletion(migrationWorker);
+		.WaitForCompletion(migrationWorker)
+	.WithExternalHttpEndpoints();
 
 var webUi = builder
 	.AddNpmApp("skylight-webui", "../Skylight.WebUI", builder.Configuration["NODE_SCRIPT"] ?? "dev")

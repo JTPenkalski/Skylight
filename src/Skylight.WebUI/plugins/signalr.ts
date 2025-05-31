@@ -10,7 +10,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 		const hub: SignalR.HubConnection = new SignalR.HubConnectionBuilder()
 			.withUrl(hubUrl, {
-				withCredentials: true,
+				withCredentials: false,
 			})
 			.withAutomaticReconnect()
 			.configureLogging(SignalR.LogLevel.Information)
