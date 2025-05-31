@@ -46,6 +46,7 @@ if (application.Environment.IsDevelopment())
 // Add Middleware
 application
 	.UseHttpsRedirection()
+	.UseRouting()
 	.UseCors()
 	.UseAuthentication()
 	.UseAuthorization()
