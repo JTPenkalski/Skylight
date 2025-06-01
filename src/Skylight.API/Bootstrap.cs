@@ -32,9 +32,11 @@ public static class Bootstrap
 
 		// Add Configuration
 		services
-			.AddOptions<UpdateCurrentAlertsJobSchedulerOptions>().Bind(configuration.GetSection(UpdateCurrentAlertsJobSchedulerOptions.RootKey)).ValidateOnStart();
+			.AddOptions<DeleteHistoricalAlertsJobSchedulerOptions>().Bind(configuration.GetSection(DeleteHistoricalAlertsJobSchedulerOptions.RootKey)).ValidateOnStart();
 		services
 			.AddOptions<PublishDomainEventsJobSchedulerOptions>().Bind(configuration.GetSection(PublishDomainEventsJobSchedulerOptions.RootKey)).ValidateOnStart();
+		services
+			.AddOptions<UpdateCurrentAlertsJobSchedulerOptions>().Bind(configuration.GetSection(UpdateCurrentAlertsJobSchedulerOptions.RootKey)).ValidateOnStart();
 
 		// Add API Services
 		services
