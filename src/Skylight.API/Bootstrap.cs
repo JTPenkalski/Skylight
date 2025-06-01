@@ -89,7 +89,8 @@ public static class Bootstrap
 						builder
 							.WithOrigins(SkylightOrigins.Domains)
 							.AllowAnyHeader()
-							.AllowAnyMethod());
+							.AllowAnyMethod()
+							.AllowCredentials());
 				}
 				else
 				{
@@ -97,7 +98,8 @@ public static class Bootstrap
 						builder
 							.SetIsOriginAllowed(origin => new Uri(origin).Host == SkylightOrigins.Local)
 							.AllowAnyHeader()
-							.AllowAnyMethod());
+							.AllowAnyMethod()
+							.AllowCredentials());
 				}
 			});
 
