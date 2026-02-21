@@ -12,7 +12,7 @@ public class ExceptionBehavior<TMessage, TResponse>(ILogger<ExceptionBehavior<TM
 	where TMessage : IMessage
 	where TResponse : Result, new()
 {
-	public async ValueTask<TResponse> Handle(TMessage message, CancellationToken cancellationToken, MessageHandlerDelegate<TMessage, TResponse> next)
+	public async ValueTask<TResponse> Handle(TMessage message, MessageHandlerDelegate<TMessage, TResponse> next, CancellationToken cancellationToken)
 	{
 		try
 		{

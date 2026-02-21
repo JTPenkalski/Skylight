@@ -32,7 +32,7 @@ var webUi = builder
 		.WithExternalHttpEndpoints()
 	.PublishAsDockerFile();
 
-builder.Eventing.Subscribe<AfterEndpointsAllocatedEvent>(
+builder.Eventing.Subscribe<ResourceEndpointsAllocatedEvent>(
 	(@event, cancellationToken) =>
 	{
 		skylightApi

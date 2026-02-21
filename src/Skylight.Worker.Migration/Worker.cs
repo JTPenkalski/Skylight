@@ -20,7 +20,7 @@ public sealed class Worker(
 		{
 			logger.LogInformation("Starting database migration.");
 
-			using var scope = serviceProvider.CreateScope();
+			using IServiceScope scope = serviceProvider.CreateScope();
 			ISkylightDbContext dbContext = scope.ServiceProvider.GetRequiredService<ISkylightDbContext>();
 
 			await dbContext.MigrateAsync(stoppingToken);
