@@ -68,6 +68,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 				CreatedBy = SkylightUsers.SystemId,
 				ModifiedOn = new DateTimeOffset(2025, 05, 25, 00, 00, 00, TimeSpan.Zero),
 				ModifiedBy = SkylightUsers.SystemId,
+				ConcurrencyStamp = null,
 			}
 		];
 
